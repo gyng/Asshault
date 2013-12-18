@@ -8,8 +8,9 @@ Game.prototype = {
     this.context  = this.canvas.getContext('2d');
     this.fps      = 60;
     this.age      = 0;
-    this.mouse    = { x: 0, y: 0 }
-    this.shake    = { x: 0, y: 0 }
+    this.mouse    = { x: 0, y: 0 };
+    this.shake    = { x: 0, y: 0 };
+    this.shakeReduction = 0.95;
 
     this.context.imageSmoothingEnabled = false;
     this.context.webkitImageSmoothingEnabled = false;
@@ -27,6 +28,8 @@ Game.prototype = {
       this.mouse.x = e.pageX - this.canvas.offsetLeft;
       this.mouse.y = e.pageY - this.canvas.offsetTop;
     }.bind(this));
+
+    this.ui = new UI(this);
 
     setInterval(this.step.bind(this), 1000 / this.fps);
     this.draw();
@@ -66,6 +69,7 @@ Game.prototype = {
     this.age += 1;
 
     this.entities.forEach(function (ent) {
+      ent.executeUpgrades();
       ent.step();
     });
 
@@ -85,7 +89,7 @@ Game.prototype = {
     });
 
     // Spawning
-    if (this.age % 60 == 0) {
+    if (this.age % 60 === 0) {
       var spawnX = Math.random() * this.canvas.width;
       var spawnY = Math.random() * this.canvas.height;
       this.entities.push(new Enemy(spawnX, spawnY, this.resources));
@@ -98,8 +102,8 @@ Game.prototype = {
     this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
 
     // Update camera shake
-    this.shake.x *= 0.9;
-    this.shake.y *= 0.9;
+    this.shake.x *= this.shakeReduction;
+    this.shake.y *= this.shakeReduction;
 
     this.entities.forEach(function (ent) {
       this.context.save();
@@ -121,6 +125,20 @@ Game.prototype = {
     }.bind(this));
 
     requestAnimationFrame(this.draw.bind(this));
+  },
+
+  // Few types of upgrades: run once (add/replace function or change value), passive
+  upgrade: function(upgrade) {
+    switch (upgrade) {
+    case 'increaseBulletCount':
+      this.player.upgrades.push(function () {
+        if (this.firing)
+          this.fire(Math.atan2(this.y - this.game.mouse.y, this.x - this.game.mouse.x), Math.random() * 5 * Math.random() > 0.5 ? -1 : 1);
+      });
+      break;
+    case 'reduceCameraShake':
+      this.shakeReduction *= 0.85;
+    }
   }
 };
 
@@ -130,6 +148,7 @@ function Entity(x, y, resources) {
   this.rotation = 0;
   this.age = 0;
   this.drawOffset = { x: 0, y: 0 };
+  this.upgrades = [];
   if (typeof resources !== 'undefined') {
     this.sprites = resources.sprites;
     this.sounds = resources.sounds;
@@ -151,6 +170,11 @@ Entity.prototype = {
   },
   faceObject: function (object) {
     this.rotation = Math.atan2(object.x - this.x, this.y - object.y);
+  },
+  executeUpgrades: function () {
+    this.upgrades.forEach(function (upgrade) {
+      upgrade.call(this);
+    }.bind(this));
   }
 };
 
@@ -176,7 +200,7 @@ Player.prototype = new Entity();
 Player.prototype.constructor = Player;
 Player.prototype.step = function () {
   // this.rotation += 0.1;
-  this.rotation = Math.atan2(this.y - this.game.mouse.y, this.x - this.game.mouse.x)
+  this.rotation = Math.atan2(this.y - this.game.mouse.y, this.x - this.game.mouse.x);
   this.age += 1;
   if (this.firing) {
     this.fire(Math.atan2(this.y - this.game.mouse.y, this.x - this.game.mouse.x));
@@ -186,27 +210,31 @@ Player.prototype.getImage = function () {
   return this.sprites.debug;
 };
 Player.prototype.move = function (radians, distance) {};
-Player.prototype.fire = function (radians) {
-  variance = 4 * Math.random() * (Math.random() > 0.5 ? 1 : -1) * Math.PI / 180;
+Player.prototype.fire = function (radians, directionalOffset) {
+  directionalOffset = directionalOffset * Math.PI / 180 || 0;
+  var variance = 4 * Math.random() * (Math.random() > 0.5 ? 1 : -1) * Math.PI / 180 + directionalOffset;
   // Firing rate
-  if (this.age % 4 == 0) {
+  if (this.age % 4 === 0) {
     this.game.entities.push(
       new Bullet(this.x, this.y, this.resources, radians + variance)
     );
-    var offsetDistance = 15;
-    var shakeDistance = 7;
-    var shakeX = this.x - this.game.mouse.x;
-    var shakeY = this.y - this.game.mouse.y;
-    var hyp = Math.sqrt(Math.pow(shakeX, 2) + Math.pow(shakeY, 2));
-    this.game.shake.x += shakeX / hyp * shakeDistance;
-    this.game.shake.y += shakeY / hyp * shakeDistance;
-    this.drawOffset.x += shakeX / hyp * offsetDistance;
-    this.drawOffset.y += shakeY / hyp * offsetDistance;
+    this.fireShake();
   }
 };
+Player.prototype.fireShake = function () {
+  var offsetDistance = 5;
+  var shakeDistance = 7;
+  var shakeX = this.x - this.game.mouse.x;
+  var shakeY = this.y - this.game.mouse.y;
+  var hyp = Math.sqrt(Math.pow(shakeX, 2) + Math.pow(shakeY, 2));
+  this.game.shake.x += shakeX / hyp * shakeDistance;
+  this.game.shake.y += shakeY / hyp * shakeDistance;
+  this.drawOffset.x += shakeX / hyp * offsetDistance;
+  this.drawOffset.y += shakeY / hyp * offsetDistance;
+};
 Player.prototype.draw = function (context) {
-  this.drawOffset.x *= 0.9;
-  this.drawOffset.y *= 0.9;
+  this.drawOffset.x = Math.min(this.drawOffset.x * 0.9, 30);
+  this.drawOffset.y = Math.min(this.drawOffset.y * 0.9, 30);
 
   if (this.firing && this.age % 4 <= 2)
     context.drawImage(this.sprites.flash1, -this.width * 2, -this.height);
@@ -274,10 +302,10 @@ Enemy.prototype.step = function () {
     this.x += dX;
     this.y += dY;
   }.bind(this));
-}
+};
 Enemy.prototype.getImage = function () {
   return this.sprites.debug2;
-}
+};
 
 function BulletPing(x, y, resources, rotation) {
   Entity.call(this, x, y, resources);
@@ -290,10 +318,10 @@ BulletPing.prototype.constructor = BulletPing;
 BulletPing.prototype.step = function () {
   if (this.age++ > 15)
     this.markedForDeletion = true;
-}
+};
 BulletPing.prototype.getImage = function () {
   return this.sprites.bulletping1;
-}
+};
 
 function Explosion(x, y, resources, scale) {
   if (typeof scale === 'undefined') scale = 1;
@@ -309,7 +337,7 @@ Explosion.prototype.constructor = Explosion;
 Explosion.prototype.step = function () {
   if (this.age++ > 20)
     this.markedForDeletion = true;
-}
+};
 Explosion.prototype.getImage = function () {
   if (this.age <= 5)
     return this.sprites.flash1;
@@ -319,4 +347,18 @@ Explosion.prototype.getImage = function () {
     return this.sprites.explosion1;
   else
     return this.sprites.explosion2;
+};
+
+function UI(game) {
+  this.game = game;
+  this.setupBindings();
 }
+
+UI.prototype = {
+  setupBindings: function () {
+    var game = this.game;
+    $('.upgrade').click(function (e) {
+      game.upgrade($(this).attr('data-upgrade'));
+    });
+  }
+};
