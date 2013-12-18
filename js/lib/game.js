@@ -10,13 +10,18 @@ Game.prototype = {
     this.age      = 0;
     this.mouse    = { x: 0, y: 0 }
     this.shake    = { x: 0, y: 0 }
-    this.entities = [];
 
-    // var playerSprites = {
-    //   up: this.sprites.debug
-    // };
-    this.player = new Player(200, 200, this.sprites, this.sounds, this);
-    this.entities.push(this.player);
+    this.context.imageSmoothingEnabled = false;
+    this.context.webkitImageSmoothingEnabled = false;
+    this.context.mozImageSmoothingEnabled = false;
+
+    this.resources = {
+      game:    this,
+      sprites: this.sprites,
+      sounds:  this.sounds
+    };
+    this.player   = new Player(200, 200, this.resources);
+    this.entities = [this.player];
 
     $('#canvas').mousemove(function (e) {
       this.mouse.x = e.pageX - this.canvas.offsetLeft;
@@ -31,9 +36,13 @@ Game.prototype = {
     this.sprites = {};
     var spriteSources = [
       ['debug', './res/sprites/debug.png'],
+      ['debug2', './res/sprites/debug2.png'],
       ['flash1', './res/sprites/flash1.png'],
       ['flash2', './res/sprites/flash2.png'],
-      ['bullet', './res/sprites/bullet.png']
+      ['bullet', './res/sprites/bullet.png'],
+      ['bulletping1', './res/sprites/bulletping1.png'],
+      ['explosion1', './res/sprites/explosion1.png'],
+      ['explosion2', './res/sprites/explosion2.png'],
     ];
 
     this.sounds = {};
@@ -54,15 +63,33 @@ Game.prototype = {
   },
 
   step: function () {
+    this.age += 1;
+
     this.entities.forEach(function (ent) {
       ent.step();
     });
 
+    // Out of map
+    this.entities = this.entities.map(function (ent) {
+      if (ent.x < -10 || ent.x > this.canvas.width + 10 ||
+          ent.y < -10 || ent.y > this.canvas.height + 10) {
+        ent.markedForDeletion = true;
+      }
+
+      return ent;
+    });
+
     // Culling
     this.entities = this.entities.filter(function (ent) {
-      return !(ent.x < -10 || ent.x > this.canvas.width + 10 ||
-               ent.y < -10 || ent.y > this.canvas.height + 10);
+      return ent.markedForDeletion !== true;
     });
+
+    // Spawning
+    if (this.age % 60 == 0) {
+      var spawnX = Math.random() * this.canvas.width;
+      var spawnY = Math.random() * this.canvas.height;
+      this.entities.push(new Enemy(spawnX, spawnY, this.resources));
+    }
   },
 
   draw: function () {
@@ -81,11 +108,14 @@ Game.prototype = {
         // [ b, d, f ]
         // setTransform(a, b, c, d, e, f)
         this.context.setTransform(
-          Math.cos(ent.rotation),  Math.sin(ent.rotation),
-          -Math.sin(ent.rotation), Math.cos(ent.rotation),
-          ent.x + this.shake.x,    ent.y + this.shake.y
+          Math.cos(ent.rotation),
+          Math.sin(ent.rotation),
+          -Math.sin(ent.rotation),
+          Math.cos(ent.rotation),
+          ent.x + ent.drawOffset.x + this.shake.x,
+          ent.y + ent.drawOffset.y + this.shake.y
         );
-        this.context.drawImage(ent.getImage(), -ent.width / 2, -ent.height / 2);
+        this.context.drawImage(ent.getImage(), -ent.width / 2, -ent.height / 2, ent.width, ent.height);
         ent.draw(this.context);
       this.context.restore();
     }.bind(this));
@@ -94,14 +124,18 @@ Game.prototype = {
   }
 };
 
-function Entity(x, y, sprites, sounds, game) {
+function Entity(x, y, resources) {
   this.x = x;
   this.y = y;
   this.rotation = 0;
   this.age = 0;
-  this.sprites = sprites;
-  this.sounds = sounds;
-  this.game = game;
+  this.drawOffset = { x: 0, y: 0 };
+  if (typeof resources !== 'undefined') {
+    this.sprites = resources.sprites;
+    this.sounds = resources.sounds;
+    this.game = resources.game;
+    this.resources = resources;
+  }
 }
 
 Entity.prototype = {
@@ -120,10 +154,11 @@ Entity.prototype = {
   }
 };
 
-function Player(x, y, sprites, sounds, game) {
-  Entity.call(this, x, y, sprites, sounds, game);
+function Player(x, y, resources) {
+  Entity.call(this, x, y, resources);
   this.width = 32;
   this.height = 32;
+  this.health = 10;
 
   // keypress.combo("z", function () {
   //   this.fire(Math.PI);
@@ -156,26 +191,31 @@ Player.prototype.fire = function (radians) {
   // Firing rate
   if (this.age % 4 == 0) {
     this.game.entities.push(
-      new Bullet(this.x, this.y, this.sprites, this.sounds, this.game, radians + variance)
+      new Bullet(this.x, this.y, this.resources, radians + variance)
     );
-
-    var shakeDistance = 10;
+    var offsetDistance = 15;
+    var shakeDistance = 7;
     var shakeX = this.x - this.game.mouse.x;
     var shakeY = this.y - this.game.mouse.y;
     var hyp = Math.sqrt(Math.pow(shakeX, 2) + Math.pow(shakeY, 2));
     this.game.shake.x += shakeX / hyp * shakeDistance;
     this.game.shake.y += shakeY / hyp * shakeDistance;
+    this.drawOffset.x += shakeX / hyp * offsetDistance;
+    this.drawOffset.y += shakeY / hyp * offsetDistance;
   }
 };
 Player.prototype.draw = function (context) {
+  this.drawOffset.x *= 0.9;
+  this.drawOffset.y *= 0.9;
+
   if (this.firing && this.age % 4 <= 2)
     context.drawImage(this.sprites.flash1, -this.width * 2, -this.height);
   if (this.firing && this.age % 8 <= 3)
     context.drawImage(this.sprites.flash2, -this.width * 2, -this.height);
 };
 
-function Bullet(x, y, sprites, sounds, game, direction) {
-  Entity.call(this, x, y, sprites, sounds, game);
+function Bullet(x, y, resources, direction) {
+  Entity.call(this, x, y, resources);
   this.width = 32;
   this.height = 16;
   this.speed = 30;
@@ -198,6 +238,85 @@ Bullet.prototype.getImage = function () {
   return this.sprites.bullet;
 };
 
-function Enemy(x, y, sprites, sounds, game) {
-  Entity.call(this, x, y, sprites, sounds, game)
+function Enemy(x, y, resources) {
+  Entity.call(this, x, y, resources);
+  this.width = 32;
+  this.height = 32;
+  this.health = 5;
+}
+Enemy.prototype = new Entity();
+Enemy.prototype.constructor = Enemy;
+Enemy.prototype.step = function () {
+  this.age += 1;
+
+  this.game.entities.forEach(function (ent) {
+    if (ent.constructor === Bullet && ent !== this && this.collidesWith(ent)) {
+      this.health -= 1;
+      ent.markedForDeletion = true;
+      this.game.entities.push(new BulletPing(ent.x, ent.y, this.resources, ent.rotation));
+    }
+
+    if (ent.constructor === Player && ent !== this && this.collidesWith(ent)) {
+      this.markedForDeletion = true;
+      this.game.entities.push(new Explosion(this.x, this.y, this.resources));
+      ent.health -= 1;
+    }
+
+    if (this.health <= 0) {
+      this.markedForDeletion = true;
+      this.game.entities.push(new Explosion(this.x, this.y, this.resources));
+    }
+
+    this.faceObject(this.game.player);
+
+    var dX = (this.game.player.x - this.x) * 0.0004 * this.health;
+    var dY = (this.game.player.y - this.y) * 0.0004 * this.health;
+    this.x += dX;
+    this.y += dY;
+  }.bind(this));
+}
+Enemy.prototype.getImage = function () {
+  return this.sprites.debug2;
+}
+
+function BulletPing(x, y, resources, rotation) {
+  Entity.call(this, x, y, resources);
+  this.width = 32 + 48 * Math.random();
+  this.height = 32 + 48 * Math.random();
+  this.rotation = rotation + (Math.random() > 0.5 ? 1 : -1) * 50 * Math.PI / 180;
+}
+BulletPing.prototype = new Entity();
+BulletPing.prototype.constructor = BulletPing;
+BulletPing.prototype.step = function () {
+  if (this.age++ > 15)
+    this.markedForDeletion = true;
+}
+BulletPing.prototype.getImage = function () {
+  return this.sprites.bulletping1;
+}
+
+function Explosion(x, y, resources, scale) {
+  if (typeof scale === 'undefined') scale = 1;
+  Entity.call(this, x, y, resources);
+  this.width = 64 + 64 * Math.random() * scale;
+  this.height = 64 + 64 * Math.random() * scale;
+  this.game.shake.x += (Math.random() > 0.5 ? 1 : -1) * this.width / 5;
+  this.game.shake.y += (Math.random() > 0.5 ? 1 : -1) * this.height / 5;
+  // this.rotation = rotation + (Math.random() > 0.5 ? 1 : -1) * 50 * Math.PI / 180;
+}
+Explosion.prototype = new Entity();
+Explosion.prototype.constructor = Explosion;
+Explosion.prototype.step = function () {
+  if (this.age++ > 20)
+    this.markedForDeletion = true;
+}
+Explosion.prototype.getImage = function () {
+  if (this.age <= 5)
+    return this.sprites.flash1;
+  else if (this.age <= 10)
+    return this.sprites.flash2;
+  else if (this.age <= 15)
+    return this.sprites.explosion1;
+  else
+    return this.sprites.explosion2;
 }
