@@ -11,7 +11,16 @@ Game.prototype = {
     this.mouse    = { x: 0, y: 0 };
     this.shake    = { x: 0, y: 0 };
     this.shakeReduction = 0.95;
+    this.debugFpsCounter = 0;
 
+    // Debug variables
+    this.debug = true;
+    if (this.debug) {
+      this.lastAge = this.age;
+      window.setInterval(this.debugInfo.bind(this), 1000);
+    }
+
+    // Canvas optimisations
     this.context.imageSmoothingEnabled = false;
     this.context.webkitImageSmoothingEnabled = false;
     this.context.mozImageSmoothingEnabled = false;
@@ -122,6 +131,8 @@ Game.prototype = {
   },
 
   draw: function () {
+    this.debugFpsCounter++;
+
     // Clear canvas
     this.context.setTransform(1, 0, 0, 1, 0, 0);
     this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
@@ -163,5 +174,19 @@ Game.prototype = {
         this.upgradeCount[upgrade.name]++;
       }
     }
+  },
+
+  debugInfo: function() {
+    $('#debug').html(
+      "<p>" + this.debugFpsCounter + " FPS</p>" +
+      "<p>" + (this.age - this.lastAge) + " ticks/s</p>" +
+      "<p>" + this.entities.length + " entities</p>" +
+      "<p>" + this.friendlies.length + " friendlies</p>" +
+      "<p>" + this.enemies.length + " entities</p>" +
+      "<p>" + this.player.health + " player health </p>"
+    );
+
+    this.lastAge = this.age;
+    this.debugFpsCounter = 0;
   }
 };

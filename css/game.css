@@ -97,3 +97,9 @@ canvas, img {
     width: 30rem;
     max-width: 30%;
 }
+
+#debug {
+    position: fixed;
+    top: 2.5rem;
+    left: 2.5rem;
+}
