@@ -27,7 +27,12 @@ canvas, img {
     -ms-interpolation-mode: nearest-neighbor;
 }
 
+.template {
+    display: none;
+}
+
 .upgrade {
+    transition: background-color 0.3s;
     padding: 1rem;
     margin: 0.5rem 0;
     background-color: #555;
@@ -49,7 +54,7 @@ canvas, img {
 }
 
 .active-upgrade:hover {
-    transition: margin 0.1s, padding 0.1s;
+    transition: margin 0.1s, padding 0.1s
     box-shadow: 0.3rem 0.3rem 0.3rem 0 #999;
     margin: 0.2rem 0 0.8rem 0;
     background-color: #ddd;

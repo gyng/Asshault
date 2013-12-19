@@ -31,9 +31,10 @@ Game.prototype = {
       this.mouse.y = e.pageY - this.canvas.offsetTop;
     }.bind(this));
 
-    this.ui = new UI(this);
     this.upgradeCount = {};
     this.upgrades = new Upgrades(this);
+
+    this.ui = new UI(this);
 
     setInterval(this.step.bind(this), 1000 / this.fps);
     this.draw();
@@ -106,7 +107,7 @@ Game.prototype = {
     });
 
     // UI
-    if (this.age % 30 === 0) {
+    if (this.age % 15 === 0) {
       this.ui.setAvailableUpgrades();
     }
 

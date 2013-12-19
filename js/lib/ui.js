@@ -1,14 +1,12 @@
 function UI(game) {
   this.game = game;
-  this.setupBindings();
+  this.populateUpgradeButtons(game.upgrades.list);
+  // this.setupBindings();
 }
 
 UI.prototype = {
   setupBindings: function () {
-    var game = this.game;
-    $('.upgrade').click(function (e) {
-      game.upgrade($(this).attr('data-upgrade'));
-    });
+    // var game = this.game;
   },
 
   setAvailableUpgrades: function () {
@@ -20,5 +18,31 @@ UI.prototype = {
         $('[data-upgrade=' + upgrade.name + ']').toggleClass('active-upgrade', false);
       }
     }.bind(this));
+  },
+
+  populateUpgradeButtons: function (object) {
+    _.keys(object).forEach(function (upgradeName) {
+
+      var upgrade = object[upgradeName];
+      $('.upgrades').append(
+        this.createUpgradeButton("#template-upgrade", upgrade.name, upgrade.text)
+      );
+    }.bind(this));
+  },
+
+  createUpgradeButton: function (template, upgradeId, data) {
+      var el = $($(template).html());
+      el.attr('data-upgrade', upgradeId);
+      el.find('.upgrade-name').text(data.name || '');
+      el.find('.upgrade-cost').text(data.cost || '');
+      el.find('.upgrade-effect').text(data.effect || '');
+      el.find('.upgrade-flavour').text(data.flavour || '');
+
+      var that = this;
+      el.click(function (e) {
+        that.game.upgrade($(this).attr('data-upgrade'));
+      });
+
+      return el;
   }
 };
