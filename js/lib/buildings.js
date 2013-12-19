@@ -8,8 +8,7 @@ Tavern.prototype = new Entity();
 
 Tavern.prototype.constructor = Tavern;
 
-Tavern.prototype.step = function () {
-  this.age += 1;
+Tavern.prototype.tick = function () {
 };
 
 Tavern.prototype.getImage = function () {

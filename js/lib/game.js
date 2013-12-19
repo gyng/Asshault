@@ -32,73 +32,8 @@ Game.prototype = {
     }.bind(this));
 
     this.ui = new UI(this);
-    // this.upgrades = [];
-
-    this.upgradeList = {
-      increaseBulletCount:
-        new Upgrade(this.game, 'increaseBulletCount', function () {
-          this.player.upgrades.push(function () {
-            if (this.firing)
-              this.fire(Math.atan2(this.y - this.game.mouse.y, this.x - this.game.mouse.x), Math.random() * 5 * Math.random() > 0.5 ? -1 : 1);
-          });
-        }),
-
-      reduceCameraShake:
-        new Upgrade(this.game, 'reduceCameraShake', function () {
-          this.shakeReduction *= 0.85;
-        }),
-
-      buildTavern:
-        new Upgrade(this.game, 'buildTavern', function () {
-          this.buildings.tavern += 1;
-          var tavern = new Tavern(300, 300, this.resources);
-          this.entities.push(tavern);
-          this.friendlies.push(tavern);
-        }),
-
-      heroGunner:
-        new Upgrade(this.game, 'heroGunner', function () {
-          var gunner = new Gunner(300, 300, this.resources);
-          this.entities.push(gunner);
-          this.friendlies.push(gunner);
-        }),
-
-      gunnerTracking:
-        new Upgrade(this.game, 'gunnerTracking', function () {
-          var betterFireAt = function (ent) {
-            var bulletTravelTime = this.distanceTo(ent) / new Bullet().speed;
-            var moveDelta = ent.getMoveDelta(this.game.player.x, this.game.player.y, ent.speed, ent.health / 10);
-            this.fire(Math.atan2(this.y - ent.y - bulletTravelTime * moveDelta.y , this.x - ent.x - bulletTravelTime * moveDelta.x));
-          };
-
-          this.friendlies.filter(function (ent) { return ent.constructor === Gunner; }).forEach(function (gunner) {
-            gunner.fireAt = betterFireAt;
-          });
-
-          Gunner.prototype.fireAt = betterFireAt;
-        }),
-
-      gunnerBulletCount:
-        new Upgrade(this.game, 'gunnerBulletCount', function () {
-          this.friendlies.filter(function (ent) { return ent.constructor === Gunner; }).forEach(function (gunner) {
-            gunner.fireRate = Math.ceil(gunner.fireRate * 0.75);
-          });
-
-          Gunner.fireRate = Math.ceil(Gunner.fireRate * 0.75);
-        }),
-
-      heroSniper:
-        new Upgrade(this.game, 'heroSniper', function () {
-          var sniper = new Sniper(300, 300, this.resources);
-          this.entities.push(sniper);
-          this.friendlies.push(sniper);
-        }),
-
-    };
-
-    this.buildings = {
-      tavern: 0
-    };
+    this.upgradeCount = {};
+    this.upgradeList = new UpgradeList(this);
 
     setInterval(this.step.bind(this), 1000 / this.fps);
     this.draw();
@@ -142,8 +77,9 @@ Game.prototype = {
     this.age += 1;
 
     this.entities.forEach(function (ent) {
+      ent.tock();
       ent.executeUpgrades();
-      ent.step();
+      ent.tick();
     });
 
     // Out of map
@@ -171,8 +107,8 @@ Game.prototype = {
 
     // Spawning
     if (this.age % 45 === 0) {
-      var spawnX = Math.random() * this.canvas.width;
-      var spawnY = Math.random() * this.canvas.height;
+      var spawnX = _.random(this.canvas.width);
+      var spawnY = _.random(this.canvas.height);
       var enemy = new Enemy(spawnX, spawnY, this.resources);
       this.entities.push(enemy);
       this.enemies.push(enemy);
@@ -210,8 +146,16 @@ Game.prototype = {
     requestAnimationFrame(this.draw.bind(this));
   },
 
-  upgrade: function(upgrade, args) {
-    args = args || [];
-    this.upgradeList[upgrade].effect.call(this, args);
+  upgrade: function(upgradeName, args) {
+    var upgrade = this.upgradeList[upgradeName];
+    if (upgrade.meetPrereqs(this)) {
+      args = args || [];
+      upgrade.effect.call(this, args);
+      if (typeof this.upgradeCount[upgrade.name] === 'undefined') {
+        this.upgradeCount[upgrade.name] = 1;
+      } else {
+        this.upgradeCount[upgrade.name]++;
+      }
+    }
   }
 };

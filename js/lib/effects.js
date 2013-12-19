@@ -1,16 +1,16 @@
 function BulletPing(x, y, resources, rotation) {
   Entity.call(this, x, y, resources);
-  this.width = 32 + 48 * Math.random();
-  this.height = 32 + 48 * Math.random();
-  this.rotation = rotation + (Math.random() > 0.5 ? 1 : -1) * 50 * Math.PI / 180;
+  this.width = 32 + _.random(48);
+  this.height = 32 + _.random(48);
+  this.rotation = rotation + deg2rad(randomNegation(_.random(50)));
 }
 
 BulletPing.prototype = new Entity();
 
 BulletPing.prototype.constructor = BulletPing;
 
-BulletPing.prototype.step = function () {
-  if (this.age++ > 15)
+BulletPing.prototype.tick = function () {
+  if (this.age > 15)
     this.markedForDeletion = true;
 };
 
@@ -21,21 +21,22 @@ BulletPing.prototype.getImage = function () {
 
 
 function Explosion(x, y, resources, scale) {
-  if (typeof scale === 'undefined') scale = 1;
   Entity.call(this, x, y, resources);
+
+  scale = scale || 1;
   this.width = 64 + 64 * Math.random() * scale;
   this.height = 64 + 64 * Math.random() * scale;
-  this.game.shake.x += (Math.random() > 0.5 ? 1 : -1) * this.width / 5;
-  this.game.shake.y += (Math.random() > 0.5 ? 1 : -1) * this.height / 5;
-  // this.rotation = rotation + (Math.random() > 0.5 ? 1 : -1) * 50 * Math.PI / 180;
+  this.game.shake.x += randomNegation(this.width / 5);
+  this.game.shake.y += randomNegation(this.height / 5);
+  // this.rotation = deg2rad(randomNegation(360));
 }
 
 Explosion.prototype = new Entity();
 
 Explosion.prototype.constructor = Explosion;
 
-Explosion.prototype.step = function () {
-  if (this.age++ > 20)
+Explosion.prototype.tick = function () {
+  if (this.age > 20)
     this.markedForDeletion = true;
 };
 

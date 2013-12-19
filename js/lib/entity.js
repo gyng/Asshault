@@ -16,7 +16,11 @@ function Entity(x, y, resources) {
 }
 
 Entity.prototype = {
-  step: function () {},
+  tick: function () {},
+
+  tock: function () {
+    this.age++;
+  },
 
   draw: function () {},
 
@@ -28,10 +32,10 @@ Entity.prototype = {
   },
 
   distanceTo: function (object) {
-    return Math.sqrt(Math.pow(object.x - this.x, 2) + Math.pow(object.y - this.y, 2));
+    return hypotenuse(object.x - this.x, object.y - this.y);
   },
 
-  faceObject: function (object) {
+  lookAt: function (object) {
     this.rotation = Math.atan2(object.x - this.x, this.y - object.y);
   },
 
@@ -48,19 +52,15 @@ Entity.prototype = {
   moveTo: function (x, y, speed, scaling) {
     scaling = scaling || 1;
     speed = speed || this.speed;
-    var dX = (x - this.x);
-    var dY = (y - this.y);
-    var hyp = Math.sqrt(Math.pow(dX, 2) + Math.pow(dY, 2));
-    this.x += dX / hyp * speed * scaling;
-    this.y += dY / hyp * speed * scaling;
+    var normalized = normalize({ x: x - this.x, y: y - this.y });
+    this.x += normalized.x * speed * scaling;
+    this.y += normalized.y * speed * scaling;
   },
 
   getMoveDelta: function (x, y, speed, scaling) {
     scaling = scaling || 1;
     speed = speed || this.speed;
-    var dX = (x - this.x);
-    var dY = (y - this.y);
-    var hyp = Math.sqrt(Math.pow(dX, 2) + Math.pow(dY, 2));
-    return { x: dX / hyp * this.speed * scaling, y: dY / hyp * this.speed * scaling };
+    var normalized = normalize({ x: x - this.x, y: y - this.y });
+    return { x: normalized.x * this.speed * scaling, y: normalized.y * this.speed * scaling };
   }
 };

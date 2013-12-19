@@ -10,9 +10,7 @@ Enemy.prototype = new Entity();
 
 Enemy.prototype.constructor = Enemy;
 
-Enemy.prototype.step = function () {
-  this.age += 1;
-
+Enemy.prototype.tick = function () {
   this.game.entities.forEach(function (ent) {
     if (ent.constructor === Bullet && ent !== this && this.collidesWith(ent, ent.speed * 0.75)) {
       this.health -= ent.damage;
@@ -32,7 +30,7 @@ Enemy.prototype.step = function () {
     this.game.entities.push(new Explosion(this.x, this.y, this.resources));
   }
 
-  this.faceObject(this.game.player);
+  this.lookAt(this.game.player);
 
   this.moveTo(this.game.player.x, this.game.player.y, this.speed, this.health / 10);
 };

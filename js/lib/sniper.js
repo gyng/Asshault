@@ -2,7 +2,7 @@ function Sniper(x, y, resources) {
   Entity.call(this, x, y, resources);
   this.width = 32;
   this.height = 32;
-  this.speed = 7 + Math.random() * 8;
+  this.speed = 7 + _.random(8);
   this.target = null;
   this.targetAge = 0;
   this.fireAge = 0;
@@ -15,35 +15,33 @@ Sniper.prototype = new Entity();
 
 Sniper.prototype.constructor = Sniper;
 
-Sniper.prototype.step = function () {
-  this.age += 1;
+Sniper.prototype.tick = function () {
   this.targetAge += 1;
   this.fireAge += 1;
 
-  if (this.target === null || typeof this.target === 'undefined' || this.target.markedForDeletion || this.target.constructor !== Enemy) {
-    this.target = this.game.enemies[~~(Math.random() * this.game.enemies.length)];
+  if (!isDefined(this.target) || this.target.markedForDeletion || this.target.constructor !== Enemy) {
+    this.target = _.sample(this.game.enemies);
     this.targetAge = 0;
   }
 
-  if (this.target !== null && typeof this.target !== 'undefined') {
+  if (isDefined(this.target)) {
     if (this.age % this.fireRate === 0) {
       this.fireAt(this.target);
       this.fireAge = 0;
     }
 
-    if (this.targetAge === 0) {
+    if (this.fireAge === 0) {
       this.moveTarget = {
-        x: this.game.player.x + (Math.random() > 0.5 ? -1 : 1) * (64 + Math.random() * 120),
-        y: this.game.player.y + (Math.random() > 0.5 ? -1 : 1) * (64 + Math.random() * 120)
+        x: this.game.player.x + randomNegation(_.random(64, 128)),
+        y: this.game.player.y + randomNegation(_.random(64, 128))
       };
     }
 
-    if (this.targetAge < 10) {
+    if (this.fireAge > this.fireRate * 0.25 && this.fireAge < this.fireRate * 0.5) {
       this.moveToTarget(this.speed, this.distanceTo(this.moveTarget) / 150);
     }
 
-    this.faceObject(this.target);
-
+    this.lookAt(this.target);
   }
 };
 
@@ -51,25 +49,30 @@ Sniper.prototype.fireAt = function (object) {
   this.fire(Math.atan2(this.y - object.y, this.x - object.x));
 };
 
-Sniper.prototype.fire = function (radians, directionalOffset) {
-  directionalOffset = directionalOffset * Math.PI / 180 || 0;
-  var variance = this.variance * Math.random() * (Math.random() > 0.5 ? 1 : -1) * Math.PI / 180 + directionalOffset;
+Sniper.prototype.fire = function (radians, offsetDegrees) {
+  offsetDegrees = deg2rad(offsetDegrees) || 0;
+  var variance = _.random(this.variance) * offsetDegrees;
   this.game.entities.push(
     new Bullet(this.x, this.y, this.resources, radians + variance, 5, 80)
   );
-  this.drawOffset.x += Math.random() * 25;
-  this.drawOffset.y += Math.random() * 25;
+
+  this.fireShake();
+};
+
+Sniper.prototype.fireShake = function () {
+  var offsetDistance = 50;
+  var normalized = normalize({ x: this.x - this.target.x, y: this.y - this.target.y });
+  this.drawOffset.x += normalized.x * offsetDistance;
+  this.drawOffset.y += normalized.y * offsetDistance;
 };
 
 Sniper.prototype.getImage = function () {
   return this.sprites.herosniper;
 };
 
-// Sniper.prototype.draw = Player.prototype.draw;
-
 Sniper.prototype.draw = function (context) {
-  this.drawOffset.x = Math.min(this.drawOffset.x * 0.9, 50);
-  this.drawOffset.y = Math.min(this.drawOffset.y * 0.9, 50);
+  this.drawOffset.x = Math.min(this.drawOffset.x * 0.9, 100);
+  this.drawOffset.y = Math.min(this.drawOffset.y * 0.9, 100);
 
   if (this.fireAge <= 5)
     context.drawImage(this.sprites.flash1, -this.width, -this.height * 2);
