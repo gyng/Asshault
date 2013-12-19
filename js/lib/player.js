@@ -5,10 +5,7 @@ function Player(x, y, resources) {
   this.health = 10;
   this.spread = 5;
   this.firingRate = 4;
-
-  // keypress.combo("z", function () {
-  //   this.fire(Math.PI);
-  // }.bind(this));
+  this.speed = 0;
 
   $('#canvas').mousedown(function (e) {
     this.firing = true;
@@ -26,8 +23,27 @@ Player.prototype.constructor = Player;
 Player.prototype.tick = function () {
   this.lookAt({ x: this.game.mouse.x, y: this.game.mouse.y });
 
+  this.returnToMap();
+
   if (this.firing) {
     this.fire(Math.atan2(this.y - this.game.mouse.y, this.x - this.game.mouse.x));
+  }
+};
+
+Player.prototype.returnToMap = function () {
+  var returnSpeed = 0.05;
+  var margin = 50;
+
+  if (this.x > this.game.canvas.width - margin) {
+    this.x -= (this.x - (this.game.canvas.width - margin)) * returnSpeed;
+  } else if (this.x < margin) {
+    this.x += (margin - this.x) * returnSpeed;
+  }
+
+  if (this.y > this.game.canvas.height - margin) {
+    this.y -= (this.y - (this.game.canvas.height - margin)) * returnSpeed;
+  } else if (this.y < margin) {
+    this.y += (margin - this.y) * returnSpeed;
   }
 };
 

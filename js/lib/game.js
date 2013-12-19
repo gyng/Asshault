@@ -95,12 +95,13 @@ Game.prototype = {
     // Out of map
     this.entities = this.entities.map(function (ent) {
       if (ent.x < -10 || ent.x > this.canvas.width + 10 ||
-          ent.y < -10 || ent.y > this.canvas.height + 10) {
-        ent.markedForDeletion = true;
+          ent.y < -10 || ent.y > this.canvas.height + 10
+          ) {
+        if (ent !== this.player)
+          ent.markedForDeletion = true;
       }
-
       return ent;
-    });
+    }.bind(this));
 
     // Culling
     this.entities = this.entities.filter(function (ent) {
