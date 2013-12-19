@@ -1,3 +1,24 @@
+html {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    font-size: 62.5%;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    -moz-font-feature-settings: "liga=1, dlig=1";
+    -moz-font-feature-settings: "liga", "dlig";
+    -ms-font-feature-settings: "liga", "dlig";
+    -webkit-font-feature-settings: "liga", "dlig";
+    font-feature-settings: "liga", "dlig";
+    word-wrap: break-word;
+}
+
 canvas, img {
     image-rendering: optimizeSpeed;
     image-rendering: -moz-crisp-edges;
@@ -6,45 +27,68 @@ canvas, img {
     -ms-interpolation-mode: nearest-neighbor;
 }
 
-/*canvas {
-    width: 100%;
-}*/
-
 .upgrade {
-    padding: 10px;
-    margin: 10px 0;
-    background-color: #ccc;
+    padding: 1rem;
+    margin: 0.5rem 0;
+    background-color: #555;
+    font-size: 1.8rem;
+
     -webkit-touch-callout: none;
     -webkit-user-select: none;
     -khtml-user-select: none;
     -moz-user-select: none;
     -ms-user-select: none;
     user-select: none;
+    cursor: default;
 }
 
-.upgrade:hover {
-    margin: -2px 0 12px 0;
+.active-upgrade {
+    transition: margin 0.1s, padding 0.1s;
+    order: -1;
+    background-color: #ccc;
+}
+
+.active-upgrade:hover {
+    transition: margin 0.1s, padding 0.1s;
+    box-shadow: 0.3rem 0.3rem 0.3rem 0 #999;
+    margin: 0.2rem 0 0.8rem 0;
     background-color: #ddd;
     cursor: pointer;
 }
 
-.upgrade:hover:first-child {
-    margin: 8px 0 12px 0;
+.active-upgrade:active {
+    padding: 1rem 0.8rem 1rem 1.2rem;
+    box-shadow: inset 0.7rem 0.7rem 0.3rem 0 #999;
+    margin: 0.7rem 0 0.3rem 0;
+    background-color: #ccc;
 }
 
-.upgrade:active {
-    margin: 13px 0 -3px 0;
-    background-color: #eee;
+.upgrade-name {
+
 }
 
-.upgrade:active:first-child {
-    margin: 13px 0 -3px 0;
+.upgrade-cost {
+    font-size: 1.4rem;
+    font-variant: small-caps;
 }
 
-.ui {
+.upgrade-effect {
+    font-size: 1.4rem;
+    font-style: italic;
+}
+
+.upgrade-flavour {
+    font-size: 1.4rem;
+    font-style: italic;
+    text-align: right;
+}
+
+.upgrades {
+    display: flex;
+    flex-direction: column;
     position: fixed;
-    top: 25px;
-    right: 25px;
-    width: 300px;
+    top: 2.5rem;
+    right: 2.5rem;
+    width: 30rem;
     max-width: 30%;
 }

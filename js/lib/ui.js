@@ -11,9 +11,14 @@ UI.prototype = {
     });
   },
 
-  checkAvailableUpgrades: function () {
-    this.game.upgradeList.forEach(function (upgrade) {
-
-    });
+  setAvailableUpgrades: function () {
+    _.keys(this.game.upgrades.list).forEach(function (upgradeName) {
+      var upgrade = this.game.upgrades.list[upgradeName];
+      if (upgrade.isConstraintsMet(this.game)) {
+        $('[data-upgrade=' + upgrade.name + ']').toggleClass('active-upgrade', true);
+      } else {
+        $('[data-upgrade=' + upgrade.name + ']').toggleClass('active-upgrade', false);
+      }
+    }.bind(this));
   }
 };

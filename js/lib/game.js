@@ -33,7 +33,7 @@ Game.prototype = {
 
     this.ui = new UI(this);
     this.upgradeCount = {};
-    this.upgradeList = new UpgradeList(this);
+    this.upgrades = new Upgrades(this);
 
     setInterval(this.step.bind(this), 1000 / this.fps);
     this.draw();
@@ -105,6 +105,11 @@ Game.prototype = {
       return ent.markedForDeletion !== true;
     });
 
+    // UI
+    if (this.age % 30 === 0) {
+      this.ui.setAvailableUpgrades();
+    }
+
     // Spawning
     if (this.age % 45 === 0) {
       var spawnX = _.random(this.canvas.width);
@@ -147,7 +152,7 @@ Game.prototype = {
   },
 
   upgrade: function(upgradeName, args) {
-    var upgrade = this.upgradeList[upgradeName];
+    var upgrade = this.upgrades.list[upgradeName];
     if (upgrade.isConstraintsMet(this)) {
       args = args || [];
       upgrade.effect.call(this, args);
