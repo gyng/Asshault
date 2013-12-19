@@ -1,7 +1,10 @@
 require.config({
   shim: {
     'lib/gunner': {
-        deps: ['lib/entity', 'lib/player']
+        deps: ['lib/entity']
+    },
+    'lib/sniper': {
+        deps: ['lib/entity']
     },
     'lib/player': {
         deps: ['lib/entity']
@@ -19,7 +22,7 @@ require.config({
       deps: ['lib/entity']
     },
     'lib/game': {
-        deps: ['lib/gunner', 'lib/player', 'lib/bullet', 'lib/enemy', 'lib/effects', 'lib/buildings', 'lib/upgrade']
+        deps: ['lib/gunner', 'lib/sniper', 'lib/player', 'lib/bullet', 'lib/enemy', 'lib/effects', 'lib/buildings', 'lib/upgrade']
     }
   }
 });

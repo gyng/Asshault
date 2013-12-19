@@ -68,7 +68,7 @@ Game.prototype = {
           var betterFireAt = function (ent) {
             var bulletTravelTime = this.distanceTo(ent) / new Bullet().speed;
             var moveDelta = ent.getMoveDelta(this.game.player.x, this.game.player.y, ent.speed, ent.health / 10);
-            this.fire(Math.atan2(this.y - ent.y - bulletTravelTime * 10 * moveDelta.y , this.x - ent.x - bulletTravelTime * 10 * moveDelta.x));
+            this.fire(Math.atan2(this.y - ent.y - bulletTravelTime * moveDelta.y , this.x - ent.x - bulletTravelTime * moveDelta.x));
           };
 
           this.friendlies.filter(function (ent) { return ent.constructor === Gunner; }).forEach(function (gunner) {
@@ -86,6 +86,14 @@ Game.prototype = {
 
           Gunner.fireRate = Math.ceil(Gunner.fireRate * 0.75);
         }),
+
+      heroSniper:
+        new Upgrade(this.game, 'heroSniper', function () {
+          var sniper = new Sniper(300, 300, this.resources);
+          this.entities.push(sniper);
+          this.friendlies.push(sniper);
+        }),
+
     };
 
     this.buildings = {
@@ -109,7 +117,8 @@ Game.prototype = {
       ['explosion1',  'explosion1.png'],
       ['explosion2',  'explosion2.png'],
       ['tavern',      'tavern.png'],
-      ['herogunner',  'herogunner.png']
+      ['herogunner',  'herogunner.png'],
+      ['herosniper',  'herosniper.png']
     ];
 
     this.sounds = {};

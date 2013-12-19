@@ -3,7 +3,7 @@ function Enemy(x, y, resources) {
   this.width = 32;
   this.height = 32;
   this.health = 5;
-  this.speed = 1;
+  this.speed = 5;
 }
 
 Enemy.prototype = new Entity();
@@ -14,8 +14,8 @@ Enemy.prototype.step = function () {
   this.age += 1;
 
   this.game.entities.forEach(function (ent) {
-    if (ent.constructor === Bullet && ent !== this && this.collidesWith(ent)) {
-      this.health -= 1;
+    if (ent.constructor === Bullet && ent !== this && this.collidesWith(ent, ent.speed * 0.75)) {
+      this.health -= ent.damage;
       ent.markedForDeletion = true;
       this.game.entities.push(new BulletPing(ent.x, ent.y, this.resources, ent.rotation));
     }
@@ -25,16 +25,16 @@ Enemy.prototype.step = function () {
       this.game.entities.push(new Explosion(this.x, this.y, this.resources));
       ent.health -= 1;
     }
-
-    if (this.health <= 0) {
-      this.markedForDeletion = true;
-      this.game.entities.push(new Explosion(this.x, this.y, this.resources));
-    }
-
-    this.faceObject(this.game.player);
-
-    this.moveTo(this.game.player.x, this.game.player.y, this.speed, this.health / 10);
   }.bind(this));
+
+  if (this.health <= 0) {
+    this.markedForDeletion = true;
+    this.game.entities.push(new Explosion(this.x, this.y, this.resources));
+  }
+
+  this.faceObject(this.game.player);
+
+  this.moveTo(this.game.player.x, this.game.player.y, this.speed, this.health / 10);
 };
 
 Enemy.prototype.getImage = function () {

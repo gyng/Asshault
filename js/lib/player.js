@@ -35,7 +35,7 @@ Player.prototype.fire = function (radians, directionalOffset) {
   // Firing rate
   if (this.age % 4 === 0) {
     this.game.entities.push(
-      new Bullet(this.x, this.y, this.resources, radians + variance)
+      new Bullet(this.x, this.y, this.resources, radians + variance, 1, 30)
     );
     this.fireShake();
   }

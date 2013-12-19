@@ -47,7 +47,7 @@ Gunner.prototype.fire = function (radians, directionalOffset) {
   directionalOffset = directionalOffset * Math.PI / 180 || 0;
   var variance = this.variance * Math.random() * (Math.random() > 0.5 ? 1 : -1) * Math.PI / 180 + directionalOffset;
   this.game.entities.push(
-    new Bullet(this.x, this.y, this.resources, radians + variance)
+    new Bullet(this.x, this.y, this.resources, radians + variance, 1, 30)
   );
   this.drawOffset.x += Math.random() * 5;
   this.drawOffset.y += Math.random() * 5;

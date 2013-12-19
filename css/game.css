@@ -11,9 +11,40 @@ canvas, img {
 }*/
 
 .upgrade {
+    padding: 10px;
+    margin: 10px 0;
     background-color: #ccc;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
 }
 
 .upgrade:hover {
+    margin: -2px 0 12px 0;
     background-color: #ddd;
+    cursor: pointer;
+}
+
+.upgrade:hover:first-child {
+    margin: 8px 0 12px 0;
+}
+
+.upgrade:active {
+    margin: 13px 0 -3px 0;
+    background-color: #eee;
+}
+
+.upgrade:active:first-child {
+    margin: 13px 0 -3px 0;
+}
+
+.ui {
+    position: fixed;
+    top: 25px;
+    right: 25px;
+    width: 300px;
+    max-width: 30%;
 }
