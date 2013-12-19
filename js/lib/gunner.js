@@ -7,7 +7,7 @@ function Gunner(x, y, resources) {
   this.targetAge = 0;
   this.variance = 4;
   this.fireRate = 12;
-  // this.targetPos = { x: x, y: y };
+  this.firing = false;
 }
 
 Gunner.prototype = new Entity();
@@ -33,6 +33,9 @@ Gunner.prototype.step = function () {
     }
 
     this.faceObject(this.target);
+    this.firing = true;
+  } else {
+    this.firing = false;
   }
 };
 
@@ -46,8 +49,22 @@ Gunner.prototype.fire = function (radians, directionalOffset) {
   this.game.entities.push(
     new Bullet(this.x, this.y, this.resources, radians + variance)
   );
+  this.drawOffset.x += Math.random() * 5;
+  this.drawOffset.y += Math.random() * 5;
 };
 
 Gunner.prototype.getImage = function () {
   return this.sprites.herogunner;
+};
+
+// Gunner.prototype.draw = Player.prototype.draw;
+
+Gunner.prototype.draw = function (context) {
+  this.drawOffset.x = Math.min(this.drawOffset.x * 0.9, 15);
+  this.drawOffset.y = Math.min(this.drawOffset.y * 0.9, 15);
+
+  if (this.firing && this.age % (this.fireRate / 2) <= 2)
+    context.drawImage(this.sprites.flash1, -this.width, -this.height * 2);
+  if (this.firing && this.age % 8 <= 3)
+    context.drawImage(this.sprites.flash2, -this.width, -this.height * 2);
 };

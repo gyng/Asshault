@@ -1,7 +1,7 @@
 require.config({
   shim: {
     'lib/gunner': {
-        deps: ['lib/entity']
+        deps: ['lib/entity', 'lib/player']
     },
     'lib/player': {
         deps: ['lib/entity']
