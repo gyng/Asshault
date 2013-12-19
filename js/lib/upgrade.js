@@ -1,36 +1,60 @@
-function Upgrade(name, effect, prereqs) {
+function Upgrade(name, effect, constraints) {
   this.name = name;
   this.effect = effect;
-  this.prereqs = prereqs || [];
+  this.constraints = constraints || [];
 }
 
 Upgrade.prototype = {
-  // Prereqs are an array of ['upgradeName', level] or function (game) { return true/false }
-  meetPrereqs: function (game) {
+  // constraints are an array of ['upgradeName', level]
+  // or [function, args], function (...) { return true/false }
+  isConstraintsMet: function (game) {
     var upgradeCount = game.upgradeCount;
     var met = 0;
 
-    this.prereqs.forEach(function (prereq) {
-      if (prereq.length && (upgradeCount[prereq[0]] || 0) >= prereq[1]) {
+    this.constraints.forEach(function (req) {
+      var constraint, args;
+
+      if (!_.isFunction(req[0])) {
+        constraint = new UpgradeConstraint('upgradeCountWithinRange');
+        args = [game].concat(req);
+      } else if (_.isFunction(req[0])) {
+        constraint = req[0];
+        args = [game].concat(_.rest(req));
+      }
+
+      if (constraint.apply(this, args)) {
         met++;
-      } else if (typeof prereq === 'function') {
-        if (prereq.call(this, game)) met++;
       }
     }.bind(this));
 
-    return met === this.prereqs.length;
+    return met === this.constraints.length;
   }
 };
 
+function UpgradeConstraint(name) {
+  this.list = {
+    // Upgrade <name> count within [min, max)
+    upgradeCountWithinRange: function (game, name, min, max) {
+      max = max || Number.MAX_VALUE;
+      var upgradeCount = game.upgradeCount[name] || 0;
+      return upgradeCount >= min && upgradeCount < max;
+    }
+  };
+
+  return this.list[name];
+}
+
 function UpgradeList (game) {
+  this.that = this;
   this.game = game;
 }
+
 UpgradeList.prototype = {
   increaseBulletCount:
     new Upgrade('increaseBulletCount', function () {
       this.player.upgrades.push(function () {
         if (this.firing)
-          this.fire(Math.atan2(this.y - this.game.mouse.y, this.x - this.game.mouse.x), Math.random() * 5 * Math.random() > 0.5 ? -1 : 1);
+          this.fire(Math.atan2(this.y - this.game.mouse.y, this.x - this.game.mouse.x), randomNegation(_.random(10)));
       });
     }),
 
@@ -44,7 +68,7 @@ UpgradeList.prototype = {
       var tavern = new Tavern(300, 300, this.resources);
       this.entities.push(tavern);
       this.friendlies.push(tavern);
-    }, [function (game) { return typeof game.upgradeCount.buildTavern === 'undefined' || game.upgradeCount.buildTavern < 1; }]),
+    }, [[new UpgradeConstraint('upgradeCountWithinRange'), 'buildTavern', 0, 1]]),
 
   heroGunner:
     new Upgrade('heroGunner', function () {

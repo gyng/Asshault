@@ -148,7 +148,7 @@ Game.prototype = {
 
   upgrade: function(upgradeName, args) {
     var upgrade = this.upgradeList[upgradeName];
-    if (upgrade.meetPrereqs(this)) {
+    if (upgrade.isConstraintsMet(this)) {
       args = args || [];
       upgrade.effect.call(this, args);
       if (typeof this.upgradeCount[upgrade.name] === 'undefined') {
