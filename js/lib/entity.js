@@ -1,7 +1,8 @@
 function Entity(x, y, resources) {
   this.x = x;
   this.y = y;
-  this.rotation = 0;
+  this.rotation = 0; // Image
+  this.direction = 0; // Movement heading
   this.age = 0;
   this.drawOffset = { x: 0, y: 0 };
   this.speed = 0;
@@ -55,6 +56,17 @@ Entity.prototype = {
     var normalized = normalize({ x: x - this.x, y: y - this.y });
     this.x += normalized.x * speed * scaling;
     this.y += normalized.y * speed * scaling;
+  },
+
+  moveForward: function(speed, scaling) {
+    this.moveInDirection(this.direction, speed, scaling);
+  },
+
+  moveInDirection: function(direction, speed, scaling) {
+    speed   = speed || this.speed;
+    scaling = scaling || 1;
+    this.y -= Math.cos(direction) * speed * scaling;
+    this.x += Math.sin(direction) * speed * scaling;
   },
 
   getMoveDelta: function (x, y, speed, scaling) {

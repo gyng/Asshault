@@ -77,6 +77,93 @@ function Upgrades (game) {
         }
       }),
 
+    playerMovement:
+      new Upgrade({
+        name:  'playerMovement',
+        effect: function () {
+          keypress.combo("w", function() {
+            this.player.heloAccelerate(1, 'y');
+          }.bind(this));
+
+          keypress.combo("s", function() {
+            this.player.heloAccelerate(-1, 'y');
+          }.bind(this));
+
+          keypress.combo("a", function() {
+            this.player.heloAccelerate(1, 'x');
+          }.bind(this));
+
+          keypress.combo("d", function() {
+            this.player.heloAccelerate(-1, 'x');
+          }.bind(this));
+
+          this.player.heloXSpeed = 0;
+          this.player.heloYSpeed = 0;
+          this.player.heloXAcceleration = 0;
+          this.player.heloYAcceleration = 0;
+          this.player.acceleration = 0;
+          this.player.accelerationRate = 0.25;
+          this.player.maxAcceleration = 0.5;
+          this.player.minAcceleration = -0.5;
+          this.player.maxSpeed = 5;
+          this.player.friction = 0.985;
+
+          this.player.heloAccelerate = function (scaling, axis) {
+            var closeToEW, closeToNS;
+
+            var deg = rad2deg(this.rotation);
+
+            if (axis === 'x')
+              deg = deg - 90;
+
+            closeToNS = Math.abs((90 - Math.abs(deg)) / 90);
+            closeToEW = 1 - closeToNS;
+
+            var yFlip = 1;
+            var xFlip = 1;
+
+            if (deg >= -180 && deg <= -90) {
+              xFlip = -1;
+            } else if (deg > -90 && deg <= 0) {
+              xFlip = -1;
+              yFlip = -1;
+            } else if (deg > 0 && deg < 90) {
+              yFlip = -1;
+            }
+
+            this.heloXAcceleration += this.accelerationRate * scaling * closeToEW * xFlip;
+            this.heloYAcceleration += this.accelerationRate * scaling * closeToNS * yFlip;
+
+            this.heloXAcceleration = Math.max(Math.min(this.heloXAcceleration, this.maxAcceleration), this.minAcceleration);
+            this.heloYAcceleration = Math.max(Math.min(this.heloYAcceleration, this.maxAcceleration), this.minAcceleration);
+
+            this.heloXSpeed = Math.max(Math.min(this.heloXSpeed + this.heloXAcceleration, this.maxSpeed), -this.maxSpeed);
+            this.heloYSpeed = Math.max(Math.min(this.heloYSpeed + this.heloYAcceleration, this.maxSpeed), -this.maxSpeed);
+          };
+
+          this.player.heloMove = function () {
+            this.x += this.heloXSpeed;
+            this.y += this.heloYSpeed;
+
+            this.heloXSpeed *= this.friction;
+            this.heloYSpeed *= this.friction;
+            this.heloXAcceleration *= this.friction - 0.025;
+            this.heloYAcceleration *= this.friction - 0.025;
+          };
+
+          this.player.upgrades.push(function () { this.heloMove(); });
+        },
+        constraints: [
+          [new UpgradeConstraint('upgradeCountWithinRange'), 'playerMovement', 0, 1]
+        ],
+        text: {
+          name: 'The Flying Machine',
+          cost: '',
+          effect: 'Move with the WASD keys.',
+          flavour: 'Avoid sun.'
+        }
+      }),
+
     buildTavern:
       new Upgrade({
         name:  'buildTavern',
