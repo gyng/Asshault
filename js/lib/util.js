@@ -16,6 +16,14 @@ function randomError(positiveValue) {
  return positiveValue * Math.random() * (Math.random() > 0.5 ? -1 : 1);
 }
 
+function randomRad() {
+  return Math.random() * 2 * Math.PI;
+}
+
+function randomDeg() {
+  return Math.random() * 360;
+}
+
 function deg2rad (deg) {
   return deg * Math.PI / 180;
 }

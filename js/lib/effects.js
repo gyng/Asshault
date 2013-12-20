@@ -27,8 +27,8 @@ function Explosion(resources, overrides) {
   Entity.call(this, resources, overrides);
 
   scale = 1;
-  this.width = 64 + 64 * Math.random() * scale;
-  this.height = 64 + 64 * Math.random() * scale;
+  this.width = 128 + 128 * Math.random() * scale;
+  this.height = 128 + 128 * Math.random() * scale;
   this.game.shake.x += randomNegation(this.width / 5);
   this.game.shake.y += randomNegation(this.height / 5);
 

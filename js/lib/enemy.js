@@ -24,6 +24,10 @@ Enemy.prototype.tick = function () {
   if (this.health <= 0) {
     this.markedForDeletion = true;
     this.game.entities.push(new Explosion(this.resources, { x: this.x, y: this.y }));
+
+    this.game.drawDecal(this.sprites.bloodstain, this.x-this.width/2, this.y-this.height/2, randomRad(), 64 + _.random(32), 64 + _.random(32));
+    // var spray = this.sprites.bloodspray;
+    this.game.drawDecal(this.sprites.bloodspray, this.x, this.y, this.rotation, 52 + _.random(16), 128 + _.random(386), true);
   }
 
   this.lookAt(this.game.player);

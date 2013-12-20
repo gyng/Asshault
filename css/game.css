@@ -36,7 +36,14 @@ canvas, img {
 
 canvas {
     margin: auto;
-    border: solid 1px;
+    border: dashed 1px;
+}
+
+#persistent-canvas {
+    position: absolute;
+    top: 0;
+    z-index: -1;
+    border: #0F0 solid 1px;
 }
 
 .container {

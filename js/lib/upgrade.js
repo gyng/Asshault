@@ -274,5 +274,23 @@ function Upgrades (game) {
           flavour: 'Nearby foes they kill with their stench.'
         }
       }),
+
+    clearDecals:
+      new Upgrade({
+        name:  'clearDecals',
+        effect: function () {
+          this.persistentContext.setTransform(1, 0, 0, 1, 0, 0);
+          this.persistentContext.clearRect(0, 0, this.canvas.width, this.canvas.height);
+        },
+        constraints: [
+          ['buildTavern', 1]
+        ],
+        text: {
+          name: 'Tavern Clean Up Crew',
+          cost: 'Tavern',
+          effect: 'No mess too big.',
+          flavour: 'Overtime, again?'
+        }
+      }),
   };
 }

@@ -25,6 +25,12 @@ UI.prototype = {
     canvas.style.height = window.innerHeight + "px";
     canvas.style.width  = canvas.style.height / 9 * 16 + "px";
     this.game.scaleRatio = canvas.height / window.innerHeight;
+
+    var persistentCanvas = $("#persistent-canvas")[0];
+    persistentCanvas.style.height = window.innerHeight + "px";
+    persistentCanvas.style.width  = persistentCanvas.style.height / 9 * 16 + "px";
+
+    persistentCanvas.style.left   = canvas.offsetLeft + "px";
   },
 
   populateUpgradeButtons: function (object) {

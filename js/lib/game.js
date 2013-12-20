@@ -7,6 +7,12 @@ Game.prototype = {
     $(".loading").hide();
     this.canvas   = $('#canvas')[0];
     this.context  = this.canvas.getContext('2d');
+
+    // The persistent canvas is for persistent effects such as dead bodies and bullet shells
+    // It is not redrawn for speed
+    this.persistentCanvas = $('#persistent-canvas')[0];
+    this.persistentContext = this.persistentCanvas.getContext('2d');
+
     this.fps      = 60;
     this.age      = 0;
     this.mouse    = { x: 0, y: 0 };
@@ -102,7 +108,9 @@ Game.prototype = {
       ['explosion2',  'explosion2.png'],
       ['tavern',      'tavern.png'],
       ['herogunner',  'herogunner.png'],
-      ['herosniper',  'herosniper.png']
+      ['herosniper',  'herosniper.png'],
+      ['bloodstain',  'bloodstain.png'],
+      ['bloodspray',  'bloodspray.png'],
     ];
 
     this.sounds = {};
@@ -197,7 +205,37 @@ Game.prototype = {
       this.level.draw();
     }
 
+    // TODO: Check if 3d transform camera shake is faster than shake for regular canvas
+    this.persistentCanvas.style.transform = "translate3d(" +
+      (this.shake.x / this.scaleRatio) + "px," +
+      (this.shake.y / this.scaleRatio) + "px, 0)";
+
     requestAnimationFrame(this.draw.bind(this));
+  },
+
+  drawDecal: function (image, x, y, rotation, w, h, startFromBotLeft) {
+    this.persistentContext.save();
+      w = w || image.naturalWidth;
+      h = h || image.naturalHeight;
+
+      this.persistentContext.setTransform(
+        Math.cos(rotation),
+        Math.sin(rotation),
+        -Math.sin(rotation),
+        Math.cos(rotation),
+        x,
+        y
+      );
+
+      var xOff = 0;
+      var yOff = 0;
+      if (!isDefined(startFromBotLeft)) {
+        xOff -= w / 2;
+        yOff -= h / 2;
+      }
+
+      this.persistentContext.drawImage(image, xOff, yOff, w, h);
+    this.persistentContext.restore();
   },
 
   upgrade: function(upgradeName, args) {

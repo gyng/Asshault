@@ -32,7 +32,7 @@ Sniper.prototype.tick = function () {
       this.fireAge = 0;
     }
 
-    if (this.fireAge === 0) {
+    if (this.fireAge === 1) {
       this.moveTarget = {
         x: this.game.player.x + randomNegation(_.random(64, 128)),
         y: this.game.player.y + randomNegation(_.random(64, 128))
