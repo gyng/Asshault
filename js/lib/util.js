@@ -32,6 +32,16 @@ function hypotenuse(a, b) {
   return Math.sqrt(a * a + b * b);
 }
 
+// Takes four values x1, y1, x2, y2 or point1, point2
+// Point being { x: 1, y: 1 }
+function distanceBetween(p1, p2, x2, y2) {
+  if (typeof x2 === 'undefined') {
+    return hypotenuse(p2.x - p1.x, p2.y - p1.y);
+  } else {
+    return hypotenuse(x2 - p1, y2 - p2);
+  }
+}
+
 // Takes vector object v or x(v)-y coordinates
 function normalize(v, y) {
   var h;

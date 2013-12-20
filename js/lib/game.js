@@ -11,6 +11,7 @@ Game.prototype = {
     this.age      = 0;
     this.mouse    = { x: 0, y: 0 };
     this.shake    = { x: 0, y: 0 };
+    this.center   = { x: this.canvas.width / 2, y: this.canvas.height / 2 };
     this.shakeReduction = 0.95;
     this.debugFpsCounter = 0;
     this.scaleRatio = 1;
@@ -32,12 +33,14 @@ Game.prototype = {
       sprites: this.sprites,
       sounds:  this.sounds
     };
-    this.player   = new Player(200, 200, this.resources);
+    this.player   = new Player(this.center.x, this.center.y, this.resources);
     this.entities = [this.player];
     this.friendlies = [this.player];
     this.enemies = [];
 
     $('#canvas').mousemove(function (e) {
+      // Factor in CSS scaling of canvas distorting mouse pointer location comparisons
+      // as canvas is not aware of external scaling.
       this.mouse.x = (e.pageX - this.canvas.offsetLeft) * this.scaleRatio;
       this.mouse.y = (e.pageY - this.canvas.offsetTop) * this.scaleRatio;
     }.bind(this));
@@ -51,7 +54,31 @@ Game.prototype = {
       1: new BreakLevel(this),
       2: new Level(this, {
         0:  { f: function (arg1) { console.log("Level 0! " + arg1); }, a: 'myarg' },
-        10: { f: function () { console.log("Level 1!"); } }
+        10: {
+          f: function () {
+            console.log('omgspawning');
+            var spawnX = this.player.x;
+            var spawnY = this.player.y;
+            var minDistanceAway = 100;
+            var maxAttempts = 1000;
+            var attempts = 0;
+            var enemy = null;
+
+            while (distanceBetween(spawnX, spawnY, this.player.x, this.player.y) < minDistanceAway &&
+              attempts++ < maxAttempts) {
+              spawnX = _.random(this.canvas.width);
+              spawnY = _.random(this.canvas.height);
+            }
+
+            if (attempts < maxAttempts) {
+              enemy = new Enemy(spawnX, spawnY, this.resources);
+              this.entities.push(enemy);
+              this.enemies.push(enemy);
+            }
+          },
+          r: 45
+        },
+        15: { f: function (arg1) { console.log("Level 0! " + arg1); }, a: 'myarg2' },
       })
     };
 
@@ -133,21 +160,8 @@ Game.prototype = {
       this.ui.setAvailableUpgrades();
     }
 
-    // Spawning
-    if (this.age % 45 === 0) {
-      var spawnX = _.random(this.canvas.width);
-      var spawnY = _.random(this.canvas.height);
-      // var enemy = new Enemy(spawnX, spawnY, this.resources);
-      // this.entities.push(enemy);
-      // this.enemies.push(enemy);
-    }
-
     // Levels
-
-    if (!isDefined(this.level) || this.level.over) {
-
-      console.log(!isDefined(this.level), isDefined(this.level) ? this.level.over : '');
-
+    if (!_.isObject(this.level) || this.level.over) {
       this.levelNumber++;
       this.level = this.levels[this.levelNumber];
     } else {

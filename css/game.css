@@ -148,13 +148,14 @@ canvas {
     display: flex;
     padding: 0;
     margin: 0;
+    text-align: left;
 }
 
 .ui .column {
     height: 100%;
     flex-direction: row;
-    justify-content: center;
-    align-items: center;
+    /*justify-content: center;*/
+    /*align-items: center;*/
 }
 
 .ui .row {

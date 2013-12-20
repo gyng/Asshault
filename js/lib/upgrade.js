@@ -171,7 +171,9 @@ function Upgrades (game) {
       new Upgrade({
         name:  'buildTavern',
         effect: function () {
-          var tavern = new Tavern(300, 300, this.resources);
+          var spawnX = this.player.x + randomNegation(_.random(100, 300));
+          var spawnY = this.player.y + randomNegation(_.random(100, 300));
+          var tavern = new Tavern(spawnX, spawnY, this.resources);
           this.entities.push(tavern);
           this.friendlies.push(tavern);
         },
@@ -190,7 +192,8 @@ function Upgrades (game) {
       new Upgrade({
         name:  'heroGunner',
         effect: function () {
-          var gunner = new Gunner(300, 300, this.resources);
+          var tavern = _.findWhere(this.entities, { constructor: Tavern });
+          var gunner = new Gunner(tavern.x, tavern.y, this.resources);
           this.entities.push(gunner);
           this.friendlies.push(gunner);
         },
@@ -258,7 +261,8 @@ function Upgrades (game) {
       new Upgrade({
         name:  'heroSniper',
         effect: function () {
-          var sniper = new Sniper(300, 300, this.resources);
+          var tavern = _.findWhere(this.entities, { constructor: Tavern });
+          var sniper = new Sniper(tavern.x, tavern.y, this.resources);
           this.entities.push(sniper);
           this.friendlies.push(sniper);
         },
