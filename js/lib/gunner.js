@@ -1,7 +1,7 @@
 function Gunner(resources, overrides) {
   Entity.call(this, resources, overrides);
-  this.width = 32;
-  this.height = 32;
+  this.width = 42;
+  this.height = 42;
   this.speed = 7 + _.random(8);
   this.target = null;
   this.targetAge = 0;
@@ -10,6 +10,8 @@ function Gunner(resources, overrides) {
   this.firing = false;
 
   this.applyOverrides();
+
+  this.hasShadow = true;
 }
 
 Gunner.prototype = new Entity();

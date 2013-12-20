@@ -1,7 +1,7 @@
 function BulletPing(resources, overrides) {
   Entity.call(this, resources, overrides);
-  this.width = 32 + _.random(48);
-  this.height = 32 + _.random(48);
+  this.width = 48 + _.random(64);
+  this.height = 48 + _.random(64);
 
   this.applyOverrides();
 
@@ -33,6 +33,13 @@ function Explosion(resources, overrides) {
   this.game.shake.y += randomNegation(this.height / 5);
 
   this.applyOverrides();
+
+  this.hasShadow = true;
+  this.shadowOffset = { x: 0, y: -30 };
+  this.shadowOpacity = 0.7;
+  this.shadowColor = "rgba(255, 244, 91," + Math.random() * this.shadowOpacity + ")";
+  this.shadowSize = { x: 120 + _.random(40), y: 120 };
+  this.shadowShape = 'circle'
 }
 
 Explosion.prototype = new Entity();
@@ -40,6 +47,12 @@ Explosion.prototype = new Entity();
 Explosion.prototype.constructor = Explosion;
 
 Explosion.prototype.tick = function () {
+  this.shadowSize.x *= 1.07;
+  this.shadowOpacity *= 0.8;
+  this.shadowColor = "rgba(255, 244, 91," + Math.random() * this.shadowOpacity + ")";
+  this.width /= 1.05;
+  this.height /= 1.05;
+
   if (this.age > 20)
     this.markedForDeletion = true;
 };

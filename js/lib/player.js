@@ -1,7 +1,7 @@
 function Player(resources, overrides) {
   Entity.call(this, resources, overrides);
-  this.width = 32;
-  this.height = 32;
+  this.width = 48;
+  this.height = 48;
   this.health = 10;
   this.spread = 5;
   this.firingRate = 4;
@@ -16,6 +16,8 @@ function Player(resources, overrides) {
   }.bind(this));
 
   this.applyOverrides();
+
+  this.hasShadow = true;
 }
 
 Player.prototype = new Entity();
@@ -87,7 +89,7 @@ Player.prototype.draw = function (context) {
   this.drawOffset.y = Math.min(this.drawOffset.y * 0.9, 15);
 
   if (this.firing) {
-    var flashPos = { x: -this.width, y: -this.height * 2 };
+    var flashPos = { x: -this.width / 2, y: -this.height * 1.5 };
 
     if (this.age % this.firingRate <= this.firingRate / 2)
       context.drawImage(this.sprites.flash1, flashPos.x, flashPos.y);

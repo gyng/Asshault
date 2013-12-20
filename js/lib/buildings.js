@@ -1,9 +1,12 @@
 function Tavern(resources, overrides) {
   Entity.call(this, resources, overrides);
-  this.width = 32;
-  this.height = 32;
+  this.width = 72;
+  this.height = 72;
 
   this.applyOverrides();
+
+  this.hasShadow = true;
+  this.shadowSize = { x: 72, y: 72 };
 }
 
 Tavern.prototype = new Entity();

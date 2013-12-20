@@ -108,6 +108,11 @@ function Upgrades (game) {
           this.player.maxSpeed = 5;
           this.player.friction = 0.985;
 
+          this.player.shadowOffset.y += 35;
+          this.player.shadowSize.x *= 1.5;
+          this.player.shadowSize.y *= 1.5;
+          this.shadowColor = "rgba(0, 0, 0, 0.15)";
+
           this.player.heloAccelerate = function (scaling, axis) {
             var closeToEW, closeToNS;
 
@@ -152,6 +157,9 @@ function Upgrades (game) {
             this.heloYSpeed *= this.friction;
             this.heloXAcceleration *= this.friction - 0.025;
             this.heloYAcceleration *= this.friction - 0.025;
+
+            this.drawOffset.x += randomError(1);
+            this.drawOffset.y += randomError(1);
           };
 
           this.player.upgrades.push(function () { this.heloMove(); });

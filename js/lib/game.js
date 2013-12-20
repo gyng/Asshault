@@ -189,6 +189,58 @@ Game.prototype = {
     this.shake.x *= this.shakeReduction;
     this.shake.y *= this.shakeReduction;
 
+    // Time of day shadow calculations
+    // Shadow distortion (vector)
+    // Imagine this is a semicircle, okay?
+    //
+    //     ________
+    //    /\        \
+    // y |  \ r      |  radius = offsetLength
+    //   |__(>_______|
+    //     (angle)
+    //
+    //   --- time --->
+    var offsetLength = 30;
+    var dayLength = 1440;
+    var timeOfDay = this.age % dayLength;
+    var dayRatio = timeOfDay / dayLength;
+    var radians = dayRatio * Math.PI;
+    var todXOffset = Math.cos(radians);
+    var todYOffset = Math.sin(radians);
+
+    // Shadow pass
+    this.entities.forEach(function (ent) {
+      if (ent.hasShadow) {
+        this.context.save();
+          // Move to shadow position
+          this.context.setTransform(
+             Math.cos(ent.rotation + radians),
+            Math.sin(ent.rotation + radians),
+            -Math.sin(ent.rotation + radians),
+            Math.cos(ent.rotation + radians),
+            ent.x + ent.drawOffset.x + this.shake.x + ent.shadowOffset.x + todXOffset * offsetLength,
+            ent.y + ent.drawOffset.y + this.shake.y + ent.shadowOffset.y + todYOffset * offsetLength * (1 - dayRatio)
+          );
+
+          this.context.fillStyle = ent.shadowColor;
+
+          if (ent.shadowShape === 'square') {
+            this.context.fillRect(
+              -ent.width / 2,
+              -ent.height / 2,
+              ent.shadowSize.x,
+              ent.shadowSize.y
+            );
+          } else {
+            this.context.beginPath();
+            this.context.arc(0, 0, ent.shadowSize.x, 0, 2 * Math.PI);
+            this.context.fill();
+          }
+        this.context.restore();
+      }
+    }.bind(this));
+
+    // Sprite pass
     this.entities.forEach(function (ent) {
       this.context.save();
         // Transformation matrix
@@ -203,6 +255,7 @@ Game.prototype = {
           ent.x + ent.drawOffset.x + this.shake.x,
           ent.y + ent.drawOffset.y + this.shake.y
         );
+
         this.context.drawImage(ent.getImage(), -ent.width / 2, -ent.height / 2, ent.width, ent.height);
         ent.draw(this.context);
       this.context.restore();
@@ -212,6 +265,7 @@ Game.prototype = {
       this.level.draw();
     }
 
+    // Camera shake decal layer as well
     // TODO: Check if 3d transform camera shake is faster than shake for regular canvas
     this.persistentCanvas.style.transform = "translate3d(" +
       (this.shake.x / this.scaleRatio) + "px," +

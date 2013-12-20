@@ -6,6 +6,8 @@ function Enemy(resources, overrides) {
   this.speed = 5;
 
   this.applyOverrides();
+
+  this.hasShadow = true;
 }
 
 Enemy.prototype = new Entity();
@@ -29,6 +31,11 @@ Enemy.prototype.tick = function () {
     // var spray = this.sprites.bloodspray;
     this.game.drawDecal(this.sprites.bloodspray, this.x, this.y, this.rotation, 52 + _.random(16), 128 + _.random(386), true);
   }
+
+  // var normShadowOffset = normalize({ x: this.x - this.game.player.x, y: this.y - this.game.player.y });
+  // var shadowDistance = 10;
+  // this.shadowBlur = 20;
+  // this.shadowOffset = { x: normShadowOffset.x * shadowDistance, y: normShadowOffset.y * shadowDistance };
 
   this.lookAt(this.game.player);
 
