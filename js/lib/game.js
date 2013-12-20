@@ -4,6 +4,7 @@ function Game() {
 
 Game.prototype = {
   initialize: function () {
+    $(".loading").hide();
     this.canvas   = $('#canvas')[0];
     this.context  = this.canvas.getContext('2d');
     this.fps      = 60;
