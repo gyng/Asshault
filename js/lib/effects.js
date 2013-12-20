@@ -53,7 +53,7 @@ Explosion.prototype.tick = function () {
   this.width /= 1.05;
   this.height /= 1.05;
 
-  if (this.age > 20)
+  if (this.age > 18)
     this.markedForDeletion = true;
 };
 

@@ -116,6 +116,7 @@ Game.prototype = {
       ['tavern',      'tavern.png'],
       ['herogunner',  'herogunner.png'],
       ['herosniper',  'herosniper.png'],
+      ['herocleaner',  'herocleaner.png'],
       ['bloodstain',  'bloodstain.png'],
       ['bloodspray',  'bloodspray.png'],
     ];
@@ -267,9 +268,13 @@ Game.prototype = {
 
     // Camera shake decal layer as well
     // TODO: Check if 3d transform camera shake is faster than shake for regular canvas
-    this.persistentCanvas.style.transform = "translate3d(" +
+
+    var transformation = "translate3d(" +
       (this.shake.x / this.scaleRatio) + "px," +
       (this.shake.y / this.scaleRatio) + "px, 0)";
+
+    this.persistentCanvas.style.transform = transformation;
+    this.persistentCanvas.style["-webkit-transform"] = transformation;
 
     requestAnimationFrame(this.draw.bind(this));
   },

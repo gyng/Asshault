@@ -283,18 +283,22 @@ function Upgrades (game) {
         }
       }),
 
-    clearDecals:
+    heroCleaner:
       new Upgrade({
-        name:  'clearDecals',
+        name:  'heroCleaner',
         effect: function () {
-          this.persistentContext.setTransform(1, 0, 0, 1, 0, 0);
-          this.persistentContext.clearRect(0, 0, this.canvas.width, this.canvas.height);
+          // this.persistentContext.setTransform(1, 0, 0, 1, 0, 0);
+          // this.persistentContext.clearRect(0, 0, this.canvas.width, this.canvas.height);
+          var tavern = _.findWhere(this.entities, { constructor: Tavern });
+          var cleaner = new Cleaner(this.resources, { x: tavern.x, y: tavern.y });
+          this.entities.push(cleaner);
+          this.friendlies.push(cleaner);
         },
         constraints: [
           ['buildTavern', 1]
         ],
         text: {
-          name: 'Tavern Clean Up Crew',
+          name: 'Tavern Clean Up Crew Member',
           cost: 'Tavern',
           effect: 'No mess too big.',
           flavour: 'Overtime, again?'

@@ -15,6 +15,9 @@ require.config({
     'lib/enemy': {
         deps: ['lib/entity']
     },
+    'lib/cleaner': {
+        deps: ['lib/entity']
+    },
     'lib/effects': {
         deps: ['lib/entity']
     },
@@ -22,7 +25,7 @@ require.config({
       deps: ['lib/entity']
     },
     'lib/game': {
-      deps: ['lib/level', 'lib/gunner', 'lib/sniper', 'lib/player', 'lib/bullet', 'lib/enemy', 'lib/effects', 'lib/buildings', 'lib/upgrade']
+      deps: ['lib/level', 'lib/gunner', 'lib/sniper', 'lib/player', 'lib/bullet', 'lib/enemy', 'lib/effects', 'lib/buildings', 'lib/upgrade', 'lib/cleaner']
     }
   }
 });

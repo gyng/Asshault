@@ -88,5 +88,12 @@ Entity.prototype = {
     speed = speed || this.speed;
     var normalized = normalize({ x: x - this.x, y: y - this.y });
     return { x: normalized.x * this.speed * scaling, y: normalized.y * this.speed * scaling };
+  },
+
+  every: function(mod, fun, args) {
+    args = args || [];
+    if (this.age % mod === 0) {
+      fun.apply(this, [].concat(args));
+    }
   }
 };
