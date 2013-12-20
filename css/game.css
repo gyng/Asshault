@@ -21,6 +21,8 @@ body {
     -webkit-font-feature-settings: "liga", "dlig";
     font-feature-settings: "liga", "dlig";
     word-wrap: break-word;
+
+    background-size: 100% auto;
 }
 
 canvas, img {
@@ -37,6 +39,8 @@ canvas, img {
 canvas {
     margin: auto;
     border: dashed 1px;
+
+    cursor: crosshair;
 }
 
 #persistent-canvas {
@@ -58,7 +62,7 @@ canvas {
 
 .upgrade {
     flex-shrink: 0;
-    transition: background-color 0.3s;
+
     padding: 1rem;
     margin: 0.5rem 0;
     background-color: #555;
@@ -70,29 +74,20 @@ canvas {
     -moz-user-select: none;
     -ms-user-select: none;
     user-select: none;
+
     cursor: default;
 }
 
 .active-upgrade {
-    transition: margin 0.1s, padding 0.1s;
-    transition-timing: ease-out;
     order: -1;
     background-color: #ccc;
 }
 
 .active-upgrade:hover {
-    transition: margin 0.1s, padding 0.1s;
-    box-shadow: 0.3rem 0.3rem 0.3rem 0 #999;
-    margin: 0.2rem 0 0.8rem 0;
     background-color: #ddd;
-    cursor: pointer;
 }
 
 .active-upgrade:active {
-    transition-timing: ease-in;
-    padding: 1rem 0.8rem 1rem 1.2rem;
-    box-shadow: inset 0.7rem 0.7rem 0.3rem 0 #999;
-    margin: 0.7rem 0 0.3rem 0;
     background-color: #ccc;
 }
 
@@ -136,12 +131,47 @@ canvas {
     text-align: center;
 }
 
-.ready-button {
+
+.button {
     padding: 1rem;
-    margin: 1rem 0;
-    background-color: rgb(14, 244, 22);
+    margin: 0.5rem 0;
+    transition: margin 0.1s, padding 0.1s, background-color 0.3s;
+    transition-timing: ease-out;
+    cursor: pointer;
+
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+.button:hover {
+    transition: margin 0.1s, padding 0.1s;
+    box-shadow: 0.3rem 0.3rem 0.3rem 0 #999;
+    margin: 0.2rem 0 0.8rem 0;
+    cursor: pointer;
+}
+
+.button:active {
+    transition-timing: ease-in;
+    padding: 1rem 0.8rem 1rem 1.2rem;
+    box-shadow: inset 0.7rem 0.7rem 0.3rem 0 rgba(0, 0, 0, 0.3);
+    margin: 0.7rem 0 0.3rem 0;
+}
+
+.ready-button {
+    width: 33%;
+    background-color: rgb(25, 196, 31);
     display: none;
     max-width: 30rem;
+    text-align: center;
+    font-size: 1.8rem;
+}
+
+.ready-button:hover {
+    background-color: rgb(45, 216, 51);
 }
 
 /* UI */
@@ -159,6 +189,7 @@ canvas {
 }
 
 .ui .column {
+    padding: 1rem;
     height: 100%;
     flex-direction: row;
     /*justify-content: center;*/
@@ -166,7 +197,8 @@ canvas {
 }
 
 .ui .row {
-
+    align-items: center;
+    justify-content: center;
 }
 
 .ui .button {
@@ -189,7 +221,8 @@ canvas {
 }
 
 .ui .top-bar {
-    align-items: flex-end;
+    /*align-items: flex-end;*/
+    display: flex;
     min-height: 5rem;
     /*flex-grow: 0;*/
     /*flex-basis: 15%;*/
@@ -207,4 +240,13 @@ canvas {
     flex-grow: 0;
     flex-basis: 15%;
     height: 15%;
+}
+
+#debug {
+    text-shadow: 1px 1px 0 #080, -1px -1px 0 #080, 1px -1px 0 #080,
+            -1px 1px 0 #080, 3px 3px 5px #333;
+    font-weight: bold;
+    color: black;
+    font-size: 1.2rem;
+    font-family: monospace;
 }

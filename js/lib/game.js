@@ -59,7 +59,14 @@ Game.prototype = {
     this.levels = {
       1: new BreakLevel(this),
       2: new Level(this, {
-        0:  { f: function (arg1) { console.log("Level 0! " + arg1); }, a: 'myarg' },
+        0:  {
+          f: function (arg1) {
+            // $('.container').css('background-image', 'url(' + url + ')');
+            $('body').css('background-image', 'url(res/bg/bggrassvig.png)');
+            $('#persistent-canvas').css('background-image', 'url(res/bg/bggrass.png)');
+          },
+          a: 'myarg'
+        },
         10: {
           f: function () {
             console.log('omgspawning');
@@ -238,6 +245,10 @@ Game.prototype = {
     this.persistentContext.restore();
   },
 
+  setBackground: function(image) {
+
+  },
+
   upgrade: function(upgradeName, args) {
     var upgrade = this.upgrades.list[upgradeName];
     if (upgrade.isConstraintsMet(this)) {
@@ -257,7 +268,7 @@ Game.prototype = {
       "<p>" + (this.age - this.lastAge) + " ticks/s</p>" +
       "<p>" + this.entities.length + " entities</p>" +
       "<p>" + this.friendlies.length + " friendlies</p>" +
-      "<p>" + this.enemies.length + " entities</p>" +
+      "<p>" + this.enemies.length + " enemies</p>" +
       "<p>" + this.player.health + " player health </p>"
     );
 

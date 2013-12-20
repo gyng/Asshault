@@ -13,9 +13,13 @@ UI.prototype = {
     _.keys(this.game.upgrades.list).forEach(function (upgradeName) {
       var upgrade = this.game.upgrades.list[upgradeName];
       if (upgrade.isConstraintsMet(this.game)) {
-        $('[data-upgrade=' + upgrade.name + ']').toggleClass('active-upgrade', true);
+        $('[data-upgrade=' + upgrade.name + ']')
+          .toggleClass('active-upgrade', true)
+          .toggleClass('button', true);
       } else {
-        $('[data-upgrade=' + upgrade.name + ']').toggleClass('active-upgrade', false);
+        $('[data-upgrade=' + upgrade.name + ']')
+          .toggleClass('active-upgrade', false)
+          .toggleClass('button', false);
       }
     }.bind(this));
   },
