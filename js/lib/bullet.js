@@ -22,6 +22,14 @@ Bullet.prototype.tick = function () {
   this.x += this.deltaX;
   this.y += this.deltaY;
 
+  this.game.enemies.forEach(function (ent) {
+    if (this.collidesWith(ent, this.speed * 0.75)) {
+      ent.health -= this.damage;
+      this.markedForDeletion = true;
+      this.game.entities.push(new BulletPing(ent.x, ent.y, this.resources, ent.rotation));
+    }
+  }.bind(this));
+
   if (this.age % 10 === 0) {
     this.checkOutOfBounds();
   }

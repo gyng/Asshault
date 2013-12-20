@@ -11,13 +11,7 @@ Enemy.prototype = new Entity();
 Enemy.prototype.constructor = Enemy;
 
 Enemy.prototype.tick = function () {
-  this.game.entities.forEach(function (ent) {
-    if (ent.constructor === Bullet && ent !== this && this.collidesWith(ent, ent.speed * 0.75)) {
-      this.health -= ent.damage;
-      ent.markedForDeletion = true;
-      this.game.entities.push(new BulletPing(ent.x, ent.y, this.resources, ent.rotation));
-    }
-
+  this.game.friendlies.forEach(function (ent) {
     if (ent.constructor === Player && ent !== this && this.collidesWith(ent)) {
       this.markedForDeletion = true;
       this.game.entities.push(new Explosion(this.x, this.y, this.resources));
