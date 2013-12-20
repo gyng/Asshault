@@ -39,7 +39,8 @@ UI.prototype = {
       el.find('.upgrade-flavour').text(data.flavour || '');
 
       var that = this;
-      el.click(function (e) {
+      el.on('click', function (e) {
+        that.setAvailableUpgrades();
         that.game.upgrade($(this).attr('data-upgrade'));
       });
 
