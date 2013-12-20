@@ -1,6 +1,6 @@
-function Entity(x, y, resources) {
-  this.x = x;
-  this.y = y;
+function Entity(resources, overrides) {
+  this.x = 0;
+  this.y = 0;
   this.rotation = 0; // Image
   this.direction = 0; // Movement heading
   this.age = 0;
@@ -14,6 +14,7 @@ function Entity(x, y, resources) {
     this.game = resources.game;
     this.resources = resources;
   }
+  this.overrides = overrides || {};
 }
 
 Entity.prototype = {
@@ -26,6 +27,13 @@ Entity.prototype = {
   draw: function () {},
 
   getImage: function () {},
+
+  applyOverrides: function () {
+    _.keys(this.overrides).forEach(function (key) {
+      this[key] = this.overrides[key];
+
+    }.bind(this));
+  },
 
   collidesWith: function(object, threshold) {
     if (typeof threshold === 'undefined') { threshold = 20; }

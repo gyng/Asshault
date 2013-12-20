@@ -1,7 +1,9 @@
-function Tavern(x, y, resources) {
-  Entity.call(this, x, y, resources);
+function Tavern(resources, overrides) {
+  Entity.call(this, resources, overrides);
   this.width = 32;
   this.height = 32;
+
+  this.applyOverrides();
 }
 
 Tavern.prototype = new Entity();

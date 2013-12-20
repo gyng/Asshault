@@ -1,5 +1,5 @@
-function Sniper(x, y, resources) {
-  Entity.call(this, x, y, resources);
+function Sniper(resources, overrides) {
+  Entity.call(this, resources, overrides);
   this.width = 32;
   this.height = 32;
   this.speed = 7 + _.random(8);
@@ -9,6 +9,8 @@ function Sniper(x, y, resources) {
   this.variance = 4;
   this.fireRate = 80;
   this.firing = false;
+
+  this.applyOverrides();
 }
 
 Sniper.prototype = new Entity();
@@ -52,8 +54,16 @@ Sniper.prototype.fireAt = function (object) {
 Sniper.prototype.fire = function (radians, offsetDegrees) {
   offsetDegrees = deg2rad(offsetDegrees) || 0;
   var variance = _.random(this.variance) * offsetDegrees;
+
   this.game.entities.push(
-    new Bullet(this.x, this.y, this.resources, radians + variance, 5, 80)
+    new Bullet(this.resources, {
+      x: this.x,
+      y: this.y,
+      direction: radians + variance,
+      rotation: radians + variance,
+      damage: 5,
+      speed: 80
+    })
   );
 
   this.fireShake();

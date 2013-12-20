@@ -1,8 +1,11 @@
-function BulletPing(x, y, resources, rotation) {
-  Entity.call(this, x, y, resources);
+function BulletPing(resources, overrides) {
+  Entity.call(this, resources, overrides);
   this.width = 32 + _.random(48);
   this.height = 32 + _.random(48);
-  this.rotation = rotation + deg2rad(randomNegation(_.random(50)));
+
+  this.applyOverrides();
+
+  this.rotation += deg2rad(randomNegation(_.random(50)));
 }
 
 BulletPing.prototype = new Entity();
@@ -20,15 +23,16 @@ BulletPing.prototype.getImage = function () {
 
 
 
-function Explosion(x, y, resources, scale) {
-  Entity.call(this, x, y, resources);
+function Explosion(resources, overrides) {
+  Entity.call(this, resources, overrides);
 
-  scale = scale || 1;
+  scale = 1;
   this.width = 64 + 64 * Math.random() * scale;
   this.height = 64 + 64 * Math.random() * scale;
   this.game.shake.x += randomNegation(this.width / 5);
   this.game.shake.y += randomNegation(this.height / 5);
-  // this.rotation = deg2rad(randomNegation(360));
+
+  this.applyOverrides();
 }
 
 Explosion.prototype = new Entity();

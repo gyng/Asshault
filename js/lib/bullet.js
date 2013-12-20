@@ -1,11 +1,12 @@
-function Bullet(x, y, resources, direction, damage, speed) {
-  Entity.call(this, x, y, resources);
+function Bullet(resources, overrides) {
+  Entity.call(this, resources, overrides);
   this.width = 32;
   this.height = 16;
-  this.direction = direction;
-  this.rotation = direction;
-  this.damage = damage || 1;
-  this.speed = speed || 30;
+  this.damage = 1;
+  this.speed = 30;
+
+  // Apply overrides
+  this.applyOverrides();
 
   // Calculate on creation and not per tick
   this.deltaX = -Math.cos(this.direction) * this.speed;
@@ -26,7 +27,13 @@ Bullet.prototype.tick = function () {
     if (this.collidesWith(ent, this.speed * 0.75)) {
       ent.health -= this.damage;
       this.markedForDeletion = true;
-      this.game.entities.push(new BulletPing(ent.x, ent.y, this.resources, ent.rotation));
+      this.game.entities.push(
+        new BulletPing(this.resources, {
+          x: ent.x,
+          y: ent.y,
+          rotation: ent.rotation
+        })
+      );
     }
   }.bind(this));
 

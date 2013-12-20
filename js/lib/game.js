@@ -33,7 +33,7 @@ Game.prototype = {
       sprites: this.sprites,
       sounds:  this.sounds
     };
-    this.player   = new Player(this.center.x, this.center.y, this.resources);
+    this.player   = new Player(this.resources, { x: this.center.x, y: this.center.y });
     this.entities = [this.player];
     this.friendlies = [this.player];
     this.enemies = [];
@@ -71,7 +71,7 @@ Game.prototype = {
             }
 
             if (attempts < maxAttempts) {
-              enemy = new Enemy(spawnX, spawnY, this.resources);
+              enemy = new Enemy(this.resources, { x: spawnX, y: spawnY });
               this.entities.push(enemy);
               this.enemies.push(enemy);
             }

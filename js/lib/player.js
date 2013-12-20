@@ -1,5 +1,5 @@
-function Player(x, y, resources) {
-  Entity.call(this, x, y, resources);
+function Player(resources, overrides) {
+  Entity.call(this, resources, overrides);
   this.width = 32;
   this.height = 32;
   this.health = 10;
@@ -14,6 +14,8 @@ function Player(x, y, resources) {
   $('#canvas').mouseup(function (e) {
     this.firing = false;
   }.bind(this));
+
+  this.applyOverrides();
 }
 
 Player.prototype = new Entity();
@@ -55,7 +57,17 @@ Player.prototype.fire = function (radians, offsetDegrees) {
   var offset = deg2rad(randomError(this.spread) + randomNegation(offsetDegrees || 0));
 
   if (this.age % this.firingRate === 0) {
-    this.game.entities.push(new Bullet(this.x, this.y, this.resources, radians + offset, 1, 30));
+    this.game.entities.push(
+      new Bullet(this.resources, {
+        x: this.x,
+        y: this.y,
+        direction: radians + offset,
+        rotation: radians + offset,
+        damage: 1,
+        speed: 30
+      })
+    );
+
     this.fireShake();
   }
 };

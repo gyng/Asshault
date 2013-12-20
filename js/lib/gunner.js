@@ -1,5 +1,5 @@
-function Gunner(x, y, resources) {
-  Entity.call(this, x, y, resources);
+function Gunner(resources, overrides) {
+  Entity.call(this, resources, overrides);
   this.width = 32;
   this.height = 32;
   this.speed = 7 + _.random(8);
@@ -8,6 +8,8 @@ function Gunner(x, y, resources) {
   this.spread = 5;
   this.fireRate = 12;
   this.firing = false;
+
+  this.applyOverrides();
 }
 
 Gunner.prototype = new Entity();
@@ -45,7 +47,17 @@ Gunner.prototype.fireAt = function (object) {
 Gunner.prototype.fire = function (radians, offsetDegrees) {
   offsetDegrees = offsetDegrees || 0;
   var offset = deg2rad(randomError(this.spread) + offsetDegrees);
-  this.game.entities.push(new Bullet(this.x, this.y, this.resources, radians + offset, 1, 30));
+  this.game.entities.push(
+    new Bullet(this.resources, {
+      x: this.x,
+      y: this.y,
+      direction: radians + offset,
+      rotation: radians + offset,
+      damage: 1,
+      speed: 30
+    })
+  );
+
   this.drawOffset.x += _.random(5);
   this.drawOffset.y += _.random(5);
 };
