@@ -131,16 +131,6 @@ Game.prototype = {
       ent.tick();
     });
 
-    // Out of map bullets
-    this.entities = this.entities.map(function (ent) {
-      if (ent.x < -10 || ent.x > this.canvas.width + 10 ||
-          ent.y < -10 || ent.y > this.canvas.height + 10 &&
-          ent.constructor === Bullet) {
-        ent.markedForDeletion = true;
-      }
-      return ent;
-    }.bind(this));
-
     // Culling
     this.entities = this.entities.filter(function (ent) {
       return ent.markedForDeletion !== true;

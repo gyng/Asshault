@@ -21,6 +21,17 @@ Bullet.prototype.constructor = Bullet;
 Bullet.prototype.tick = function () {
   this.x += this.deltaX;
   this.y += this.deltaY;
+
+  if (this.age % 10 === 0) {
+    this.checkOutOfBounds();
+  }
+};
+
+Bullet.prototype.checkOutOfBounds = function () {
+  if (this.x < -10 || this.x > this.game.canvas.width + 10 ||
+      this.y < -10 || this.y > this.game.canvas.height + 10) {
+    this.markedForDeletion = true;
+  }
 };
 
 Bullet.prototype.getImage = function () {
