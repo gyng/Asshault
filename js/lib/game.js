@@ -131,13 +131,12 @@ Game.prototype = {
       ent.tick();
     });
 
-    // Out of map
+    // Out of map bullets
     this.entities = this.entities.map(function (ent) {
       if (ent.x < -10 || ent.x > this.canvas.width + 10 ||
-          ent.y < -10 || ent.y > this.canvas.height + 10
-          ) {
-        if (ent !== this.player)
-          ent.markedForDeletion = true;
+          ent.y < -10 || ent.y > this.canvas.height + 10 &&
+          ent.constructor === Bullet) {
+        ent.markedForDeletion = true;
       }
       return ent;
     }.bind(this));

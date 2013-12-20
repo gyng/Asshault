@@ -240,11 +240,9 @@ function Upgrades (game) {
       new Upgrade({
         name:  'gunnerBulletCount',
         effect: function () {
-          this.friendlies.filter(function (ent) { return ent.constructor === Gunner; }).forEach(function (gunner) {
+          _.where(this.friendlies, { constructor: Gunner }).forEach(function (gunner) {
             gunner.fireRate = Math.ceil(gunner.fireRate * 0.75);
           });
-
-          Gunner.fireRate = Math.ceil(Gunner.fireRate * 0.75);
         },
         constraints: [
           ['heroGunner', 1]
@@ -252,7 +250,7 @@ function Upgrades (game) {
         text: {
             name: 'Ram Boar Goes Full Auto',
             cost: 'Ram Boar',
-            effect: '',
+            effect: '25% faster firing for *existing* Ram Boars, up to a limit.',
             flavour: 'Always go full auto.'
           }
       }),
@@ -273,7 +271,7 @@ function Upgrades (game) {
           name: 'A Shartshooper Appears',
           cost: 'Tavern',
           effect: 'Shartshoopers are skilled at ranged combat.',
-          flavour: 'They kill foes near them with their distinctive smell.'
+          flavour: 'Nearby foes they kill with their stench.'
         }
       }),
   };
