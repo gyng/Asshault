@@ -22,12 +22,12 @@ require.config({
       deps: ['lib/entity']
     },
     'lib/game': {
-      deps: ['lib/util', 'lib/gunner', 'lib/sniper', 'lib/player', 'lib/bullet', 'lib/enemy', 'lib/effects', 'lib/buildings', 'lib/upgrade']
+      deps: ['lib/level', 'lib/gunner', 'lib/sniper', 'lib/player', 'lib/bullet', 'lib/enemy', 'lib/effects', 'lib/buildings', 'lib/upgrade']
     }
   }
 });
 
-require(["vendor/jquery-2.0.3.min", "vendor/underscore-min"], function () {
+require(["vendor/jquery-2.0.3.min", "vendor/underscore-min", "lib/util"], function () {
   require([
     "vendor/keypress-1.0.9.min",
     "lib/game",

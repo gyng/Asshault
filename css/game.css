@@ -4,6 +4,7 @@ html {
     width: 100%;
     height: 100%;
     font-size: 62.5%;
+    overflow-y: hidden;
 }
 
 body {
@@ -11,6 +12,9 @@ body {
     padding: 0;
     width: 100%;
     height: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
     -moz-font-feature-settings: "liga=1, dlig=1";
     -moz-font-feature-settings: "liga", "dlig";
     -ms-font-feature-settings: "liga", "dlig";
@@ -20,11 +24,25 @@ body {
 }
 
 canvas, img {
+    margin: 0;
+    padding: 0;
+    display: inline;
     image-rendering: optimizeSpeed;
     image-rendering: -moz-crisp-edges;
     image-rendering: -webkit-optimize-contrast;
     image-rendering: optimize-contrast;
     -ms-interpolation-mode: nearest-neighbor;
+}
+
+canvas {
+    margin: auto;
+    border: solid 1px;
+}
+
+.container {
+    text-align: center;
+    margin: 0;
+    padding: 0;
 }
 
 .template {
@@ -92,13 +110,9 @@ canvas, img {
 }
 
 .upgrades {
+    pointer-events: auto;
     display: flex;
     flex-direction: column;
-    position: fixed;
-    top: 2.5rem;
-    right: 2.5rem;
-    width: 30rem;
-    max-width: 30%;
     height: 100%;
     overflow-y: auto;
 }
@@ -115,8 +129,74 @@ canvas, img {
     text-align: center;
 }
 
-#debug {
-    position: fixed;
-    top: 2.5rem;
-    left: 2.5rem;
+.ready-button {
+    padding: 1rem;
+    margin: 1rem 0;
+    background-color: rgb(14, 244, 22);
+    display: none;
+    max-width: 30rem;
+}
+
+/* UI */
+.ui {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events:none;
+    display: flex;
+    padding: 0;
+    margin: 0;
+}
+
+.ui .column {
+    height: 100%;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+.ui .row {
+
+}
+
+.ui .button {
+    pointer-events: auto;
+}
+
+.ui .center-bar {
+    flex-grow: 3;
+    pointer-events: none;
+}
+
+.ui .left-bar {
+    flex-grow: 1;
+    max-width: 30rem;
+}
+
+.ui .right-bar {
+    flex-grow: 1;
+    max-width: 30rem;
+}
+
+.ui .top-bar {
+    align-items: flex-end;
+    min-height: 5rem;
+    /*flex-grow: 0;*/
+    /*flex-basis: 15%;*/
+    height: 15%;
+}
+
+.ui .middle-bar {
+    flex-grow: 3;
+    /*flex-basis: 70%;*/
+    height: 70%;
+    pointer-events: none;
+}
+
+.ui .bottom-bar {
+    flex-grow: 0;
+    flex-basis: 15%;
+    height: 15%;
 }

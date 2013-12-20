@@ -13,6 +13,7 @@ Game.prototype = {
     this.shake    = { x: 0, y: 0 };
     this.shakeReduction = 0.95;
     this.debugFpsCounter = 0;
+    this.scaleRatio = 1;
 
     // Debug variables
     this.debug = true;
@@ -37,12 +38,22 @@ Game.prototype = {
     this.enemies = [];
 
     $('#canvas').mousemove(function (e) {
-      this.mouse.x = e.pageX - this.canvas.offsetLeft;
-      this.mouse.y = e.pageY - this.canvas.offsetTop;
+      this.mouse.x = (e.pageX - this.canvas.offsetLeft) * this.scaleRatio;
+      this.mouse.y = (e.pageY - this.canvas.offsetTop) * this.scaleRatio;
     }.bind(this));
 
     this.upgradeCount = {};
     this.upgrades = new Upgrades(this);
+
+    this.levelNumber = 0;
+    this.level = null;
+    this.levels = {
+      1: new BreakLevel(this),
+      2: new Level(this, {
+        0:  { f: function (arg1) { console.log("Level 0! " + arg1); }, a: 'myarg' },
+        10: { f: function () { console.log("Level 1!"); } }
+      })
+    };
 
     this.ui = new UI(this);
 
@@ -126,14 +137,31 @@ Game.prototype = {
     if (this.age % 45 === 0) {
       var spawnX = _.random(this.canvas.width);
       var spawnY = _.random(this.canvas.height);
-      var enemy = new Enemy(spawnX, spawnY, this.resources);
-      this.entities.push(enemy);
-      this.enemies.push(enemy);
+      // var enemy = new Enemy(spawnX, spawnY, this.resources);
+      // this.entities.push(enemy);
+      // this.enemies.push(enemy);
+    }
+
+    // Levels
+
+    if (!isDefined(this.level) || this.level.over) {
+
+      console.log(!isDefined(this.level), isDefined(this.level) ? this.level.over : '');
+
+      this.levelNumber++;
+      this.level = this.levels[this.levelNumber];
+    } else {
+      this.level.tock();
+      this.level.tick();
     }
   },
 
   draw: function () {
     this.debugFpsCounter++;
+
+    if (this.debugFpsCounter === 1) {
+      this.ui.scaleCanvas();
+    }
 
     // Clear canvas
     this.context.setTransform(1, 0, 0, 1, 0, 0);
@@ -161,6 +189,10 @@ Game.prototype = {
         ent.draw(this.context);
       this.context.restore();
     }.bind(this));
+
+    if (isDefined(this.level)) {
+      this.level.draw();
+    }
 
     requestAnimationFrame(this.draw.bind(this));
   },

@@ -20,6 +20,14 @@ UI.prototype = {
     }.bind(this));
   },
 
+  scaleCanvas: function () {
+    var canvas = $("#canvas")[0];
+    canvas.style.height = window.innerHeight + "px";
+    canvas.style.width  = canvas.style.height / 9 * 16 + "px";
+    console.log(canvas.height);
+    this.game.scaleRatio = canvas.height / window.innerHeight;
+  },
+
   populateUpgradeButtons: function (object) {
     _.keys(object).forEach(function (upgradeName) {
 

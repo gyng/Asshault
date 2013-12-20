@@ -10,28 +10,39 @@
 
 <body>
   <div class="container">
-    <canvas id="canvas" width="1000px" height="1000px">
+    <canvas id="canvas" width="1920" height="1080px">
       <code>&lt;canvas&gt;</code> support is required.
     </canvas>
 
-    <div class="ui">
-      <div class="upgrades"></div>
-    </div>
-
-    <div class="loading">
-      Loading...
-    </div>
-
-    <div id="debug"></div>
-  </div>
-
-  <!-- Upgrade template -->
+     <!-- Upgrade template -->
   <div class="template" id="template-upgrade">
-    <div class="upgrade" data-upgrade="">
+    <div class="upgrade button" data-upgrade="">
       <div class="upgrade-name"></div>
       <div class="upgrade-cost"></div>
       <div class="upgrade-effect"></div>
       <div class="upgrade-flavour"></div>
+    </div>
+  </div>
+
+    <div class="ui">
+      <div class="left-bar column">
+        <div class="ready-button button">Ready!</div>
+        <div id="debug"></div>
+      </div>
+
+      <div class="center-bar column">
+        <div class="top-bar row">
+          
+        </div>
+        <div class="middle-bar row"></div>
+        <div class="bottom-bar row"></div>
+      </div>
+
+      <div class="right-bar column">
+        <div class="upgrades"></div>  
+      </div>
+      
+      <div class="loading">Loading...</div>
     </div>
   </div>
 </body>
