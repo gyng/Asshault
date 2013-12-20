@@ -116,6 +116,9 @@ function Upgrades (game) {
             if (axis === 'x')
               deg = deg - 90;
 
+            if (deg < -180)
+                deg = deg + 360;
+
             closeToNS = Math.abs((90 - Math.abs(deg)) / 90);
             closeToEW = 1 - closeToNS;
 
