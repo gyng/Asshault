@@ -39,7 +39,7 @@ function Explosion(resources, overrides) {
   this.shadowOpacity = 0.7;
   this.shadowColor = "rgba(255, 244, 91," + Math.random() * this.shadowOpacity + ")";
   this.shadowSize = { x: 120 + _.random(40), y: 120 };
-  this.shadowShape = 'circle'
+  this.shadowShape = 'circle';
 }
 
 Explosion.prototype = new Entity();

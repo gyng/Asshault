@@ -7,6 +7,10 @@ function Player(resources, overrides) {
   this.firingRate = 4;
   this.speed = 0;
 
+  this.sounds = {
+    firing: ['shoot2', 'shoot5', 'shoot7']
+  };
+
   $('#canvas').mousedown(function (e) {
     this.firing = true;
   }.bind(this));
@@ -59,6 +63,7 @@ Player.prototype.fire = function (radians, offsetDegrees) {
   var offset = deg2rad(randomError(this.spread) + randomNegation(offsetDegrees || 0));
 
   if (this.age % this.firingRate === 0) {
+    this.game.playSound(_.sample(this.sounds.firing));
     this.game.entities.push(
       new Bullet(this.resources, {
         x: this.x,

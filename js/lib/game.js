@@ -4,6 +4,7 @@ function Game() {
 
 Game.prototype = {
   initialize: function () {
+    console.log(this.sounds)
     $(".loading").hide();
     this.canvas   = $('#canvas')[0];
     this.context  = this.canvas.getContext('2d');
@@ -12,6 +13,8 @@ Game.prototype = {
     // It is not redrawn for speed
     this.persistentCanvas = $('#persistent-canvas')[0];
     this.persistentContext = this.persistentCanvas.getContext('2d');
+
+    // WebAudio context setup in load
 
     this.fps      = 60;
     this.age      = 0;
@@ -122,20 +125,72 @@ Game.prototype = {
     ];
 
     this.sounds = {};
+    var soundsDir = 'res/ogg/';
+    var soundSources = [
+      ['shoot1', 'shoot1.ogg'],
+      ['shoot2', 'shoot2.ogg'],
+      ['shoot3', 'shoot3.ogg'],
+      ['shoot4', 'shoot4.ogg'],
+      ['shoot5', 'shoot5.ogg'],
+      ['shoot7', 'shoot7.ogg'],
+    ];
 
     // Loader
-    var loadedSprites = 0;
+    this.toLoad = spriteSources.length + soundSources.length;
+    this.loaded = 0;
     var loadedCallback = function () {
-      loadedSprites++;
-      if (loadedSprites === spriteSources.length) { this.initialize(); }
+      if (++this.loaded === this.toLoad) { this.initialize(); }
     }.bind(this);
 
+    // Sprites
     for (var i = 0; i < spriteSources.length; i++) {
       key = spriteSources[i][0];
       this.sprites[key] = new Image();
       this.sprites[key].onload = loadedCallback;
       this.sprites[key].src = spritesDir + spriteSources[i][1];
     }
+
+    // Preload audio -- when played create a new Audio instance and set
+    // that object's src to the preloaded Audio's src for overlapping playback
+    window.AudioContext = window.AudioContext || window.webkitAudioContext;
+    this.audioContext = new AudioContext();
+
+    for (var j = 0; j < soundSources.length; j++) {
+      this.loadAudio(soundSources[j][0], soundsDir + soundSources[j][1]);
+    }
+  },
+
+  loadAudio: function(key, url) {
+    var request = new XMLHttpRequest();
+    request.open('GET', url, true);
+    request.responseType = 'arraybuffer';
+
+    request.onload = function() {
+      this.audioContext.decodeAudioData(request.response, function (buffer) {
+        this.sounds[key] = buffer;
+      }.bind(this));
+
+      if (++this.loaded === this.toLoad) { this.initialize(); }
+
+    }.bind(this);
+
+    request.send();
+  },
+
+  playSound: function(name, volume) {
+    volume = volume || 1;
+
+    var source = this.audioContext.createBufferSource();
+    source.buffer = this.sounds[name];
+
+    var gainNode = this.audioContext.createGain();
+    // Approximate volume log scale
+    var adjustedVolume = (Math.pow(10, volume) - 1) / (10 - 1); // Log Base 10
+    gainNode.gain.value = adjustedVolume;
+
+    source.connect(gainNode);
+    gainNode.connect(this.audioContext.destination);
+    source.start(0);
   },
 
   step: function () {
