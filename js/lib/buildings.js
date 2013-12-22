@@ -7,6 +7,8 @@ function Tavern(resources, overrides) {
 
   this.hasShadow = true;
   this.shadowSize = { x: 72, y: 72 };
+
+  this.game.audio.play('build');
 }
 
 Tavern.prototype = new Entity();

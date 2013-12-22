@@ -15,6 +15,12 @@ function Cleaner(resources, overrides) {
   this.hasShadow = true;
 
   this.cleanAge = 0;
+
+  this.sounds = {
+    spawn: 'waw',
+    target: 'beep'
+  };
+  this.game.audio.play(this.sounds.spawn);
 }
 
 Cleaner.prototype = new Entity();
@@ -25,6 +31,7 @@ Cleaner.prototype.tick = function () {
   this.cleanAge++;
 
   if (this.distanceTo(this.moveTarget) < 20) {
+    this.game.audio.play(this.sounds.target, 0.7);
     this.moveTarget = { x: _.random(this.game.canvas.width), y: _.random(this.game.canvas.height) };
   }
 

@@ -162,6 +162,8 @@ function Upgrades (game) {
             this.drawOffset.y += randomError(1);
           };
 
+          this.player.game.audio.loop('helicopter2', 0.3, 0.24, 0.83);
+
           this.player.upgrades.push(function () { this.heloMove(); });
         },
         constraints: [

@@ -12,6 +12,13 @@ function Gunner(resources, overrides) {
   this.applyOverrides();
 
   this.hasShadow = true;
+
+  this.sounds = {
+    spawn: 'start',
+    fire: ['shoot2', 'shoot5', 'shoot7']
+  };
+
+  this.game.audio.play(this.sounds.spawn);
 }
 
 Gunner.prototype = new Entity();
@@ -49,6 +56,7 @@ Gunner.prototype.fireAt = function (object) {
 Gunner.prototype.fire = function (radians, offsetDegrees) {
   offsetDegrees = offsetDegrees || 0;
   var offset = deg2rad(randomError(this.spread) + offsetDegrees);
+  this.game.audio.play(_.sample(this.sounds.fire), 0.2);
   this.game.entities.push(
     new Bullet(this.resources, {
       x: this.x,

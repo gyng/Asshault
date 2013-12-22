@@ -56,6 +56,16 @@ UI.prototype = {
       el.find('.upgrade-flavour').text(data.flavour || '');
 
       var that = this;
+      el.mouseenter(function (e) {
+        if ($(this).hasClass("button")) {
+          that.game.audio.play('hit_hurt');
+        }
+      });
+
+      el.mousedown(function (e) {
+        that.game.audio.play('click');
+      });
+
       el.mouseup(function (e) {
         that.setAvailableUpgrades();
         that.game.upgrade($(this).attr('data-upgrade'));

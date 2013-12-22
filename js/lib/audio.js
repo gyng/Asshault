@@ -11,6 +11,28 @@ function Audio(sources) {
     ['shoot4', 'Shoot4.ogg'],
     ['shoot5', 'Shoot5.ogg'],
     ['shoot7', 'Shoot7.ogg'],
+    ['explosion', 'Explosion.ogg'],
+    ['explosion2', 'Explosion2.ogg'],
+    ['explosion3', 'Explosion3.ogg'],
+    ['explosion4', 'Explosion4.ogg'],
+    ['explosion5', 'Explosion5.ogg'],
+    ['explosion6', 'Explosion6.ogg'],
+    ['explosion7', 'Explosion7.ogg'],
+    ['build', 'Build.ogg'],
+    ['start', 'Start.ogg'],
+    ['shartshooper', 'Shartshooper.ogg'],
+    ['hit_hurt', 'Hit_Hurt.ogg'],
+    ['hit_hurt2', 'Hit_Hurt2.ogg'],
+    ['hit_hurt3', 'Hit_Hurt3.ogg'],
+    ['hit_hurt4', 'Hit_Hurt4.ogg'],
+    ['hit_hurt5', 'Hit_Hurt5.ogg'],
+    ['hit_hurt6', 'Hit_Hurt6.ogg'],
+    ['waw', 'Waw.ogg'],
+    ['beep', 'Beep.ogg'],
+    ['click', 'Click.ogg'],
+    ['helicopter1', 'Helicopter1.ogg'],
+    ['helicopter2', 'Helicopter2.ogg'],
+    ['helicopter3', 'Helicopter3.ogg'],
   ];
 
   this.loaded = 0;
@@ -49,11 +71,17 @@ Audio.prototype = {
     request.send();
   },
 
-  play: function(name, volume) {
+  play: function(name, volume, loop, loopstart, loopend) {
     volume = volume || 1;
+    loop = loop || false;
+    loopstart = loopstart || 0.0;
+    loopend = loopend || 1.0;
 
     var source = this.audioContext.createBufferSource();
     source.buffer = this.sounds[name];
+    source.loop = loop;
+    source.loopStart = source.buffer.duration * loopstart;
+    source.loopEnd = source.buffer.duration * loopend;
 
     var gainNode = this.audioContext.createGain();
     // Approximate volume log scale
@@ -63,5 +91,11 @@ Audio.prototype = {
     source.connect(gainNode);
     gainNode.connect(this.audioContext.destination);
     source.start(0);
+  },
+
+  loop: function(name, volume, loopstart, loopend) {
+    loopstart = loopstart || 0.0;
+    loopend = loopend || 1.0;
+    this.play(name, volume, true, loopstart, loopend);
   }
 };

@@ -13,6 +13,13 @@ function Sniper(resources, overrides) {
   this.applyOverrides();
 
   this.hasShadow = true;
+
+  this.sounds = {
+    spawn: 'shartshooper',
+    fire: ['shoot1', 'shoot4', 'shoot3']
+  };
+
+  this.game.audio.play(this.sounds.spawn);
 }
 
 Sniper.prototype = new Entity();
@@ -56,7 +63,7 @@ Sniper.prototype.fireAt = function (object) {
 Sniper.prototype.fire = function (radians, offsetDegrees) {
   offsetDegrees = deg2rad(offsetDegrees) || 0;
   var variance = _.random(this.variance) * offsetDegrees;
-
+  this.game.audio.play(_.sample(this.sounds.fire), 1);
   this.game.entities.push(
     new Bullet(this.resources, {
       x: this.x,
