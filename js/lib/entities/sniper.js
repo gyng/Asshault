@@ -4,7 +4,7 @@ function Sniper(resources, overrides) {
   this.width  = 42;
   this.height = 42;
   this.speed  = 7 + _.random(8);
-  this.hasShadow = true;
+  this.shadow.on = true;
 
   this.target    = null;
   this.targetAge = 0;

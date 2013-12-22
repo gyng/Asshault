@@ -4,7 +4,7 @@ function Enemy(resources, overrides) {
   this.height = 32;
   this.health = 5;
   this.speed  = 5;
-  this.hasShadow = true;
+  this.shadow.on = true;
 }
 
 Enemy.prototype = new Entity();

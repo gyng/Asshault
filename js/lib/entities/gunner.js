@@ -10,7 +10,7 @@ function Gunner(resources, overrides) {
   this.fireRate  = 12;
   this.firing    = false;
 
-  this.hasShadow = true;
+  this.shadow.on = true;
 
   this.sounds = {
     spawn: 'start',

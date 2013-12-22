@@ -17,11 +17,14 @@ function Entity(resources, overrides) {
   }
   this.overrides = overrides || {};
 
-  this.hasShadow = false;
-  this.shadowOffset = { x: 0, y: 0 };
-  this.shadowColor = "rgba(0, 0, 0, 0.3)";
-  this.shadowSize = { x: 45, y: 45 };
-  this.shadowShape = 'square';
+  this.shadow = {
+    on: false,
+    offset: {x: 0, y: 0},
+    color: "rgba(0, 0, 0, 0.3)",
+    size: { x: 45, y: 45 },
+    shape: 'square',
+    todScale: 1
+  };
 
   this.markedForDeletion = false;
 

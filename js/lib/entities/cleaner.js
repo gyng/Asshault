@@ -7,7 +7,7 @@ function Cleaner(resources, overrides) {
   this.fireRate = 80;
   this.aoe = 75;
   this.cleanAge = 0;
-  this.hasShadow = true;
+  this.shadow.on = true;
   this.moveTarget = { x: this.x, y: this.y };
 
   this.sounds = {

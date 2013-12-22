@@ -108,10 +108,10 @@ function Upgrades (game) {
           this.player.maxSpeed = 5;
           this.player.friction = 0.985;
 
-          this.player.shadowOffset.y += 35;
-          this.player.shadowSize.x *= 1.5;
-          this.player.shadowSize.y *= 1.5;
-          this.shadowColor = "rgba(0, 0, 0, 0.15)";
+          this.player.shadow.offset.y += 75;
+          this.player.shadow.size.x *= 1.5;
+          this.player.shadow.size.y *= 1.5;
+          this.player.shadow.color = "rgba(0, 0, 0, 0.15)";
 
           this.player.heloAccelerate = function (scaling, axis) {
             var closeToEW, closeToNS;

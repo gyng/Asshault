@@ -37,13 +37,15 @@ function Explosion(resources, overrides) {
   this.game.renderer.shake.x += randomNegation(this.width / 6);
   this.game.renderer.shake.y += randomNegation(this.height / 6);
 
-  this.hasShadow     = true;
-  this.shadowOffset  = { x: 0, y: -30 };
   this.shadowOpacity = 0.7;
-  this.shadowColor   = "rgba(255, 244, 91," + Math.random() * this.shadowOpacity + ")";
-  this.shadowSize    = { x: 120 + _.random(40), y: 120 };
-  this.shadowShape   = 'circle';
-  this.todScale      = 0;
+  this.shadow = {
+    on: true,
+    offset: { x: 0, y: -30 },
+    color: "rgba(255, 244, 91," + Math.random() * this.shadowOpacity + ")",
+    size: { x: 120 + _.random(40), y: 120 },
+    shape: 'circle',
+    todScale: 0
+  };
 
   this.sounds = {
     spawn: ['explosion', 'explosion2', 'explosion3', 'explosion4', 'explosion5']
@@ -56,10 +58,11 @@ Explosion.prototype = new Entity();
 Explosion.prototype.constructor = Explosion;
 
 Explosion.prototype.tick = function () {
-  this.shadowSize.x *= 1.07;
-  this.shadowOpacity *= 0.8;
-  this.shadowColor = "rgba(255, 244, 91," + Math.random() * this.shadowOpacity + ")";
-  this.width /= 1.05;
+  this.shadow.size.x *= 1.07;
+  this.shadowOpacity *= 0.80;
+  this.shadow.color = "rgba(255, 244, 91," + Math.random() * this.shadowOpacity + ")";
+
+  this.width  /= 1.05;
   this.height /= 1.05;
 
   if (this.age > 18)

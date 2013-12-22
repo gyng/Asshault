@@ -9,11 +9,14 @@ function Bullet(resources, overrides) {
   this.deltaX = -Math.cos(this.direction) * this.speed;
   this.deltaY = -Math.sin(this.direction) * this.speed;
 
-  this.shadowOffset = { x: 0, y: 0 };
-  this.shadowColor = "rgba(255, 244, 91," + Math.random() * 0.14 + ")";
-  this.shadowSize = { x: 28, y: 48 };
-  this.shadowShape = 'circle';
-  this.todScale = 0;
+  this.shadow = {
+    on: false, // True set in tick: sometimes on to 'flicker'
+    offset: { x: 0, y: 0 },
+    color: "rgba(255, 244, 91," + Math.random() * 0.15 + ")",
+    size: { x: 28, y: 48 },
+    shape: 'circle',
+    todScale: 0
+  };
 }
 
 Bullet.prototype = new Entity();
@@ -25,7 +28,7 @@ Bullet.prototype.tick = function () {
   this.y += this.deltaY;
 
   var randomness = 5 + _.random(10);
-  this.hasShadow = (this.age % randomness > 0 && this.age % randomness < 4);
+  this.shadow.on = (this.age % randomness > 0 && this.age % randomness < 4);
 
   this.game.enemies.forEach(function (ent) {
     if (this.collidesWith(ent, this.speed * 0.75)) {
