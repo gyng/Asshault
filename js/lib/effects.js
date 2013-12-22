@@ -33,8 +33,8 @@ function Explosion(resources, overrides) {
   scale = 1;
   this.width = 128 + 128 * Math.random() * scale;
   this.height = 128 + 128 * Math.random() * scale;
-  this.game.shake.x += randomNegation(this.width / 6);
-  this.game.shake.y += randomNegation(this.height / 6);
+  this.game.renderer.shake.x += randomNegation(this.width / 6);
+  this.game.renderer.shake.y += randomNegation(this.height / 6);
 
   this.applyOverrides();
 

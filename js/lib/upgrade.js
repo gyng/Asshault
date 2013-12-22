@@ -68,7 +68,7 @@ function Upgrades (game) {
     reduceCameraShake:
       new Upgrade({
         name:  'reduceCameraShake',
-        effect: function () { this.shakeReduction *= 0.85; },
+        effect: function () { this.renderer.shake.reduction *= 0.85; },
         text: {
           name: 'Reinforce Camera Tripod',
           cost: '',

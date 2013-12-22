@@ -21,6 +21,8 @@ function Entity(resources, overrides) {
   this.shadowColor = "rgba(0, 0, 0, 0.3)";
   this.shadowSize = { x: 45, y: 45 };
   this.shadowShape = 'square';
+
+  this.markedForDeletion = false;
 }
 
 Entity.prototype = {
@@ -88,6 +90,14 @@ Entity.prototype = {
     speed = speed || this.speed;
     var normalized = normalize({ x: x - this.x, y: y - this.y });
     return { x: normalized.x * this.speed * scaling, y: normalized.y * this.speed * scaling };
+  },
+
+  getPosition: function () {
+    return { x: this.x, y: this.y };
+  },
+
+  die: function () {
+    this.markedForDeletion = true;
   },
 
   every: function(mod, fun, args) {

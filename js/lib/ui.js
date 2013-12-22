@@ -39,11 +39,11 @@ UI.prototype = {
     if (window.innerWidth / window.innerHeight > 16 / 9) {
       canvas.style.height = window.innerHeight + "px";
       canvas.style.width  =  getCanvasCSSHeight() / 9 * 16 + "px";
-      this.game.scaleRatio = canvas.height / window.innerHeight;
+      this.game.cssScale = canvas.height / window.innerHeight;
     } else {
       canvas.style.width = window.innerWidth + "px";
       canvas.style.height  =  getCanvasCSSWidth() / 16 * 9 + "px";
-      this.game.scaleRatio = canvas.width / window.innerWidth;
+      this.game.cssScale = canvas.width / window.innerWidth;
     }
 
     var persistentCanvas = $("#persistent-canvas")[0];

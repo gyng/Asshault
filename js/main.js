@@ -25,7 +25,7 @@ require.config({
       deps: ['lib/entity']
     },
     'lib/game': {
-      deps: ['lib/audio', 'lib/sprites', 'lib/level', 'lib/gunner', 'lib/sniper', 'lib/player', 'lib/bullet', 'lib/enemy', 'lib/effects', 'lib/buildings', 'lib/upgrade', 'lib/cleaner']
+      deps: ['lib/renderer', 'lib/audio', 'lib/sprites', 'lib/level', 'lib/gunner', 'lib/sniper', 'lib/player', 'lib/bullet', 'lib/enemy', 'lib/effects', 'lib/buildings', 'lib/upgrade', 'lib/cleaner']
     }
   }
 });
@@ -39,7 +39,7 @@ require(["vendor/jquery-2.0.3.min", "vendor/underscore-min", "lib/util"], functi
       'use strict';
 
       $(document).ready(function () {
-        window.g = new Game();
+        window.g = new Game(true);
       });
     }
   );

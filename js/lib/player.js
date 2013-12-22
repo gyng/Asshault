@@ -83,8 +83,8 @@ Player.prototype.fireShake = function () {
   var offsetDistance = 5;
   var shakeDistance = 7;
   var normalized = normalize({ x: this.x - this.game.mouse.x, y: this.y - this.game.mouse.y });
-  this.game.shake.x += normalized.x * shakeDistance;
-  this.game.shake.y += normalized.y * shakeDistance;
+  this.game.renderer.shake.x += normalized.x * shakeDistance;
+  this.game.renderer.shake.y += normalized.y * shakeDistance;
   this.drawOffset.x += normalized.x * offsetDistance;
   this.drawOffset.y += normalized.y * offsetDistance;
 };
