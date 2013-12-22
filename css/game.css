@@ -51,9 +51,14 @@ canvas {
 }
 
 .container {
+    height: 100%;
+    display: flex;
     text-align: center;
     margin: 0;
     padding: 0;
+
+    justify-content: center;
+    align-items: center;
 }
 
 .template {

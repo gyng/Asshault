@@ -26,15 +26,31 @@ UI.prototype = {
 
   scaleCanvas: function () {
     var canvas = $("#canvas")[0];
-    canvas.style.height = window.innerHeight + "px";
-    canvas.style.width  = canvas.style.height / 9 * 16 + "px";
-    this.game.scaleRatio = canvas.height / window.innerHeight;
+
+    var getCanvasCSSHeight = function () {
+      return parseInt($(canvas).css("height"), 10);
+    };
+
+    var getCanvasCSSWidth = function () {
+      return parseInt($(canvas).css("width"), 10);
+    };
+
+
+    if (window.innerWidth / window.innerHeight > 16 / 9) {
+      canvas.style.height = window.innerHeight + "px";
+      canvas.style.width  =  getCanvasCSSHeight() / 9 * 16 + "px";
+      this.game.scaleRatio = canvas.height / window.innerHeight;
+    } else {
+      canvas.style.width = window.innerWidth + "px";
+      canvas.style.height  =  getCanvasCSSWidth() / 16 * 9 + "px";
+      this.game.scaleRatio = canvas.width / window.innerWidth;
+    }
 
     var persistentCanvas = $("#persistent-canvas")[0];
-    persistentCanvas.style.height = window.innerHeight + "px";
-    persistentCanvas.style.width  = persistentCanvas.style.height / 9 * 16 + "px";
-
+    persistentCanvas.style.height = canvas.style.height;
+    persistentCanvas.style.width  = canvas.style.width;
     persistentCanvas.style.left   = canvas.offsetLeft + "px";
+    persistentCanvas.style.top    = canvas.offsetTop + "px";
   },
 
   populateUpgradeButtons: function (object) {

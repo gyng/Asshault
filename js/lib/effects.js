@@ -32,8 +32,8 @@ function Explosion(resources, overrides) {
   scale = 1;
   this.width = 128 + 128 * Math.random() * scale;
   this.height = 128 + 128 * Math.random() * scale;
-  this.game.shake.x += randomNegation(this.width / 5);
-  this.game.shake.y += randomNegation(this.height / 5);
+  this.game.shake.x += randomNegation(this.width / 6);
+  this.game.shake.y += randomNegation(this.height / 6);
 
   this.applyOverrides();
 
@@ -46,7 +46,7 @@ function Explosion(resources, overrides) {
 
 
   this.sounds = ['explosion', 'explosion2', 'explosion3', 'explosion4', 'explosion5'];
-  this.game.audio.play(_.sample(this.sounds));
+  this.game.audio.play(_.sample(this.sounds), 0.8);
 }
 
 Explosion.prototype = new Entity();
