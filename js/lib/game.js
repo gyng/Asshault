@@ -194,11 +194,11 @@ Game.prototype = {
         this.context.save();
           // Move to shadow position
           this.context.setTransform(
-             Math.cos(ent.rotation + radians),
+            Math.cos(ent.rotation + radians) * (Math.max(0.2, (Math.abs(dayRatio-0.5))) * 2) * 4,
             Math.sin(ent.rotation + radians),
-            -Math.sin(ent.rotation + radians),
+            -Math.sin(ent.rotation + radians) * (Math.max(0.2, (Math.abs(dayRatio-0.5))) * 2) * 4,
             Math.cos(ent.rotation + radians),
-            ent.x + ent.drawOffset.x + this.shake.x + ent.shadowOffset.x + todXOffset * offsetLength,
+            ent.x + ent.drawOffset.x + this.shake.x + ent.shadowOffset.x + todXOffset * offsetLength * ((Math.abs(dayRatio-0.5)) * 2) * 3,
             ent.y + ent.drawOffset.y + this.shake.y + ent.shadowOffset.y + todYOffset * offsetLength * (1 - dayRatio)
           );
 
