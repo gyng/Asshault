@@ -1,21 +1,20 @@
 function Gunner(resources, overrides) {
   Entity.call(this, resources, overrides);
-  this.width = 42;
+  this.width  = 42;
   this.height = 42;
-  this.speed = 7 + _.random(8);
-  this.target = null;
-  this.targetAge = 0;
-  this.spread = 5;
-  this.fireRate = 12;
-  this.firing = false;
+  this.speed  = 7 + _.random(8);
 
-  this.applyOverrides();
+  this.target    = null;
+  this.targetAge = 0;
+  this.spread    = 5;
+  this.fireRate  = 12;
+  this.firing    = false;
 
   this.hasShadow = true;
 
   this.sounds = {
     spawn: 'start',
-    fire: ['shoot2', 'shoot5', 'shoot7']
+    fire:  ['shoot2', 'shoot5', 'shoot7']
   };
 
   this.game.audio.play(this.sounds.spawn);
@@ -28,19 +27,19 @@ Gunner.prototype.constructor = Gunner;
 Gunner.prototype.tick = function () {
   this.targetAge++;
 
-  if (!isDefined(this.target) || this.target.markedForDeletion || this.target.constructor !== Enemy) {
+  if (!isDefined(this.target) ||
+      this.target.markedForDeletion) {
     this.target = _.sample(this.game.enemies);
     this.targetAge = 0;
   }
 
   if (isDefined(this.target)) {
-    if (this.age % this.fireRate === 0) {
+    this.every(this.fireRate, function () {
       this.fireAt(this.target);
-    }
+    });
 
-    if (this.targetAge < 10) {
+    if (this.targetAge < 10)
       this.moveTo(this.target.x, this.target.y, this.speed, this.distanceTo(this.target) / 500);
-    }
 
     this.lookAt(this.target);
     this.firing = true;
@@ -56,8 +55,8 @@ Gunner.prototype.fireAt = function (object) {
 Gunner.prototype.fire = function (radians, offsetDegrees) {
   offsetDegrees = offsetDegrees || 0;
   var offset = deg2rad(randomError(this.spread) + offsetDegrees);
-  this.game.audio.play(_.sample(this.sounds.fire), 0.2);
-  this.game.entities.push(
+
+  this.game.addEntity(
     new Bullet(this.resources, {
       x: this.x,
       y: this.y,
@@ -68,8 +67,9 @@ Gunner.prototype.fire = function (radians, offsetDegrees) {
     })
   );
 
-  this.drawOffset.x += _.random(5);
-  this.drawOffset.y += _.random(5);
+  this.game.audio.play(this.sounds.fire, 0.2);
+  this.drawOffset.x += randomError(5);
+  this.drawOffset.y += randomError(5);
 };
 
 Gunner.prototype.getImage = function () {
@@ -83,7 +83,7 @@ Gunner.prototype.draw = function (context) {
   if (this.firing) {
     if (this.age % (this.fireRate / 2) <= 2)
       context.drawImage(this.sprites.flash1, -this.width, -this.height * 2);
-    if (this.age % (this.fireRate) <= 3)
+    if (this.age % this.fireRate <= 3)
       context.drawImage(this.sprites.flash2, -this.width, -this.height * 2);
   }
 };

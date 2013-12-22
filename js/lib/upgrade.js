@@ -289,8 +289,6 @@ function Upgrades (game) {
       new Upgrade({
         name:  'heroCleaner',
         effect: function () {
-          // this.persistentContext.setTransform(1, 0, 0, 1, 0, 0);
-          // this.persistentContext.clearRect(0, 0, this.canvas.width, this.canvas.height);
           var tavern = _.findWhere(this.entities, { constructor: Tavern });
           var cleaner = new Cleaner(this.resources, { x: tavern.x, y: tavern.y });
           this.entities.push(cleaner);

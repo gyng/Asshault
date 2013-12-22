@@ -1,12 +1,9 @@
 function Enemy(resources, overrides) {
   Entity.call(this, resources, overrides);
-  this.width = 32;
+  this.width  = 32;
   this.height = 32;
   this.health = 5;
-  this.speed = 5;
-
-  this.applyOverrides();
-
+  this.speed  = 5;
   this.hasShadow = true;
 }
 
@@ -22,7 +19,8 @@ Enemy.prototype.tick = function () {
     }
   }.bind(this));
 
-  if (this.health <= 0) this.explode();
+  if (this.health <= 0)
+    this.explode();
 
   this.lookAt(this.game.player);
   this.moveTo(this.game.player.x, this.game.player.y, this.speed, this.health / 10);
@@ -38,8 +36,8 @@ Enemy.prototype.explode = function () {
 
   this.game.renderer.drawDecal(
       this.sprites.bloodstain,
-      this.x - this.width/2,
-      this.y - this.height/2,
+      this.x - this.width / 2,
+      this.y - this.height / 2,
       randomRad(),
       64 + _.random(32),
       64 + _.random(32));

@@ -2,12 +2,12 @@ function Renderer (game, canvas, decalCanvas) {
   this.game = game;
   this.canvas = canvas;
   this.context = canvas.getContext('2d');
-  this.persistentCanvas = decalCanvas;
-  this.persistentContext = decalCanvas.getContext('2d');
+  this.decalCanvas = decalCanvas;
+  this.decalContext = decalCanvas.getContext('2d');
   this.shake = { x: 0, y: 0, reduction: 0.95 };
 
   // Nearest-neighbour scaling
-  [this.context, this.persistentContext].forEach(function (ctx) {
+  [this.context, this.decalContext].forEach(function (ctx) {
     ctx.imageSmoothingEnabled       = false;
     ctx.webkitImageSmoothingEnabled = false;
     ctx.mozImageSmoothingEnabled    = false;
@@ -40,10 +40,10 @@ Renderer.prototype = {
     this.game.entities.forEach(function (ent) {
       this.context.save();
         this.context.setTransform(
-          Math.cos(ent.rotation),
-          Math.sin(ent.rotation),
-          -Math.sin(ent.rotation),
-          Math.cos(ent.rotation),
+          Math.cos(ent.rotation) * ent.scale,
+          Math.sin(ent.rotation) * ent.scale,
+         -Math.sin(ent.rotation) * ent.scale,
+          Math.cos(ent.rotation) * ent.scale,
           ent.x + ent.drawOffset.x + this.shake.x,
           ent.y + ent.drawOffset.y + this.shake.y
         );
@@ -87,10 +87,10 @@ Renderer.prototype = {
 
           // Transform to shadow position and rotate/skew it for time of day
           this.context.setTransform(
-            Math.cos(ent.rotation + radians * todScale) * todSkew,
-            Math.sin(ent.rotation + radians * todScale),
-           -Math.sin(ent.rotation + radians * todScale) * todSkew,
-            Math.cos(ent.rotation + radians * todScale),
+            Math.cos(ent.rotation + radians * todScale) * ent.scale * todSkew,
+            Math.sin(ent.rotation + radians * todScale) * ent.scale,
+           -Math.sin(ent.rotation + radians * todScale) * ent.scale * todSkew,
+            Math.cos(ent.rotation + radians * todScale) * ent.scale,
             ent.x + ent.drawOffset.x + this.shake.x + ent.shadowOffset.x + (todScale * (todXOffset * offsetLength * ((Math.abs(dayRatio-0.5)) * 2) * 3)),
             ent.y + ent.drawOffset.y + this.shake.y + ent.shadowOffset.y + (todScale * (todYOffset * offsetLength * (1 - dayRatio)))
           );
@@ -121,11 +121,11 @@ Renderer.prototype = {
   },
 
   drawDecal: function (image, x, y, rotation, w, h, startFromBotLeft) {
-    this.persistentContext.save();
+    this.decalContext.save();
       w = w || image.naturalWidth;
       h = h || image.naturalHeight;
 
-      this.persistentContext.setTransform(
+      this.decalContext.setTransform(
         Math.cos(rotation),
         Math.sin(rotation),
        -Math.sin(rotation),
@@ -140,8 +140,8 @@ Renderer.prototype = {
         yOffset -= h / 2;
       }
 
-      this.persistentContext.drawImage(image, xOffset, yOffset, w, h);
-    this.persistentContext.restore();
+      this.decalContext.drawImage(image, xOffset, yOffset, w, h);
+    this.decalContext.restore();
   },
 
   shakeDecalLayer: function () {
@@ -153,7 +153,7 @@ Renderer.prototype = {
     var transformation = "translate3d(" +
       (this.shake.x / this.game.cssScale) + "px," +
       (this.shake.y / this.game.cssScale) + "px, 0)";
-    this.persistentCanvas.style.transform = transformation;
-    this.persistentCanvas.style["-webkit-transform"] = transformation;
+    this.decalCanvas.style.transform = transformation;
+    this.decalCanvas.style["-webkit-transform"] = transformation;
   }
 };

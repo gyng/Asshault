@@ -1,6 +1,7 @@
 function Entity(resources, overrides) {
   this.x = 0;
   this.y = 0;
+  this.scale = 1;
   this.rotation = 0; // Image
   this.direction = 0; // Movement heading
   this.age = 0;
@@ -23,6 +24,8 @@ function Entity(resources, overrides) {
   this.shadowShape = 'square';
 
   this.markedForDeletion = false;
+
+  this.applyOverrides();
 }
 
 Entity.prototype = {

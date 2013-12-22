@@ -1,18 +1,18 @@
 function Sniper(resources, overrides) {
   Entity.call(this, resources, overrides);
-  this.width = 42;
+
+  this.width  = 42;
   this.height = 42;
-  this.speed = 7 + _.random(8);
-  this.target = null;
-  this.targetAge = 0;
-  this.fireAge = 0;
-  this.variance = 4;
-  this.fireRate = 80;
-  this.firing = false;
-
-  this.applyOverrides();
-
+  this.speed  = 7 + _.random(8);
   this.hasShadow = true;
+
+  this.target    = null;
+  this.targetAge = 0;
+  this.fireAge   = 0;
+  this.variance  = 4;
+  this.fireRate  = 80;
+  this.firing    = false;
+  this.moveTarget = { x: this.game.player.x, y: this.game.player.y };
 
   this.sounds = {
     spawn: 'shartshooper',
@@ -27,27 +27,28 @@ Sniper.prototype = new Entity();
 Sniper.prototype.constructor = Sniper;
 
 Sniper.prototype.tick = function () {
-  this.targetAge += 1;
-  this.fireAge += 1;
+  this.targetAge++;
+  this.fireAge++;
 
-  if (!isDefined(this.target) || this.target.markedForDeletion || this.target.constructor !== Enemy) {
+  if (!isDefined(this.target) ||
+      this.target.markedForDeletion) {
     this.target = _.sample(this.game.enemies);
     this.targetAge = 0;
   }
 
   if (isDefined(this.target)) {
-    if (this.age % this.fireRate === 0) {
+    this.every(this.fireRate, function () {
       this.fireAt(this.target);
       this.fireAge = 0;
-    }
 
-    if (this.fireAge === 1) {
+      // Set new moveTarget position after firing
       this.moveTarget = {
         x: this.game.player.x + randomNegation(_.random(64, 128)),
         y: this.game.player.y + randomNegation(_.random(64, 128))
       };
-    }
+    });
 
+    // Actually move to moveTarget after firing (0.25-0.5 of cooldown)
     if (this.fireAge > this.fireRate * 0.25 && this.fireAge < this.fireRate * 0.5) {
       this.moveToTarget(this.speed, this.distanceTo(this.moveTarget) / 150);
     }
@@ -63,8 +64,8 @@ Sniper.prototype.fireAt = function (object) {
 Sniper.prototype.fire = function (radians, offsetDegrees) {
   offsetDegrees = deg2rad(offsetDegrees) || 0;
   var variance = _.random(this.variance) * offsetDegrees;
-  this.game.audio.play(_.sample(this.sounds.fire), 1);
-  this.game.entities.push(
+
+  this.game.addEntity(
     new Bullet(this.resources, {
       x: this.x,
       y: this.y,
@@ -75,6 +76,7 @@ Sniper.prototype.fire = function (radians, offsetDegrees) {
     })
   );
 
+  this.game.audio.play(this.sounds.fire, 1);
   this.fireShake();
 };
 

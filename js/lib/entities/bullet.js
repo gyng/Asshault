@@ -5,16 +5,10 @@ function Bullet(resources, overrides) {
   this.damage = 1;
   this.speed = 30;
 
-  // Apply overrides
-  this.applyOverrides();
-
   // Calculate on creation and not per tick
   this.deltaX = -Math.cos(this.direction) * this.speed;
   this.deltaY = -Math.sin(this.direction) * this.speed;
-  this.x += this.deltaX;
-  this.y += this.deltaY;
 
-  // this.hasShadow = true;
   this.shadowOffset = { x: 0, y: 0 };
   this.shadowColor = "rgba(255, 244, 91," + Math.random() * 0.14 + ")";
   this.shadowSize = { x: 28, y: 48 };
@@ -36,8 +30,9 @@ Bullet.prototype.tick = function () {
   this.game.enemies.forEach(function (ent) {
     if (this.collidesWith(ent, this.speed * 0.75)) {
       ent.health -= this.damage;
-      this.markedForDeletion = true;
-      this.game.entities.push(
+      this.die();
+
+      this.game.addEntity(
         new BulletPing(this.resources, {
           x: ent.x,
           y: ent.y,
@@ -47,9 +42,9 @@ Bullet.prototype.tick = function () {
     }
   }.bind(this));
 
-  if (this.age % 10 === 0) {
+  this.every(10, function () {
     this.checkOutOfBounds();
-  }
+  });
 };
 
 Bullet.prototype.checkOutOfBounds = function () {

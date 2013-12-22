@@ -1,11 +1,12 @@
 function Player(resources, overrides) {
   Entity.call(this, resources, overrides);
-  this.width = 48;
+  this.width  = 48;
   this.height = 48;
   this.health = 10;
   this.spread = 5;
   this.firingRate = 4;
   this.speed = 0;
+  this.hasShadow = true;
 
   this.sounds = {
     fire: ['shoot2', 'shoot5', 'shoot7']
@@ -18,10 +19,6 @@ function Player(resources, overrides) {
   $(document).mouseup(function (e) {
     this.firing = false;
   }.bind(this));
-
-  this.applyOverrides();
-
-  this.hasShadow = true;
 }
 
 Player.prototype = new Entity();
@@ -29,30 +26,26 @@ Player.prototype = new Entity();
 Player.prototype.constructor = Player;
 
 Player.prototype.tick = function () {
-  this.lookAt({ x: this.game.mouse.x, y: this.game.mouse.y });
-
-  this.returnToMap();
-
-  if (this.firing) {
+  if (this.firing)
     this.fire(Math.atan2(this.y - this.game.mouse.y, this.x - this.game.mouse.x));
-  }
+
+  this.lookAt({ x: this.game.mouse.x, y: this.game.mouse.y });
+  this.returnToMap();
 };
 
 Player.prototype.returnToMap = function () {
-  var returnSpeed = 0.05;
+  var returnScale = 0.05;
   var margin = 50;
 
-  if (this.x > this.game.canvas.width - margin) {
-    this.x -= (this.x - (this.game.canvas.width - margin)) * returnSpeed;
-  } else if (this.x < margin) {
-    this.x += (margin - this.x) * returnSpeed;
-  }
+  if (this.x > this.game.canvas.width - margin)
+    this.x -= returnScale * (this.x - (this.game.canvas.width - margin));
+  else if (this.x < margin)
+    this.x += returnScale * (margin - this.x);
 
-  if (this.y > this.game.canvas.height - margin) {
-    this.y -= (this.y - (this.game.canvas.height - margin)) * returnSpeed;
-  } else if (this.y < margin) {
-    this.y += (margin - this.y) * returnSpeed;
-  }
+  if (this.y > this.game.canvas.height - margin)
+    this.y -= returnScale * (this.y - (this.game.canvas.height - margin));
+  else if (this.y < margin)
+    this.y += returnScale * (margin - this.y);
 };
 
 Player.prototype.getImage = function () {
@@ -62,9 +55,8 @@ Player.prototype.getImage = function () {
 Player.prototype.fire = function (radians, offsetDegrees) {
   var offset = deg2rad(randomError(this.spread) + randomNegation(offsetDegrees || 0));
 
-  if (this.age % this.firingRate === 0) {
-    this.game.audio.play(_.sample(this.sounds.fire), 0.3);
-    this.game.entities.push(
+  this.every(this.firingRate, function () {
+    this.game.addEntity(
       new Bullet(this.resources, {
         x: this.x,
         y: this.y,
@@ -76,7 +68,8 @@ Player.prototype.fire = function (radians, offsetDegrees) {
     );
 
     this.fireShake();
-  }
+    this.game.audio.play(this.sounds.fire, 0.3);
+  });
 };
 
 Player.prototype.fireShake = function () {

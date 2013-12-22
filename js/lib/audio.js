@@ -72,6 +72,9 @@ Audio.prototype = {
   },
 
   play: function(name, volume, loop, loopstart, loopend) {
+    if (typeof name === 'object' && name.length > 0)
+      name = name[~~(Math.random() * name.length)];
+
     volume = volume || 1;
     loop = loop || false;
     loopstart = loopstart || 0.0;

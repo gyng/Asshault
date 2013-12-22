@@ -1,15 +1,16 @@
 function BulletPing(resources, overrides) {
   Entity.call(this, resources, overrides);
-  this.width = 48 + _.random(64);
-  this.height = 48 + _.random(64);
 
-  this.applyOverrides();
-
+  this.width     = 48 + _.random(64);
+  this.height    = 48 + _.random(64);
+  this.lifespan  = 13 + _.random(4);
+  this.todScale  = 0;
   this.rotation += deg2rad(randomNegation(_.random(50)));
-  this.todScale = 0;
 
-  this.sounds = ['hit_hurt', 'hit_hurt2', 'hit_hurt3', 'hit_hurt4', 'hit_hurt5', 'hit_hurt6'];
-  this.game.audio.play(_.sample(this.sounds));
+  this.sounds = {
+    spawn: ['hit_hurt', 'hit_hurt2', 'hit_hurt3', 'hit_hurt4', 'hit_hurt5', 'hit_hurt6']
+  };
+  this.game.audio.play(this.sounds.spawn, 0.8);
 }
 
 BulletPing.prototype = new Entity();
@@ -17,8 +18,8 @@ BulletPing.prototype = new Entity();
 BulletPing.prototype.constructor = BulletPing;
 
 BulletPing.prototype.tick = function () {
-  if (this.age > 15)
-    this.markedForDeletion = true;
+  if (this.age > this.lifespan)
+    this.die();
 };
 
 BulletPing.prototype.getImage = function () {
@@ -31,23 +32,23 @@ function Explosion(resources, overrides) {
   Entity.call(this, resources, overrides);
 
   scale = 1;
-  this.width = 128 + 128 * Math.random() * scale;
+  this.width  = 128 + 128 * Math.random() * scale;
   this.height = 128 + 128 * Math.random() * scale;
   this.game.renderer.shake.x += randomNegation(this.width / 6);
   this.game.renderer.shake.y += randomNegation(this.height / 6);
 
-  this.applyOverrides();
-
-  this.hasShadow = true;
-  this.shadowOffset = { x: 0, y: -30 };
+  this.hasShadow     = true;
+  this.shadowOffset  = { x: 0, y: -30 };
   this.shadowOpacity = 0.7;
-  this.shadowColor = "rgba(255, 244, 91," + Math.random() * this.shadowOpacity + ")";
-  this.shadowSize = { x: 120 + _.random(40), y: 120 };
-  this.shadowShape = 'circle';
-  this.todScale = 0;
+  this.shadowColor   = "rgba(255, 244, 91," + Math.random() * this.shadowOpacity + ")";
+  this.shadowSize    = { x: 120 + _.random(40), y: 120 };
+  this.shadowShape   = 'circle';
+  this.todScale      = 0;
 
-  this.sounds = ['explosion', 'explosion2', 'explosion3', 'explosion4', 'explosion5'];
-  this.game.audio.play(_.sample(this.sounds), 0.8);
+  this.sounds = {
+    spawn: ['explosion', 'explosion2', 'explosion3', 'explosion4', 'explosion5']
+  };
+  this.game.audio.play(this.sounds.spawn, 0.8);
 }
 
 Explosion.prototype = new Entity();
