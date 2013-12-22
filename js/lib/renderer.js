@@ -61,8 +61,8 @@ Renderer.prototype = {
         this.context.save();
           this.context.setTransform(
             1, 0, 0, 1,
-            ent.x + this.shake.x,
-            ent.y + this.shake.y
+            ent.x + ent.drawOffset.x / 2 + this.shake.x / 2,
+            ent.y + ent.drawOffset.y / 2 + this.shake.y / 2
           );
           ent.drawInformation(this.context);
         this.context.restore();
