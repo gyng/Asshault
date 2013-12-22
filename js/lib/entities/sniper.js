@@ -120,4 +120,13 @@ Sniper.prototype.draw = function (context) {
     context.drawImage(this.sprites.flash1, -this.width, -this.height * 2);
   else if (this.fireAge <= 15)
     context.drawImage(this.sprites.flash2, -this.width, -this.height * 2);
+
+  if (this.fireAge >= 50 && isDefined(this.target)) {
+    context.beginPath();
+    context.moveTo(0, 0);
+    context.lineTo(0, -this.distanceTo(this.target));
+    context.strokeStyle = 'red';
+    context.strokeWidth = 2;
+    context.stroke();
+  }
 };
