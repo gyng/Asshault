@@ -42,10 +42,12 @@ function Audio(sources) {
   ];
 
   this.loaded = 0;
-  this.masterVolume = 1;
 
   this.compressor = this.audioContext.createDynamicsCompressor();
-  this.compressor.connect(this.audioContext.destination);
+  this.masterGainNode = this.audioContext.createGain();
+
+  this.compressor.connect(this.masterGainNode);
+  this.masterGainNode.connect(this.audioContext.destination);
 }
 
 Audio.prototype = {
@@ -67,6 +69,11 @@ Audio.prototype = {
     if (this.callback && typeof this.callback === 'function') {
       this.callback.call();
     }
+  },
+
+  setMasterVolume: function(volume) {
+    var adjustedVolume = (Math.pow(10, volume) - 1) / (10 - 1); // Log Base 10
+    this.masterGainNode.gain.value = adjustedVolume;
   },
 
   loadAudio: function (key, url) {
@@ -106,7 +113,7 @@ Audio.prototype = {
     var gainNode = this.audioContext.createGain();
     // Approximate volume log scale
     var adjustedVolume = (Math.pow(10, volume) - 1) / (10 - 1); // Log Base 10
-    gainNode.gain.value = adjustedVolume * this.masterVolume;
+    gainNode.gain.value = adjustedVolume;
 
     source.connect(gainNode);
     gainNode.connect(this.compressor);

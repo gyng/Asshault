@@ -33,6 +33,8 @@ Game.prototype = {
     this.fpsCounter = 0;
     this.cssScale   = 1;
 
+    this.running = true;
+
     this.resources = {
       game:    this,
       sprites: this.sprites,
@@ -101,30 +103,32 @@ Game.prototype = {
   },
 
   step: function () {
-    this.age++;
+    if (this.running) {
+      this.age++;
 
-    this.entities.forEach(function (ent) {
-      ent.tock();
-      ent.executeUpgrades();
-      ent.tick();
-    });
+      this.entities.forEach(function (ent) {
+        ent.tock();
+        ent.executeUpgrades();
+        ent.tick();
+      });
 
-    // Culling
-    var filter = function (ent) { return !ent.markedForDeletion; };
-    this.entities   = this.entities.filter(filter);
-    this.friendlies = this.friendlies.filter(filter);
-    this.enemies    = this.enemies.filter(filter);
+      // Culling
+      var filter = function (ent) { return !ent.markedForDeletion; };
+      this.entities   = this.entities.filter(filter);
+      this.friendlies = this.friendlies.filter(filter);
+      this.enemies    = this.enemies.filter(filter);
 
-    // UI
-    if (this.age % 15 === 0) this.ui.setAvailableUpgrades();
+      // UI
+      if (this.age % 15 === 0) this.ui.setAvailableUpgrades();
 
-    // Levels
-    if (!_.isObject(this.level) || this.level.over) {
-      this.levelNumber++;
-      this.level = this.levels[this.levelNumber];
-    } else {
-      this.level.tock();
-      this.level.tick();
+      // Levels
+      if (!_.isObject(this.level) || this.level.over) {
+        this.levelNumber++;
+        this.level = this.levels[this.levelNumber];
+      } else {
+        this.level.tock();
+        this.level.tick();
+      }
     }
   },
 

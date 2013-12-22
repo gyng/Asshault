@@ -1,12 +1,22 @@
 function UI(game) {
   this.game = game;
   this.populateUpgradeButtons(game.upgrades.list);
-  // this.setupBindings();
+  this.setupBindings();
 }
 
 UI.prototype = {
   setupBindings: function () {
-    // var game = this.game;
+    var game = this.game;
+
+    window.onblur = function () {
+      game.running = false;
+      game.audio.setMasterVolume(0);
+    };
+
+    window.onfocus = function () {
+      game.running = true;
+      game.audio.setMasterVolume(1);
+    }
   },
 
   setAvailableUpgrades: function () {
