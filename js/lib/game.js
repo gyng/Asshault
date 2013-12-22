@@ -183,7 +183,7 @@ Game.prototype = {
     var offsetLength = 30;
     var dayLength = 1440;
     var timeOfDay = this.age % dayLength;
-    var dayRatio = timeOfDay / dayLength;
+    var dayRatio = 1 - timeOfDay / dayLength;
     var radians = dayRatio * Math.PI;
     var todXOffset = Math.cos(radians);
     var todYOffset = Math.sin(radians);
@@ -192,14 +192,21 @@ Game.prototype = {
     this.entities.forEach(function (ent) {
       if (ent.hasShadow) {
         this.context.save();
+          var todSkew =  (Math.max(0.2, (Math.abs(dayRatio-0.5))) * 2) * 4;
+
+          var todScale = ent.todScale || 1;
+          if (isDefined(ent.todScale) && ent.todScale === 0) {
+            todSkew = 1;
+          }
+
           // Move to shadow position
           this.context.setTransform(
-            Math.cos(ent.rotation + radians) * (Math.max(0.2, (Math.abs(dayRatio-0.5))) * 2) * 4,
-            Math.sin(ent.rotation + radians),
-            -Math.sin(ent.rotation + radians) * (Math.max(0.2, (Math.abs(dayRatio-0.5))) * 2) * 4,
-            Math.cos(ent.rotation + radians),
-            ent.x + ent.drawOffset.x + this.shake.x + ent.shadowOffset.x + todXOffset * offsetLength * ((Math.abs(dayRatio-0.5)) * 2) * 3,
-            ent.y + ent.drawOffset.y + this.shake.y + ent.shadowOffset.y + todYOffset * offsetLength * (1 - dayRatio)
+            Math.cos(ent.rotation + radians * todScale) * todSkew,
+            Math.sin(ent.rotation + radians * todScale),
+            -Math.sin(ent.rotation + radians * todScale) * todSkew,
+            Math.cos(ent.rotation + radians * todScale),
+            ent.x + ent.drawOffset.x + this.shake.x + ent.shadowOffset.x + todScale*(todXOffset * offsetLength * ((Math.abs(dayRatio-0.5)) * 2) * 3),
+            ent.y + ent.drawOffset.y + this.shake.y + ent.shadowOffset.y + todScale*(todYOffset * offsetLength * (1 - dayRatio))
           );
 
           this.context.fillStyle = ent.shadowColor;

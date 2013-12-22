@@ -6,6 +6,7 @@ function BulletPing(resources, overrides) {
   this.applyOverrides();
 
   this.rotation += deg2rad(randomNegation(_.random(50)));
+  this.todScale = 0;
 
   this.sounds = ['hit_hurt', 'hit_hurt2', 'hit_hurt3', 'hit_hurt4', 'hit_hurt5', 'hit_hurt6'];
   this.game.audio.play(_.sample(this.sounds));
@@ -43,7 +44,7 @@ function Explosion(resources, overrides) {
   this.shadowColor = "rgba(255, 244, 91," + Math.random() * this.shadowOpacity + ")";
   this.shadowSize = { x: 120 + _.random(40), y: 120 };
   this.shadowShape = 'circle';
-
+  this.todScale = 0;
 
   this.sounds = ['explosion', 'explosion2', 'explosion3', 'explosion4', 'explosion5'];
   this.game.audio.play(_.sample(this.sounds), 0.8);

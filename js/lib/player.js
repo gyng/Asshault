@@ -15,7 +15,7 @@ function Player(resources, overrides) {
     this.firing = true;
   }.bind(this));
 
-  $('#canvas').mouseup(function (e) {
+  $(document).mouseup(function (e) {
     this.firing = false;
   }.bind(this));
 

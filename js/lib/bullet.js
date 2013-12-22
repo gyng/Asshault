@@ -19,6 +19,7 @@ function Bullet(resources, overrides) {
   this.shadowColor = "rgba(255, 244, 91," + Math.random() * 0.14 + ")";
   this.shadowSize = { x: 28, y: 48 };
   this.shadowShape = 'circle';
+  this.todScale = 0;
 }
 
 Bullet.prototype = new Entity();
