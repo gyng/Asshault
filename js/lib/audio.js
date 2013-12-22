@@ -1,6 +1,12 @@
 function Audio(sources) {
-  window.AudioContext = window.AudioContext || window.webkitAudioContext;
-  this.audioContext = new AudioContext();
+  try {
+    window.AudioContext = window.AudioContext || window.webkitAudioContext;
+    this.audioContext = new AudioContext();
+    this.audioSupport = true;
+  } catch (e) {
+    this.audioSupport = false;
+    console.log(e);
+  }
 
   this.sounds = {};
   this.soundsDir = 'res/ogg/';
@@ -41,6 +47,11 @@ function Audio(sources) {
 
 Audio.prototype = {
   preload: function (callback) {
+    if (!this.audioSupport) {
+      callback.call();
+      return;
+    }
+
     this.callback = callback;
     this.toLoad = this.sources.length;
 
@@ -72,6 +83,8 @@ Audio.prototype = {
   },
 
   play: function(name, volume, loop, loopstart, loopend) {
+    if (!this.audioSupport) return;
+
     if (typeof name === 'object' && name.length > 0)
       name = name[~~(Math.random() * name.length)];
 
