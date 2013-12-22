@@ -1,46 +1,46 @@
 require.config({
   shim: {
-    'lib/gunner': {
-        deps: ['lib/entity']
-    },
-    'lib/sniper': {
-        deps: ['lib/entity']
-    },
-    'lib/player': {
-        deps: ['lib/entity']
-    },
-    'lib/bullet': {
-        deps: ['lib/entity']
-    },
-    'lib/enemy': {
-        deps: ['lib/entity']
-    },
-    'lib/cleaner': {
-        deps: ['lib/entity']
-    },
-    'lib/effects': {
-        deps: ['lib/entity']
-    },
-    'lib/buildings': {
-      deps: ['lib/entity']
-    },
     'lib/game': {
-      deps: ['lib/renderer', 'lib/audio', 'lib/sprites', 'lib/level', 'lib/gunner', 'lib/sniper', 'lib/player', 'lib/bullet', 'lib/enemy', 'lib/effects', 'lib/buildings', 'lib/upgrade', 'lib/cleaner']
-    }
-  }
+      deps: [
+        'lib/renderer',
+        'lib/audio',
+        'lib/sprites',
+        'lib/level',
+        'lib/upgrade',
+
+        'lib/entities/gunner',
+        'lib/entities/sniper',
+        'lib/entities/player',
+        'lib/entities/bullet',
+        'lib/entities/enemy',
+        'lib/entities/cleaner',
+        'lib/entities/effects',
+        'lib/entities/buildings'
+      ]
+    },
+
+    'lib/entities/gunner':    { deps: ['lib/entity'] },
+    'lib/entities/sniper':    { deps: ['lib/entity'] },
+    'lib/entities/player':    { deps: ['lib/entity'] },
+    'lib/entities/bullet':    { deps: ['lib/entity'] },
+    'lib/entities/enemy':     { deps: ['lib/entity'] },
+    'lib/entities/cleaner':   { deps: ['lib/entity'] },
+    'lib/entities/effects':   { deps: ['lib/entity'] },
+    'lib/entities/buildings': { deps: ['lib/entity'] },
+  },
 });
 
-require(["vendor/jquery-2.0.3.min", "vendor/underscore-min", "lib/util"], function () {
-  require([
-    "vendor/keypress-1.0.9.min",
-    "lib/game",
-    "lib/ui"
-    ], function () {
+require([
+  "vendor/jquery-2.0.3.min",
+  "vendor/underscore-min",
+  "vendor/keypress-1.0.9.min",
+  "lib/util"
+  ], function () {
+    require(["lib/game", "lib/ui"], function () {
       'use strict';
-
       $(document).ready(function () {
-        window.g = new Game(true);
+        new Game(true);
       });
-    }
-  );
-});
+    });
+  }
+);
