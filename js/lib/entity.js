@@ -1,4 +1,6 @@
 function Entity(resources, overrides) {
+  this.width = 0;
+  this.height = 0;
   this.x = 0;
   this.y = 0;
   this.scale = 1;
@@ -26,6 +28,17 @@ function Entity(resources, overrides) {
     todScale: 1
   };
 
+  this.info = {
+    draw: false,
+    text: ['Hello', 'World'],
+    fill: '#0f0',
+    font: 'bold 36px Arial',
+    strokeStyle: '#000',
+    strokeWidth: 2,
+    lineHeight: 40,
+    offset: { x: 0, y: -16 }
+  };
+
   this.markedForDeletion = false;
 
   this.applyOverrides();
@@ -38,7 +51,20 @@ Entity.prototype = {
     this.age++;
   },
 
-  draw: function () {},
+  draw: function (context) {},
+
+  drawInformation: function (context) {
+    context.fillStyle = this.info.fill;
+    context.strokeStyle = this.info.strokeStyle;
+    context.lineWidth = this.info.strokeWidth;
+    context.font = this.info.font;
+
+    // var totalOffset = this.info.text.length * this.info.lineHeight;
+    this.info.text.forEach(function (line, i) {
+      context.fillText(line, this.info.offset.x, this.info.offset.y - (this.info.text.length-i) * this.info.lineHeight);
+      context.strokeText(line, this.info.offset.x, this.info.offset.y - (this.info.text.length-i) * this.info.lineHeight);
+    }.bind(this));
+  },
 
   getImage: function () {},
 

@@ -23,6 +23,7 @@ Renderer.prototype = {
     this.shadowPass();
     this.spritePass();
     this.levelPass();
+    this.infoPass();
     this.shakeDecalLayer();
   },
 
@@ -51,6 +52,21 @@ Renderer.prototype = {
         this.context.drawImage(ent.getImage(), -ent.width / 2, -ent.height / 2, ent.width, ent.height);
         ent.draw(this.context);
       this.context.restore();
+    }.bind(this));
+  },
+
+  infoPass: function () {
+    this.game.entities.forEach(function (ent) {
+      if (ent.drawInfo) {
+        this.context.save();
+          this.context.setTransform(
+            1, 0, 0, 1,
+            ent.x + this.shake.x,
+            ent.y + this.shake.y
+          );
+          ent.drawInformation(this.context);
+        this.context.restore();
+      }
     }.bind(this));
   },
 
