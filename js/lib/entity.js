@@ -60,6 +60,7 @@ Entity.prototype = {
     context.font = this.info.font;
 
     // var totalOffset = this.info.text.length * this.info.lineHeight;
+    this.info.text = [].concat.apply(this.info.text);
     this.info.text.forEach(function (line, i) {
       context.fillText(line, this.info.offset.x, this.info.offset.y - (this.info.text.length-i) * this.info.lineHeight);
       context.strokeText(line, this.info.offset.x, this.info.offset.y - (this.info.text.length-i) * this.info.lineHeight);

@@ -95,6 +95,7 @@ Audio.prototype = {
 
     var source = this.audioContext.createBufferSource();
     source.buffer = this.sounds[name];
+    if (typeof source.buffer === 'undefined' || source.buffer === null) return;
     source.loop = loop;
     source.loopStart = source.buffer.duration * loopstart;
     source.loopEnd = source.buffer.duration * loopend;
