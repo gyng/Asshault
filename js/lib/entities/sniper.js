@@ -26,6 +26,13 @@ function Sniper(resources, overrides) {
   };
 
   this.game.audio.play(this.sounds.spawn);
+
+  this.say(_.sample([
+    'Shartest shooper in all the lands.',
+    '100% stopping power.',
+    'Grab the penetration upgrade, will ya?',
+    'Precision.',
+  ]));
 }
 
 Sniper.prototype = new Entity();

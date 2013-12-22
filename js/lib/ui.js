@@ -88,5 +88,23 @@ UI.prototype = {
       });
 
       return el;
+  },
+
+  createSpeechBubble: function (template, left, top, text, duration) {
+    if (!isDefined(template)) template = '#template-speech-bubble';
+    duration = duration || 7000;
+
+    var el = $($(template).html());
+    el.find('.text').text(text);
+    el.css('left', left / this.game.cssScale + this.game.canvas.offsetLeft + 'px');
+    el.css('top', top / this.game.cssScale - this.game.canvas.offsetTop + 'px');
+
+    setTimeout(function () {
+      el.fadeOut(1000, function () {
+        el.remove();
+      });
+    }, duration);
+
+    $('.ui').append(el);
   }
 };

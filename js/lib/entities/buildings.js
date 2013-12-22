@@ -7,13 +7,15 @@ function Tavern(resources, overrides) {
   this.shadow.size = { x: 72, y: 72 };
 
   this.info.draw = true;
-  this.info.text = "Grand opening!";
+  // this.info.text = "Grand opening!";
   this.info.font = 'italic 16px Arial';
   this.info.lineHeight = 16;
   this.info.offset.y = -32;
 
   this.sounds = { build: 'build' };
   this.game.audio.play(this.sounds.build, 0.9);
+
+  this.say('Grand opening!');
 }
 
 Tavern.prototype = new Entity();

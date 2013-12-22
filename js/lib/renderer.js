@@ -24,7 +24,9 @@ Renderer.prototype = {
     this.spritePass();
     this.levelPass();
     this.infoPass();
-    this.shakeDecalLayer();
+    this.shakeElement(this.canvas);
+    this.shakeElement(this.decalCanvas);
+    this.rotate3d(document.getElementById('ui'), this.shake.y, Math.abs(this.shake.x), 0, hypotenuse(this.shake.x, this.shake.y));
   },
 
   updateCameraShake: function () {
@@ -45,8 +47,8 @@ Renderer.prototype = {
           Math.sin(ent.rotation) * ent.scale,
          -Math.sin(ent.rotation) * ent.scale,
           Math.cos(ent.rotation) * ent.scale,
-          ent.x + ent.drawOffset.x + this.shake.x,
-          ent.y + ent.drawOffset.y + this.shake.y
+          ent.x + ent.drawOffset.x,
+          ent.y + ent.drawOffset.y
         );
 
         this.context.drawImage(ent.getImage(), -ent.width / 2, -ent.height / 2, ent.width, ent.height);
@@ -107,8 +109,8 @@ Renderer.prototype = {
             Math.sin(ent.rotation + radians * todScale) * ent.scale,
            -Math.sin(ent.rotation + radians * todScale) * ent.scale * todSkew,
             Math.cos(ent.rotation + radians * todScale) * ent.scale,
-            ent.x + ent.drawOffset.x + this.shake.x + ent.shadow.offset.x + (todScale * (todXOffset * offsetLength * ((Math.abs(dayRatio - 0.5)) * 2) * 3)),
-            ent.y + ent.drawOffset.y + this.shake.y + ent.shadow.offset.y + (todScale * (todYOffset * offsetLength * (1 - dayRatio)))
+            ent.x + ent.drawOffset.x - this.shake.x / 3 + ent.shadow.offset.x + (todScale * (todXOffset * offsetLength * ((Math.abs(dayRatio - 0.5)) * 2) * 3)),
+            ent.y + ent.drawOffset.y + this.shake.y / 3 + ent.shadow.offset.y + (todScale * (todYOffset * offsetLength * (1 - dayRatio)))
           );
 
           this.context.fillStyle = ent.shadow.color;
@@ -160,16 +162,35 @@ Renderer.prototype = {
     this.decalContext.restore();
   },
 
-  shakeDecalLayer: function () {
+  shakeElement: function (el, scaling) {
     // Camera shake decal layer. This is done with CSS 3D transforms as we do not want to redraw canvas content.
     // Let the GPU do the heavy lifting!
     //
     // Camera shake for the regular canvas is still calculated since we're doing a full redraw (not optimised) anyway.
 
-    var transformation = "translate3d(" +
-      (this.shake.x / this.game.cssScale) + "px," +
-      (this.shake.y / this.game.cssScale) + "px, 0)";
-    this.decalCanvas.style.transform = transformation;
-    this.decalCanvas.style["-webkit-transform"] = transformation;
+    scaling = scaling || 1;
+
+    var transformation = 'translate3d(' +
+      this.shake.x / this.game.cssScale * scaling + 'px, ' +
+      this.shake.y / this.game.cssScale * scaling + 'px, ' +
+      '0) ' +
+      'rotateX(' + this.shake.y / 50 + 'deg) ' +
+      'rotateY(' + -this.shake.x / 50 + 'deg)';
+
+    el.style.transform = transformation;
+    el.style["-webkit-transform"] = transformation;
+  },
+
+  translate3d: function (el, x, y, z) {
+    z = z || 0;
+    var transformation = "translate3d(" + x + "px," + y + "px," + z + "px)";
+    el.style.transform = transformation;
+    el.style["-webkit-transform"] = transformation;
+  },
+
+  rotate3d: function (el, x, y, z, deg) {
+    var transformation = 'rotateX(' + this.shake.y / 50 + 'deg) rotateY(' + -this.shake.x / 50 + 'deg)';
+    el.style.transform = transformation;
+    el.style["-webkit-transform"] = transformation;
   }
 };

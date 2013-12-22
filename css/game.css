@@ -23,6 +23,9 @@ body {
     word-wrap: break-word;
 
     background-size: 100% auto;
+
+    perspective: 500px;
+    -webkit-perspective: 500px;
 }
 
 canvas, img {
@@ -59,6 +62,9 @@ canvas {
 
     justify-content: center;
     align-items: center;
+
+    perspective: 500px;
+    -webkit-perspective: 500px;
 }
 
 .template {
@@ -191,6 +197,12 @@ canvas {
     padding: 0;
     margin: 0;
     text-align: left;
+    /*perspective: 350px;
+    -moz-perspective: 350px;
+    -webkit-perspective: 350px;*/
+    /*perspective-origin: 50% 0;*/
+    /*-moz-perspective-origin: 50% 0;*/
+    /*-webkit-perspective-origin: 50% 0;*/
 }
 
 .ui .column {
@@ -245,6 +257,51 @@ canvas {
     flex-grow: 0;
     flex-basis: 15%;
     height: 15%;
+}
+
+.speech-bubble {
+    position: absolute;
+    top: 100;
+    left: 100;
+    max-width: 15rem;
+    padding: 1rem;
+    background: #FFFFFF;
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    border-radius: 10px;
+    border: #777F7F solid 5px;
+    z-index: 1;
+}
+
+.speech-bubble:after {
+    content: '';
+    position: absolute;
+    border-style: solid;
+    border-width: 1.5rem 1.5rem 0;
+    border-color: #FFFFFF transparent;
+    display: block;
+    width: 0;
+    z-index: 1;
+    bottom: -1.2rem;
+    left: 1.5rem;
+}
+
+.speech-bubble:before {
+    content: '';
+    position: absolute;
+    border-style: solid;
+    border-width: 1.9rem 1.9rem 0;
+    border-color: #777F7F transparent;
+    display: block;
+    width: 0;
+    z-index: 0;
+    bottom: -1.9rem;
+    left: 1.17rem;
+}
+
+.speech-bubble > .text {
+    font-size: 1.6rem;
+    min-width: 8rem;
 }
 
 #debug {

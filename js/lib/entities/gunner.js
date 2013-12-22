@@ -24,6 +24,8 @@ function Gunner(resources, overrides) {
   };
 
   this.game.audio.play(this.sounds.spawn);
+
+  this.say(_.sample(['Time for some hunting!', 'Everybody dies!', 'Do you want to live forever!?']));
 }
 
 Gunner.prototype = new Entity();

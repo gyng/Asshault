@@ -65,7 +65,7 @@ Entity.prototype = {
     // var totalOffset = this.info.text.length * this.info.lineHeight;
     this.info.text = [].concat.apply(this.info.text);
     this.info.text.forEach(function (line, i) {
-      context.strokeText(line, this.info.offset.x, this.info.offset.y - (this.info.text.length-i) * this.info.lineHeight);
+      // context.strokeText(line, this.info.offset.x, this.info.offset.y - (this.info.text.length-i) * this.info.lineHeight);
       context.fillText(line, this.info.offset.x, this.info.offset.y - (this.info.text.length-i) * this.info.lineHeight);
     }.bind(this));
   },
@@ -144,6 +144,11 @@ Entity.prototype = {
   addXP: function (xp, kills) {
     this.xp += xp;
     this.kills += kills || 0;
+  },
+
+  say: function (text, duration) {
+    // Use DOM for delicious CSS and (!)text wrapping!
+    this.game.ui.createSpeechBubble(null, this.x, this.y - this.height * 2, text, duration);
   },
 
   every: function(mod, fun, args) {

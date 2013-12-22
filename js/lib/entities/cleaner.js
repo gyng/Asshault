@@ -19,6 +19,13 @@ function Cleaner(resources, overrides) {
     target: 'beep'
   };
   this.game.audio.play(this.sounds.spawn);
+
+  this.say(_.sample([
+    'Yuck!',
+    'Stop killing!',
+    'Things die when they are killed!',
+    'Disgusting.',
+  ]));
 }
 
 Cleaner.prototype = new Entity();
