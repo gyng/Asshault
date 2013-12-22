@@ -14,6 +14,7 @@ function Audio(sources) {
   ];
 
   this.loaded = 0;
+  this.masterVolume = 1;
 }
 
 Audio.prototype = {
@@ -57,7 +58,7 @@ Audio.prototype = {
     var gainNode = this.audioContext.createGain();
     // Approximate volume log scale
     var adjustedVolume = (Math.pow(10, volume) - 1) / (10 - 1); // Log Base 10
-    gainNode.gain.value = adjustedVolume;
+    gainNode.gain.value = adjustedVolume * this.masterVolume;
 
     source.connect(gainNode);
     gainNode.connect(this.audioContext.destination);
