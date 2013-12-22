@@ -160,6 +160,11 @@ function Upgrades (game) {
 
             this.drawOffset.x += randomError(1);
             this.drawOffset.y += randomError(1);
+
+            if (hypotenuse(this.heloXSpeed, this.heloYSpeed) > 1 &&
+              this.age % 60 === 0) {
+              this.game.audio.play('helicopter1', 0.1);
+            }
           };
 
           this.player.game.audio.loop('helicopter2', 0.3, 0.24, 0.83);
