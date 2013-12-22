@@ -43,6 +43,9 @@ function Audio(sources) {
 
   this.loaded = 0;
   this.masterVolume = 1;
+
+  this.compressor = this.audioContext.createDynamicsCompressor();
+  this.compressor.connect(this.audioContext.destination);
 }
 
 Audio.prototype = {
@@ -106,7 +109,8 @@ Audio.prototype = {
     gainNode.gain.value = adjustedVolume * this.masterVolume;
 
     source.connect(gainNode);
-    gainNode.connect(this.audioContext.destination);
+    gainNode.connect(this.compressor);
+
     source.start(0);
   },
 
