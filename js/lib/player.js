@@ -63,7 +63,7 @@ Player.prototype.fire = function (radians, offsetDegrees) {
   var offset = deg2rad(randomError(this.spread) + randomNegation(offsetDegrees || 0));
 
   if (this.age % this.firingRate === 0) {
-    this.game.playSound(_.sample(this.sounds.firing));
+    this.game.audio.play(_.sample(this.sounds.firing));
     this.game.entities.push(
       new Bullet(this.resources, {
         x: this.x,
