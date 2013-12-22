@@ -57,7 +57,7 @@ Renderer.prototype = {
 
   infoPass: function () {
     this.game.entities.forEach(function (ent) {
-      if (ent.drawInfo) {
+      if (ent.info.draw) {
         this.context.save();
           this.context.setTransform(
             1, 0, 0, 1,

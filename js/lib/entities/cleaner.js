@@ -10,6 +10,10 @@ function Cleaner(resources, overrides) {
   this.shadow.on = true;
   this.moveTarget = { x: this.x, y: this.y };
 
+  this.name = _.sample(['Gallus', 'Ocellata', 'Pictus', 'Coqui', 'Lerwa', 'Perdix', 'Rollulus', 'Bonasa']);
+  this.info.text.push(this.name);
+  this.info.draw = true;
+
   this.sounds = {
     spawn: 'waw',
     target: 'beep'

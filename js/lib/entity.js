@@ -30,13 +30,13 @@ function Entity(resources, overrides) {
 
   this.info = {
     draw: false,
-    text: ['Hello', 'World'],
+    text: [], // ['line1', 'line2']
     fill: '#0f0',
-    font: 'bold 36px Arial',
+    font: 'bold 24px Arial',
     strokeStyle: '#000',
-    strokeWidth: 2,
+    strokeWidth: 1,
     lineHeight: 40,
-    offset: { x: 0, y: -16 }
+    offset: { x: 0, y: 0 }
   };
 
   this.markedForDeletion = false;

@@ -2,8 +2,8 @@ function Bullet(resources, overrides) {
   Entity.call(this, resources, overrides);
   this.width = 32;
   this.height = 16;
-  this.damage = 1;
-  this.speed = 30;
+  this.damage = this.damage || 1;
+  this.speed = this.speed || 30;
 
   // Calculate on creation and not per tick
   this.deltaX = -Math.cos(this.direction) * this.speed;

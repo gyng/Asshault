@@ -12,6 +12,10 @@ function Gunner(resources, overrides) {
 
   this.shadow.on = true;
 
+  this.name = _.sample(['Grunniens', 'Capra', 'Sus', 'Suidae', 'Bora', 'Scrofa', 'Hircus', 'Bos']);
+  this.info.text.push(this.name);
+  this.info.draw = true;
+
   this.sounds = {
     spawn: 'start',
     fire:  ['shoot2', 'shoot5', 'shoot7']

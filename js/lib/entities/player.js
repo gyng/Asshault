@@ -7,7 +7,6 @@ function Player(resources, overrides) {
   this.firingRate = 4;
   this.speed = 0;
   this.shadow.on = true;
-  this.drawInfo = true;
 
   this.sounds = {
     fire: ['shoot2', 'shoot5', 'shoot7']

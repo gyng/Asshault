@@ -14,6 +14,10 @@ function Sniper(resources, overrides) {
   this.firing    = false;
   this.moveTarget = { x: this.game.player.x, y: this.game.player.y };
 
+  this.name = _.sample(['Athene', 'Bubo', 'Otus', 'Surnia', 'Asio', 'Nesasio', 'Strix', 'Ninox']);
+  this.info.text.push(this.name);
+  this.info.draw = true;
+
   this.sounds = {
     spawn: 'shartshooper',
     fire: ['shoot1', 'shoot4', 'shoot3']
