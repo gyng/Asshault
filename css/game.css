@@ -37,6 +37,7 @@ canvas, img {
     image-rendering: -webkit-optimize-contrast;
     image-rendering: optimize-contrast;
     -ms-interpolation-mode: nearest-neighbor;
+    pointer-events: auto;
 }
 
 canvas {
@@ -51,6 +52,7 @@ canvas {
     top: 0;
     z-index: -1;
     border: #0F0 solid 1px;
+    pointer-events: none;
 }
 
 .container {
@@ -64,7 +66,11 @@ canvas {
     align-items: center;
 
     perspective: 500px;
+    /* Hack to fix Chrome issue where 3D transforms would put the UI behind the body
+    causing it to have */
+    pointer-events: none;
     -webkit-perspective: 500px;
+    -webkit-transform: translate3d(0px, 0px, -500px) scale(2);
 }
 
 .template {
@@ -197,18 +203,14 @@ canvas {
     padding: 0;
     margin: 0;
     text-align: left;
-    /*perspective: 350px;
-    -moz-perspective: 350px;
-    -webkit-perspective: 350px;*/
-    /*perspective-origin: 50% 0;*/
-    /*-moz-perspective-origin: 50% 0;*/
-    /*-webkit-perspective-origin: 50% 0;*/
+    z-index: 2;
 }
 
 .ui .column {
     padding: 1rem;
     height: 100%;
     flex-direction: row;
+    pointer-events: none;
     /*justify-content: center;*/
     /*align-items: center;*/
 }
@@ -216,6 +218,7 @@ canvas {
 .ui .row {
     align-items: center;
     justify-content: center;
+    pointer-events: none;
 }
 
 .ui .button {
@@ -311,4 +314,5 @@ canvas {
     color: black;
     font-size: 1.2rem;
     font-family: monospace;
+    pointer-events: none;
 }
