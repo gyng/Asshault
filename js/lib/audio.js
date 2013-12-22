@@ -5,12 +5,12 @@ function Audio(sources) {
   this.sounds = {};
   this.soundsDir = 'res/ogg/';
   this.sources = sources || [
-    ['shoot1', 'shoot1.ogg'],
-    ['shoot2', 'shoot2.ogg'],
-    ['shoot3', 'shoot3.ogg'],
-    ['shoot4', 'shoot4.ogg'],
-    ['shoot5', 'shoot5.ogg'],
-    ['shoot7', 'shoot7.ogg'],
+    ['shoot1', 'Shoot1.ogg'],
+    ['shoot2', 'Shoot2.ogg'],
+    ['shoot3', 'Shoot3.ogg'],
+    ['shoot4', 'Shoot4.ogg'],
+    ['shoot5', 'Shoot5.ogg'],
+    ['shoot7', 'Shoot7.ogg'],
   ];
 
   this.loaded = 0;
