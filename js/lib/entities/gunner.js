@@ -10,10 +10,12 @@ function Gunner(resources, overrides) {
   this.fireRate  = 12;
   this.firing    = false;
 
+  this.xp = 0;
+  this.kills = 0;
+
   this.shadow.on = true;
 
   this.name = _.sample(['Grunniens', 'Capra', 'Sus', 'Suidae', 'Bora', 'Scrofa', 'Hircus', 'Bos']);
-  this.info.text.push(this.name);
   this.info.draw = true;
 
   this.sounds = {
@@ -50,6 +52,13 @@ Gunner.prototype.tick = function () {
   } else {
     this.firing = false;
   }
+
+  this.every(15, function () {
+    this.info.text = [
+      this.name,
+      this.xp + 'xp'
+    ];
+  }.bind(this));
 };
 
 Gunner.prototype.fireAt = function (object) {
@@ -67,7 +76,8 @@ Gunner.prototype.fire = function (radians, offsetDegrees) {
       direction: radians + offset,
       rotation: radians + offset,
       damage: 1,
-      speed: 30
+      speed: 30,
+      source: this
     })
   );
 

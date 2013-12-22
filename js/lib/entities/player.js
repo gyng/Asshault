@@ -8,6 +8,11 @@ function Player(resources, overrides) {
   this.speed = 0;
   this.shadow.on = true;
 
+  this.xp = 0;
+  this.kills = 0;
+
+  this.info.draw = true;
+
   this.sounds = {
     fire: ['shoot2', 'shoot5', 'shoot7']
   };
@@ -31,6 +36,13 @@ Player.prototype.tick = function () {
 
   this.lookAt({ x: this.game.mouse.x, y: this.game.mouse.y });
   this.returnToMap();
+
+  this.every(15, function () {
+    this.info.text = [
+      this.xp + 'xp',
+      this.health + 'hp'
+    ];
+  }.bind(this));
 };
 
 Player.prototype.returnToMap = function () {
@@ -63,7 +75,8 @@ Player.prototype.fire = function (radians, offsetDegrees) {
         direction: radians + offset,
         rotation: radians + offset,
         damage: 1,
-        speed: 30
+        speed: 30,
+        source: this
       })
     );
 

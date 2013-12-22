@@ -32,7 +32,7 @@ Bullet.prototype.tick = function () {
 
   this.game.enemies.forEach(function (ent) {
     if (this.collidesWith(ent, this.speed * 0.75)) {
-      ent.health -= this.damage;
+      ent.damage(this.damage, this);
       this.die();
 
       this.game.addEntity(

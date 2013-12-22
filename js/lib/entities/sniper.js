@@ -15,8 +15,10 @@ function Sniper(resources, overrides) {
   this.moveTarget = { x: this.game.player.x, y: this.game.player.y };
 
   this.name = _.sample(['Athene', 'Bubo', 'Otus', 'Surnia', 'Asio', 'Nesasio', 'Strix', 'Ninox']);
-  this.info.text.push(this.name);
   this.info.draw = true;
+
+  this.xp = 0;
+  this.kills = 0;
 
   this.sounds = {
     spawn: 'shartshooper',
@@ -58,6 +60,13 @@ Sniper.prototype.tick = function () {
     }
 
     this.lookAt(this.target);
+
+    this.every(15, function () {
+      this.info.text = [
+        this.name,
+        this.xp + 'xp'
+      ];
+    }.bind(this));
   }
 };
 
@@ -76,7 +85,8 @@ Sniper.prototype.fire = function (radians, offsetDegrees) {
       direction: radians + variance,
       rotation: radians + variance,
       damage: 5,
-      speed: 80
+      speed: 80,
+      source: this
     })
   );
 

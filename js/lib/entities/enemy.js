@@ -19,8 +19,10 @@ Enemy.prototype.tick = function () {
     }
   }.bind(this));
 
-  if (this.health <= 0)
+  if (this.health <= 0) {
+    this.lastHitBy.source.addXP(1, 1);
     this.explode();
+  }
 
   this.lookAt(this.game.player);
   this.moveTo(this.game.player.x, this.game.player.y, this.speed, this.health / 10);

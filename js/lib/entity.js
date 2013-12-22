@@ -11,12 +11,15 @@ function Entity(resources, overrides) {
   this.speed = 0;
   this.upgrades = [];
   this.moveTarget = { x: 0, y: 0 };
+  this.health = 0;
+  this.lastHitBy = null;
   if (typeof resources !== 'undefined') {
     this.sprites = resources.sprites;
     this.sounds = resources.sounds;
     this.game = resources.game;
     this.resources = resources;
   }
+
   this.overrides = overrides || {};
 
   this.shadow = {
@@ -32,10 +35,10 @@ function Entity(resources, overrides) {
     draw: false,
     text: [], // ['line1', 'line2']
     fill: '#0f0',
-    font: 'bold 24px Arial',
+    font: 'bold 20px Arial',
     strokeStyle: '#000',
-    strokeWidth: 1,
-    lineHeight: 40,
+    strokeWidth: 2,
+    lineHeight: 28,
     offset: { x: 0, y: 0 }
   };
 
@@ -62,8 +65,8 @@ Entity.prototype = {
     // var totalOffset = this.info.text.length * this.info.lineHeight;
     this.info.text = [].concat.apply(this.info.text);
     this.info.text.forEach(function (line, i) {
-      context.fillText(line, this.info.offset.x, this.info.offset.y - (this.info.text.length-i) * this.info.lineHeight);
       context.strokeText(line, this.info.offset.x, this.info.offset.y - (this.info.text.length-i) * this.info.lineHeight);
+      context.fillText(line, this.info.offset.x, this.info.offset.y - (this.info.text.length-i) * this.info.lineHeight);
     }.bind(this));
   },
 
@@ -131,6 +134,16 @@ Entity.prototype = {
 
   die: function () {
     this.markedForDeletion = true;
+  },
+
+  damage: function(damage, by) {
+    this.health -= damage;
+    this.lastHitBy = by;
+  },
+
+  addXP: function (xp, kills) {
+    this.xp += xp;
+    this.kills += kills || 0;
   },
 
   every: function(mod, fun, args) {
