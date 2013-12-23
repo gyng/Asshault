@@ -56,6 +56,10 @@ Gunner.prototype.tick = function () {
   }
 
   this.every(15, function () {
+    if (this.info.text.length > 1 &&
+        this.xp !== parseInt(this.info.text[1].slice(0, -2), 10))
+      this.info.dirty = true;
+
     this.info.text = [
       this.name,
       this.xp + 'xp'

@@ -48,7 +48,7 @@ Sniper.prototype.tick = function () {
     this.target = _.sample(this.game.enemies);
     // So it will still fire sometimes if it can't get a shot in
     // Target switching penalty
-    this.targetAge = this.targetAge * 0.4;
+    this.targetAge = this.targetAge * 0.4 + 5;
   }
 
   if (isDefined(this.target)) {
@@ -72,6 +72,10 @@ Sniper.prototype.tick = function () {
     this.lookAt(this.target);
 
     this.every(15, function () {
+      if (this.info.text.length > 1 &&
+          this.xp !== parseInt(this.info.text[1].slice(0, -2), 10))
+        this.info.dirty = true;
+
       this.info.text = [
         this.name,
         this.xp + 'xp'

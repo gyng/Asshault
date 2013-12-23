@@ -84,7 +84,7 @@ Game.prototype = {
           },
           r: 45
         },
-        15: { f: function (arg1) { console.log("Level 0! " + arg1); }, a: 'myarg2' },
+        15: { f: function (arg1) { }, a: 'myarg2' },
       })
     };
 
@@ -107,9 +107,9 @@ Game.prototype = {
       this.age++;
 
       this.entities.forEach(function (ent) {
+        ent.tick();
         ent.tock();
         ent.executeUpgrades();
-        ent.tick();
       });
 
       // Culling
@@ -173,7 +173,7 @@ Game.prototype = {
       "<p>" + this.entities.length + " entities</p>" +
       "<p>" + this.friendlies.length + " friendlies</p>" +
       "<p>" + this.enemies.length + " enemies</p>" +
-      "<p>" + this.player.health + " player health </p>"
+      "<p>" + this.player.health + " player health</p>"
     );
 
     this.lastAge = this.age;

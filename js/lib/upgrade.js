@@ -177,7 +177,7 @@ function Upgrades (game) {
         text: {
           name: 'The Flying Machine',
           cost: '',
-          effect: 'Move with the WASD keys.',
+          effect: 'Move with the WASD keys. Too hard to control? Just use W (and only W) like the scrub you are.',
           flavour: 'Avoid sun.'
         }
       }),

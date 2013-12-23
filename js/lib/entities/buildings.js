@@ -30,6 +30,7 @@ Tavern.prototype.tick = function () {
       "My mead is better than your ale",
       "This one time, at Ram Boar school..."
     ]);
+    this.info.dirty = true;
   }.bind(this));
 
   if (this.age % 2400 === 1600)

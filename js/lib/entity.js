@@ -20,8 +20,6 @@ function Entity(resources, overrides) {
     this.resources = resources;
   }
 
-  this.overrides = overrides || {};
-
   this.shadow = {
     on: false,
     offset: {x: 0, y: 0},
@@ -39,11 +37,16 @@ function Entity(resources, overrides) {
     strokeStyle: '#000',
     strokeWidth: 2,
     lineHeight: 28,
-    offset: { x: 0, y: 0 }
+    offset: { x: 0, y: 0 },
+    dirty: true
   };
+
+  this.infoCanvas = document.createElement('canvas');
+  this.infoContext = this.infoCanvas.getContext('2d');
 
   this.markedForDeletion = false;
 
+  this.overrides = overrides || {};
   this.applyOverrides();
 }
 
@@ -51,23 +54,28 @@ Entity.prototype = {
   tick: function () {},
 
   tock: function () {
+    if (this.age === 1) this.info.dirty = true;
     this.age++;
   },
 
   draw: function (context) {},
 
   drawInformation: function (context) {
-    context.fillStyle = this.info.fill;
-    context.strokeStyle = this.info.strokeStyle;
-    context.lineWidth = this.info.strokeWidth;
-    context.font = this.info.font;
+    // Buffer text in a canvas as fillText is really really slow
+    if (this.info.dirty) {
+      this.infoCanvas.width = 300;
+      this.infoCanvas.height = this.info.text.length * this.info.lineHeight + 1;
+      this.infoContext.font = this.info.font;
+      this.infoContext.fillStyle = this.info.fill;
+      this.info.text = [].concat.apply(this.info.text);
+      this.info.text.forEach(function (line, i) {
+        this.infoContext.fillText(line, 0, (i+1) * this.info.lineHeight);
+      }.bind(this));
 
-    // var totalOffset = this.info.text.length * this.info.lineHeight;
-    this.info.text = [].concat.apply(this.info.text);
-    this.info.text.forEach(function (line, i) {
-      // context.strokeText(line, this.info.offset.x, this.info.offset.y - (this.info.text.length-i) * this.info.lineHeight);
-      context.fillText(line, this.info.offset.x, this.info.offset.y - (this.info.text.length-i) * this.info.lineHeight);
-    }.bind(this));
+      this.info.dirty = false;
+    }
+
+    context.drawImage(this.infoCanvas, this.info.offset.x, this.info.offset.y);
   },
 
   getImage: function () {},

@@ -38,6 +38,11 @@ Player.prototype.tick = function () {
   this.returnToMap();
 
   this.every(15, function () {
+    if (this.info.text.length > 2 &&
+        this.xp !== parseInt(this.info.text[0].slice(0, -2), 10) &&
+        this.health !== parseInt(this.info.text[1].slice(0, -2), 10))
+      this.info.dirty = true;
+
     this.info.text = [
       this.xp + 'xp',
       this.health + 'hp'
