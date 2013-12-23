@@ -39,6 +39,11 @@ function UpgradeConstraint(name) {
       max = max || Number.MAX_VALUE;
       var upgradeCount = game.upgradeCount[name] || 0;
       return upgradeCount >= min && upgradeCount < max;
+    },
+
+    propertyWithinRange: function (game, ent, property, min, max) {
+      max = max || Number.MAX_VALUE;
+      return ent[property] >= min && ent[property] < max;
     }
   };
 
@@ -172,11 +177,12 @@ function Upgrades (game) {
           this.player.upgrades.push(function () { this.heloMove(); });
         },
         constraints: [
-          [new UpgradeConstraint('upgradeCountWithinRange'), 'playerMovement', 0, 1]
+          [new UpgradeConstraint('upgradeCountWithinRange'), 'playerMovement', 0, 1],
+          [new UpgradeConstraint('propertyWithinRange'), this.game.player, 'level', 1],
         ],
         text: {
           name: 'The Flying Machine',
-          cost: '',
+          cost: 'Player Level 1',
           effect: 'Move with the WASD keys. Too hard to control? Just use W (and only W) like the scrub you are.',
           flavour: 'Avoid sun.'
         }

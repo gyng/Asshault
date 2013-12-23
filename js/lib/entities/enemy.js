@@ -5,6 +5,7 @@ function Enemy(resources, overrides) {
   this.health = 5;
   this.speed  = 5;
   this.shadow.on = true;
+  this.xpGiven = 10;
 }
 
 Enemy.prototype = new Entity();
@@ -20,7 +21,7 @@ Enemy.prototype.tick = function () {
   }.bind(this));
 
   if (this.health <= 0) {
-    this.lastHitBy.source.addXP(1, 1);
+    this.lastHitBy.source.addXP(this.xpGiven, 1);
     this.explode();
   }
 

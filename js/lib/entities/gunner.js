@@ -10,17 +10,18 @@ function Gunner(resources, overrides) {
   this.fireRate  = 12;
   this.firing    = false;
 
+  this.level = 0;
   this.xp = 0;
   this.kills = 0;
 
   this.shadow.on = true;
-
   this.name = _.sample(['Grunniens', 'Capra', 'Sus', 'Suidae', 'Bora', 'Scrofa', 'Hircus', 'Bos']);
   this.info.draw = true;
 
   this.sounds = {
     spawn: 'start',
-    fire:  ['shoot2', 'shoot5', 'shoot7']
+    fire:  ['shoot2', 'shoot5', 'shoot7'],
+    levelup: 'powerup'
   };
 
   this.game.audio.play(this.sounds.spawn);
@@ -55,15 +56,10 @@ Gunner.prototype.tick = function () {
     this.firing = false;
   }
 
-  this.every(15, function () {
-    if (this.info.text.length > 1 &&
-        this.xp !== parseInt(this.info.text[1].slice(0, -2), 10))
-      this.info.dirty = true;
-
-    this.info.text = [
-      this.name,
-      this.xp + 'xp'
-    ];
+  this.every(60, function () {
+    this.checkLevelUp();
+    this.checkHeroInfo();
+    this.updateHeroListItem();
   }.bind(this));
 };
 

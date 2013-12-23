@@ -6,15 +6,18 @@ function Player(resources, overrides) {
   this.spread = 5;
   this.firingRate = 4;
   this.speed = 0;
-  this.shadow.on = true;
 
+  this.level = 0;
   this.xp = 0;
   this.kills = 0;
 
+  this.shadow.on = true;
   this.info.draw = true;
+  this.name = 'You!';
 
   this.sounds = {
-    fire: ['shoot2', 'shoot5', 'shoot7']
+    fire: ['shoot2', 'shoot5', 'shoot7'],
+    levelup: 'powerup'
   };
 
   $('#canvas').mousedown(function (e) {
@@ -24,6 +27,8 @@ function Player(resources, overrides) {
   $(document).mouseup(function (e) {
     this.firing = false;
   }.bind(this));
+
+  this.uiElem = null;
 }
 
 Player.prototype = new Entity();
@@ -37,16 +42,10 @@ Player.prototype.tick = function () {
   this.lookAt({ x: this.game.mouse.x, y: this.game.mouse.y });
   this.returnToMap();
 
-  this.every(15, function () {
-    if (this.info.text.length > 2 &&
-        this.xp !== parseInt(this.info.text[0].slice(0, -2), 10) &&
-        this.health !== parseInt(this.info.text[1].slice(0, -2), 10))
-      this.info.dirty = true;
-
-    this.info.text = [
-      this.xp + 'xp',
-      this.health + 'hp'
-    ];
+  this.every(60, function () {
+    this.checkLevelUp();
+    this.checkHeroInfo();
+    this.updateHeroListItem();
   }.bind(this));
 };
 

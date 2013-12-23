@@ -13,6 +13,7 @@ function Entity(resources, overrides) {
   this.moveTarget = { x: 0, y: 0 };
   this.health = 0;
   this.lastHitBy = null;
+
   if (typeof resources !== 'undefined') {
     this.sprites = resources.sprites;
     this.sounds = resources.sounds;
@@ -41,8 +42,7 @@ function Entity(resources, overrides) {
     dirty: true
   };
 
-  this.infoCanvas = document.createElement('canvas');
-  this.infoContext = this.infoCanvas.getContext('2d');
+
 
   this.markedForDeletion = false;
 
@@ -60,8 +60,20 @@ Entity.prototype = {
 
   draw: function (context) {},
 
+  drawHighlight: function (context) {
+    if (this.highlighted) {
+      context.beginPath();
+      context.fillStyle = "rgba(247, 243, 37, 0.5)";
+      context.arc(0, 0, hypotenuse(this.width, this.height) * 1.5, 0, 2 * Math.PI);
+      context.fill();
+    }
+  },
+
   drawInformation: function (context) {
     // Buffer text in a canvas as fillText is really really slow
+    this.infoCanvas  = this.infoCanvas  || document.createElement('canvas');
+    this.infoContext = this.infoContext || this.infoCanvas.getContext('2d');
+
     if (this.info.dirty) {
       this.infoCanvas.width = 300;
       this.infoCanvas.height = this.info.text.length * this.info.lineHeight + 1;
@@ -149,11 +161,6 @@ Entity.prototype = {
     this.lastHitBy = by;
   },
 
-  addXP: function (xp, kills) {
-    this.xp += xp;
-    this.kills += kills || 0;
-  },
-
   say: function (text, duration) {
     // Use DOM for delicious CSS and (!)text wrapping!
     this.game.ui.createSpeechBubble(null, this.x, this.y - this.height * 2, text, duration);
@@ -164,5 +171,39 @@ Entity.prototype = {
     if (this.age % mod === 0) {
       fun.apply(this, [].concat(args));
     }
+  },
+
+  // Hero stuff, TODO: split into 'subclass'
+  addXP: function (xp, kills) {
+    this.xp += xp;
+    this.kills += kills || 0;
+  },
+
+  checkLevelUp: function (requiredXp) {
+    requiredXp = requiredXp || 100;
+    if (this.xp >= 100) {
+      this.xp = this.xp - 100;
+      this.level += 1;
+
+      if (this.sounds && this.sounds.levelup)
+        this.game.audio.play(this.sounds.levelup);
+    }
+  },
+
+  checkHeroInfo: function () {
+    if (this.info.text.length === 3 &&
+        this.xp !== parseInt(this.info.text[2].slice(0, -2), 10))
+      this.info.dirty = true;
+
+    this.info.text = [
+      this.name,
+      'Level ' + this.level,
+      this.xp + 'xp'
+    ];
+  },
+
+  updateHeroListItem: function () {
+    this.uiElem = this.uiElem || this.game.ui.addToHeroList(this);
+    this.game.ui.updateHeroListItem(this.uiElem, this);
   }
 };

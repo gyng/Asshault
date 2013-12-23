@@ -50,6 +50,7 @@ Renderer.prototype = {
           ent.y + ent.drawOffset.y
         );
 
+        ent.drawHighlight(this.context);
         this.context.drawImage(ent.getImage(), -ent.width / 2, -ent.height / 2, ent.width, ent.height);
         ent.draw(this.context);
       this.context.restore();

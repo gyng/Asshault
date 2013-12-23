@@ -10,6 +10,10 @@ function Cleaner(resources, overrides) {
   this.shadow.on = true;
   this.moveTarget = { x: this.x, y: this.y };
 
+  this.level = 0;
+  this.xp = 0;
+  this.kills = 0;
+
   this.name = _.sample(['Gallus', 'Ocellata', 'Pictus', 'Coqui', 'Lerwa', 'Perdix', 'Rollulus', 'Bonasa']);
   this.info.text.push(this.name);
   this.info.draw = true;
@@ -38,6 +42,7 @@ Cleaner.prototype.tick = function () {
   if (this.distanceTo(this.moveTarget) < 20) {
     this.game.audio.play(this.sounds.target, 0.7);
     this.moveTarget = { x: _.random(this.game.canvas.width), y: _.random(this.game.canvas.height) };
+    this.xp += ~~(this.cleanAge / 10);
   }
 
   this.every(60, function () {
@@ -53,6 +58,12 @@ Cleaner.prototype.tick = function () {
 
   this.moveToTarget();
   this.lookAt(this.moveTarget);
+
+  this.every(60, function () {
+    this.checkLevelUp();
+    this.checkHeroInfo();
+    this.updateHeroListItem();
+  }.bind(this));
 };
 
 Cleaner.prototype.getImage = function () {

@@ -17,6 +17,28 @@
     <canvas id="persistent-canvas" width="1920px" height="1080px"></canvas>
   </div>
 
+  <div class="ui", id="ui">
+    <div class="left-bar column">
+      <div id="debug"></div>
+      <div class="hero-list"></div>
+    </div>
+
+    <div class="center-bar column">
+      <div class="top-bar row">
+        <div class="error" id="error-flash"></div>
+        <div class="ready-button button">Ready!</div>
+      </div>
+      <div class="middle-bar row"></div>
+      <div class="bottom-bar row"></div>
+    </div>
+
+    <div class="right-bar column">
+      <div class="upgrades"></div>
+    </div>
+
+    <div class="loading">Loading...</div>
+  </div>
+
   <!-- Upgrade template -->
   <div class="template" id="template-upgrade">
     <div class="upgrade button" data-upgrade="">
@@ -34,25 +56,16 @@
     </div>
   </div>
 
-  <div class="ui", id="ui">
-    <div class="left-bar column">
-      <div id="debug"></div>
+  <!-- Speech bubble template -->
+  <div class="template" id="template-hero-list-item">
+    <div class="hero-list-item">
+      <img class="hero-image"></img>
+      <div class="hero-name"></div>
+      <div class="hero-kills"></div>
+      <div class="hero-level"></div>
+      <div class="hero-xp"></div>
+      <div class="hero-upgrades"></div>
     </div>
-
-    <div class="center-bar column">
-      <div class="top-bar row">
-        <div class="error" id="error-flash"></div>
-        <div class="ready-button button">Ready!</div>
-      </div>
-      <div class="middle-bar row"></div>
-      <div class="bottom-bar row"></div>
-    </div>
-
-    <div class="right-bar column">
-      <div class="upgrades"></div>
-    </div>
-
-    <div class="loading">Loading...</div>
   </div>
 </body>
 

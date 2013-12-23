@@ -39,6 +39,7 @@ function Audio(sources) {
     ['helicopter1', 'Helicopter1.ogg'],
     ['helicopter2', 'Helicopter2.ogg'],
     ['helicopter3', 'Helicopter3.ogg'],
+    ['powerup', 'Powerup.ogg'],
   ];
 
   this.loaded = 0;

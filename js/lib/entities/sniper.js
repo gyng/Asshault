@@ -17,6 +17,7 @@ function Sniper(resources, overrides) {
   this.name = _.sample(['Athene', 'Bubo', 'Otus', 'Surnia', 'Asio', 'Nesasio', 'Strix', 'Ninox']);
   this.info.draw = true;
 
+  this.level = 0;
   this.xp = 0;
   this.kills = 0;
 
@@ -70,18 +71,13 @@ Sniper.prototype.tick = function () {
     }
 
     this.lookAt(this.target);
-
-    this.every(15, function () {
-      if (this.info.text.length > 1 &&
-          this.xp !== parseInt(this.info.text[1].slice(0, -2), 10))
-        this.info.dirty = true;
-
-      this.info.text = [
-        this.name,
-        this.xp + 'xp'
-      ];
-    }.bind(this));
   }
+
+  this.every(60, function () {
+    this.checkLevelUp();
+    this.checkHeroInfo();
+    this.updateHeroListItem();
+  }.bind(this));
 };
 
 Sniper.prototype.fireAt = function (object) {
