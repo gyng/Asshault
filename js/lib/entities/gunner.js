@@ -17,6 +17,7 @@ function Gunner(resources, overrides) {
   this.shadow.on = true;
   this.name = _.sample(['Grunniens', 'Capra', 'Sus', 'Suidae', 'Bora', 'Scrofa', 'Hircus', 'Bos']);
   this.info.draw = true;
+  this.info.addToHeroList = true;
 
   this.sounds = {
     spawn: 'start',
@@ -58,8 +59,14 @@ Gunner.prototype.tick = function () {
 
   this.every(60, function () {
     this.checkLevelUp();
+
+    this.info.text = {
+      name: { value: this.name },
+      level: { prepend: 'level', value: this.level },
+      xp: { value: this.level, postfix: 'xp' },
+    };
+
     this.checkHeroInfo();
-    this.updateHeroListItem();
   }.bind(this));
 };
 

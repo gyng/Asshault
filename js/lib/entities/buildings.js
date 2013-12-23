@@ -24,12 +24,14 @@ Tavern.prototype.constructor = Tavern;
 
 Tavern.prototype.tick = function () {
   this.every(2400, function () {
-    this.info.text = _.sample([
-      'Barkeep! Another!',
-      ["Pay up!", "— You're broke?"],
-      "My mead is better than your ale",
-      "This one time, at Ram Boar school..."
-    ]);
+    this.info.text.flavour = {
+      value: _.sample([
+        'Barkeep! Another!',
+        ["Pay up!", "— You're broke?"],
+        "My mead is better than your ale",
+        "This one time, at Ram Boar school..."
+      ])
+    };
     this.info.dirty = true;
   }.bind(this));
 

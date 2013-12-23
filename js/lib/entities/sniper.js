@@ -16,6 +16,7 @@ function Sniper(resources, overrides) {
 
   this.name = _.sample(['Athene', 'Bubo', 'Otus', 'Surnia', 'Asio', 'Nesasio', 'Strix', 'Ninox']);
   this.info.draw = true;
+  this.info.addToHeroList = true;
 
   this.level = 0;
   this.xp = 0;
@@ -75,8 +76,14 @@ Sniper.prototype.tick = function () {
 
   this.every(60, function () {
     this.checkLevelUp();
+
+    this.info.text = {
+      name: { value: this.name },
+      level: { prepend: 'level', value: this.level },
+      xp: { value: this.level, postfix: 'xp' },
+    };
+
     this.checkHeroInfo();
-    this.updateHeroListItem();
   }.bind(this));
 };
 

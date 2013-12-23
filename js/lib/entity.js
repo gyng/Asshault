@@ -32,17 +32,18 @@ function Entity(resources, overrides) {
 
   this.info = {
     draw: false,
-    text: [], // ['line1', 'line2']
+    text: {},
     fill: '#0f0',
-    font: 'bold 20px Arial',
+    font: 'normal 20px Arial',
     strokeStyle: '#000',
     strokeWidth: 2,
     lineHeight: 28,
     offset: { x: 0, y: 0 },
-    dirty: true
+    dirty: true,
+    addToHeroList: false
   };
 
-
+  this.lastInfo = _.clone(this.info); // For doing dirty checks
 
   this.markedForDeletion = false;
 
@@ -76,13 +77,20 @@ Entity.prototype = {
 
     if (this.info.dirty) {
       this.infoCanvas.width = 300;
-      this.infoCanvas.height = this.info.text.length * this.info.lineHeight + 1;
+      // +1 for zero-height canvases
+      this.infoCanvas.height = (_.keys(this.info.text).length+0.5) * this.info.lineHeight + 1;
       this.infoContext.font = this.info.font;
       this.infoContext.fillStyle = this.info.fill;
-      this.info.text = [].concat.apply(this.info.text);
-      this.info.text.forEach(function (line, i) {
-        this.infoContext.fillText(line, 0, (i+1) * this.info.lineHeight);
+
+      var i = 0;
+      _.each(this.info.text, function (line, key) {
+        var text = (line.prepend || '') + line.value + (line.postfix || '');
+        this.infoContext.fillText(text, 0, (++i) * this.info.lineHeight);
       }.bind(this));
+
+      if (this.info.addToHeroList) {
+        this.updateHeroListItem();
+      }
 
       this.info.dirty = false;
     }
@@ -191,15 +199,10 @@ Entity.prototype = {
   },
 
   checkHeroInfo: function () {
-    if (this.info.text.length === 3 &&
-        this.xp !== parseInt(this.info.text[2].slice(0, -2), 10))
+    if (JSON.stringify(this.info.text) !== JSON.stringify(this.lastInfo)) {
       this.info.dirty = true;
-
-    this.info.text = [
-      this.name,
-      'Level ' + this.level,
-      this.xp + 'xp'
-    ];
+    }
+    this.lastInfo = this.info.text;
   },
 
   updateHeroListItem: function () {

@@ -12,8 +12,10 @@ function Player(resources, overrides) {
   this.kills = 0;
 
   this.shadow.on = true;
-  this.info.draw = true;
+
   this.name = 'You!';
+  this.info.draw = true;
+  this.info.addToHeroList = true;
 
   this.sounds = {
     fire: ['shoot2', 'shoot5', 'shoot7'],
@@ -44,8 +46,14 @@ Player.prototype.tick = function () {
 
   this.every(60, function () {
     this.checkLevelUp();
+
+    this.info.text = {
+      name: { value: this.name },
+      level: { prepend: 'level', value: this.level },
+      xp: { value: this.level, postfix: 'xp' },
+    };
+
     this.checkHeroInfo();
-    this.updateHeroListItem();
   }.bind(this));
 };
 
