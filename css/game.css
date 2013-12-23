@@ -24,6 +24,10 @@ body {
 
     background-size: 100% auto;
 
+    backface-visibility: hidden;
+    -moz-backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+
     perspective: 500px;
     -webkit-perspective: 500px;
 }
@@ -38,6 +42,10 @@ canvas, img {
     image-rendering: optimize-contrast;
     -ms-interpolation-mode: nearest-neighbor;
     pointer-events: auto;
+
+    backface-visibility: hidden;
+    -moz-backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
 }
 
 canvas {
@@ -64,6 +72,10 @@ canvas {
 
     justify-content: center;
     align-items: center;
+
+    backface-visibility: hidden;
+    -moz-backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
 
     perspective: 500px;
     /* Hack to fix Chrome issue where 3D transforms would put the UI behind the body
@@ -204,6 +216,10 @@ canvas {
     margin: 0;
     text-align: left;
     z-index: 2;
+
+    backface-visibility: hidden;
+    -moz-backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
 }
 
 .ui .column {
