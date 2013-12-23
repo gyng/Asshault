@@ -113,8 +113,8 @@ UI.prototype = {
     } else {
       el.find('.hero-image').attr('src', hero.getImage().src);
       el.find('.hero-name').text(hero.name);
-      el.find('.hero-kills').text('Kills ' + hero.kills);
-      el.find('.hero-level').text('Level ' + hero.level);
+      el.find('.hero-kills').text('K ' + hero.kills);
+      el.find('.hero-level').text(hero.level);
       el.find('.hero-xp').text('XP ' + hero.xp);
 
       // var transformation = 'rotate(' + rad2deg(hero.rotation) + 'deg) ';

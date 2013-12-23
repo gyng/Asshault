@@ -279,6 +279,67 @@ canvas {
     height: 15%;
 }
 
+.hero-list {
+    /*display: flex;*/
+    /* Only lands in FF28, Chrome has it */
+    /*flex-flow: row wrap;*/
+    width: 100%;
+}
+
+.hero-list-item {
+    float: left;
+    display: flex;
+    flex-direction: row;
+    padding: 0.5rem;
+    width: 50%;
+    height: 5rem;
+    /*background-color: rgba(0, 0, 0, 0.6);*/
+    margin: 0.5rem 0.5rem 0 0;
+    color: #EEE;
+    opacity: 0.9;
+}
+
+.hero-image {
+    width: 100%;
+    max-height: 100%;
+    max-width: 100%;
+}
+
+.hero-left {
+    display: flex;
+    width: 4.5rem;
+    align-items: center;
+    background-color: rgba(5, 5, 25, 0.6);
+}
+
+.hero-right {
+    padding: 0.5rem;
+    background-color: rgba(5, 5, 25, 0.6);
+}
+
+.hero-row {
+    display: flex;
+    flex-direction: row;
+    padding: 0.25rem;
+
+}
+
+.hero-name-row {
+    font-size: 150%;
+}
+
+.hero-name {
+    margin-right: 0.25rem;
+}
+
+.hero-level {
+    margin-left: 0.25rem;
+}
+
+.hero-kills {
+    margin-right: 0.5rem;
+}
+
 .speech-bubble {
     position: absolute;
     top: 100;
