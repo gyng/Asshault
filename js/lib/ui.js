@@ -111,33 +111,32 @@ UI.prototype = {
     if (hero.markedForDeletion) {
       el.remove();
     } else {
-      el.find('.hero-image').attr('src', hero.getImage().src);
-      el.find('.hero-name').text(hero.name);
-      el.find('.hero-kills').text('K ' + hero.kills);
-      el.find('.hero-level').text(hero.level);
-      el.find('.hero-xp').text('XP ' + hero.xp);
 
-      // var transformation = 'rotate(' + rad2deg(hero.rotation) + 'deg) ';
-      // var transformOrigin = hero.width / 2 + 'px ' + hero.height / 2 + 'px';
-      // var image = el.find('.hero-image');
-      // image.css("transform-origin", transformOrigin);
-      // image.css("-webkit-transform-origin", transformOrigin);
-      // image.css("transform", transformation);
-      // image.css("-webkit-transform", transformation);
+      el[0].childNodes[1].children[0].src = hero.getImage().src;
+      el[0].childNodes[3].children[0].children[0].innerHTML = hero.name;
+      el[0].childNodes[3].children[0].children[1].innerHTML = hero.level;
+      el[0].childNodes[3].children[1].children[0].innerHTML = 'K ' + hero.kills;
+      el[0].childNodes[3].children[1].children[1].innerHTML = 'XP ' + hero.xp;
 
-      el.mouseenter(function (e) {
-        hero.highlighted = true;
-      });
-
-      el.mouseout(function (e) {
-        hero.highlighted = false;
-      });
+      // el.find('.hero-image').attr('src', hero.getImage().src);
+      // el.find('.hero-name').text(hero.name);
+      // el.find('.hero-kills').text('K ' + hero.kills);
+      // el.find('.hero-level').text(hero.level);
+      // el.find('.hero-xp').text('XP ' + hero.xp);
     }
   },
 
   createHeroListItem: function (template, hero) {
     var el = $($(template).html());
     this.updateHeroListItem(el, hero);
+
+    el.mouseenter(function (e) {
+      hero.highlighted = true;
+    });
+
+    el.mouseout(function (e) {
+      hero.highlighted = false;
+    });
     // el.find('.hero-upgrades').text(data.flavour || '');
 
     // var that = this;

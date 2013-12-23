@@ -75,7 +75,15 @@ Entity.prototype = {
     this.infoCanvas  = this.infoCanvas  || document.createElement('canvas');
     this.infoContext = this.infoContext || this.infoCanvas.getContext('2d');
 
+
     if (this.info.dirty) {
+      if (this.info.addToHeroList) {
+        this.updateHeroListItem();
+      }
+      this.info.dirty = false;
+    }
+
+    if (this.info.drawDirty) {
       this.infoCanvas.width = 300;
       // +1 for zero-height canvases
       this.infoCanvas.height = (_.keys(this.info.text).length+0.5) * this.info.lineHeight + 1;
@@ -88,11 +96,7 @@ Entity.prototype = {
         this.infoContext.fillText(text, 0, (++i) * this.info.lineHeight);
       }.bind(this));
 
-      if (this.info.addToHeroList) {
-        this.updateHeroListItem();
-      }
-
-      this.info.dirty = false;
+      this.info.drawDirty = false;
     }
 
     context.drawImage(this.infoCanvas, this.info.offset.x, this.info.offset.y);
@@ -201,7 +205,13 @@ Entity.prototype = {
   checkHeroInfo: function () {
     if (JSON.stringify(this.info.text) === JSON.stringify(this.lastInfo)) {
       this.info.dirty = true;
+
+      if (JSON.stringify(_.where(this.info.text, { draw: true })) ===
+          JSON.stringify(_.where(this.lastInfo,  { draw: true }))) {
+        this.info.drawDirty = true;
+      }
     }
+
     this.info.dirty = true;
     this.lastInfo = _.clone(this.info.text);
   },

@@ -43,18 +43,18 @@ Player.prototype.tick = function () {
 
   this.lookAt({ x: this.game.mouse.x, y: this.game.mouse.y });
   this.returnToMap();
+};
 
-  this.every(60, function () {
-    this.checkLevelUp();
+Player.prototype.updateInfo = function () {
+  this.checkLevelUp();
 
-    this.info.text = {
-      name:  { value: this.name, draw: true },
-      level: { prepend: 'level', value: this.level },
-      xp:    { value: this.xp, postfix: 'xp' },
-    };
+  this.info.text = {
+    name:  { value: this.name, draw: true },
+    level: { prepend: 'level', value: this.level },
+    xp:    { value: this.xp, postfix: 'xp' },
+  };
 
-    this.checkHeroInfo();
-  }.bind(this));
+  this.checkHeroInfo();
 };
 
 Player.prototype.returnToMap = function () {

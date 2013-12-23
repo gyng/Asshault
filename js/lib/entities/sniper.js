@@ -74,18 +74,18 @@ Sniper.prototype.tick = function () {
 
     this.lookAt(this.target);
   }
+};
 
-  this.every(60, function () {
-    this.checkLevelUp();
+Sniper.prototype.updateInfo = function () {
+  this.checkLevelUp();
 
-    this.info.text = {
-      name: { value: this.name, draw: true },
-      level: { prepend: 'level', value: this.level },
-      xp: { value: this.xp, postfix: 'xp' },
-    };
+  this.info.text = {
+    name: { value: this.name, draw: true },
+    level: { prepend: 'level', value: this.level },
+    xp: { value: this.xp, postfix: 'xp' },
+  };
 
-    this.checkHeroInfo();
-  }.bind(this));
+  this.checkHeroInfo();
 };
 
 Sniper.prototype.fireAt = function (object) {

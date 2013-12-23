@@ -44,6 +44,7 @@ Cleaner.prototype.tick = function () {
     this.game.audio.play(this.sounds.target, 0.7);
     this.moveTarget = { x: _.random(this.game.canvas.width), y: _.random(this.game.canvas.height) };
     this.xp += ~~(this.cleanAge / 10);
+    this.updateInfo();
   }
 
   this.every(60, function () {
@@ -59,18 +60,18 @@ Cleaner.prototype.tick = function () {
 
   this.moveToTarget();
   this.lookAt(this.moveTarget);
+};
 
-  this.every(60, function () {
-    this.checkLevelUp();
+Cleaner.prototype.updateInfo = function () {
+  this.checkLevelUp();
 
-    this.info.text = {
-      name: { value: this.name, draw: true },
-      level: { prepend: 'level', value: this.level },
-      xp: { value: this.xp, postfix: 'xp' },
-    };
+  this.info.text = {
+    name: { value: this.name, draw: true },
+    level: { prepend: 'level', value: this.level },
+    xp: { value: this.xp, postfix: 'xp' },
+  };
 
-    this.checkHeroInfo();
-  }.bind(this));
+  this.checkHeroInfo();
 };
 
 Cleaner.prototype.getImage = function () {

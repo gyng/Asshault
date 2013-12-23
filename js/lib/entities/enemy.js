@@ -22,6 +22,7 @@ Enemy.prototype.tick = function () {
 
   if (this.health <= 0) {
     this.lastHitBy.source.addXP(this.xpGiven, 1);
+    this.lastHitBy.source.updateInfo();
     this.explode();
   }
 
