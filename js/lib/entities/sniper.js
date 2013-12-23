@@ -24,7 +24,8 @@ function Sniper(resources, overrides) {
 
   this.sounds = {
     spawn: 'shartshooper',
-    fire: ['shoot1', 'shoot4', 'shoot3']
+    fire: ['shoot1', 'shoot4', 'shoot3'],
+    levelup: 'powerup'
   };
 
   this.game.audio.play(this.sounds.spawn);
@@ -78,7 +79,7 @@ Sniper.prototype.tick = function () {
     this.checkLevelUp();
 
     this.info.text = {
-      name: { value: this.name },
+      name: { value: this.name, draw: true },
       level: { prepend: 'level', value: this.level },
       xp: { value: this.xp, postfix: 'xp' },
     };

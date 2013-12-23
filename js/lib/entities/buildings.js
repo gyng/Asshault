@@ -30,7 +30,8 @@ Tavern.prototype.tick = function () {
         ["Pay up!", "— You're broke?"],
         "My mead is better than your ale",
         "This one time, at Ram Boar school..."
-      ])
+      ]),
+      draw: true
     };
     this.info.dirty = true;
   }.bind(this));

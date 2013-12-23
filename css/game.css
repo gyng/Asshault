@@ -1,28 +1,28 @@
 html {
+    overflow-y: hidden;
     margin: 0;
     padding: 0;
     width: 100%;
     height: 100%;
     font-size: 62.5%;
-    overflow-y: hidden;
 }
 
 body {
+    position: fixed;
+    top: 0;
+    left: 0;
     margin: 0;
     padding: 0;
     width: 100%;
     height: 100%;
-    position: fixed;
-    top: 0;
-    left: 0;
+
+    background-size: 100% auto;
+    word-wrap: break-word;
     -moz-font-feature-settings: "liga=1, dlig=1";
     -moz-font-feature-settings: "liga", "dlig";
     -ms-font-feature-settings: "liga", "dlig";
     -webkit-font-feature-settings: "liga", "dlig";
     font-feature-settings: "liga", "dlig";
-    word-wrap: break-word;
-
-    background-size: 100% auto;
 
     backface-visibility: hidden;
     -moz-backface-visibility: hidden;
@@ -33,15 +33,15 @@ body {
 }
 
 canvas, img {
+    display: inline;
     margin: 0;
     padding: 0;
-    display: inline;
+    -ms-interpolation-mode: nearest-neighbor;
+    pointer-events: auto;
     image-rendering: optimizeSpeed;
     image-rendering: -moz-crisp-edges;
     image-rendering: -webkit-optimize-contrast;
     image-rendering: optimize-contrast;
-    -ms-interpolation-mode: nearest-neighbor;
-    pointer-events: auto;
 
     backface-visibility: hidden;
     -moz-backface-visibility: hidden;
@@ -64,11 +64,15 @@ canvas {
 }
 
 .container {
-    height: 100%;
     display: flex;
-    text-align: center;
     margin: 0;
     padding: 0;
+    height: 100%;
+    text-align: center;
+    -webkit-transform: translate3d(0px, 0px, -500px) scale(2);
+    /* Hack to fix Chrome issue where 3D transforms would put the UI behind the body
+    causing it to have */
+    pointer-events: none;
 
     justify-content: center;
     align-items: center;
@@ -78,11 +82,7 @@ canvas {
     -webkit-backface-visibility: hidden;
 
     perspective: 500px;
-    /* Hack to fix Chrome issue where 3D transforms would put the UI behind the body
-    causing it to have */
-    pointer-events: none;
     -webkit-perspective: 500px;
-    -webkit-transform: translate3d(0px, 0px, -500px) scale(2);
 }
 
 .template {
@@ -90,12 +90,15 @@ canvas {
 }
 
 .upgrade {
-    flex-shrink: 0;
+    margin: 0.5rem 0;
 
     padding: 1rem;
-    margin: 0.5rem 0;
     background-color: #555;
     font-size: 1.2rem;
+
+    opacity: 0.8;
+
+    flex-shrink: 0;
 
     -webkit-touch-callout: none;
     -webkit-user-select: none;
@@ -104,14 +107,14 @@ canvas {
     -ms-user-select: none;
     user-select: none;
 
-    cursor: default;
-
-    opacity: 0.8;
+    pointer-events: none;
 }
 
 .active-upgrade {
-    order: -1;
     background-color: #ccc;
+    order: -1;
+
+    pointer-events: auto;
 }
 
 .active-upgrade:hover {
@@ -128,49 +131,49 @@ canvas {
 }
 
 .upgrade-cost {
-    font-size: 1.2rem;
     font-variant: small-caps;
+    font-size: 1.2rem;
 }
 
 .upgrade-effect {
-    font-size: 1.2em;
     font-style: italic;
+    font-size: 1.2em;
 }
 
 .upgrade-flavour {
-    font-size: 1.2rem;
-    font-style: italic;
     text-align: right;
+    font-style: italic;
+    font-size: 1.2rem;
 }
 
 .upgrades {
-    pointer-events: auto;
     display: flex;
     flex-direction: column;
-    height: 100%;
     overflow-y: auto;
     padding-right: 1rem;
+    height: 100%;
+    pointer-events: auto;
 }
 
 .loading {
-    background: rgba(255, 255, 255 0.7);
     position: absolute;
     top: 0;
     left: 0;
+    padding-top: 10%;
     width: 100%;
     height: 100%;
-    font-size: 7.2rem;
-    padding-top: 10%;
+    background: rgba(255, 255, 255 0.7);
     text-align: center;
+    font-size: 7.2rem;
 }
 
 
 .button {
-    padding: 1rem;
     margin: 0.5rem 0;
+    padding: 1rem;
+    cursor: pointer;
     transition: margin 0.1s, padding 0.1s, background-color 0.3s;
     transition-timing: ease-out;
-    cursor: pointer;
 
     -webkit-touch-callout: none;
     -webkit-user-select: none;
@@ -181,24 +184,24 @@ canvas {
 }
 
 .button:hover {
-    transition: margin 0.1s, padding 0.1s;
-    box-shadow: 0.3rem 0.3rem 0.3rem 0 #999;
     margin: 0.2rem 0 0.8rem 0;
+    box-shadow: 0.3rem 0.3rem 0.3rem 0 #999;
     cursor: pointer;
+    transition: margin 0.1s, padding 0.1s;
 }
 
 .button:active {
-    transition-timing: ease-in;
+    margin: 0.7rem 0 0.3rem 0;
     padding: 1rem 0.8rem 1rem 1.2rem;
     box-shadow: inset 0.7rem 0.7rem 0.3rem 0 rgba(0, 0, 0, 0.3);
-    margin: 0.7rem 0 0.3rem 0;
+    transition-timing: ease-in;
 }
 
 .ready-button {
-    width: 33%;
-    background-color: rgb(25, 196, 31);
     display: none;
     max-width: 30rem;
+    width: 33%;
+    background-color: rgb(25, 196, 31);
     text-align: center;
     font-size: 1.8rem;
 }
@@ -209,18 +212,18 @@ canvas {
 
 /* UI */
 .ui {
-    transition: background-color 1.5s;
     position: absolute;
     top: 0;
     left: 0;
+    z-index: 2;
+    display: flex;
+    margin: 0;
+    padding: 0;
     width: 100%;
     height: 100%;
-    pointer-events:none;
-    display: flex;
-    padding: 0;
-    margin: 0;
     text-align: left;
-    z-index: 2;
+    transition: background-color 1.5s;
+    pointer-events:none;
 
     backface-visibility: hidden;
     -moz-backface-visibility: hidden;
@@ -228,18 +231,18 @@ canvas {
 }
 
 .ui .column {
+    flex-direction: row;
     padding: 1rem;
     height: 100%;
-    flex-direction: row;
     pointer-events: none;
     /*justify-content: center;*/
     /*align-items: center;*/
 }
 
 .ui .row {
+    pointer-events: none;
     align-items: center;
     justify-content: center;
-    pointer-events: none;
 }
 
 .ui .button {
@@ -247,18 +250,18 @@ canvas {
 }
 
 .ui .center-bar {
-    flex-grow: 3;
     pointer-events: none;
+    flex-grow: 3;
 }
 
 .ui .left-bar {
-    flex-grow: 1;
     max-width: 27rem;
+    flex-grow: 1;
 }
 
 .ui .right-bar {
-    flex-grow: 1;
     max-width: 27rem;
+    flex-grow: 1;
 }
 
 .ui .top-bar {
@@ -271,59 +274,59 @@ canvas {
 }
 
 .ui .middle-bar {
-    flex-grow: 3;
     /*flex-basis: 70%;*/
     height: 70%;
     pointer-events: none;
+    flex-grow: 3;
 }
 
 .ui .bottom-bar {
+    height: 15%;
     flex-grow: 0;
     flex-basis: 15%;
-    height: 15%;
 }
 
 .hero-list {
+    overflow-y: auto;
     /*display: flex;*/
     /* Only lands in FF28, Chrome has it */
     /*flex-flow: row wrap;*/
     width: 100%;
     height: 100%;
     opacity: 0.9;
-    overflow-y: auto;
     direction: rtl;
 }
 
 .hero-list-item {
-    direction: ltr;
-    float: left;
     display: flex;
     flex-direction: row;
-    padding: 0.5rem;
-    height: 5.5rem;
+    float: left;
     /*background-color: rgba(0, 0, 0, 0.6);*/
     margin: 0.5rem 0.5rem 0 0.5rem;
+    padding: 0.5rem;
+    height: 5.5rem;
     color: #EEE;
     font-size: 1.2rem;
+    direction: ltr;
 }
 
 .hero-image {
-    width: 100%;
-    max-height: 100%;
     max-width: 100%;
+    max-height: 100%;
+    width: 100%;
 }
 
 .hero-left {
     display: flex;
     width: 5rem;
-    align-items: center;
     background-color: rgba(5, 5, 25, 0.6);
+    align-items: center;
 }
 
 .hero-right {
     padding: 0.5rem;
-    background-color: rgba(5, 5, 25, 0.6);
     min-width: 7rem;
+    background-color: rgba(5, 5, 25, 0.6);
 }
 
 .hero-row {
@@ -353,55 +356,55 @@ canvas {
     position: absolute;
     top: 100;
     left: 100;
-    max-width: 15rem;
+    z-index: 1;
     padding: 1rem;
-    background: #FFFFFF;
+    max-width: 15rem;
+    border: #777F7F solid 5px;
     -webkit-border-radius: 10px;
     -moz-border-radius: 10px;
     border-radius: 10px;
-    border: #777F7F solid 5px;
-    z-index: 1;
+    background: #FFFFFF;
 }
 
 .speech-bubble:after {
-    content: '';
     position: absolute;
-    border-style: solid;
-    border-width: 1.5rem 1.5rem 0;
-    border-color: #FFFFFF transparent;
-    display: block;
-    width: 0;
-    z-index: 1;
     bottom: -1.2rem;
     left: 1.5rem;
+    z-index: 1;
+    display: block;
+    width: 0;
+    border-width: 1.5rem 1.5rem 0;
+    border-style: solid;
+    border-color: #FFFFFF transparent;
+    content: '';
 }
 
 .speech-bubble:before {
-    content: '';
     position: absolute;
-    border-style: solid;
-    border-width: 1.9rem 1.9rem 0;
-    border-color: #777F7F transparent;
-    display: block;
-    width: 0;
-    z-index: 0;
     bottom: -1.9rem;
     left: 1.17rem;
+    z-index: 0;
+    display: block;
+    width: 0;
+    border-width: 1.9rem 1.9rem 0;
+    border-style: solid;
+    border-color: #777F7F transparent;
+    content: '';
 }
 
 .speech-bubble > .text {
-    font-size: 1.6rem;
     min-width: 8rem;
+    font-size: 1.6rem;
 }
 
 #debug {
     position: absolute;
-    top: 100px;
+    top: 10px;
     left: 200px;
+    color: black;
     text-shadow: 1px 1px 0 #080, -1px -1px 0 #080, 1px -1px 0 #080,
             -1px 1px 0 #080, 3px 3px 5px #333;
     font-weight: bold;
-    color: black;
     font-size: 1.2rem;
     font-family: monospace;
     pointer-events: none;

@@ -20,7 +20,8 @@ function Cleaner(resources, overrides) {
 
   this.sounds = {
     spawn: 'waw',
-    target: 'beep'
+    target: 'beep',
+    levelup: 'powerup'
   };
   this.game.audio.play(this.sounds.spawn);
 
@@ -63,7 +64,7 @@ Cleaner.prototype.tick = function () {
     this.checkLevelUp();
 
     this.info.text = {
-      name: { value: this.name },
+      name: { value: this.name, draw: true },
       level: { prepend: 'level', value: this.level },
       xp: { value: this.xp, postfix: 'xp' },
     };

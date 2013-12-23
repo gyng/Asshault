@@ -27,8 +27,8 @@ Bullet.prototype.tick = function () {
   this.x += this.deltaX;
   this.y += this.deltaY;
 
-  var randomness = 5 + _.random(10);
-  this.shadow.on = (this.age % randomness > 0 && this.age % randomness < 4);
+  // var randomness = 5 + _.random(10);
+  // this.shadow.on = (this.age % randomness > 0 && this.age % randomness < 4);
 
   this.game.enemies.forEach(function (ent) {
     if (this.collidesWith(ent, this.speed * 0.75)) {

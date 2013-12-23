@@ -61,7 +61,7 @@ Gunner.prototype.tick = function () {
     this.checkLevelUp();
 
     this.info.text = {
-      name: { value: this.name },
+      name: { value: this.name, draw: true },
       level: { prepend: 'level', value: this.level },
       xp: { value: this.xp, postfix: 'xp' },
     };
