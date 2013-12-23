@@ -46,20 +46,23 @@ Sniper.prototype.tick = function () {
   if (!isDefined(this.target) ||
       this.target.markedForDeletion) {
     this.target = _.sample(this.game.enemies);
-    this.targetAge = 0;
+    // So it will still fire sometimes if it can't get a shot in
+    // Target switching penalty
+    this.targetAge = this.targetAge * 0.4;
   }
 
   if (isDefined(this.target)) {
-    this.every(this.fireRate, function () {
+    if (this.targetAge >= this.fireRate) {
       this.fireAt(this.target);
       this.fireAge = 0;
+      this.targetAge = 0;
 
       // Set new moveTarget position after firing
       this.moveTarget = {
         x: this.game.player.x + randomNegation(_.random(64, 128)),
         y: this.game.player.y + randomNegation(_.random(64, 128))
       };
-    });
+    }
 
     // Actually move to moveTarget after firing (0.25-0.5 of cooldown)
     if (this.fireAge > this.fireRate * 0.25 && this.fireAge < this.fireRate * 0.5) {
@@ -121,7 +124,7 @@ Sniper.prototype.draw = function (context) {
   else if (this.fireAge <= 15)
     context.drawImage(this.sprites.flash2, -this.width, -this.height * 2);
 
-  if (this.fireAge >= 50 && isDefined(this.target)) {
+  if (this.targetAge >= 50 && isDefined(this.target)) {
     context.beginPath();
     context.moveTo(0, 0);
     context.lineTo(0, -this.distanceTo(this.target));
