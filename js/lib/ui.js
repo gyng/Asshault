@@ -15,6 +15,7 @@ UI.prototype = {
 
     window.onfocus = function () {
       game.running = true;
+      game.draw();
       game.audio.setMasterVolume(1);
     };
   },

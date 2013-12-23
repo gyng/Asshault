@@ -133,10 +133,14 @@ Game.prototype = {
   },
 
   draw: function () {
-    // Update scaling only once per second.
-    if (++this.fpsCounter === 1) this.ui.scaleCanvas();
-    this.renderer.draw();
-    requestAnimationFrame(this.draw.bind(this));
+    if (this.running) {
+      // Update scaling only once per second.
+      if (++this.fpsCounter === 1) this.ui.scaleCanvas();
+      this.renderer.draw();
+      this.animationRequestId = requestAnimationFrame(this.draw.bind(this));
+    } else {
+      cancelAnimationFrame(this.animationRequestId);
+    }
   },
 
   setBackground: function (canvasbg, documentbg) {
