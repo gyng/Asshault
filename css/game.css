@@ -95,7 +95,7 @@ canvas {
     padding: 1rem;
     margin: 0.5rem 0;
     background-color: #555;
-    font-size: 1.8rem;
+    font-size: 1.2rem;
 
     -webkit-touch-callout: none;
     -webkit-user-select: none;
@@ -105,6 +105,8 @@ canvas {
     user-select: none;
 
     cursor: default;
+
+    opacity: 0.8;
 }
 
 .active-upgrade {
@@ -114,6 +116,7 @@ canvas {
 
 .active-upgrade:hover {
     background-color: #ddd;
+    opacity: 1;
 }
 
 .active-upgrade:active {
@@ -121,21 +124,21 @@ canvas {
 }
 
 .upgrade-name {
-
+    font-size: 1.6rem;
 }
 
 .upgrade-cost {
-    font-size: 1.4rem;
+    font-size: 1.2rem;
     font-variant: small-caps;
 }
 
 .upgrade-effect {
-    font-size: 1.4rem;
+    font-size: 1.2em;
     font-style: italic;
 }
 
 .upgrade-flavour {
-    font-size: 1.4rem;
+    font-size: 1.2rem;
     font-style: italic;
     text-align: right;
 }
@@ -146,6 +149,7 @@ canvas {
     flex-direction: column;
     height: 100%;
     overflow-y: auto;
+    padding-right: 1rem;
 }
 
 .loading {
@@ -249,12 +253,12 @@ canvas {
 
 .ui .left-bar {
     flex-grow: 1;
-    max-width: 30rem;
+    max-width: 27rem;
 }
 
 .ui .right-bar {
     flex-grow: 1;
-    max-width: 30rem;
+    max-width: 27rem;
 }
 
 .ui .top-bar {
@@ -284,19 +288,23 @@ canvas {
     /* Only lands in FF28, Chrome has it */
     /*flex-flow: row wrap;*/
     width: 100%;
+    height: 100%;
+    opacity: 0.9;
+    overflow-y: auto;
+    direction: rtl;
 }
 
 .hero-list-item {
+    direction: ltr;
     float: left;
     display: flex;
     flex-direction: row;
     padding: 0.5rem;
-    width: 50%;
-    height: 5rem;
+    height: 5.5rem;
     /*background-color: rgba(0, 0, 0, 0.6);*/
-    margin: 0.5rem 0.5rem 0 0;
+    margin: 0.5rem 0.5rem 0 0.5rem;
     color: #EEE;
-    opacity: 0.9;
+    font-size: 1.2rem;
 }
 
 .hero-image {
@@ -307,7 +315,7 @@ canvas {
 
 .hero-left {
     display: flex;
-    width: 4.5rem;
+    width: 5rem;
     align-items: center;
     background-color: rgba(5, 5, 25, 0.6);
 }
@@ -315,6 +323,7 @@ canvas {
 .hero-right {
     padding: 0.5rem;
     background-color: rgba(5, 5, 25, 0.6);
+    min-width: 7rem;
 }
 
 .hero-row {
@@ -325,7 +334,7 @@ canvas {
 }
 
 .hero-name-row {
-    font-size: 150%;
+    font-size: 1.6rem;
 }
 
 .hero-name {
@@ -386,6 +395,9 @@ canvas {
 }
 
 #debug {
+    position: absolute;
+    top: 100px;
+    left: 200px;
     text-shadow: 1px 1px 0 #080, -1px -1px 0 #080, 1px -1px 0 #080,
             -1px 1px 0 #080, 3px 3px 5px #333;
     font-weight: bold;
