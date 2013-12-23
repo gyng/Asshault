@@ -32,9 +32,6 @@ Game.prototype = {
     this.center     = { x: this.canvas.width / 2, y: this.canvas.height / 2 };
     this.fpsCounter = 0;
     this.cssScale   = 1;
-    this.lowFPSCounter = 0;
-    this.lowFPSCutoff = 20;
-    this.lowFPSThreshold = 5;
 
     this.running = true;
 
@@ -176,24 +173,10 @@ Game.prototype = {
       "<p>" + this.entities.length + " entities</p>" +
       "<p>" + this.friendlies.length + " friendlies</p>" +
       "<p>" + this.enemies.length + " enemies</p>" +
-      "<p>" + this.player.health + " player health</p>" +
-      "<p>" + this.renderer.shake.threeDee + " 3D shake " + this.lowFPSCounter + "</p>"
+      "<p>" + this.player.health + " player health </p>"
     );
 
     this.lastAge = this.age;
-
-    // Fallback to 2D camera shake if it lags too much (not accelerated/too much stuff)
-    if (this.fpsCounter < this.lowFPSCutoff)
-      this.lowFPSCounter++;
-    else
-      this.lowFPSCounter--;
-
-
-    if (this.lowFPSCounter > this.lowFPSThreshold)
-      this.renderer.shake.threeDee = false;
-    else
-      this.renderer.shake.threeDee = true;
-
     this.fpsCounter = 0;
   }
 };

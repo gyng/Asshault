@@ -4,7 +4,7 @@ function Renderer (game, canvas, decalCanvas) {
   this.context = canvas.getContext('2d');
   this.decalCanvas = decalCanvas;
   this.decalContext = decalCanvas.getContext('2d');
-  this.shake = { x: 0, y: 0, reduction: 0.95, threeDee: true };
+  this.shake = { x: 0, y: 0, reduction: 0.95 };
 
   // Nearest-neighbour scaling
   [this.context, this.decalContext].forEach(function (ctx) {
@@ -24,16 +24,9 @@ Renderer.prototype = {
     this.spritePass();
     this.levelPass();
     this.infoPass();
-
-    if (this.shake.threeDee) {
-      this.shakeElement(this.canvas);
-      this.shakeElement(this.decalCanvas);
-      this.rotate3d(document.getElementById('ui'), this.shake.y, Math.abs(this.shake.x), 0, hypotenuse(this.shake.x, this.shake.y));
-    } else {
-      this.basicShakeElement(this.canvas);
-      this.basicShakeElement(this.decalCanvas);
-      this.basicShakeElement(document.getElementById('ui'), -0.2);
-    }
+    this.shakeElement(this.canvas);
+    this.shakeElement(this.decalCanvas);
+    this.rotate3d(document.getElementById('ui'), this.shake.y, Math.abs(this.shake.x), 0, hypotenuse(this.shake.x, this.shake.y));
   },
 
   updateCameraShake: function () {
@@ -167,17 +160,6 @@ Renderer.prototype = {
 
       this.decalContext.drawImage(image, xOffset, yOffset, w, h);
     this.decalContext.restore();
-  },
-
-  // Fallback
-  basicShakeElement: function (el, scaling) {
-    scaling = scaling || 1;
-
-    var transformation = "translate(" +
-      this.shake.x / this.game.cssScale * scaling + "px," +
-      this.shake.y / this.game.cssScale * scaling + "px)";
-    el.style.transform = transformation;
-    el.style["-webkit-transform"] = transformation;
   },
 
   shakeElement: function (el, scaling) {
