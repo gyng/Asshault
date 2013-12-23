@@ -40,6 +40,7 @@ function Entity(resources, overrides) {
     lineHeight: 28,
     offset: { x: 0, y: 0 },
     dirty: true,
+    drawDirty: true,
     addToHeroList: false
   };
 

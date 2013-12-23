@@ -36,6 +36,7 @@ function Sniper(resources, overrides) {
     'Grab the penetration upgrade, will ya?',
     'Precision.',
   ]));
+  this.updateInfo();
 }
 
 Sniper.prototype = new Entity();

@@ -31,6 +31,7 @@ function Player(resources, overrides) {
   }.bind(this));
 
   this.uiElem = null;
+  this.updateInfo();
 }
 
 Player.prototype = new Entity();

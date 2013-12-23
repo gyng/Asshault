@@ -34,6 +34,7 @@ Tavern.prototype.tick = function () {
       draw: true
     };
     this.info.dirty = true;
+    this.checkHeroInfo();
   }.bind(this));
 
   if (this.age % 2400 === 1600)

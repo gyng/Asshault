@@ -31,6 +31,7 @@ function Cleaner(resources, overrides) {
     'Things die when they are killed!',
     'Disgusting.',
   ]));
+  this.updateInfo();
 }
 
 Cleaner.prototype = new Entity();
