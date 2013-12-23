@@ -11,12 +11,14 @@ UI.prototype = {
     window.onblur = function () {
       game.running = false;
       game.audio.setMasterVolume(0);
+      $('.ui').css('background-color', 'rgba(0, 0, 0, 0.7)');
     };
 
     window.onfocus = function () {
       game.running = true;
       game.draw();
       game.audio.setMasterVolume(1);
+      $('.ui').css('background-color', 'transparent');
     };
   },
 

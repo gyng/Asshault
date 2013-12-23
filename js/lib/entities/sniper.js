@@ -80,7 +80,7 @@ Sniper.prototype.tick = function () {
     this.info.text = {
       name: { value: this.name },
       level: { prepend: 'level', value: this.level },
-      xp: { value: this.level, postfix: 'xp' },
+      xp: { value: this.xp, postfix: 'xp' },
     };
 
     this.checkHeroInfo();

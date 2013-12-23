@@ -199,10 +199,11 @@ Entity.prototype = {
   },
 
   checkHeroInfo: function () {
-    if (JSON.stringify(this.info.text) !== JSON.stringify(this.lastInfo)) {
+    if (JSON.stringify(this.info.text) === JSON.stringify(this.lastInfo)) {
       this.info.dirty = true;
     }
-    this.lastInfo = this.info.text;
+    this.info.dirty = true;
+    this.lastInfo = _.clone(this.info.text);
   },
 
   updateHeroListItem: function () {
