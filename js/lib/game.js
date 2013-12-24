@@ -58,35 +58,7 @@ Game.prototype = {
 
     this.levelNumber = 0;
     this.level = null;
-    this.levels = {
-      1: new BreakLevel(this),
-      2: new Level(this, {
-        0:  {
-          f: function () {
-            this.setBackground('res/bg/bggrass.png', 'res/bg/bggrassvig.png');
-          }
-        },
-        45: {
-          f: function () {
-            var spawn = {};
-            var minDistanceAway = 200;
-            var maxAttempts = 100;
-            var attempts = 0;
-
-            do
-              spawn = { x: _.random(this.canvas.width), y: _.random(this.canvas.height) };
-            while (
-              distanceBetween(spawn, this.player) < minDistanceAway &&
-              attempts++ < maxAttempts);
-
-            if (attempts < maxAttempts)
-              this.addEntity(new Enemy(this.resources, spawn), 'enemy');
-          },
-          r: 45
-        },
-        15: { f: function (arg1) { }, a: 'myarg2' },
-      })
-    };
+    this.levels = new Levels(this).levels;
 
     this.ui = new UI(this);
 
@@ -113,21 +85,21 @@ Game.prototype = {
       //      will not collide (and are usually near each other).
       //   2. Updating the spatial hash for individual objects is painful
       //      so we recreate it each frame. Expensive with many bullets.
-
       this.spatialHash = new SpatialHash(Math.ceil(this.canvas.width / 100));
-      for (var i = 0; i < this.enemies.length; i++) {
+      var i;
+      for (i = 0; i < this.enemies.length; i++) {
         var enemy = this.enemies[i];
         this.spatialHash.add(enemy.x, enemy.y, enemy);
       }
-      for (var j = 0; j < this.friendlies.length; j++) {
-        var friendly = this.friendlies[j];
+      for (i = 0; i < this.friendlies.length; i++) {
+        var friendly = this.friendlies[i];
         this.spatialHash.add(friendly.x, friendly.y, friendly);
       }
 
       this.entities.forEach(function (ent) {
         ent.tick();
-        ent.tock();
         ent.executeUpgrades();
+        ent.tock();
       }.bind(this));
 
       // Culling
