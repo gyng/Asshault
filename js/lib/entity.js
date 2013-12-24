@@ -185,13 +185,6 @@ Entity.prototype = {
     this.game.ui.createSpeechBubble(null, this.x, this.y - this.height * 2, text, duration);
   },
 
-  every: function(mod, fun, args) {
-    args = args || [];
-    if (this.age % mod === 0) {
-      fun.apply(this, [].concat(args));
-    }
-  },
-
   // Hero stuff, TODO: split into 'subclass'
   addXP: function (xp, kills) {
     this.xp += xp;

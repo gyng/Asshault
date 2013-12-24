@@ -92,7 +92,7 @@ Player.prototype.getImage = function () {
 Player.prototype.fire = function (radians, offsetDegrees) {
   var offset = deg2rad(randomError(this.spread) + randomNegation(offsetDegrees || 0));
 
-  this.every(this.firingRate, function () {
+  if (this.age % this.firingRate === 0) {
     this.game.addEntity(
       new Bullet(this.resources, {
         x: this.x,
@@ -108,7 +108,7 @@ Player.prototype.fire = function (radians, offsetDegrees) {
 
     this.fireShake();
     this.game.audio.play(this.sounds.fire, 0.2);
-  });
+  }
 };
 
 Player.prototype.fireShake = function () {

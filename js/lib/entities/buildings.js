@@ -27,7 +27,7 @@ Tavern.prototype = new Entity();
 Tavern.prototype.constructor = Tavern;
 
 Tavern.prototype.tick = function () {
-  this.every(2400, function () {
+  if (this.age % 2400 === 0) {
     this.info.text.flavour = {
       value: _.sample([
         'Barkeep! Another!',
@@ -39,7 +39,7 @@ Tavern.prototype.tick = function () {
     };
     this.info.dirty = true;
     this.checkHeroInfo();
-  }.bind(this));
+  }
 
   if (this.age % 2400 === 1600)
     this.info.text = [];

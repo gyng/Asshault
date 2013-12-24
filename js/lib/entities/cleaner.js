@@ -51,7 +51,7 @@ Cleaner.prototype.tick = function () {
     this.updateInfo();
   }
 
-  this.every(60, function () {
+  if (this.age % 60 === 0) {
     var prevOp = this.game.renderer.decalContext.globalCompositeOperation;
     this.game.renderer.decalContext.globalCompositeOperation = 'destination-out';
     this.game.renderer.decalContext.fillStyle = 'rgba(0, 0, 0, 0.8)';
@@ -60,7 +60,7 @@ Cleaner.prototype.tick = function () {
     this.game.renderer.decalContext.fill();
     this.game.renderer.decalContext.globalCompositeOperation = prevOp;
     this.cleanAge = 0;
-  });
+  }
 
   this.moveToTarget();
   this.lookAt(this.moveTarget);
