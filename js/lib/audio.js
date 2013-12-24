@@ -93,16 +93,17 @@ Audio.prototype = {
     request.send();
   },
 
-  play: function(name, volume, loop, loopstart, loopend) {
+  play: function(name, volume, opts) {
     if (!this.audioSupport) return;
 
     if (typeof name === 'object' && name.length > 0)
       name = name[~~(Math.random() * name.length)];
 
-    volume = volume || 1;
-    loop = loop || false;
-    loopstart = loopstart || 0.0;
-    loopend = loopend || 1.0;
+    volume        = volume || 1;
+    opts          = opts || {};
+    var loop      = opts.loop || false;
+    var loopstart = opts.loopstart || 0.0;
+    var loopend   = opts.loopend || 1.0;
 
     var source = this.audioContext.createBufferSource();
     source.buffer = this.sounds[name];
@@ -125,6 +126,6 @@ Audio.prototype = {
   loop: function(name, volume, loopstart, loopend) {
     loopstart = loopstart || 0.0;
     loopend = loopend || 1.0;
-    this.play(name, volume, true, loopstart, loopend);
+    this.play(name, volume, { loop: true, loopstart: loopstart, loopend: loopend });
   }
 };
