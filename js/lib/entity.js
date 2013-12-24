@@ -14,6 +14,10 @@ function Entity(resources, overrides) {
   this.health = 0;
   this.lastHitBy = null;
 
+  this.alignment = 'none';
+  this.friendlyPierceChance = 0;
+  this.enemyPierceChance = 0;
+
   if (typeof resources !== 'undefined') {
     this.sprites = resources.sprites;
     this.sounds = resources.sounds;

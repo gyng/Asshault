@@ -15,6 +15,10 @@ function Tavern(resources, overrides) {
   this.sounds = { build: 'build' };
   this.game.audio.play(this.sounds.build, 0.9);
 
+  this.alignment = 'friendly';
+  this.friendlyPierceChance = 0.85;
+  this.enemyPierceChance = 0.3;
+
   this.say('Grand opening!');
 }
 

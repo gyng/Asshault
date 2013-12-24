@@ -7,6 +7,10 @@ function Enemy(resources, overrides) {
   this.shadow.on = true;
   this.xpGiven = 10;
   this.goldGiven = 5;
+
+  this.alignment = 'enemy';
+  this.friendlyPierceChance = 0; // Alignment is relative
+  this.enemyPierceChance = 0; // Pierce chance for bullets from player+heroes
 }
 
 Enemy.prototype = new Entity();

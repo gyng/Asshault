@@ -11,6 +11,11 @@ function Player(resources, overrides) {
   this.xp = 0;
   this.kills = 0;
 
+  this.alignment = 'friendly';
+  this.friendlyPierceChance = 0.98;
+  this.enemyPierceChance = 0;
+  this.additionalBulletPierceChance = 0;
+
   this.shadow.on = true;
 
   this.name = 'You!';
@@ -96,7 +101,8 @@ Player.prototype.fire = function (radians, offsetDegrees) {
         rotation: radians + offset,
         damage: 1,
         speed: 30,
-        source: this
+        source: this,
+        additionalPierceChance: this.additionalBulletPierceChance
       })
     );
 

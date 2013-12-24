@@ -85,6 +85,28 @@ function Upgrades (game) {
         }
       }),
 
+    playerPiercingBullets:
+      new Upgrade({
+        name: 'playerPiercingBullets',
+        effect: function () {
+          this.player.additionalBulletPierceChance += 0.7;
+          this.player.addUpgrade({
+            icon: this.sprites.flash2,
+            tooltip: 'Piercing bullets.'
+          });
+        },
+        constraints: [
+          [new UpgradeConstraint('haveGold'), 25],
+          [new UpgradeConstraint('upgradeCountWithinRange'), 'playerPiercingBullets', 0, 1]
+        ],
+        text: {
+          name: 'Piercing bullets',
+          cost: '25G',
+          effect: 'Cut through butter like butter.',
+          flavour: ''
+        }
+      }),
+
     reduceCameraShake:
       new Upgrade({
         name:  'reduceCameraShake',

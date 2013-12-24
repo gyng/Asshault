@@ -6,6 +6,10 @@ function Sniper(resources, overrides) {
   this.speed  = 7 + _.random(8);
   this.shadow.on = true;
 
+  this.alignment = 'friendly';
+  this.friendlyPierceChance = 0.98;
+  this.enemyPierceChance = 0;
+
   this.target    = null;
   this.targetAge = 0;
   this.fireAge   = 0;

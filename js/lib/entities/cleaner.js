@@ -9,6 +9,9 @@ function Cleaner(resources, overrides) {
   this.cleanAge = 0;
   this.shadow.on = true;
   this.moveTarget = { x: this.x, y: this.y };
+  this.alignment = 'friendly';
+  this.friendlyPierceChance = 0.98;
+  this.enemyPierceChance = 0;
 
   this.level = 0;
   this.xp = 0;

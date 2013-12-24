@@ -4,6 +4,10 @@ function Gunner(resources, overrides) {
   this.height = 42;
   this.speed  = 7 + _.random(8);
 
+  this.alignment = 'friendly';
+  this.friendlyPierceChance = 0.98;
+  this.enemyPierceChance = 0;
+
   this.target    = null;
   this.targetAge = 0;
   this.spread    = 5;

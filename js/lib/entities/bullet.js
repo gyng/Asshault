@@ -4,6 +4,7 @@ function Bullet(resources, overrides) {
   this.height = 16;
   this.damage = this.damage || 1;
   this.speed = this.speed || 30;
+  this.alignment = this.source.alignment;
 
   // Calculate on creation and not per tick
   this.deltaX = -Math.cos(this.direction) * this.speed;
@@ -17,6 +18,8 @@ function Bullet(resources, overrides) {
     shape: 'circle',
     todScale: 0
   };
+
+  this.additionalPierceChance = this.additionalPierceChance || 0; // Piercing modifier from upgrades
 }
 
 Bullet.prototype = new Entity();
@@ -33,15 +36,30 @@ Bullet.prototype.tick = function () {
     var ent = list[i];
     if (this.collidesWith(ent, this.speed * 0.75)) {
       ent.damage(this.damage, this);
-      this.die();
 
-      this.game.addEntity(
-        new BulletPing(this.resources, {
-          x: ent.x,
-          y: ent.y,
-          rotation: ent.rotation
-        })
-      );
+      var pierceChance;
+      if (this.alignment !== 'none') {
+        if ((this.alignment === 'friendly' && ent.alignment === 'enemy') ||
+            (this.alignment === 'enemy' && ent.alignment === 'friendly')) {
+          pierceChance = ent.enemyPierceChance;
+        } else if (this.alignment === ent.alignment) {
+          pierceChance = ent.friendlyPierceChance;
+        }
+      } else {
+        pierceChance = 1;
+      }
+
+      if (Math.random() - this.additionalPierceChance > pierceChance) {
+        this.die();
+
+        this.game.addEntity(
+          new BulletPing(this.resources, {
+            x: ent.x,
+            y: ent.y,
+            rotation: ent.rotation
+          })
+        );
+      }
     }
   }
 
