@@ -27,10 +27,10 @@ Bullet.prototype.tick = function () {
   this.x += this.deltaX;
   this.y += this.deltaY;
 
-  // var randomness = 5 + _.random(10);
-  // this.shadow.on = (this.age % randomness > 0 && this.age % randomness < 4);
+  var list = this.game.spatialHash.query(this.x, this.y);
 
-  this.game.enemies.forEach(function (ent) {
+  for (var i = 0; i < list.length; i++) {
+    var ent = list[i];
     if (this.collidesWith(ent, this.speed * 0.75)) {
       ent.damage(this.damage, this);
       this.die();
@@ -43,7 +43,7 @@ Bullet.prototype.tick = function () {
         })
       );
     }
-  }.bind(this));
+  }
 
   this.every(10, function () {
     this.checkOutOfBounds();

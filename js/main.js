@@ -2,6 +2,7 @@ require.config({
   shim: {
     'lib/game': {
       deps: [
+        'lib/SpatialHash',
         'lib/renderer',
         'lib/audio',
         'lib/sprites',

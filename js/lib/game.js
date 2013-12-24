@@ -106,11 +106,29 @@ Game.prototype = {
     if (this.running) {
       this.age++;
 
+      // Do not add bullets to spatial hash. Do all checking in individual
+      // bullets against enemies.
+      // For performance:
+      //   1. We don't want to check bullets against other bullets as they
+      //      will not collide (and are usually near each other).
+      //   2. Updating the spatial hash for individual objects is painful
+      //      so we recreate it each frame. Expensive with many bullets.
+
+      this.spatialHash = new SpatialHash(Math.ceil(this.canvas.width / 100));
+      for (var i = 0; i < this.enemies.length; i++) {
+        var enemy = this.enemies[i];
+        this.spatialHash.add(enemy.x, enemy.y, enemy);
+      }
+      for (var j = 0; j < this.friendlies.length; j++) {
+        var friendly = this.friendlies[j];
+        this.spatialHash.add(friendly.x, friendly.y, friendly);
+      }
+
       this.entities.forEach(function (ent) {
         ent.tick();
         ent.tock();
         ent.executeUpgrades();
-      });
+      }.bind(this));
 
       // Culling
       var filter = function (ent) { return !ent.markedForDeletion; };
