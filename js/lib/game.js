@@ -60,6 +60,8 @@ Game.prototype = {
     this.level = null;
     this.levels = new Levels(this).levels;
 
+    this.gold = 50;
+
     this.ui = new UI(this);
 
     // Debug variables
@@ -160,6 +162,17 @@ Game.prototype = {
     }
   },
 
+  addGold: function (amount) {
+    this.gold += amount;
+    this.ui.updateGold();
+  },
+
+  subtractGold: function (amount) {
+    this.gold -= amount;
+    this.ui.updateGold();
+    this.audio.play('coin');
+  },
+
   updateDebugInfo: function () {
     $('#debug').html(
       "<p>" + this.fpsCounter + " FPS</p>" +
@@ -167,7 +180,8 @@ Game.prototype = {
       "<p>" + this.entities.length + " entities</p>" +
       "<p>" + this.friendlies.length + " friendlies</p>" +
       "<p>" + this.enemies.length + " enemies</p>" +
-      "<p>" + this.player.health + " player health</p>"
+      "<p>" + this.player.health + " player health</p>" +
+      "<p>" + this.gold + "gold</p>"
     );
 
     this.lastAge = this.age;

@@ -101,7 +101,7 @@ Player.prototype.fire = function (radians, offsetDegrees) {
     );
 
     this.fireShake();
-    this.game.audio.play(this.sounds.fire, 0.3);
+    this.game.audio.play(this.sounds.fire, 0.2);
   });
 };
 

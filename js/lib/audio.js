@@ -40,6 +40,7 @@ function Audio(sources) {
     ['helicopter2', 'Helicopter2.ogg'],
     ['helicopter3', 'Helicopter3.ogg'],
     ['powerup', 'Powerup.ogg'],
+    ['coin', 'Coin.ogg'],
   ];
 
   this.loaded = 0;

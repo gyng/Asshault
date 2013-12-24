@@ -100,13 +100,6 @@ canvas {
 
     flex-shrink: 0;
 
-    -webkit-touch-callout: none;
-    -webkit-user-select: none;
-    -khtml-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
-
     pointer-events: none;
 }
 
@@ -153,6 +146,13 @@ canvas {
     padding-right: 1rem;
     height: 100%;
     pointer-events: auto;
+
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
 }
 
 .loading {
@@ -240,6 +240,7 @@ canvas {
 }
 
 .ui .row {
+    display: flex;
     pointer-events: none;
     align-items: center;
     justify-content: center;
@@ -275,6 +276,8 @@ canvas {
 
 .ui .middle-bar {
     /*flex-basis: 70%;*/
+    /*display: flex;*/
+    align-items: flex-start;
     height: 70%;
     pointer-events: none;
     flex-grow: 3;
@@ -397,6 +400,26 @@ canvas {
     font-size: 1.6rem;
 }
 
+.gold {
+    flex-grow: 1;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+.gold-amount {
+    font-size: 2.8rem;
+    color: #c5790c;
+    text-shadow: 1px 1px 0 #ecdc25, -1px -1px 0 #90582e, 1px -1px 0 #ecdc25,
+            -1px 1px 0 #90582e, 3px 3px 5px #333;
+}
+
+.gold-image {
+    margin: 0 0 0 0.2rem;
+    max-height: 2.6rem;
+    pointer-events: none;
+}
+
 #debug {
     position: absolute;
     top: 10px;
@@ -408,4 +431,12 @@ canvas {
     font-size: 1.2rem;
     font-family: monospace;
     pointer-events: none;
+}
+
+#cheat {
+    position: absolute;
+    top: 10px;
+    left: 300px;
+    background-color: rgba(0, 0, 0, 0.7);
+    color: #fff;
 }

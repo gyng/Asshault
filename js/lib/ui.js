@@ -2,6 +2,7 @@ function UI(game) {
   this.game = game;
   this.populateUpgradeButtons(game.upgrades.list);
   this.setupBindings();
+  this.updateGold();
 }
 
 UI.prototype = {
@@ -20,6 +21,19 @@ UI.prototype = {
       game.audio.setMasterVolume(1);
       $('.ui').css('background-color', 'transparent');
     };
+
+    // Cheats
+    if (game.debug) {
+      $('#add-gold').click(function () {
+        game.addGold(1000);
+      });
+
+      $('#add-player-xp').click(function () {
+        game.player.xp += 100;
+        game.player.checkLevelUp();
+        game.player.checkHeroInfo();
+      });
+    }
   },
 
   setAvailableUpgrades: function () {
@@ -35,6 +49,10 @@ UI.prototype = {
           .toggleClass('button', false);
       }
     }.bind(this));
+  },
+
+  updateGold: function () {
+    $('.gold-amount').text(this.game.gold);
   },
 
   scaleCanvas: function () {
