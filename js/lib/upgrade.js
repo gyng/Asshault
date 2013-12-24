@@ -196,11 +196,11 @@ function Upgrades (game) {
             this.heloXAcceleration += this.accelerationRate * scaling * closeToEW * xFlip;
             this.heloYAcceleration += this.accelerationRate * scaling * closeToNS * yFlip;
 
-            this.heloXAcceleration = Math.max(Math.min(this.heloXAcceleration, this.maxAcceleration), this.minAcceleration);
-            this.heloYAcceleration = Math.max(Math.min(this.heloYAcceleration, this.maxAcceleration), this.minAcceleration);
+            this.heloXAcceleration = clamp(this.heloXAcceleration, this.minAcceleration, this.maxAcceleration);
+            this.heloYAcceleration = clamp(this.heloYAcceleration, this.minAcceleration, this.maxAcceleration);
 
-            this.heloXSpeed = Math.max(Math.min(this.heloXSpeed + this.heloXAcceleration, this.maxSpeed), -this.maxSpeed);
-            this.heloYSpeed = Math.max(Math.min(this.heloYSpeed + this.heloYAcceleration, this.maxSpeed), -this.maxSpeed);
+            this.heloXSpeed = clamp(this.heloXSpeed + this.heloXAcceleration, -this.maxSpeed, this.maxSpeed);
+            this.heloYSpeed = clamp(this.heloYSpeed + this.heloYAcceleration, -this.maxSpeed, this.maxSpeed);
           };
 
           this.player.heloMove = function () {

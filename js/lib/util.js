@@ -40,6 +40,10 @@ function hypotenuse(a, b) {
   return Math.sqrt(a * a + b * b);
 }
 
+function clamp(value, min, max) {
+  return Math.min(Math.max(value, min), max);
+}
+
 // Takes four values x1, y1, x2, y2 or point1, point2
 // Point being { x: 1, y: 1 }
 function distanceBetween(p1, p2, x2, y2) {

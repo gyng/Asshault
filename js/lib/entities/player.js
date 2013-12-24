@@ -122,8 +122,8 @@ Player.prototype.fireShake = function () {
 };
 
 Player.prototype.draw = function (context) {
-  this.drawOffset.x = Math.min(this.drawOffset.x * 0.9, 15);
-  this.drawOffset.y = Math.min(this.drawOffset.y * 0.9, 15);
+  this.drawOffset.x = clamp(Math.min(this.drawOffset.x * 0.9, 15), 0, 72);
+  this.drawOffset.y = clamp(Math.min(this.drawOffset.y * 0.9, 15), 0, 72);
 
   if (this.firing) {
     var flashPos = { x: -this.width / 2, y: -this.height * 1.5 };
