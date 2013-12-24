@@ -58,8 +58,10 @@ function Upgrades (game) {
         name:  'increaseBulletCount',
         effect: function () {
           this.player.upgrades.push(function () {
-            if (this.firing)
-              this.fire(Math.atan2(this.y - this.game.mouse.y, this.x - this.game.mouse.x), randomNegation(_.random(10)));
+            if (this.firing) {
+              var fireAt = this.fireAt || Math.atan2(this.y - this.game.mouse.y, this.x - this.game.mouse.x);
+              this.fire(fireAt, randomNegation(_.random(10)));
+            }
           });
         },
         text: {

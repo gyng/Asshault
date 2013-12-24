@@ -39,11 +39,18 @@ Player.prototype = new Entity();
 Player.prototype.constructor = Player;
 
 Player.prototype.tick = function () {
-  if (this.firing)
-    this.fire(Math.atan2(this.y - this.game.mouse.y, this.x - this.game.mouse.x));
+  if (this.firing) {
+    this.fireAt = Math.atan2(this.y - this.game.mouse.y, this.x - this.game.mouse.x);
+    for (var i = 0; i < this.bulletMultiplier; i++) {
+      this.fire(this.fireAt);
+    }
+  }
 
   this.lookAt({ x: this.game.mouse.x, y: this.game.mouse.y });
   this.returnToMap();
+
+  // Upgrades increment this. On the next frame we fire that number of increments.
+  this.bulletMultiplier = 1;
 };
 
 Player.prototype.updateInfo = function () {
