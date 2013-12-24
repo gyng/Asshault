@@ -144,6 +144,11 @@ UI.prototype = {
     }
   },
 
+  addUpgradeIcon: function (el, icon) {
+    var image = $('<img />', { 'src': icon.src, 'class': 'hero-upgrade-icon' });
+    el.find('.hero-upgrades').append(image);
+  },
+
   createHeroListItem: function (template, hero) {
     var el = $($(template).html());
     this.updateHeroListItem(el, hero);
@@ -155,23 +160,6 @@ UI.prototype = {
     el.mouseout(function (e) {
       hero.highlighted = false;
     });
-    // el.find('.hero-upgrades').text(data.flavour || '');
-
-    // var that = this;
-    // el.mouseenter(function (e) {
-    //   if ($(this).hasClass("button")) {
-    //     that.game.audio.play('hit_hurt');
-    //   }
-    // });
-
-    // el.mousedown(function (e) {
-    //   that.game.audio.play('click');
-    // });
-
-    // el.mouseup(function (e) {
-    //   that.setAvailableHeros();
-    //   that.game.upgrade($(this).attr('data-upgrade'));
-    // });
 
     return el;
   },

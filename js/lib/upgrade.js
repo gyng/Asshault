@@ -62,11 +62,14 @@ function Upgrades (game) {
         name:  'increaseBulletCount',
         effect: function () {
           this.subtractGold(15);
-          this.player.upgrades.push(function () {
-            if (this.firing) {
-              var fireAt = this.fireAt || Math.atan2(this.y - this.game.mouse.y, this.x - this.game.mouse.x);
-              this.fire(fireAt, randomNegation(_.random(10)));
-            }
+          this.player.addUpgrade({
+            effect: function () {
+              if (this.firing) {
+                var fireAt = this.fireAt || Math.atan2(this.y - this.game.mouse.y, this.x - this.game.mouse.x);
+                this.fire(fireAt, randomNegation(_.random(10)));
+              }
+            },
+            icon: this.sprites.debug
           });
         },
         constraints: [

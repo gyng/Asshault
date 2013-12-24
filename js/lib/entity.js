@@ -41,7 +41,9 @@ function Entity(resources, overrides) {
     offset: { x: 0, y: 0 },
     dirty: true,
     drawDirty: true,
-    addToHeroList: false
+    iconDirty: true,
+    addToHeroList: false,
+    upgradeIcons: []
   };
 
   this.lastInfo = _.clone(this.info); // For doing dirty checks
@@ -126,8 +128,8 @@ Entity.prototype = {
   },
 
   executeUpgrades: function () {
-    this.upgrades.forEach(function (upgrade) {
-      upgrade.call(this);
+    this.upgrades.forEach(function (effect) {
+      effect.call(this);
     }.bind(this));
   },
 
@@ -220,5 +222,11 @@ Entity.prototype = {
   updateHeroListItem: function () {
     this.uiElem = this.uiElem || this.game.ui.addToHeroList(this);
     this.game.ui.updateHeroListItem(this.uiElem, this);
+  },
+
+  addUpgrade: function (entityUpgrade) {
+    // Not the full upgrade but a JS object with keys [*effect, *icon]
+    this.upgrades.push(entityUpgrade.effect);
+    this.game.ui.addUpgradeIcon(this.uiElem, entityUpgrade.icon);
   }
 };
