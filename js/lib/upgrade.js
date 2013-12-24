@@ -297,7 +297,7 @@ function Upgrades (game) {
         effect: function () {
           this.subtractGold(50);
           var betterFireAt = function (ent) {
-            var bulletTravelTime = this.distanceTo(ent) / new Bullet().speed;
+            var bulletTravelTime = this.distanceTo(ent) / this.bulletSpeed;
             var moveDelta = ent.getMoveDelta(this.game.player.x, this.game.player.y, ent.speed, ent.health / 10);
             this.fire(Math.atan2(this.y - ent.y - bulletTravelTime * moveDelta.y , this.x - ent.x - bulletTravelTime * moveDelta.x));
           };

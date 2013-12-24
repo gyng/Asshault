@@ -152,7 +152,6 @@ Game.prototype = {
       }
 
       if (isDefined(upgrade.gameUpgradeIcon)) {
-        console.log(upgrade.gameUpgradeIcon)
         this.ui.addGameUpgradeIcon(upgrade.gameUpgradeIcon.icon, upgrade.gameUpgradeIcon.tooltip);
       }
     }

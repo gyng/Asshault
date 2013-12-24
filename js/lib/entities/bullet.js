@@ -4,7 +4,7 @@ function Bullet(resources, overrides) {
   this.height = 16;
   this.damage = this.damage || 1;
   this.speed = this.speed || 30;
-  this.alignment = this.source.alignment;
+  this.alignment = this.source ? this.source.alignment : 'none';
 
   // Calculate on creation and not per tick
   this.deltaX = -Math.cos(this.direction) * this.speed;

@@ -23,6 +23,8 @@ function Gunner(resources, overrides) {
   this.info.draw = true;
   this.info.addToHeroList = true;
 
+  this.bulletSpeed = new Bullet().speed;
+
   this.sounds = {
     spawn: 'start',
     fire:  ['shoot2', 'shoot5', 'shoot7'],
@@ -49,9 +51,9 @@ Gunner.prototype.tick = function () {
   }
 
   if (isDefined(this.target)) {
-    this.every(this.fireRate, function () {
+    if (this.age % this.fireRate === 0) {
       this.fireAt(this.target);
-    });
+    }
 
     if (this.targetAge < 10)
       this.moveTo(this.target.x, this.target.y, this.speed, this.distanceTo(this.target) / 500);
