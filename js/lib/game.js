@@ -150,6 +150,11 @@ Game.prototype = {
       } else {
         this.upgradeCount[upgrade.name]++;
       }
+
+      if (isDefined(upgrade.gameUpgradeIcon)) {
+        console.log(upgrade.gameUpgradeIcon)
+        this.ui.addGameUpgradeIcon(upgrade.gameUpgradeIcon.icon, upgrade.gameUpgradeIcon.tooltip);
+      }
     }
   },
 

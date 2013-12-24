@@ -3,6 +3,7 @@ function Upgrade(data) {
   this.effect = data.effect;
   this.constraints = data.constraints || [];
   this.text = data.text;
+  this.gameUpgradeIcon = data.gameUpgradeIcon;
 }
 
 Upgrade.prototype = {
@@ -69,7 +70,8 @@ function Upgrades (game) {
                 this.fire(fireAt, randomNegation(_.random(10)));
               }
             },
-            icon: this.sprites.debug
+            icon: this.sprites.debug,
+            tooltip: 'Increased bullet count.'
           });
         },
         constraints: [
@@ -98,6 +100,10 @@ function Upgrades (game) {
           cost: '15G',
           effect: 'Reduces camera shake.',
           flavour: ''
+        },
+        gameUpgradeIcon: {
+          icon: game.sprites.flash1,
+          tooltip: 'Reduced camera shake.'
         }
       }),
 
@@ -195,7 +201,11 @@ function Upgrades (game) {
 
           this.player.game.audio.loop('helicopter2', 0.3, 0.24, 0.83);
 
-          this.player.upgrades.push(function () { this.heloMove(); });
+          this.player.addUpgrade({
+            effect: function () { this.heloMove(); },
+            icon: this.sprites.debug2,
+            tooltip: 'Ride of the Valkyries.'
+          });
         },
         constraints: [
           [new UpgradeConstraint('upgradeCountWithinRange'), 'playerMovement', 0, 1],
@@ -230,6 +240,10 @@ function Upgrades (game) {
           cost: '25G, No Tavern built',
           effect: 'A tavern is constructed in the village. Taverns are known for attracting heroes of all kinds.',
           flavour: 'Beer, ale and whiskey.'
+        },
+        gameUpgradeIcon: {
+          icon: game.sprites.tavern,
+          tooltip: 'Taverns. Places of merriment.'
         }
       }),
 
@@ -282,6 +296,10 @@ function Upgrades (game) {
           cost: '50G, Ram Boar',
           effect: 'Ram Boars learn to fire ahead of their targets.',
           flavour: 'Who knew Ram Boars didn’t know how to shoot?'
+        },
+        gameUpgradeIcon: {
+          icon: game.sprites.herogunner,
+          tooltip: 'Ram Boar weapons training. Ram Boars lead targets when firing.'
         }
       }),
 
@@ -292,6 +310,7 @@ function Upgrades (game) {
           this.subtractGold(15);
           _.where(this.friendlies, { constructor: Gunner }).forEach(function (gunner) {
             gunner.fireRate = Math.ceil(gunner.fireRate * 0.75);
+            gunner.addUpgrade({ icon: game.sprites.debug, tooltip: 'Going fuller auto.' });
           });
         },
         constraints: [

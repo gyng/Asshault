@@ -144,9 +144,20 @@ UI.prototype = {
     }
   },
 
-  addUpgradeIcon: function (el, icon) {
-    var image = $('<img />', { 'src': icon.src, 'class': 'hero-upgrade-icon' });
-    el.find('.hero-upgrades').append(image);
+  addGameUpgradeIcon: function (icon, tooltip) {
+    $('.game-upgrades').append(this.createUpgradeIcon(icon, tooltip));
+  },
+
+  addHeroUpgradeIcon: function (el, icon, tooltip) {
+    el.find('.hero-upgrades').append(this.createUpgradeIcon(icon, tooltip));
+  },
+
+  createUpgradeIcon: function (icon, tooltip) {
+    return $('<img />', {
+      'src': icon.src,
+      'class': 'hero-upgrade-icon',
+      'title': tooltip
+    });
   },
 
   createHeroListItem: function (template, hero) {

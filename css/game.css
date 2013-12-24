@@ -289,6 +289,12 @@ canvas {
     flex-basis: 15%;
 }
 
+.game-upgrades {
+    width: calc(100% - 1rem);
+    opacity: 0.9;
+    margin: 0 0.75rem;
+}
+
 .hero-list {
     overflow-y: auto;
     /*display: flex;*/
@@ -307,7 +313,7 @@ canvas {
     /*background-color: rgba(0, 0, 0, 0.6);*/
     margin: 0.5rem 0.5rem 0 0.5rem;
     padding: 0.5rem;
-    height: 5.5rem;
+    min-height: 5.5rem;
     color: #EEE;
     font-size: 1.2rem;
     direction: ltr;
@@ -321,9 +327,11 @@ canvas {
 
 .hero-left {
     display: flex;
+    flex-grow: 0;
+    flex-shrink: 0;
     width: 5rem;
-    background-color: rgba(5, 5, 25, 0.6);
-    align-items: center;
+    /*background-color: rgba(5, 5, 25, 0.6);*/
+    align-items: flex-start;
 }
 
 .hero-right {
@@ -353,6 +361,11 @@ canvas {
 
 .hero-kills {
     margin-right: 0.5rem;
+}
+
+.hero-upgrade-icon {
+    margin: 0 0.1rem;
+    max-width: 1.6rem;
 }
 
 .speech-bubble {

@@ -226,7 +226,12 @@ Entity.prototype = {
 
   addUpgrade: function (entityUpgrade) {
     // Not the full upgrade but a JS object with keys [*effect, *icon]
-    this.upgrades.push(entityUpgrade.effect);
-    this.game.ui.addUpgradeIcon(this.uiElem, entityUpgrade.icon);
+    if (isDefined(entityUpgrade.effect)) {
+      this.upgrades.push(entityUpgrade.effect);
+    }
+
+    if (isDefined(entityUpgrade.icon)) {
+      this.game.ui.addHeroUpgradeIcon(this.uiElem, entityUpgrade.icon, entityUpgrade.tooltip);
+    }
   }
 };
