@@ -63,8 +63,9 @@ Bullet.prototype.tick = function () {
     }
   }
 
-  if (this.age % 10 === 0)
+  if (this.age % 10 === 0) {
     this.checkOutOfBounds();
+  }
 };
 
 Bullet.prototype.checkOutOfBounds = function () {

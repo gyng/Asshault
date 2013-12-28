@@ -78,11 +78,11 @@ Entity.prototype = {
   },
 
   drawInformation: function (context) {
-    // Buffer text in a canvas as fillText is really really slow
+    // Per-entity buffer text to be drawn to canvas in a separate canvas as fillText is really really slow
     this.infoCanvas  = this.infoCanvas  || document.createElement('canvas');
     this.infoContext = this.infoContext || this.infoCanvas.getContext('2d');
 
-
+    // If the info is dirty we just update the UI anyway
     if (this.info.dirty) {
       if (this.info.addToHeroList) {
         this.updateHeroListItem();
@@ -90,9 +90,10 @@ Entity.prototype = {
       this.info.dirty = false;
     }
 
+    // If any of the info to be drawn to canvas is dirty only then do we rebuffer and redraw it
     if (this.info.drawDirty) {
       this.infoCanvas.width = 300;
-      // +1 for zero-height canvases
+      // +1 for zero-height canvases not showing up
       this.infoCanvas.height = (_.keys(this.info.text).length+0.5) * this.info.lineHeight + 1;
       this.infoContext.font = this.info.font;
       this.infoContext.fillStyle = this.info.fill;
@@ -119,8 +120,8 @@ Entity.prototype = {
   },
 
   collidesWith: function(object, threshold) {
-    if (typeof threshold === 'undefined') { threshold = 20; }
-    return this.distanceTo(object) < threshold ? true : false;
+    threshold = threshold || 20;
+    return (this.distanceTo(object) < threshold) ? true : false;
   },
 
   distanceTo: function (object) {
@@ -132,9 +133,9 @@ Entity.prototype = {
   },
 
   executeUpgrades: function () {
-    this.upgrades.forEach(function (effect) {
-      effect.call(this);
-    }.bind(this));
+    for (var i = 0; i < this.upgrades.length; i++) {
+      this.upgrades[i].call(this);
+    }
   },
 
   moveToTarget: function (speed, scaling) {
@@ -181,7 +182,7 @@ Entity.prototype = {
   },
 
   say: function (text, duration) {
-    // Use DOM for delicious CSS and (!)text wrapping!
+    // Use DOM for delicious CSS and !text wrapping!
     this.game.ui.createSpeechBubble(null, this.x, this.y - this.height * 2, text, duration);
   },
 
@@ -203,6 +204,8 @@ Entity.prototype = {
   },
 
   checkHeroInfo: function () {
+    // Two types of info: UI info and canvas info.
+    // Updating canvas info is much more expensive so we do a separate check for that info.
     if (JSON.stringify(this.info.text) === JSON.stringify(this.lastInfo)) {
       this.info.dirty = true;
 
@@ -222,7 +225,7 @@ Entity.prototype = {
   },
 
   addUpgrade: function (entityUpgrade) {
-    // Not the full upgrade but a JS object with keys [*effect, *icon]
+    // Not the full upgrade but a JS object {*effect: function, *icon: image}
     if (isDefined(entityUpgrade.effect)) {
       this.upgrades.push(entityUpgrade.effect);
     }

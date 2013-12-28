@@ -172,11 +172,13 @@ function Upgrades (game) {
 
             var deg = rad2deg(this.rotation);
 
-            if (axis === 'x')
+            if (axis === 'x') {
               deg = deg - 90;
+            }
 
-            if (deg < -180)
-                deg = deg + 360;
+            if (deg < -180) {
+              deg = deg + 360;
+            }
 
             closeToNS = Math.abs((90 - Math.abs(deg)) / 90);
             closeToEW = 1 - closeToNS;

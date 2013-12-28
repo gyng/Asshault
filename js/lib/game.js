@@ -5,20 +5,23 @@ function Game(debug) {
 
 Game.prototype = {
   load: function () {
-    // Calls initialize when resourcse have been loaded
     var toLoad = 2; // 1 for sprite, 1 for audio
     var loaded = 0;
 
     var loadedCallback = function () {
-      if (++loaded === toLoad) { this.initialize(); }
+      if (++loaded === toLoad) this.initialize();
     }.bind(this);
 
-    this.spriteLoader = new Sprites();
-    this.spriteLoader.preload(loadedCallback);
-    this.sprites = this.spriteLoader.getSprites();
+    $.getJSON('res/sprites.json', function (sprites) {
+      this.spriteLoader = new Sprites(sprites);
+      this.spriteLoader.preload(loadedCallback);
+      this.sprites = this.spriteLoader.getSprites();
+    }.bind(this));
 
-    this.audio = new Audio();
-    this.audio.preload(loadedCallback);
+    $.getJSON('res/sounds.json', function (sounds) {
+      this.audio = new Audio(sounds);
+      this.audio.preload(loadedCallback);
+    }.bind(this));
   },
 
   initialize: function () {
@@ -27,13 +30,12 @@ Game.prototype = {
     this.renderer    = new Renderer(this, this.canvas, this.decalCanvas);
 
     this.fps        = 60;
+    this.running    = true;
     this.age        = 0;
     this.mouse      = { x: 0, y: 0 };
     this.center     = { x: this.canvas.width / 2, y: this.canvas.height / 2 };
     this.fpsCounter = 0;
     this.cssScale   = 1;
-
-    this.running = true;
 
     this.resources = {
       game:    this,
@@ -49,8 +51,8 @@ Game.prototype = {
     $('#canvas').mousemove(function (e) {
       // Factor in CSS scaling of canvas distorting mouse pointer location comparisons
       // as canvas is not aware of external scaling.
-      this.mouse.x = this.cssScale * (e.pageX-this.canvas.offsetLeft);
-      this.mouse.y = this.cssScale * (e.pageY-this.canvas.offsetTop);
+      this.mouse.x = this.cssScale * (e.pageX - this.canvas.offsetLeft);
+      this.mouse.y = this.cssScale * (e.pageY - this.canvas.offsetTop);
     }.bind(this));
 
     this.upgradeCount = {};
@@ -69,8 +71,6 @@ Game.prototype = {
       this.lastAge = this.age;
       setInterval(this.updateDebugInfo.bind(this), 1000);
     }
-
-    $(".loading").hide();
 
     setInterval(this.step.bind(this), 1000 / this.fps);
     this.draw();
@@ -98,20 +98,20 @@ Game.prototype = {
         this.spatialHash.add(friendly.x, friendly.y, friendly);
       }
 
-      this.entities.forEach(function (ent) {
-        ent.tick();
-        ent.executeUpgrades();
-        ent.tock();
-      }.bind(this));
+      for (i = 0; i < this.entities.length; i++) {
+        this.entities[i].tick();
+        this.entities[i].executeUpgrades();
+        this.entities[i].tock();
+      }
 
       // Culling
-      var filter = function (ent) { return !ent.markedForDeletion; };
-      this.entities   = this.entities.filter(filter);
-      this.friendlies = this.friendlies.filter(filter);
-      this.enemies    = this.enemies.filter(filter);
+      this.entities   = this.entities.filter(this.getMarkedForDeletion);
+      this.friendlies = this.friendlies.filter(this.getMarkedForDeletion);
+      this.enemies    = this.enemies.filter(this.getMarkedForDeletion);
 
       // UI
-      if (this.age % 15 === 0) this.ui.setAvailableUpgrades();
+      if (this.age % 15 === 0) this.ui.tick();
+      if (this.age % 120 === 0) this.ui.scaleCanvas();
 
       // Levels
       if (!_.isObject(this.level) || this.level.over) {
@@ -122,6 +122,10 @@ Game.prototype = {
         this.level.tick();
       }
     }
+  },
+
+  getMarkedForDeletion: function (ent) {
+    return !ent.markedForDeletion;
   },
 
   draw: function () {
@@ -185,7 +189,7 @@ Game.prototype = {
       "<p>" + this.friendlies.length + " friendlies</p>" +
       "<p>" + this.enemies.length + " enemies</p>" +
       "<p>" + this.player.health + " player health</p>" +
-      "<p>" + this.gold + "gold</p>"
+      "<p>" + this.audio.compressor.reduction.value.toFixed(2) + " compressor reduction</p>"
     );
 
     this.lastAge = this.age;

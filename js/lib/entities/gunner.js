@@ -55,8 +55,9 @@ Gunner.prototype.tick = function () {
       this.fireAt(this.target);
     }
 
-    if (this.targetAge < 10)
+    if (this.targetAge < 10) {
       this.moveTo(this.target.x, this.target.y, this.speed, this.distanceTo(this.target) / 500);
+    }
 
     this.lookAt(this.target);
     this.firing = true;
@@ -111,9 +112,12 @@ Gunner.prototype.draw = function (context) {
   this.drawOffset.y = Math.min(this.drawOffset.y * 0.9, 15);
 
   if (this.firing) {
-    if (this.age % (this.fireRate / 2) <= 2)
+    if (this.age % (this.fireRate / 2) <= 2) {
       context.drawImage(this.sprites.flash1, -this.width, -this.height * 2);
-    if (this.age % this.fireRate <= 3)
+    }
+
+    if (this.age % this.fireRate <= 3) {
       context.drawImage(this.sprites.flash2, -this.width, -this.height * 2);
+    }
   }
 };

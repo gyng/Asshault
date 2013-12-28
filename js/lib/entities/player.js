@@ -54,7 +54,8 @@ Player.prototype.tick = function () {
   this.lookAt({ x: this.game.mouse.x, y: this.game.mouse.y });
   this.returnToMap();
 
-  // Upgrades increment this. On the next frame we fire that number of increments.
+  // Optimisation: Upgrades increment this. On the next frame we fire that number of increments
+  // instead of having each upgrade call fire (and recalculate fireAt) separately
   this.bulletMultiplier = 1;
 };
 
@@ -74,15 +75,17 @@ Player.prototype.returnToMap = function () {
   var returnScale = 0.05;
   var margin = 50;
 
-  if (this.x > this.game.canvas.width - margin)
-    this.x -= returnScale * (this.x - (this.game.canvas.width - margin));
-  else if (this.x < margin)
+  if (this.x > this.game.canvas.width - margin) {
+      this.x -= returnScale * (this.x - (this.game.canvas.width - margin));
+  } else if (this.x < margin) {
     this.x += returnScale * (margin - this.x);
+  }
 
-  if (this.y > this.game.canvas.height - margin)
+  if (this.y > this.game.canvas.height - margin) {
     this.y -= returnScale * (this.y - (this.game.canvas.height - margin));
-  else if (this.y < margin)
+  } else if (this.y < margin) {
     this.y += returnScale * (margin - this.y);
+  }
 };
 
 Player.prototype.getImage = function () {
@@ -122,16 +125,18 @@ Player.prototype.fireShake = function () {
 };
 
 Player.prototype.draw = function (context) {
-  this.drawOffset.x = clamp(Math.min(this.drawOffset.x * 0.9, 15), 0, 72);
-  this.drawOffset.y = clamp(Math.min(this.drawOffset.y * 0.9, 15), 0, 72);
+  this.drawOffset.x = clamp(this.drawOffset.x * 0.9, 0, 72);
+  this.drawOffset.y = clamp(this.drawOffset.y * 0.9, 0, 72);
 
   if (this.firing) {
     var flashPos = { x: -this.width / 2, y: -this.height * 1.5 };
 
-    if (this.age % this.firingRate <= this.firingRate / 2)
+    if (this.age % this.firingRate <= this.firingRate / 2){
       context.drawImage(this.sprites.flash1, flashPos.x, flashPos.y);
+    }
 
-    if (this.age % this.firingRate * 2 <= this.firingRate / 8 * 3)
+    if (this.age % this.firingRate * 2 <= this.firingRate / 8 * 3) {
       context.drawImage(this.sprites.flash2, flashPos.x, flashPos.y);
+    }
   }
 };

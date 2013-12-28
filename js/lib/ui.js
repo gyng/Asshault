@@ -3,6 +3,7 @@ function UI(game) {
   this.populateUpgradeButtons(game.upgrades.list);
   this.setupBindings();
   this.updateGold();
+  $(".loading").hide();
 }
 
 UI.prototype = {
@@ -36,6 +37,11 @@ UI.prototype = {
     }
   },
 
+  tick: function () {
+    this.setAvailableUpgrades();
+    // this.scaleCanvas();
+  },
+
   setAvailableUpgrades: function () {
     _.keys(this.game.upgrades.list).forEach(function (upgradeName) {
       var upgrade = this.game.upgrades.list[upgradeName];
@@ -56,7 +62,7 @@ UI.prototype = {
   },
 
   scaleCanvas: function () {
-    var canvas = $("#canvas")[0];
+    var canvas = document.getElementById('canvas');
 
     var getCanvasCSSHeight = function () {
       return parseInt($(canvas).css("height"), 10);
@@ -176,13 +182,13 @@ UI.prototype = {
   },
 
   createSpeechBubble: function (template, left, top, text, duration) {
-    if (!isDefined(template)) template = '#template-speech-bubble';
+    template = template || '#template-speech-bubble';
     duration = duration || 7000;
 
     var el = $($(template).html());
     el.find('.text').text(text);
     el.css('left', left / this.game.cssScale + this.game.canvas.offsetLeft + 'px');
-    el.css('top', top / this.game.cssScale - this.game.canvas.offsetTop + 'px');
+    el.css('top',  top / this.game.cssScale + this.game.canvas.offsetTop + 'px');
 
     setTimeout(function () {
       el.fadeOut(1000, function () {

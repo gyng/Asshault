@@ -1,4 +1,4 @@
-function Audio(sources) {
+function Audio (sounds) {
   try {
     window.AudioContext = window.AudioContext || window.webkitAudioContext;
     this.audioContext = new AudioContext();
@@ -8,48 +8,18 @@ function Audio(sources) {
     console.log(e);
   }
 
-  this.sounds = {};
-  this.soundsDir = 'res/ogg/';
-  this.sources = sources || [
-    ['shoot1', 'Shoot1.ogg'],
-    ['shoot2', 'Shoot2.ogg'],
-    ['shoot3', 'Shoot3.ogg'],
-    ['shoot4', 'Shoot4.ogg'],
-    ['shoot5', 'Shoot5.ogg'],
-    ['shoot7', 'Shoot7.ogg'],
-    ['explosion', 'Explosion.ogg'],
-    ['explosion2', 'Explosion2.ogg'],
-    ['explosion3', 'Explosion3.ogg'],
-    ['explosion4', 'Explosion4.ogg'],
-    ['explosion5', 'Explosion5.ogg'],
-    ['explosion6', 'Explosion6.ogg'],
-    ['explosion7', 'Explosion7.ogg'],
-    ['build', 'Build.ogg'],
-    ['start', 'Start.ogg'],
-    ['shartshooper', 'Shartshooper.ogg'],
-    ['hit_hurt', 'Hit_Hurt.ogg'],
-    ['hit_hurt2', 'Hit_Hurt2.ogg'],
-    ['hit_hurt3', 'Hit_Hurt3.ogg'],
-    ['hit_hurt4', 'Hit_Hurt4.ogg'],
-    ['hit_hurt5', 'Hit_Hurt5.ogg'],
-    ['hit_hurt6', 'Hit_Hurt6.ogg'],
-    ['waw', 'Waw.ogg'],
-    ['beep', 'Beep.ogg'],
-    ['click', 'Click.ogg'],
-    ['helicopter1', 'Helicopter1.ogg'],
-    ['helicopter2', 'Helicopter2.ogg'],
-    ['helicopter3', 'Helicopter3.ogg'],
-    ['powerup', 'Powerup.ogg'],
-    ['coin', 'Coin.ogg'],
-  ];
+  this.sounds = sounds || {
+    relativeDir: "",
+    sources: []
+  };
 
   this.loaded = 0;
 
-  this.compressor = this.audioContext.createDynamicsCompressor();
   this.masterGainNode = this.audioContext.createGain();
+  this.compressor = this.audioContext.createDynamicsCompressor();
 
-  this.compressor.connect(this.masterGainNode);
-  this.masterGainNode.connect(this.audioContext.destination);
+  this.masterGainNode.connect(this.compressor);
+  this.compressor.connect(this.audioContext.destination);
 }
 
 Audio.prototype = {
@@ -60,10 +30,10 @@ Audio.prototype = {
     }
 
     this.callback = callback;
-    this.toLoad = this.sources.length;
+    this.toLoad = this.sounds.sources.length;
 
-    this.sources.forEach(function (source) {
-      this.loadAudio(source[0], this.soundsDir + source[1]);
+    this.sounds.sources.forEach(function (source) {
+      this.loadAudio(source[0], this.sounds.relativeDir + source[1]);
     }.bind(this));
   },
 
@@ -88,7 +58,7 @@ Audio.prototype = {
         this.sounds[key] = buffer;
       }.bind(this));
 
-      if (++this.loaded === this.toLoad) { this.preloaded(); }
+      if (++this.loaded >= this.toLoad) this.preloaded();
     }.bind(this);
 
     request.send();
@@ -100,11 +70,12 @@ Audio.prototype = {
     if (typeof name === 'object' && name.length > 0)
       name = name[~~(Math.random() * name.length)];
 
-    volume        = volume || 1;
-    opts          = opts || {};
-    var loop      = opts.loop || false;
-    var loopstart = opts.loopstart || 0.0;
-    var loopend   = opts.loopend || 1.0;
+    volume          = volume || 1;
+    opts            = opts || {};
+    var sourceStart = opts.sourceStart || 0;
+    var loop        = opts.loop || false;
+    var loopstart   = opts.loopstart || 0.0;
+    var loopend     = opts.loopend || 1.0;
 
     var source = this.audioContext.createBufferSource();
     source.buffer = this.sounds[name];
@@ -121,7 +92,7 @@ Audio.prototype = {
     source.connect(gainNode);
     gainNode.connect(this.compressor);
 
-    source.start(0);
+    source.start(sourceStart);
   },
 
   loop: function(name, volume, loopstart, loopend) {

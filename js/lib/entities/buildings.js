@@ -41,8 +41,9 @@ Tavern.prototype.tick = function () {
     this.checkHeroInfo();
   }
 
-  if (this.age % 2400 === 1600)
+  if (this.age % 2400 === 1600) {
     this.info.text = [];
+  }
 };
 
 Tavern.prototype.getImage = function () {

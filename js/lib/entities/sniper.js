@@ -51,8 +51,7 @@ Sniper.prototype.tick = function () {
   this.targetAge++;
   this.fireAge++;
 
-  if (!isDefined(this.target) ||
-      this.target.markedForDeletion) {
+  if (!isDefined(this.target) || this.target.markedForDeletion) {
     this.target = _.sample(this.game.enemies);
     // So it will still fire sometimes if it can't get a shot in
     // Target switching penalty
@@ -132,10 +131,11 @@ Sniper.prototype.draw = function (context) {
   this.drawOffset.x = Math.min(this.drawOffset.x * 0.9, 100);
   this.drawOffset.y = Math.min(this.drawOffset.y * 0.9, 100);
 
-  if (this.fireAge <= 5)
+  if (this.fireAge <= 5) {
     context.drawImage(this.sprites.flash1, -this.width, -this.height * 2);
-  else if (this.fireAge <= 15)
+  } else if (this.fireAge <= 15) {
     context.drawImage(this.sprites.flash2, -this.width, -this.height * 2);
+  }
 
   if (this.targetAge >= 50 && isDefined(this.target)) {
     context.beginPath();

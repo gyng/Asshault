@@ -39,7 +39,9 @@ Renderer.prototype = {
     // [ b, d, f ]
     // setTransform(a, b, c, d, e, f)
 
-    this.game.entities.forEach(function (ent) {
+    var ent;
+    for (var i = 0; i < this.game.entities.length; i++) {
+      ent = this.game.entities[i];
       this.context.save();
         this.context.setTransform(
           Math.cos(ent.rotation) * ent.scale,
@@ -54,11 +56,13 @@ Renderer.prototype = {
         this.context.drawImage(ent.getImage(), -ent.width / 2, -ent.height / 2, ent.width, ent.height);
         ent.draw(this.context);
       this.context.restore();
-    }.bind(this));
+    }
   },
 
   infoPass: function () {
-    this.game.entities.forEach(function (ent) {
+    var ent;
+    for (var i = 0; i < this.game.entities.length; i++) {
+      ent = this.game.entities[i];
       if (ent.info.draw) {
         this.context.save();
           this.context.setTransform(
@@ -69,7 +73,7 @@ Renderer.prototype = {
           ent.drawInformation(this.context);
         this.context.restore();
       }
-    }.bind(this));
+    }
   },
 
   shadowPass: function () {
@@ -93,7 +97,9 @@ Renderer.prototype = {
     var todXOffset = Math.cos(radians);
     var todYOffset = Math.sin(radians);
 
-    this.game.entities.forEach(function (ent) {
+    var ent;
+    for (var i = 0; i < this.game.entities.length; i++) {
+      ent = this.game.entities[i];
       if (ent.shadow.on) {
         this.context.save();
           var todSkew =  (Math.max(0.2, (Math.abs(dayRatio - 0.5))) * 2) * 4;
@@ -129,7 +135,7 @@ Renderer.prototype = {
           }
         this.context.restore();
       }
-    }.bind(this));
+    }
   },
 
   levelPass: function() {

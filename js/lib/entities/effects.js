@@ -18,8 +18,9 @@ BulletPing.prototype = new Entity();
 BulletPing.prototype.constructor = BulletPing;
 
 BulletPing.prototype.tick = function () {
-  if (this.age > this.lifespan)
+  if (this.age > this.lifespan) {
     this.die();
+  }
 };
 
 BulletPing.prototype.getImage = function () {
@@ -65,17 +66,19 @@ Explosion.prototype.tick = function () {
   this.width  /= 1.05;
   this.height /= 1.05;
 
-  if (this.age > 18)
+  if (this.age > 18) {
     this.markedForDeletion = true;
+  }
 };
 
 Explosion.prototype.getImage = function () {
-  if (this.age <= 5)
+  if (this.age <= 5) {
     return this.sprites.flash1;
-  else if (this.age <= 10)
+  } else if (this.age <= 10) {
     return this.sprites.flash2;
-  else if (this.age <= 15)
+  } else if (this.age <= 15) {
     return this.sprites.explosion1;
-  else
+  } else {
     return this.sprites.explosion2;
+  }
 };
