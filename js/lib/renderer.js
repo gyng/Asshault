@@ -90,10 +90,7 @@ Renderer.prototype = {
     //   --- time --->
 
     var offsetLength = 30;
-    var dayLength = 1440;
-    var timeOfDay = this.game.age % dayLength;
-    var dayRatio = 1 - timeOfDay / dayLength;
-    var radians = dayRatio * Math.PI;
+    var radians = this.game.dayRatio * Math.PI;
     var todXOffset = Math.cos(radians);
     var todYOffset = Math.sin(radians);
 
@@ -102,7 +99,7 @@ Renderer.prototype = {
       ent = this.game.entities[i];
       if (ent.shadow.on) {
         this.context.save();
-          var todSkew =  (Math.max(0.2, (Math.abs(dayRatio - 0.5))) * 2) * 4;
+          var todSkew =  (Math.max(0.2, (Math.abs(this.game.dayRatio - 0.5))) * 2) * 4;
 
           // Turn off shadow skewing if todScale is 0
           // Useful for non-normal shadows such as explosion light flashes
@@ -115,8 +112,8 @@ Renderer.prototype = {
             Math.sin(ent.rotation + radians * todScale) * ent.scale,
            -Math.sin(ent.rotation + radians * todScale) * ent.scale * todSkew,
             Math.cos(ent.rotation + radians * todScale) * ent.scale,
-            ent.x + ent.drawOffset.x - this.shake.x / 3 + ent.shadow.offset.x + (todScale * (todXOffset * offsetLength * ((Math.abs(dayRatio - 0.5)) * 2) * 3)),
-            ent.y + ent.drawOffset.y + this.shake.y / 3 + ent.shadow.offset.y + (todScale * (todYOffset * offsetLength * (1 - dayRatio)))
+            ent.x + ent.drawOffset.x - this.shake.x / 3 + ent.shadow.offset.x + (todScale * (todXOffset * offsetLength * ((Math.abs(this.game.dayRatio - 0.5)) * 2) * 3)),
+            ent.y + ent.drawOffset.y + this.shake.y / 3 + ent.shadow.offset.y + (todScale * (todYOffset * offsetLength * (1 - this.game.dayRatio)))
           );
 
           this.context.fillStyle = ent.shadow.color;

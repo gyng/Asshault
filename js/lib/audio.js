@@ -65,10 +65,13 @@ Audio.prototype = {
   },
 
   play: function(name, volume, opts) {
-    if (!this.audioSupport) return;
+    if (!this.audioSupport) {
+      return;
+    }
 
-    if (typeof name === 'object' && name.length > 0)
-      name = name[~~(Math.random() * name.length)];
+    if (typeof name === 'object' && name.length > 0) {
+      name = name[Math.floor(Math.random() * name.length)];
+    }
 
     volume          = volume || 1;
     opts            = opts || {};
@@ -79,14 +82,18 @@ Audio.prototype = {
 
     var source = this.audioContext.createBufferSource();
     source.buffer = this.sounds[name];
-    if (typeof source.buffer === 'undefined' || source.buffer === null) return;
-    source.loop = loop;
-    source.loopStart = source.buffer.duration * loopstart;
-    source.loopEnd = source.buffer.duration * loopend;
+
+    if (typeof source.buffer === 'undefined' || source.buffer === null) {
+      return;
+    } else {
+      source.loop = loop;
+      source.loopStart = source.buffer.duration * loopstart;
+      source.loopEnd   = source.buffer.duration * loopend;
+    }
 
     var gainNode = this.audioContext.createGain();
     // Approximate volume log scale
-    var adjustedVolume = (Math.pow(10, volume) - 1) / (10 - 1); // Log Base 10
+    var adjustedVolume = (Math.pow(10, volume) - 1) / (10 - 1);
     gainNode.gain.value = adjustedVolume;
 
     source.connect(gainNode);

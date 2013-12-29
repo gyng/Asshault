@@ -64,6 +64,10 @@ Game.prototype = {
 
     this.gold = 50;
 
+    this.dayLength = 1440;
+    this.timeOfDay = 0;
+    this.dayRatio = 0;
+
     this.ui = new UI(this);
 
     // Debug variables
@@ -109,6 +113,10 @@ Game.prototype = {
       this.friendlies = this.friendlies.filter(this.getMarkedForDeletion);
       this.enemies    = this.enemies.filter(this.getMarkedForDeletion);
 
+      // Time of day
+      this.timeOfDay = this.age % this.dayLength;
+      this.dayRatio = 1 - this.timeOfDay / this.dayLength;
+
       // UI
       if (this.age % 15 === 0) this.ui.tick();
       if (this.age % 120 === 0) this.ui.scaleCanvas();
@@ -124,6 +132,7 @@ Game.prototype = {
     }
   },
 
+  // Optimisation for culling; cache function
   getMarkedForDeletion: function (ent) {
     return !ent.markedForDeletion;
   },

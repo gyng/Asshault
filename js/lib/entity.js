@@ -119,7 +119,7 @@ Entity.prototype = {
     }.bind(this));
   },
 
-  collidesWith: function(object, threshold) {
+  collidesWith: function (object, threshold) {
     threshold = threshold || 20;
     return (this.distanceTo(object) < threshold) ? true : false;
   },
@@ -150,11 +150,11 @@ Entity.prototype = {
     this.y += normalized.y * speed * scaling;
   },
 
-  moveForward: function(speed, scaling) {
+  moveForward: function (speed, scaling) {
     this.moveInDirection(this.direction, speed, scaling);
   },
 
-  moveInDirection: function(direction, speed, scaling) {
+  moveInDirection: function (direction, speed, scaling) {
     speed   = speed || this.speed;
     scaling = scaling || 1;
     this.y -= Math.cos(direction) * speed * scaling;
@@ -176,7 +176,7 @@ Entity.prototype = {
     this.markedForDeletion = true;
   },
 
-  damage: function(damage, by) {
+  damage: function (damage, by) {
     this.health -= damage;
     this.lastHitBy = by;
   },
