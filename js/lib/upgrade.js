@@ -67,7 +67,7 @@ function Upgrades (game) {
             effect: function () {
               if (this.firing) {
                 var fireAt = this.fireAt || Math.atan2(this.y - this.game.ui.mouse.y, this.x - this.game.ui.mouse.x);
-                this.fire(fireAt, Util.randomNegation(_.random(2)));
+                this.fire(fireAt, Util.randomNegation(_.random(7)));
               }
             },
             icon: this.sprites.debug,
@@ -423,14 +423,14 @@ function Upgrades (game) {
         effect: function () {
           this.subtractGold(50);
 
-          this.player.firingRate = 1;
+          this.player.firingRate = 0.5;
           this.player.bulletDamage = 0.2;
           this.additionalBulletPierceChance = 0.4;
           this.player.spread = 0.5;
 
           this.player.fireSound = function () {
-            if (Math.random() > 0.01) {
-              this.game.audio.play(this.sounds.beam, 0.5);
+            if (Math.random() > 0.005) {
+              this.game.audio.play(this.sounds.beam, 0.3);
             }
           };
 
