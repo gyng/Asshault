@@ -5,6 +5,7 @@ function Player (resources, overrides) {
   this.health = 10;
   this.spread = 5;
   this.firingRate = 4;
+  this.bulletDamage = 1;
   this.speed = 0;
 
   this.level = 0;
@@ -25,7 +26,8 @@ function Player (resources, overrides) {
 
   this.sounds = {
     fire: ['shoot2', 'shoot5', 'shoot7'],
-    levelup: 'powerup'
+    levelup: 'powerup',
+    beam: ['zap']
   };
 
   $('#canvas').mousedown(function (e) {
@@ -115,7 +117,7 @@ Player.prototype.fire = function (radians, offsetDegrees) {
         y: this.y,
         direction: radians + offset,
         rotation: radians + offset,
-        damage: 1,
+        damage: this.bulletDamage,
         speed: 30,
         source: this,
         additionalPierceChance: this.additionalBulletPierceChance
@@ -123,8 +125,12 @@ Player.prototype.fire = function (radians, offsetDegrees) {
     );
 
     this.fireShake();
-    this.game.audio.play(this.sounds.fire, 0.2);
+    this.fireSound();
   }
+};
+
+Player.prototype.fireSound = function () {
+  this.game.audio.play(this.sounds.fire, 0.2);
 };
 
 Player.prototype.fireShake = function () {

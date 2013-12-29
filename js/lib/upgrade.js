@@ -66,8 +66,8 @@ function Upgrades (game) {
           this.player.addUpgrade({
             effect: function () {
               if (this.firing) {
-                var fireAt = this.fireAt || Math.atan2(this.y - this.game.mouse.y, this.x - this.game.mouse.x);
-                this.fire(fireAt, Util.randomNegation(_.random(10)));
+                var fireAt = this.fireAt || Math.atan2(this.y - this.game.ui.mouse.y, this.x - this.game.ui.mouse.x);
+                this.fire(fireAt, Util.randomNegation(_.random(2)));
               }
             },
             icon: this.sprites.debug,
@@ -414,6 +414,40 @@ function Upgrades (game) {
           name: 'Point Defense Drone',
           cost: '15G',
           effect: 'Zaps nearby foes (bullet upgrade soon!)'
+        }
+      }),
+
+    playerBeamWeapon:
+      new Upgrade({
+        name: 'playerBeamWeapon',
+        effect: function () {
+          this.subtractGold(50);
+
+          this.player.firingRate = 1;
+          this.player.bulletDamage = 0.2;
+          this.additionalBulletPierceChance = 0.4;
+          this.player.spread = 0.5;
+
+          this.player.fireSound = function () {
+            if (Math.random() > 0.01) {
+              this.game.audio.play(this.sounds.beam, 0.5);
+            }
+          };
+
+          this.player.addUpgrade({
+            icon: this.sprites.flash2,
+            tooltip: 'Almost as good as SLB.'
+          });
+        },
+        constraints: [
+          [new UpgradeConstraint('haveGold'), 50],
+          [new UpgradeConstraint('upgradeCountWithinRange'), 'playerBeamWeapon', 0, 1],
+        ],
+        text: {
+          name: 'Moonlight Breaker',
+          cost: '15G',
+          effect: 'Beam weapon.',
+          flavour: 'Second degree sunlight.'
         }
       }),
   };
