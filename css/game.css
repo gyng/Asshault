@@ -436,7 +436,7 @@ canvas {
 #debug {
     position: absolute;
     top: 10px;
-    left: 200px;
+    left: 300px;
     color: black;
     text-shadow: 1px 1px 0 #080, -1px -1px 0 #080, 1px -1px 0 #080,
             -1px 1px 0 #080, 3px 3px 5px #333;
@@ -449,7 +449,7 @@ canvas {
 #cheat {
     position: absolute;
     top: 10px;
-    left: 300px;
+    left: 400px;
     background-color: rgba(0, 0, 0, 0.7);
     color: #fff;
 }

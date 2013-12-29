@@ -174,8 +174,8 @@ Renderer.prototype = {
     scaling = scaling || 1;
 
     var transformation = 'translate3d(' +
-      this.shake.x / this.game.cssScale * scaling + 'px, ' +
-      this.shake.y / this.game.cssScale * scaling + 'px, ' +
+      this.shake.x / this.game.ui.cssScale * scaling + 'px, ' +
+      this.shake.y / this.game.ui.cssScale * scaling + 'px, ' +
       '0) ' +
       'rotateX(' + this.shake.y / 50 + 'deg) ' +
       'rotateY(' + -this.shake.x / 50 + 'deg)';
