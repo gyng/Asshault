@@ -1,4 +1,5 @@
 function Bullet (resources, overrides) {
+
   Entity.call(this, resources, overrides);
   this.width = 32;
   this.height = 16;
@@ -20,6 +21,7 @@ function Bullet (resources, overrides) {
   };
 
   this.additionalPierceChance = this.additionalPierceChance || 0; // Piercing modifier from upgrades
+  this.lifespan = this.lifespan || Number.MAX_VALUE;
 }
 
 Bullet.prototype = new Entity();
@@ -65,6 +67,10 @@ Bullet.prototype.tick = function () {
 
   if (this.age % 10 === 0) {
     this.checkOutOfBounds();
+  }
+
+  if (this.age > this.lifespan) {
+    this.die();
   }
 };
 

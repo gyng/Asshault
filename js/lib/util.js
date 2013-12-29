@@ -55,6 +55,19 @@ window.Util = {
     }
   },
 
+  nearestPoint: function (list, point) {
+    var minDistance = Number.MAX_VALUE;
+    var object, d;
+    for (var i = 0; i < list.length; i++) {
+      if ((d = this.distanceBetween(list[i], point)) < minDistance) {
+        minDistance = d;
+        object = list[i];
+      }
+    }
+
+    return object;
+  },
+
   // Takes vector object v { x: 1, y: 1 } or x, y coordinates as v and y
   normalize: function (v, y) {
     var h;

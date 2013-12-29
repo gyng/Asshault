@@ -54,6 +54,7 @@ UI.prototype = {
   setAvailableUpgrades: function () {
     _.keys(this.game.upgrades.list).forEach(function (upgradeName) {
       var upgrade = this.game.upgrades.list[upgradeName];
+
       if (upgrade.isConstraintsMet(this.game)) {
         $('[data-upgrade=' + upgrade.name + ']')
           .toggleClass('active-upgrade', true)
@@ -144,18 +145,12 @@ UI.prototype = {
     if (hero.markedForDeletion) {
       el.remove();
     } else {
-
+      // Optimised out jQuery
       el[0].childNodes[1].children[0].src = hero.getImage().src;
       el[0].childNodes[3].children[0].children[0].innerHTML = hero.name;
       el[0].childNodes[3].children[0].children[1].innerHTML = hero.level;
       el[0].childNodes[3].children[1].children[0].innerHTML = 'K ' + hero.kills;
       el[0].childNodes[3].children[1].children[1].innerHTML = 'XP ' + hero.xp;
-
-      // el.find('.hero-image').attr('src', hero.getImage().src);
-      // el.find('.hero-name').text(hero.name);
-      // el.find('.hero-kills').text('K ' + hero.kills);
-      // el.find('.hero-level').text(hero.level);
-      // el.find('.hero-xp').text('XP ' + hero.xp);
     }
   },
 
@@ -192,7 +187,7 @@ UI.prototype = {
 
   createSpeechBubble: function (template, left, top, text, duration) {
     template = template || '#template-speech-bubble';
-    duration = duration || 7000;
+    duration = duration || 5000;
 
     var el = $($(template).html());
     el.find('.text').text(text);

@@ -15,6 +15,7 @@ function Player (resources, overrides) {
   this.friendlyPierceChance = 0.98;
   this.enemyPierceChance = 0;
   this.additionalBulletPierceChance = 0;
+  this.nearestEnemy = null;
 
   this.shadow.on = true;
 
@@ -57,6 +58,18 @@ Player.prototype.tick = function () {
   // Optimisation: Upgrades increment this. On the next frame we fire that number of increments
   // instead of having each upgrade call fire (and recalculate fireAt) separately
   this.bulletMultiplier = 1;
+
+  if (this.age % 30 === 0) {
+    this.nearestEnemy = Util.nearestPoint(this.game.enemies, { x: this.x, y: this.y });
+
+    if (!Util.isDefined(this.nearestEnemy) ||
+        this.nearestEnemy.markedForDeletion) {
+      this.nearestEnemy = null;
+      this.distanceToNearestEnemy = null;
+    } else {
+      this.distanceToNearestEnemy = this.distanceTo(this.nearestEnemy);
+    }
+  }
 };
 
 Player.prototype.updateInfo = function () {

@@ -392,5 +392,29 @@ function Upgrades (game) {
           flavour: 'Overtime, again?'
         }
       }),
+
+    playerPointDefenseDrone:
+      new Upgrade({
+        name: 'playerPointDefenseDrone',
+        effect: function () {
+          this.subtractGold(15);
+          var pdd = new PointDefenseDrone(this.resources, {x : this.player.x, y: this.player.y });
+          this.entities.push(pdd);
+          this.friendlies.push(pdd);
+
+          this.player.addUpgrade({
+            icon: this.sprites.flash1,
+            tooltip: 'Point defense drone.'
+          });
+        },
+        constraints: [
+          [new UpgradeConstraint('haveGold'), 15]
+        ],
+        text: {
+          name: 'Point Defense Drone',
+          cost: '15G',
+          effect: 'Zaps nearby foes (bullet upgrade soon!)'
+        }
+      }),
   };
 }
