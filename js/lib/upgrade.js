@@ -56,7 +56,7 @@ function UpgradeConstraint(name) {
 }
 
 function Upgrades (game) {
-  this.game = game; //
+  this.game = game;
   this.list = {
     increaseBulletCount:
       new Upgrade({
@@ -429,7 +429,7 @@ function Upgrades (game) {
           this.player.spread = 0.5;
 
           this.player.fireSound = function () {
-            if (Math.random() > 0.005) {
+            if (Math.random() > (this.upgrades.length+1)/200) {
               this.game.audio.play(this.sounds.beam, 0.3);
             }
           };

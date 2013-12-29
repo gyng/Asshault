@@ -49,17 +49,15 @@ Player.prototype.constructor = Player;
 Player.prototype.tick = function () {
   if (this.firing) {
     this.fireAt = Math.atan2(this.y - this.game.ui.mouse.y, this.x - this.game.ui.mouse.x);
-    for (var i = 0; i < this.bulletMultiplier; i++) {
-      this.fire(this.fireAt);
-    }
+    this.fire(this.fireAt);
+  }
+
+  if (this.firing && this.age % this.firingRate === 0) {
+    this.fireSound();
   }
 
   this.lookAt({ x: this.game.ui.mouse.x, y: this.game.ui.mouse.y });
   this.returnToMap();
-
-  // Optimisation: Upgrades increment this. On the next frame we fire that number of increments
-  // instead of having each upgrade call fire (and recalculate fireAt) separately
-  this.bulletMultiplier = 1;
 
   if (this.age % 30 === 0) {
     this.nearestEnemy = Util.nearestPoint(this.game.enemies, { x: this.x, y: this.y });
@@ -125,12 +123,12 @@ Player.prototype.fire = function (radians, offsetDegrees) {
     );
 
     this.fireShake();
-    this.fireSound();
   }
 };
 
 Player.prototype.fireSound = function () {
-  this.game.audio.play(this.sounds.fire, 0.2);
+  for (var i = 0; i < Math.min(this.upgrades.length+1, 10); i++)
+    this.game.audio.play(this.sounds.fire, 0.2, { sourceStart: Math.random() * 0.5 });
 };
 
 Player.prototype.fireShake = function () {
