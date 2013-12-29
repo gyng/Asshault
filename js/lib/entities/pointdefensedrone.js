@@ -7,7 +7,7 @@ function PointDefenseDrone (resources, overrides) {
   this.shadow.size = { x: 4, y: 4 };
   this.shadow.shape = 'circle';
 
-  this.sounds = { build: 'build' };
+  this.sounds = { build: 'beep', fire: 'shoot1' };
   this.game.audio.play(this.sounds.build, 0.9);
 
   this.alignment = 'friendly';
@@ -17,8 +17,11 @@ function PointDefenseDrone (resources, overrides) {
   this.orbitRadius = 64;
   this.angularVelocity = 2;
   this.fireRate = 2;
-  this.variance = 0;
+  this.variance = 1;
   this.target = null;
+  this.bulletDamage = 0.5;
+  this.bulletLifespan = 5;
+  this.bulletSpeed = 30;
 }
 
 PointDefenseDrone.prototype = new Entity();
@@ -43,9 +46,8 @@ PointDefenseDrone.prototype.fireAt = function (object) {
   this.fire(Math.atan2(this.y - object.y, this.x - object.x));
 };
 
-PointDefenseDrone.prototype.fire = function (radians, offsetDegrees) {
-  offsetDegrees = Util.deg2rad(offsetDegrees) || 0;
-  var variance = _.random(this.variance) * offsetDegrees;
+PointDefenseDrone.prototype.fire = function (radians) {
+  var variance = Util.randomError(this.variance);
 
   this.game.addEntity(
     new Bullet(this.resources, {
@@ -53,14 +55,16 @@ PointDefenseDrone.prototype.fire = function (radians, offsetDegrees) {
       y: this.y,
       direction: radians + variance,
       rotation: radians + variance,
-      damage: 0.5,
-      speed: 30,
+      damage: this.bulletDamage,
+      speed: this.bulletSpeed,
       source: this.game.player,
-      lifespan: 5
+      lifespan: this.bulletLifespan
     })
   );
 
-  this.game.audio.play(this.sounds.fire, 1);
+  if (Math.random() > 0.8) {
+    this.game.audio.play(this.sounds.fire, 0.05);
+  }
 };
 
 PointDefenseDrone.prototype.getImage = function () {

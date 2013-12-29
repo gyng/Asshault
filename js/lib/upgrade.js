@@ -417,6 +417,51 @@ function Upgrades (game) {
         }
       }),
 
+    pointDefenseDroneBulletHell:
+      new Upgrade({
+        name: 'pointDefenseDroneBulletHell',
+        effect: function () {
+          this.subtractGold(35);
+
+          var bulletHellTick = function () {
+            var rad = Util.deg2rad(this.age % 360) * this.angularVelocity;
+            this.x = this.game.player.x + -Math.cos(rad) * this.orbitRadius;
+            this.y = this.game.player.y + Math.sin(rad) * this.orbitRadius;
+            this.rotation = rad;
+            this.bulletLifespan = 360;
+            this.bulletSpeed = 10;
+            this.bulletDamage = 3;
+            this.variance = Util.deg2rad(15);
+
+            if (this.age % 10 === 0) {
+              this.fire(Math.atan2(this.game.player.y - this.y, this.game.player.x - this.x));
+              // this.fireAt(this.game.player);
+            }
+          };
+
+          this.friendlies.filter(function (ent) { return ent.constructor === PointDefenseDrone; }).forEach(function (pdd) {
+            pdd.tick = bulletHellTick;
+          });
+
+          PointDefenseDrone.prototype.tick = bulletHellTick;
+        },
+        constraints: [
+          [new UpgradeConstraint('haveGold'), 35],
+          ['playerPointDefenseDrone', 1],
+          [new UpgradeConstraint('upgradeCountWithinRange'), 'pointDefenseDroneBulletHell', 0, 1]
+        ],
+        text: {
+          name: 'Point Defence Drone Bullet Hell',
+          cost: '35G',
+          effect: 'Bullet hell.',
+          flavour: 'wich pdd wud u get hit by'
+        },
+        gameUpgradeIcon: {
+          icon: game.sprites.debug2,
+          tooltip: 'Point defense drone bullet hell.'
+        }
+      }),
+
     playerBeamWeapon:
       new Upgrade({
         name: 'playerBeamWeapon',

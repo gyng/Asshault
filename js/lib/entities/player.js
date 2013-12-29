@@ -13,7 +13,7 @@ function Player (resources, overrides) {
   this.kills = 0;
 
   this.alignment = 'friendly';
-  this.friendlyPierceChance = 0.98;
+  this.friendlyPierceChance = 1;
   this.enemyPierceChance = 0;
   this.additionalBulletPierceChance = 0;
   this.nearestEnemy = null;
