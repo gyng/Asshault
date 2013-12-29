@@ -37,12 +37,12 @@ Bullet.prototype.tick = function () {
   for (var i = 0; i < list.length; i++) {
     var ent = list[i];
     if (this.collidesWith(ent, this.speed * 0.75)) {
-      ent.damage(this.damage, this);
 
       var pierceChance;
       if (this.alignment !== 'none') {
         if ((this.alignment === 'friendly' && ent.alignment === 'enemy') ||
             (this.alignment === 'enemy' && ent.alignment === 'friendly')) {
+          ent.damage(this.damage, this);
           pierceChance = ent.enemyPierceChance;
         } else if (this.alignment === ent.alignment) {
           pierceChance = ent.friendlyPierceChance;
