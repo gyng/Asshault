@@ -1,4 +1,4 @@
-function Gunner(resources, overrides) {
+function Gunner (resources, overrides) {
   Entity.call(this, resources, overrides);
   this.width  = 42;
   this.height = 42;
@@ -44,13 +44,13 @@ Gunner.prototype.constructor = Gunner;
 Gunner.prototype.tick = function () {
   this.targetAge++;
 
-  if (!isDefined(this.target) ||
+  if (!Util.isDefined(this.target) ||
       this.target.markedForDeletion) {
     this.target = _.sample(this.game.enemies);
     this.targetAge = 0;
   }
 
-  if (isDefined(this.target)) {
+  if (Util.isDefined(this.target)) {
     if (this.age % this.fireRate === 0) {
       this.fireAt(this.target);
     }
@@ -84,7 +84,7 @@ Gunner.prototype.fireAt = function (object) {
 
 Gunner.prototype.fire = function (radians, offsetDegrees) {
   offsetDegrees = offsetDegrees || 0;
-  var offset = deg2rad(randomError(this.spread) + offsetDegrees);
+  var offset = Util.deg2rad(Util.randomError(this.spread) + offsetDegrees);
 
   this.game.addEntity(
     new Bullet(this.resources, {
@@ -99,8 +99,8 @@ Gunner.prototype.fire = function (radians, offsetDegrees) {
   );
 
   this.game.audio.play(this.sounds.fire, 0.2);
-  this.drawOffset.x += randomError(5);
-  this.drawOffset.y += randomError(5);
+  this.drawOffset.x += Util.randomError(5);
+  this.drawOffset.y += Util.randomError(5);
 };
 
 Gunner.prototype.getImage = function () {

@@ -1,4 +1,4 @@
-function Game(debug) {
+function Game (debug) {
   this.debug = debug || false;
   this.load();
 }
@@ -155,7 +155,7 @@ Game.prototype = {
         this.upgradeCount[upgrade.name]++;
       }
 
-      if (isDefined(upgrade.gameUpgradeIcon)) {
+      if (Util.isDefined(upgrade.gameUpgradeIcon)) {
         this.ui.addGameUpgradeIcon(upgrade.gameUpgradeIcon.icon, upgrade.gameUpgradeIcon.tooltip);
       }
     }

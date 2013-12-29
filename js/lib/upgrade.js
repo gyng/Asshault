@@ -1,4 +1,4 @@
-function Upgrade(data) {
+function Upgrade (data) {
   this.name = data.name;
   this.effect = data.effect;
   this.constraints = data.constraints || [];
@@ -67,7 +67,7 @@ function Upgrades (game) {
             effect: function () {
               if (this.firing) {
                 var fireAt = this.fireAt || Math.atan2(this.y - this.game.mouse.y, this.x - this.game.mouse.x);
-                this.fire(fireAt, randomNegation(_.random(10)));
+                this.fire(fireAt, Util.randomNegation(_.random(10)));
               }
             },
             icon: this.sprites.debug,
@@ -170,7 +170,7 @@ function Upgrades (game) {
           this.player.heloAccelerate = function (scaling, axis) {
             var closeToEW, closeToNS;
 
-            var deg = rad2deg(this.rotation);
+            var deg = Util.rad2deg(this.rotation);
 
             if (axis === 'x') {
               deg = deg - 90;
@@ -198,11 +198,11 @@ function Upgrades (game) {
             this.heloXAcceleration += this.accelerationRate * scaling * closeToEW * xFlip;
             this.heloYAcceleration += this.accelerationRate * scaling * closeToNS * yFlip;
 
-            this.heloXAcceleration = clamp(this.heloXAcceleration, this.minAcceleration, this.maxAcceleration);
-            this.heloYAcceleration = clamp(this.heloYAcceleration, this.minAcceleration, this.maxAcceleration);
+            this.heloXAcceleration = Util.clamp(this.heloXAcceleration, this.minAcceleration, this.maxAcceleration);
+            this.heloYAcceleration = Util.clamp(this.heloYAcceleration, this.minAcceleration, this.maxAcceleration);
 
-            this.heloXSpeed = clamp(this.heloXSpeed + this.heloXAcceleration, -this.maxSpeed, this.maxSpeed);
-            this.heloYSpeed = clamp(this.heloYSpeed + this.heloYAcceleration, -this.maxSpeed, this.maxSpeed);
+            this.heloXSpeed = Util.clamp(this.heloXSpeed + this.heloXAcceleration, -this.maxSpeed, this.maxSpeed);
+            this.heloYSpeed = Util.clamp(this.heloYSpeed + this.heloYAcceleration, -this.maxSpeed, this.maxSpeed);
           };
 
           this.player.heloMove = function () {
@@ -214,10 +214,10 @@ function Upgrades (game) {
             this.heloXAcceleration *= this.friction - 0.025;
             this.heloYAcceleration *= this.friction - 0.025;
 
-            this.drawOffset.x += randomError(1);
-            this.drawOffset.y += randomError(1);
+            this.drawOffset.x += Util.randomError(1);
+            this.drawOffset.y += Util.randomError(1);
 
-            if (hypotenuse(this.heloXSpeed, this.heloYSpeed) > 1 &&
+            if (Util.hypotenuse(this.heloXSpeed, this.heloYSpeed) > 1 &&
               this.age % 60 === 0) {
               this.game.audio.play('helicopter1', 0.2);
             }
@@ -249,8 +249,8 @@ function Upgrades (game) {
         name:  'buildTavern',
         effect: function () {
           this.subtractGold(25);
-          var spawnX = this.player.x + randomNegation(_.random(100, 300));
-          var spawnY = this.player.y + randomNegation(_.random(100, 300));
+          var spawnX = this.player.x + Util.randomNegation(_.random(100, 300));
+          var spawnY = this.player.y + Util.randomNegation(_.random(100, 300));
           var tavern = new Tavern(this.resources, { x: spawnX, y: spawnY });
           this.entities.push(tavern);
           this.friendlies.push(tavern);

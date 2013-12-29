@@ -1,4 +1,4 @@
-function Player(resources, overrides) {
+function Player (resources, overrides) {
   Entity.call(this, resources, overrides);
   this.width  = 48;
   this.height = 48;
@@ -93,7 +93,7 @@ Player.prototype.getImage = function () {
 };
 
 Player.prototype.fire = function (radians, offsetDegrees) {
-  var offset = deg2rad(randomError(this.spread) + randomNegation(offsetDegrees || 0));
+  var offset = Util.deg2rad(Util.randomError(this.spread) + Util.randomNegation(offsetDegrees || 0));
 
   if (this.age % this.firingRate === 0) {
     this.game.addEntity(
@@ -117,7 +117,7 @@ Player.prototype.fire = function (radians, offsetDegrees) {
 Player.prototype.fireShake = function () {
   var offsetDistance = 5;
   var shakeDistance = 7;
-  var normalized = normalize({ x: this.x - this.game.mouse.x, y: this.y - this.game.mouse.y });
+  var normalized = Util.normalize({ x: this.x - this.game.mouse.x, y: this.y - this.game.mouse.y });
   this.game.renderer.shake.x += normalized.x * shakeDistance;
   this.game.renderer.shake.y += normalized.y * shakeDistance;
   this.drawOffset.x += normalized.x * offsetDistance;
@@ -125,8 +125,8 @@ Player.prototype.fireShake = function () {
 };
 
 Player.prototype.draw = function (context) {
-  this.drawOffset.x = clamp(this.drawOffset.x * 0.9, 0, 72);
-  this.drawOffset.y = clamp(this.drawOffset.y * 0.9, 0, 72);
+  this.drawOffset.x = Util.clamp(this.drawOffset.x * 0.9, 0, 72);
+  this.drawOffset.y = Util.clamp(this.drawOffset.y * 0.9, 0, 72);
 
   if (this.firing) {
     var flashPos = { x: -this.width / 2, y: -this.height * 1.5 };

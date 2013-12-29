@@ -1,4 +1,4 @@
-function UI(game) {
+function UI (game) {
   this.game = game;
   this.populateUpgradeButtons(game.upgrades.list);
   this.setupBindings();

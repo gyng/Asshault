@@ -1,4 +1,4 @@
-function Sniper(resources, overrides) {
+function Sniper (resources, overrides) {
   Entity.call(this, resources, overrides);
 
   this.width  = 42;
@@ -51,14 +51,14 @@ Sniper.prototype.tick = function () {
   this.targetAge++;
   this.fireAge++;
 
-  if (!isDefined(this.target) || this.target.markedForDeletion) {
+  if (!Util.isDefined(this.target) || this.target.markedForDeletion) {
     this.target = _.sample(this.game.enemies);
     // So it will still fire sometimes if it can't get a shot in
     // Target switching penalty
     this.targetAge = this.targetAge * 0.4 + 5;
   }
 
-  if (isDefined(this.target)) {
+  if (Util.isDefined(this.target)) {
     if (this.targetAge >= this.fireRate) {
       this.fireAt(this.target);
       this.fireAge = 0;
@@ -66,8 +66,8 @@ Sniper.prototype.tick = function () {
 
       // Set new moveTarget position after firing
       this.moveTarget = {
-        x: this.game.player.x + randomNegation(_.random(64, 128)),
-        y: this.game.player.y + randomNegation(_.random(64, 128))
+        x: this.game.player.x + Util.randomNegation(_.random(64, 128)),
+        y: this.game.player.y + Util.randomNegation(_.random(64, 128))
       };
     }
 
@@ -97,7 +97,7 @@ Sniper.prototype.fireAt = function (object) {
 };
 
 Sniper.prototype.fire = function (radians, offsetDegrees) {
-  offsetDegrees = deg2rad(offsetDegrees) || 0;
+  offsetDegrees = Util.deg2rad(offsetDegrees) || 0;
   var variance = _.random(this.variance) * offsetDegrees;
 
   this.game.addEntity(
@@ -118,7 +118,7 @@ Sniper.prototype.fire = function (radians, offsetDegrees) {
 
 Sniper.prototype.fireShake = function () {
   var offsetDistance = 50;
-  var normalized = normalize({ x: this.x - this.target.x, y: this.y - this.target.y });
+  var normalized = Util.normalize({ x: this.x - this.target.x, y: this.y - this.target.y });
   this.drawOffset.x += normalized.x * offsetDistance;
   this.drawOffset.y += normalized.y * offsetDistance;
 };
@@ -137,7 +137,7 @@ Sniper.prototype.draw = function (context) {
     context.drawImage(this.sprites.flash2, -this.width, -this.height * 2);
   }
 
-  if (this.targetAge >= 50 && isDefined(this.target)) {
+  if (this.targetAge >= 50 && Util.isDefined(this.target)) {
     context.beginPath();
     context.moveTo(0, 0);
     context.lineTo(0, -this.distanceTo(this.target));

@@ -25,7 +25,7 @@ Renderer.prototype = {
     this.infoPass();
     this.shakeElement(this.canvas);
     this.shakeElement(this.decalCanvas);
-    this.rotate3d(document.getElementById('ui'), this.shake.y, Math.abs(this.shake.x), 0, hypotenuse(this.shake.x, this.shake.y));
+    this.rotate3d(document.getElementById('ui'), this.shake.y, Math.abs(this.shake.x), 0, Util.hypotenuse(this.shake.x, this.shake.y));
   },
 
   updateCameraShake: function () {
@@ -107,7 +107,7 @@ Renderer.prototype = {
           // Turn off shadow skewing if todScale is 0
           // Useful for non-normal shadows such as explosion light flashes
           var todScale = ent.shadow.todScale || 1;
-          if (isDefined(ent.shadow.todScale) && ent.shadow.todScale === 0) { todSkew = 1; }
+          if (Util.isDefined(ent.shadow.todScale) && ent.shadow.todScale === 0) { todSkew = 1; }
 
           // Transform to shadow position and rotate/skew it for time of day
           this.context.setTransform(
@@ -139,7 +139,7 @@ Renderer.prototype = {
   },
 
   levelPass: function() {
-    if (isDefined(this.game.level)) {
+    if (Util.isDefined(this.game.level)) {
       this.game.level.draw();
     }
   },
@@ -159,7 +159,7 @@ Renderer.prototype = {
       );
 
       var xOffset = 0, yOffset = 0;
-      if (!isDefined(startFromBotLeft)) {
+      if (!Util.isDefined(startFromBotLeft)) {
         xOffset -= w / 2;
         yOffset -= h / 2;
       }

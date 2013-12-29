@@ -1,4 +1,4 @@
-function Tavern(resources, overrides) {
+function Tavern (resources, overrides) {
   Entity.call(this, resources, overrides);
   this.width = 72;
   this.height = 72;

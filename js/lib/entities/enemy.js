@@ -1,4 +1,4 @@
-function Enemy(resources, overrides) {
+function Enemy (resources, overrides) {
   Entity.call(this, resources, overrides);
   this.width  = 32;
   this.height = 32;
@@ -48,7 +48,7 @@ Enemy.prototype.explode = function () {
       this.sprites.bloodstain,
       this.x - this.width / 2,
       this.y - this.height / 2,
-      randomRad(),
+      Util.randomRad(),
       64 + _.random(32),
       64 + _.random(32));
 

@@ -1,4 +1,4 @@
-function Sprites(sprites) {
+function Sprites (sprites) {
   this.sprites = sprites || {
     relativeDir: "",
     sources: []

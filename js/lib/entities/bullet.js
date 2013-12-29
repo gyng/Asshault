@@ -1,4 +1,4 @@
-function Bullet(resources, overrides) {
+function Bullet (resources, overrides) {
   Entity.call(this, resources, overrides);
   this.width = 32;
   this.height = 16;

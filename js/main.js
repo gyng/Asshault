@@ -9,16 +9,27 @@ require.config({
         'lib/level',
         'lib/upgrade',
 
+        'lib/levels/Levels',
+        'lib/levels/BreakLevel',
+
         'lib/entities/gunner',
         'lib/entities/sniper',
         'lib/entities/player',
         'lib/entities/bullet',
         'lib/entities/enemy',
         'lib/entities/cleaner',
-        'lib/entities/effects',
-        'lib/entities/buildings'
+        'lib/entities/tavern',
+
+        'lib/entities/effects/bulletping',
+        'lib/entities/effects/explosion',
       ]
     },
+
+    'lib/levels/breaklevel':  { deps: ['lib/level'] },
+    'lib/levels/levels':      { deps: [
+      'lib/level',
+      'lib/levels/BreakLevel'
+    ]},
 
     'lib/entities/gunner':    { deps: ['lib/entity'] },
     'lib/entities/sniper':    { deps: ['lib/entity'] },
@@ -26,8 +37,10 @@ require.config({
     'lib/entities/bullet':    { deps: ['lib/entity'] },
     'lib/entities/enemy':     { deps: ['lib/entity'] },
     'lib/entities/cleaner':   { deps: ['lib/entity'] },
-    'lib/entities/effects':   { deps: ['lib/entity'] },
-    'lib/entities/buildings': { deps: ['lib/entity'] },
+    'lib/entities/tavern':    { deps: ['lib/entity'] },
+
+    'lib/entities/effects/bulletping':   { deps: ['lib/entity'] },
+    'lib/entities/effects/explosion':    { deps: ['lib/entity'] },
   },
 });
 

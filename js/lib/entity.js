@@ -1,4 +1,4 @@
-function Entity(resources, overrides) {
+function Entity (resources, overrides) {
   this.width = 0;
   this.height = 0;
   this.x = 0;
@@ -72,7 +72,7 @@ Entity.prototype = {
     if (this.highlighted) {
       context.beginPath();
       context.fillStyle = "rgba(247, 243, 37, 0.5)";
-      context.arc(0, 0, hypotenuse(this.width, this.height) * 1.5, 0, 2 * Math.PI);
+      context.arc(0, 0, Util.hypotenuse(this.width, this.height) * 1.5, 0, 2 * Math.PI);
       context.fill();
     }
   },
@@ -125,7 +125,7 @@ Entity.prototype = {
   },
 
   distanceTo: function (object) {
-    return hypotenuse(object.x - this.x, object.y - this.y);
+    return Util.hypotenuse(object.x - this.x, object.y - this.y);
   },
 
   lookAt: function (object) {
@@ -145,7 +145,7 @@ Entity.prototype = {
   moveTo: function (x, y, speed, scaling) {
     scaling = scaling || 1;
     speed = speed || this.speed;
-    var normalized = normalize({ x: x - this.x, y: y - this.y });
+    var normalized = Util.normalize({ x: x - this.x, y: y - this.y });
     this.x += normalized.x * speed * scaling;
     this.y += normalized.y * speed * scaling;
   },
@@ -164,7 +164,7 @@ Entity.prototype = {
   getMoveDelta: function (x, y, speed, scaling) {
     scaling = scaling || 1;
     speed = speed || this.speed;
-    var normalized = normalize({ x: x - this.x, y: y - this.y });
+    var normalized = Util.normalize({ x: x - this.x, y: y - this.y });
     return { x: normalized.x * this.speed * scaling, y: normalized.y * this.speed * scaling };
   },
 
@@ -226,11 +226,11 @@ Entity.prototype = {
 
   addUpgrade: function (entityUpgrade) {
     // Not the full upgrade but a JS object {*effect: function, *icon: image}
-    if (isDefined(entityUpgrade.effect)) {
+    if (Util.isDefined(entityUpgrade.effect)) {
       this.upgrades.push(entityUpgrade.effect);
     }
 
-    if (isDefined(entityUpgrade.icon)) {
+    if (Util.isDefined(entityUpgrade.icon)) {
       this.game.ui.addHeroUpgradeIcon(this.uiElem, entityUpgrade.icon, entityUpgrade.tooltip);
     }
   }
