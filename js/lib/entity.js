@@ -34,6 +34,7 @@ function Entity (resources, overrides) {
     todScale: 1
   };
 
+  // Information exposed to UI elements
   this.info = {
     draw: false,
     text: {},
@@ -51,9 +52,7 @@ function Entity (resources, overrides) {
   };
 
   this.lastInfo = _.clone(this.info); // For doing dirty checks
-
   this.markedForDeletion = false;
-
   this.overrides = overrides || {};
   this.applyOverrides();
 }
@@ -94,14 +93,14 @@ Entity.prototype = {
     if (this.info.drawDirty) {
       this.infoCanvas.width = 300;
       // +1 for zero-height canvases not showing up
-      this.infoCanvas.height = (_.keys(this.info.text).length+0.5) * this.info.lineHeight + 1;
+      this.infoCanvas.height = (_.keys(this.info.text).length + 0.5) * this.info.lineHeight + 1;
       this.infoContext.font = this.info.font;
       this.infoContext.fillStyle = this.info.fill;
 
       var i = 0;
       _.each(_.where(this.info.text, { draw: true }), function (line, key) {
         var text = (line.prepend || '') + line.value + (line.postfix || '');
-        this.infoContext.fillText(text, 0, (++i) * this.info.lineHeight);
+        this.infoContext.fillText(text, 0, ++i * this.info.lineHeight);
       }.bind(this));
 
       this.info.drawDirty = false;

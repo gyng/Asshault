@@ -1,5 +1,7 @@
 function UI (game) {
   this.game = game;
+  this.mouse = { x: 0, y: 0 };
+  this.cssScale = 1;
   this.populateUpgradeButtons(game.upgrades.list);
   this.setupBindings();
   this.updateGold();
@@ -22,6 +24,13 @@ UI.prototype = {
       game.audio.setMasterVolume(1);
       $('.ui').css('background-color', 'transparent');
     };
+
+    $('#canvas').mousemove(function (e) {
+      // Factor in CSS scaling of canvas distorting mouse pointer location comparisons
+      // as canvas is not aware of external scaling.
+      this.mouse.x = this.cssScale * (e.pageX - game.canvas.offsetLeft);
+      this.mouse.y = this.cssScale * (e.pageY - game.canvas.offsetTop);
+    }.bind(this));
 
     // Cheats
     if (game.debug) {
@@ -75,11 +84,11 @@ UI.prototype = {
     if (window.innerWidth / window.innerHeight > 16 / 9) {
       canvas.style.height = window.innerHeight + "px";
       canvas.style.width  =  getCanvasCSSHeight() / 9 * 16 + "px";
-      this.game.cssScale = canvas.height / window.innerHeight;
+      this.cssScale = canvas.height / window.innerHeight;
     } else {
       canvas.style.width = window.innerWidth + "px";
       canvas.style.height  =  getCanvasCSSWidth() / 16 * 9 + "px";
-      this.game.cssScale = canvas.width / window.innerWidth;
+      this.cssScale = canvas.width / window.innerWidth;
     }
 
     var persistentCanvas = $("#persistent-canvas")[0];
@@ -187,8 +196,8 @@ UI.prototype = {
 
     var el = $($(template).html());
     el.find('.text').text(text);
-    el.css('left', left / this.game.cssScale + this.game.canvas.offsetLeft + 'px');
-    el.css('top',  top / this.game.cssScale + this.game.canvas.offsetTop + 'px');
+    el.css('left', left / this.cssScale + this.game.canvas.offsetLeft + 'px');
+    el.css('top',  top / this.cssScale + this.game.canvas.offsetTop + 'px');
 
     setTimeout(function () {
       el.fadeOut(1000, function () {

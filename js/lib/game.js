@@ -29,13 +29,11 @@ Game.prototype = {
     this.decalCanvas = $('#persistent-canvas')[0];
     this.renderer    = new Renderer(this, this.canvas, this.decalCanvas);
 
-    this.fps        = 60;
     this.running    = true;
+    this.tickRate   = 60;
     this.age        = 0;
-    this.mouse      = { x: 0, y: 0 };
-    this.center     = { x: this.canvas.width / 2, y: this.canvas.height / 2 };
     this.fpsCounter = 0;
-    this.cssScale   = 1;
+    this.center     = { x: this.canvas.width / 2, y: this.canvas.height / 2 };
 
     this.resources = {
       game:    this,
@@ -47,13 +45,6 @@ Game.prototype = {
     this.entities   = [this.player];
     this.friendlies = [this.player];
     this.enemies    = [];
-
-    $('#canvas').mousemove(function (e) {
-      // Factor in CSS scaling of canvas distorting mouse pointer location comparisons
-      // as canvas is not aware of external scaling.
-      this.mouse.x = this.cssScale * (e.pageX - this.canvas.offsetLeft);
-      this.mouse.y = this.cssScale * (e.pageY - this.canvas.offsetTop);
-    }.bind(this));
 
     this.upgradeCount = {};
     this.upgrades = new Upgrades(this);
@@ -76,7 +67,7 @@ Game.prototype = {
       setInterval(this.updateDebugInfo.bind(this), 1000);
     }
 
-    setInterval(this.step.bind(this), 1000 / this.fps);
+    setInterval(this.step.bind(this), 1000 / this.tickRate);
     this.draw();
   },
 
@@ -90,7 +81,7 @@ Game.prototype = {
       //   1. We don't want to check bullets against other bullets as they
       //      will not collide (and are usually near each other).
       //   2. Updating the spatial hash for individual objects is painful
-      //      so we recreate it each frame. Expensive with many bullets.
+      //      so we recreate it each frame. More expensive with many bullets.
       this.spatialHash = new SpatialHash(Math.ceil(this.canvas.width / 100));
       var i;
       for (i = 0; i < this.enemies.length; i++) {
@@ -155,10 +146,12 @@ Game.prototype = {
 
   upgrade: function (upgradeName, args) {
     var upgrade = this.upgrades.list[upgradeName];
+
     if (upgrade.isConstraintsMet(this)) {
       args = args || [];
       upgrade.effect.call(this, args);
-      if (typeof this.upgradeCount[upgrade.name] === 'undefined') {
+
+      if (!Util.isDefined(this.upgradeCount[upgrade.name])) {
         this.upgradeCount[upgrade.name] = 1;
       } else {
         this.upgradeCount[upgrade.name]++;

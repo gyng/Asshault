@@ -45,13 +45,13 @@ Player.prototype.constructor = Player;
 
 Player.prototype.tick = function () {
   if (this.firing) {
-    this.fireAt = Math.atan2(this.y - this.game.mouse.y, this.x - this.game.mouse.x);
+    this.fireAt = Math.atan2(this.y - this.game.ui.mouse.y, this.x - this.game.ui.mouse.x);
     for (var i = 0; i < this.bulletMultiplier; i++) {
       this.fire(this.fireAt);
     }
   }
 
-  this.lookAt({ x: this.game.mouse.x, y: this.game.mouse.y });
+  this.lookAt({ x: this.game.ui.mouse.x, y: this.game.ui.mouse.y });
   this.returnToMap();
 
   // Optimisation: Upgrades increment this. On the next frame we fire that number of increments
@@ -117,7 +117,7 @@ Player.prototype.fire = function (radians, offsetDegrees) {
 Player.prototype.fireShake = function () {
   var offsetDistance = 5;
   var shakeDistance = 7;
-  var normalized = Util.normalize({ x: this.x - this.game.mouse.x, y: this.y - this.game.mouse.y });
+  var normalized = Util.normalize({ x: this.x - this.game.ui.mouse.x, y: this.y - this.game.ui.mouse.y });
   this.game.renderer.shake.x += normalized.x * shakeDistance;
   this.game.renderer.shake.y += normalized.y * shakeDistance;
   this.drawOffset.x += normalized.x * offsetDistance;
