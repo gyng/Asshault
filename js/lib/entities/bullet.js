@@ -36,7 +36,7 @@ Bullet.prototype.tick = function () {
 
   for (var i = 0; i < list.length; i++) {
     var ent = list[i];
-    if (this.collidesWith(ent, this.speed * 0.75)) {
+    if (this.collidesWith(ent, Math.max(16, this.speed * 0.75))) {
 
       var pierceChance;
       if (this.alignment !== 'none') {

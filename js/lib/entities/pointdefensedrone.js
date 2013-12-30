@@ -17,7 +17,7 @@ function PointDefenseDrone (resources, overrides) {
   this.orbitRadius = 64;
   this.angularVelocity = 2;
   this.fireRate = 2;
-  this.variance = 1;
+  this.variance = Util.deg2rad(5);
   this.target = null;
   this.bulletDamage = 0.5;
   this.bulletLifespan = 5;

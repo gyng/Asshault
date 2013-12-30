@@ -82,7 +82,7 @@ Game.prototype = {
       //      will not collide (and are usually near each other).
       //   2. Updating the spatial hash for individual objects is painful
       //      so we recreate it each frame. More expensive with many bullets.
-      this.spatialHash = new SpatialHash(Math.ceil(this.canvas.width / 100));
+      this.spatialHash = new SpatialHash(Math.ceil(this.canvas.width / 50));
       var i;
       for (i = 0; i < this.enemies.length; i++) {
         var enemy = this.enemies[i];
