@@ -19,15 +19,23 @@ Level.prototype = {
     //   r: repeatIntervalInFrames
     // }
     //
-    // Function is applied with its binding for `this` as the level's `this.game`
+    // Function is applied with its binding for `this` as this level.
+    // First argument is iteration, followed by supplied args.
 
     if (_.isObject(this.script[this.age])) {
       var scriptEvent = this.script[this.age];
       scriptEvent.a = scriptEvent.a || [];
-      scriptEvent.f.apply(this.game, [].concat(scriptEvent.a));
+      var iteration = scriptEvent.iteration || 1;
+      scriptEvent.f.apply(this, [iteration].concat(scriptEvent.a));
 
       if (_.isNumber(scriptEvent.r)) {
-        this.script[this.age + scriptEvent.r] = scriptEvent;
+        if (_.isNumber(scriptEvent.iteration)) {
+          scriptEvent.iteration++;
+        } else {
+          scriptEvent.iteration = 2;
+        }
+
+        this.addEvent(this.age + scriptEvent.r, scriptEvent);
       }
     }
 
@@ -36,5 +44,10 @@ Level.prototype = {
 
   draw: function () {
 
+  },
+
+  addEvent: function (time, scriptEvent, args) {
+    args = args || [];
+    this.script[time] = scriptEvent;
   }
 };

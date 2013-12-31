@@ -8,22 +8,14 @@ function Levels (game) {
         }
       },
       45: {
-        f: function () {
-          var spawn = {};
-          var minDistanceAway = 200;
-          var maxAttempts = 100;
-          var attempts = 0;
+        f: function (i) {
+          game.ui.setLevelInformation('Wave ' + i);
 
-          do
-            spawn = { x: _.random(game.canvas.width), y: _.random(game.canvas.height) };
-          while (
-            Util.distanceBetween(spawn, game.player) < minDistanceAway &&
-            attempts++ < maxAttempts);
-
-          if (attempts < maxAttempts)
-            game.addEntity(new Enemy(game.resources, spawn), 'enemy');
+          for (var j = i + 10; j > 0; j--) {
+            game.spawnEnemy(new Enemy(game.resources));
+          }
         },
-        r: 45
+        r: 600
       },
       15: { f: function (arg1) { }, a: 'myarg2' },
     })

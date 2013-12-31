@@ -135,6 +135,10 @@ UI.prototype = {
       return el;
   },
 
+  setLevelInformation: function (text)  {
+    $('.level-information').text(text);
+  },
+
   addToHeroList: function (hero) {
     var el = this.createHeroListItem("#template-hero-list-item", hero);
     $('.hero-list').append(el);
