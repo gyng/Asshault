@@ -19,8 +19,10 @@ UI.prototype = {
     };
 
     window.onfocus = function () {
-      game.running = true;
-      game.draw();
+      if (!game.running) {
+        game.running = true;
+        game.draw();
+      }
       game.audio.setMasterVolume(1);
       $('.ui').css('background-color', 'transparent');
     };
