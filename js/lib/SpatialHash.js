@@ -7,45 +7,46 @@ function SpatialHash (cellSize) {
 SpatialHash.prototype = {
   add: function (x, y, object) {
     var cell = [];
-    var keys = this.keys(x, y);
+    var key = this.key(x, y);
 
-    // Add to self and neighbouring cells
-    for (var i in keys) {
-      var key = keys[i];
+    if (typeof this.idx.key !== 'undefined') {
+      cell = this.idx[key];
+    } else {
+      this.idx[key] = cell;
+    }
 
-      if (key in this.idx) {
-        cell = this.idx[key];
-      } else {
-        this.idx[key] = cell;
-      }
-
-      if (cell.indexOf(object) === -1) {
-        cell.push(object);
-      }
+    if (cell.indexOf(object) === -1) {
+      cell.push(object);
     }
   },
 
-  query: function (x, y) {
-    var key = this.key(x, y);
-    return (typeof this.idx[key] === 'undefined') ? [] : this.idx[key];
+  query: function (x, y, pxRadius) {
+    pxRadiux = pxRadius || this.cellSize;
+    var keys = this.keys(x, y, pxRadius);
+    var results = [];
+
+    for (var i = 0; i < keys.length; i++) {
+      var key = keys[i];
+      if (typeof this.idx[key] !== 'undefined')
+        results.push(this.idx[key]);
+    }
+
+    return [].concat.apply([], results); // flatten results array
   },
 
-  // Get own and neighbouring cells
-  keys: function (x, y) {
+  // Obtain keys for cells in a radius (default 1 cell around)  cell at x, y position
+  keys: function (x, y, pxRadius) {
     var d = this.cellSize / 2;
-    return [
-      this.key(x-d, y-d),
-      this.key(x,   y-d),
-      this.key(x+d, y-d),
+    var results = [];
+    var depth = Math.ceil(pxRadiux / this.cellSize);
 
-      this.key(x-d, y),
-      this.key(x,   y),
-      this.key(x+d, y),
+    for (var i = -depth; i <= depth; i++) {
+      for (var j = -depth; j <= depth; j++) {
+        results.push(this.key(x + i * this.cellSize, y + j * this.cellSize));
+      }
+    }
 
-      this.key(x-d, y+d),
-      this.key(x,   y+d),
-      this.key(x+d, y+d)
-    ];
+    return results;
   },
 
   key: function (x, y) {
