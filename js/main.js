@@ -9,8 +9,8 @@ require.config({
         'lib/level',
         'lib/upgrade',
 
-        'lib/levels/Levels',
-        'lib/levels/BreakLevel',
+        'lib/levels/levels',
+        'lib/levels/breaklevel',
 
         'lib/entities/gunner',
         'lib/entities/sniper',
@@ -29,7 +29,7 @@ require.config({
     'lib/levels/breaklevel':  { deps: ['lib/level'] },
     'lib/levels/levels':      { deps: [
       'lib/level',
-      'lib/levels/BreakLevel'
+      'lib/levels/breaklevel'
     ]},
 
     'lib/entities/gunner':            { deps: ['lib/entity'] },
