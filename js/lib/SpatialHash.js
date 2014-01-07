@@ -26,9 +26,9 @@ SpatialHash.prototype = {
     var results = [];
 
     for (var i = 0; i < keys.length; i++) {
-      var key = keys[i];
-      if (typeof this.idx[key] !== 'undefined')
-        results.push(this.idx[key]);
+      if (typeof this.idx[keys[i]] !== 'undefined') {
+        results.push(this.idx[keys[i]]);
+      }
     }
 
     return [].concat.apply([], results); // flatten results array
@@ -36,7 +36,6 @@ SpatialHash.prototype = {
 
   // Obtain keys for cells in a radius (default 1 cell around)  cell at x, y position
   keys: function (x, y, pxRadius) {
-    var d = this.cellSize / 2;
     var results = [];
     var depth = Math.ceil(pxRadiux / this.cellSize);
 
