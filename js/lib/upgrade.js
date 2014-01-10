@@ -420,17 +420,16 @@ function Upgrades (game) {
 
           var bulletHellTick = function () {
             var rad = Util.deg2rad(this.age % 360) * this.angularVelocity;
-            this.x = this.game.player.x + -Math.cos(rad) * this.orbitRadius;
+            this.x = this.game.player.x - Math.cos(rad) * this.orbitRadius;
             this.y = this.game.player.y + Math.sin(rad) * this.orbitRadius;
             this.rotation = rad;
-            this.bulletLifespan = 360;
-            this.bulletSpeed = 10;
-            this.bulletDamage = 3;
-            this.variance = Util.deg2rad(15);
+            this.weapon.bulletLifespan = 360;
+            this.weapon.bulletSpeed = 10;
+            this.weapon.damage = 3;
+            this.weapon.spread = Util.deg2rad(15);
 
             if (this.age % 10 === 0) {
-              this.fire(Math.atan2(this.game.player.y - this.y, this.game.player.x - this.x));
-              // this.fireAt(this.game.player);
+              this.weapon.fire(Math.atan2(this.game.player.y - this.y, this.game.player.x - this.x));
             }
           };
 
@@ -463,13 +462,15 @@ function Upgrades (game) {
         effect: function () {
           this.subtractGold(50);
 
-          this.player.additionalWeaponPierce = 0.4;
-          this.player.weapon.spreadMultiplier = 0.5;
+          this.player.weapon.applyOverrides({
+            spreadMultiplier: 0.5,
+            bulletDamage: 0.1,
+            fireRate: 0,
+            recoilOffset: 0.3,
+            recoilCameraShake: 0.5
+          });
           this.player.weapon.sounds.beam = 'zap';
-          this.player.weapon.bulletDamage = 0.1;
-          this.player.weapon.fireRate = 0;
-          this.player.weapon.recoilOffset = 0.3;
-          this.player.weapon.recoilCameraShake = 0.5;
+          this.player.additionalWeaponPierce = 0.4;
 
           this.player.weapon.fireSound = function () {
             if (Math.random() > 0.025) {

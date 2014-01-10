@@ -45,7 +45,7 @@ Player.prototype.constructor = Player;
 Player.prototype.tick = function () {
   if (this.firing) {
     var fireDirection = Math.atan2(this.y - this.game.ui.mouse.y, this.x - this.game.ui.mouse.x);
-    this.fire(fireDirection);
+    this.weapon.fire(fireDirection);
   }
 
   this.lookAt({ x: this.game.ui.mouse.x, y: this.game.ui.mouse.y });
@@ -95,10 +95,6 @@ Player.prototype.returnToMap = function () {
 
 Player.prototype.getImage = function () {
   return this.sprites.debug;
-};
-
-Player.prototype.fire = function (radians) {
-  this.weapon.fire(radians);
 };
 
 Player.prototype.draw = function (context) {

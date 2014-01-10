@@ -9,12 +9,15 @@ function Weapon (parent, overrides) {
   this.spreadMultiplier = 1;
   // this.ammo = 10;
   // this.reloadTime = 10;
+  this.bulletLifespan = Number.MAX_VALUE;
   // List of bullet streams. Useful for stuff like triple-machineguns.
   this.streams = [{ spread: 0, offset: 0 }];
   this.sounds = { fire: ['shoot2', 'shoot5', 'shoot7'] };
 
+  this.recoil = true;
   this.recoilCameraShake = 7;
   this.recoilOffset = 5;
+  this.volume = 1;
 
   this.applyOverrides(overrides);
   if (typeof parent !== 'undefined') this.game = parent.game;
@@ -22,7 +25,9 @@ function Weapon (parent, overrides) {
 
 Weapon.prototype = {
   fire: function () {},
-  fireAt: function () {},
+  fireAt: function (target) {
+    this.fire(Math.atan2(this.parent.y - target.y, this.parent.x - target.x));
+  },
   tock: function () {
     if (this.cooldown > 0) this.cooldown--;
   },

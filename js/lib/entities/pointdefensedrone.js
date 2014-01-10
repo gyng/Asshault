@@ -7,7 +7,7 @@ function PointDefenseDrone (resources, overrides) {
   this.shadow.size = { x: 4, y: 4 };
   this.shadow.shape = 'circle';
 
-  this.sounds = { build: 'beep', fire: 'shoot1' };
+  this.sounds = { build: 'beep' };
   this.game.audio.play(this.sounds.build, 0.9);
 
   this.alignment = 'friendly';
@@ -16,12 +16,12 @@ function PointDefenseDrone (resources, overrides) {
 
   this.orbitRadius = 64;
   this.angularVelocity = 2;
-  this.fireRate = 2;
-  this.variance = Util.deg2rad(5);
+
+  this.weapon = new MachineGun(this, { bulletLifespan: 5, damage: 0.5, fireRate: 2, recoil: false, volume: 0.1 });
+  this.weapon.sounds.fire = 'shoot1';
+  this.deferSource = this.game.player;
+
   this.target = null;
-  this.bulletDamage = 0.5;
-  this.bulletLifespan = 5;
-  this.bulletSpeed = 30;
 }
 
 PointDefenseDrone.prototype = new Entity();
@@ -38,32 +38,7 @@ PointDefenseDrone.prototype.tick = function () {
     if (Util.isDefined(this.game.player.nearestEnemy) &&
         this.game.player.distanceToNearestEnemy < 200 &&
         !this.game.player.nearestEnemy.markedForDeletion)
-      this.fireAt(this.game.player.nearestEnemy);
-  }
-};
-
-PointDefenseDrone.prototype.fireAt = function (object) {
-  this.fire(Math.atan2(this.y - object.y, this.x - object.x));
-};
-
-PointDefenseDrone.prototype.fire = function (radians) {
-  var variance = Util.randomError(this.variance);
-
-  this.game.addEntity(
-    new Bullet(this.resources, {
-      x: this.x,
-      y: this.y,
-      direction: radians + variance,
-      rotation: radians + variance,
-      damage: this.bulletDamage,
-      speed: this.bulletSpeed,
-      source: this.game.player,
-      lifespan: this.bulletLifespan
-    })
-  );
-
-  if (Math.random() > 0.8) {
-    this.game.audio.play(this.sounds.fire, 0.05);
+      this.weapon.fireAt(this.game.player.nearestEnemy);
   }
 };
 

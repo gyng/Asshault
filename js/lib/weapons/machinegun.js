@@ -16,7 +16,7 @@ MachineGun.prototype.fire = function (radians) {
     }
 
     this.fireSound();
-    this.shake(this.streams.length);
+    if (this.recoil) this.shake(this.streams.length);
     this.cooldown = this.fireRate;
   }
 };
@@ -29,8 +29,9 @@ MachineGun.prototype.bullet = function (radians, offset) {
     rotation: radians + offset,
     damage: this.damage,
     speed: this.bulletSpeed,
-    source: this.parent,
-    additionalPierceChance: this.pierce + this.parent.additionalWeaponPierce
+    source: (this.parent.deferSource || this.parent),
+    additionalPierceChance: this.pierce + (this.parent.additionalWeaponPierce || 0),
+    lifespan: this.bulletLifespan
   });
 };
 
@@ -48,7 +49,7 @@ MachineGun.prototype.shake = function (multiplier) {
 };
 
 MachineGun.prototype.fireSound = function () {
-  this.game.audio.play(this.sounds.fire, Util.clamp(this.streams.length * 0.2, 0.2, 1));
+  this.game.audio.play(this.sounds.fire, Util.clamp(this.streams.length * 0.2 * this.volume, 0.2, 1));
 };
 
 MachineGun.prototype.draw = function (context) {
