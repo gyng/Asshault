@@ -17,6 +17,7 @@ function Entity (resources, overrides) {
   this.alignment = 'none';
   this.friendlyPierceChance = 0;
   this.enemyPierceChance = 0;
+  this.weapons = [];
 
   if (typeof resources !== 'undefined') {
     this.sprites = resources.sprites;
@@ -62,6 +63,7 @@ Entity.prototype = {
 
   tock: function () {
     if (this.age === 1) this.info.dirty = true;
+    if (this.weapon) this.weapon.tock();
     this.age++;
   },
 
@@ -114,7 +116,6 @@ Entity.prototype = {
   applyOverrides: function () {
     _.keys(this.overrides).forEach(function (key) {
       this[key] = this.overrides[key];
-
     }.bind(this));
   },
 

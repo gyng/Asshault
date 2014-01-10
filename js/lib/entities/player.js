@@ -3,9 +3,6 @@ function Player (resources, overrides) {
   this.width  = 48;
   this.height = 48;
   this.health = 10;
-  this.spread = 5;
-  this.firingRate = 4;
-  this.bulletDamage = 1;
   this.speed = 0;
 
   this.level = 0;
@@ -15,19 +12,18 @@ function Player (resources, overrides) {
   this.alignment = 'friendly';
   this.friendlyPierceChance = 1;
   this.enemyPierceChance = 0;
-  this.additionalBulletPierceChance = 0;
   this.nearestEnemy = null;
 
-  this.shadow.on = true;
+  this.weapon = new MachineGun(this);
+  this.additionalWeaponPierce = 0;
 
+  this.shadow.on = true;
   this.name = 'You!';
   this.info.draw = true;
   this.info.addToHeroList = true;
 
   this.sounds = {
-    fire: ['shoot2', 'shoot5', 'shoot7'],
-    levelup: 'powerup',
-    beam: ['zap']
+    levelup: 'powerup'
   };
 
   $('#canvas').mousedown(function (e) {
@@ -48,22 +44,18 @@ Player.prototype.constructor = Player;
 
 Player.prototype.tick = function () {
   if (this.firing) {
-    this.fireAt = Math.atan2(this.y - this.game.ui.mouse.y, this.x - this.game.ui.mouse.x);
-    this.fire(this.fireAt);
-  }
-
-  if (this.firing && this.age % this.firingRate === 0) {
-    this.fireSound();
+    var fireDirection = Math.atan2(this.y - this.game.ui.mouse.y, this.x - this.game.ui.mouse.x);
+    this.fire(fireDirection);
   }
 
   this.lookAt({ x: this.game.ui.mouse.x, y: this.game.ui.mouse.y });
   this.returnToMap();
 
+  // Update nearest enemy for point-defence drones so we don't have to do the expensive op in each drone
   if (this.age % 30 === 0) {
     this.nearestEnemy = Util.nearestPoint(this.game.enemies, { x: this.x, y: this.y });
 
-    if (!Util.isDefined(this.nearestEnemy) ||
-        this.nearestEnemy.markedForDeletion) {
+    if (!Util.isDefined(this.nearestEnemy) || this.nearestEnemy.markedForDeletion) {
       this.nearestEnemy = null;
       this.distanceToNearestEnemy = null;
     } else {
@@ -105,40 +97,8 @@ Player.prototype.getImage = function () {
   return this.sprites.debug;
 };
 
-Player.prototype.fire = function (radians, offsetDegrees) {
-  var offset = Util.deg2rad(Util.randomError(this.spread) + Util.randomNegation(offsetDegrees || 0));
-
-  if (this.age % this.firingRate === 0) {
-    this.game.addEntity(
-      new Bullet(this.resources, {
-        x: this.x,
-        y: this.y,
-        direction: radians + offset,
-        rotation: radians + offset,
-        damage: this.bulletDamage,
-        speed: 30,
-        source: this,
-        additionalPierceChance: this.additionalBulletPierceChance
-      })
-    );
-
-    this.fireShake();
-  }
-};
-
-Player.prototype.fireSound = function () {
-  for (var i = 0; i < Math.min(this.upgrades.length+1, 10); i++)
-    this.game.audio.play(this.sounds.fire, 0.2, { sourceStart: Math.random() * 0.5 });
-};
-
-Player.prototype.fireShake = function () {
-  var offsetDistance = 5;
-  var shakeDistance = 7;
-  var normalized = Util.normalize({ x: this.x - this.game.ui.mouse.x, y: this.y - this.game.ui.mouse.y });
-  this.game.renderer.shake.x += normalized.x * shakeDistance;
-  this.game.renderer.shake.y += normalized.y * shakeDistance;
-  this.drawOffset.x += normalized.x * offsetDistance;
-  this.drawOffset.y += normalized.y * offsetDistance;
+Player.prototype.fire = function (radians) {
+  this.weapon.fire(radians);
 };
 
 Player.prototype.draw = function (context) {
@@ -146,14 +106,6 @@ Player.prototype.draw = function (context) {
   this.drawOffset.y = Util.clamp(this.drawOffset.y * 0.9, 0, 72);
 
   if (this.firing) {
-    var flashPos = { x: -this.width / 2, y: -this.height * 1.5 };
-
-    if (this.age % this.firingRate <= this.firingRate / 2){
-      context.drawImage(this.sprites.flash1, flashPos.x, flashPos.y);
-    }
-
-    if (this.age % this.firingRate * 2 <= this.firingRate / 8 * 3) {
-      context.drawImage(this.sprites.flash2, flashPos.x, flashPos.y);
-    }
+    this.weapon.draw(context);
   }
 };

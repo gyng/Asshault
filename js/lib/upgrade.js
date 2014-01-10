@@ -63,13 +63,8 @@ function Upgrades (game) {
         name:  'increaseBulletCount',
         effect: function () {
           this.subtractGold(15);
+          this.player.weapon.streams.push({ offset: _.random(8), spread: 7 });
           this.player.addUpgrade({
-            effect: function () {
-              if (this.firing) {
-                var fireAt = this.fireAt || Math.atan2(this.y - this.game.ui.mouse.y, this.x - this.game.ui.mouse.x);
-                this.fire(fireAt, Util.randomNegation(_.random(7)));
-              }
-            },
             icon: this.sprites.debug,
             tooltip: 'Increased bullet count.'
           });
@@ -89,7 +84,7 @@ function Upgrades (game) {
       new Upgrade({
         name: 'playerPiercingBullets',
         effect: function () {
-          this.player.additionalBulletPierceChance += 0.7;
+          this.player.additionalWeaponPierce += 0.7;
           this.player.addUpgrade({
             icon: this.sprites.flash2,
             tooltip: 'Piercing bullets.'
@@ -468,14 +463,17 @@ function Upgrades (game) {
         effect: function () {
           this.subtractGold(50);
 
-          this.player.firingRate = 0.5;
-          this.player.bulletDamage = 0.2;
-          this.additionalBulletPierceChance = 0.4;
-          this.player.spread = 0.5;
+          this.player.additionalWeaponPierce = 0.4;
+          this.player.weapon.spreadMultiplier = 0.5;
+          this.player.weapon.sounds.beam = 'zap';
+          this.player.weapon.bulletDamage = 0.1;
+          this.player.weapon.fireRate = 0;
+          this.player.weapon.recoilOffset = 0.3;
+          this.player.weapon.recoilCameraShake = 0.5;
 
-          this.player.fireSound = function () {
-            if (Math.random() > (this.upgrades.length+1)/200) {
-              this.game.audio.play(this.sounds.beam, 0.3);
+          this.player.weapon.fireSound = function () {
+            if (Math.random() > 0.025) {
+              this.game.audio.play(this.sounds.beam, Util.clamp(0.15 * this.streams.length, 0.15, 1));
             }
           };
 
