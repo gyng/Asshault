@@ -64,10 +64,7 @@ function Upgrades (game) {
         effect: function () {
           this.subtractGold(15);
           this.player.weapon.streams.push({ offset: _.random(8), spread: 7 });
-          this.player.addUpgrade({
-            icon: this.sprites.debug,
-            tooltip: 'Increased bullet count.'
-          });
+          this.player.addUpgrade({ icon: this.sprites.debug, tooltip: 'Increased bullet count.' });
         },
         constraints: [
           [new UpgradeConstraint('haveGold'), 15],
@@ -75,8 +72,7 @@ function Upgrades (game) {
         text: {
           name: 'Jury Rig Ammo Feed',
           cost: '15G',
-          effect: 'More bullets! Un·bullet·able!',
-          flavour: ''
+          effect: 'More bullets! Un·bullet·able!'
         }
       }),
 
@@ -85,10 +81,7 @@ function Upgrades (game) {
         name: 'playerPiercingBullets',
         effect: function () {
           this.player.additionalWeaponPierce += 0.7;
-          this.player.addUpgrade({
-            icon: this.sprites.flash2,
-            tooltip: 'Piercing bullets.'
-          });
+          this.player.addUpgrade({ icon: this.sprites.flash2, tooltip: 'Piercing bullets.' });
         },
         constraints: [
           [new UpgradeConstraint('haveGold'), 25],
@@ -97,8 +90,7 @@ function Upgrades (game) {
         text: {
           name: 'Piercing bullets',
           cost: '25G',
-          effect: 'Cut through butter like butter.',
-          flavour: ''
+          effect: 'Cut through butter like butter.'
         }
       }),
 
@@ -113,13 +105,12 @@ function Upgrades (game) {
           [new UpgradeConstraint('haveGold'), 15],
         ],
         text: {
-          name: 'Reinforce Camera Tripod',
-          cost: '15G',
-          effect: 'Reduces camera shake.',
-          flavour: ''
+          name:   'Reinforce Camera Tripod',
+          cost:   '15G',
+          effect: 'Reduces camera shake.'
         },
         gameUpgradeIcon: {
-          icon: game.sprites.flash1,
+          icon:    game.sprites.flash1,
           tooltip: 'Reduced camera shake.'
         }
       }),
@@ -221,8 +212,8 @@ function Upgrades (game) {
           this.player.game.audio.loop('helicopter2', 0.3, 0.24, 0.83);
 
           this.player.addUpgrade({
-            effect: function () { this.heloMove(); },
-            icon: this.sprites.debug2,
+            effect:  function () { this.heloMove(); },
+            icon:    this.sprites.debug2,
             tooltip: 'Ride of the Valkyries.'
           });
         },
@@ -232,9 +223,9 @@ function Upgrades (game) {
           [new UpgradeConstraint('haveGold'), 80]
         ],
         text: {
-          name: 'The Flying Machine',
-          cost: '80G, Player Level 1',
-          effect: 'Move with the WASD keys. Too hard to control? Just use W (and only W) like the scrub you are.',
+          name:    'The Flying Machine',
+          cost:    '80G, Player Level 1',
+          effect:  'Move with the WASD keys. Too hard to control? Just use W (and only W) like the scrub you are.',
           flavour: 'Avoid sun.'
         }
       }),
@@ -255,13 +246,13 @@ function Upgrades (game) {
           [new UpgradeConstraint('haveGold'), 25]
         ],
         text: {
-          name: 'A House of Heroes',
-          cost: '25G, No Tavern built',
-          effect: 'A tavern is constructed in the village. Taverns are known for attracting heroes of all kinds.',
+          name:    'A House of Heroes',
+          cost:    '25G, No Tavern built',
+          effect:  'A tavern is constructed in the village. Taverns are known for attracting heroes of all kinds.',
           flavour: 'Beer, ale and whiskey.'
         },
         gameUpgradeIcon: {
-          icon: game.sprites.tavern,
+          icon:    game.sprites.tavern,
           tooltip: 'Taverns. Places of merriment.'
         }
       }),
@@ -281,9 +272,9 @@ function Upgrades (game) {
           [new UpgradeConstraint('haveGold'), 25]
         ],
         text: {
-          name: 'A Ram Boar Arrives',
-          cost: 'Tavern, 25G',
-          effect: 'A Ram Boar is a half-gun, half-man, half-ram and half-boar creature.',
+          name:    'A Ram Boar Arrives',
+          cost:    'Tavern, 25G',
+          effect:  'A Ram Boar is a half-gun, half-man, half-ram and half-boar creature.',
           flavour: 'Ram Boars are known to be broke all the time.'
         }
       }),
@@ -294,9 +285,9 @@ function Upgrades (game) {
         effect: function () {
           this.subtractGold(50);
           var betterFireAt = function (ent) {
-            var bulletTravelTime = this.distanceTo(ent) / this.bulletSpeed;
+            var bulletTravelTime = this.distanceTo(ent) / this.weapon.bulletSpeed;
             var moveDelta = ent.getMoveDelta(this.game.player.x, this.game.player.y, ent.speed, ent.health / 10);
-            this.fire(Math.atan2(this.y - ent.y - bulletTravelTime * moveDelta.y , this.x - ent.x - bulletTravelTime * moveDelta.x));
+            this.weapon.fire(Math.atan2(this.y - ent.y - bulletTravelTime * moveDelta.y , this.x - ent.x - bulletTravelTime * moveDelta.x));
           };
 
           this.friendlies.filter(function (ent) { return ent.constructor === Gunner; }).forEach(function (gunner) {
@@ -311,13 +302,13 @@ function Upgrades (game) {
           [new UpgradeConstraint('haveGold'), 50]
         ],
         text: {
-          name: 'Ram Boar Weapons Training',
-          cost: '50G, Ram Boar',
-          effect: 'Ram Boars learn to fire ahead of their targets.',
+          name:    'Ram Boar Weapons Training',
+          cost:    '50G, Ram Boar',
+          effect:  'Ram Boars learn to fire ahead of their targets.',
           flavour: 'Who knew Ram Boars didn’t know how to shoot?'
         },
         gameUpgradeIcon: {
-          icon: game.sprites.herogunner,
+          icon:    game.sprites.herogunner,
           tooltip: 'Ram Boar weapons training. Ram Boars lead targets when firing.'
         }
       }),
@@ -328,7 +319,7 @@ function Upgrades (game) {
         effect: function () {
           this.subtractGold(15);
           _.where(this.friendlies, { constructor: Gunner }).forEach(function (gunner) {
-            gunner.fireRate = Math.ceil(gunner.fireRate * 0.75);
+            gunner.weapon.fireRate = Math.ceil(gunner.weapon.fireRate * 0.75);
             gunner.addUpgrade({ icon: game.sprites.debug, tooltip: 'Going fuller auto.' });
           });
         },
@@ -337,11 +328,11 @@ function Upgrades (game) {
           [new UpgradeConstraint('haveGold'), 15]
         ],
         text: {
-            name: 'Ram Boar Goes Full Auto',
-            cost: '15G, Ram Boar',
-            effect: '25% faster firing for *existing* Ram Boars, up to a limit.',
-            flavour: 'Always go full auto.'
-          }
+          name:    'Ram Boar Goes Full Auto',
+          cost:    '15G, Ram Boar',
+          effect:  '25% faster firing for *existing* Ram Boars, up to a limit.',
+          flavour: 'Always go full auto.'
+        }
       }),
 
     heroSniper:
@@ -359,9 +350,9 @@ function Upgrades (game) {
           [new UpgradeConstraint('haveGold'), 50]
         ],
         text: {
-          name: 'A Shartshooper Appears',
-          cost: '50G, Tavern',
-          effect: 'Shartshoopers are skilled at ranged combat.',
+          name:    'A Shartshooper Appears',
+          cost:    '50G, Tavern',
+          effect:  'Shartshoopers are skilled at ranged combat.',
           flavour: 'Nearby foes they kill with their stench.'
         }
       }),
@@ -381,9 +372,9 @@ function Upgrades (game) {
           [new UpgradeConstraint('haveGold'), 10]
         ],
         text: {
-          name: 'Tavern Clean Up Crew Member',
-          cost: '10G, Tavern',
-          effect: 'No mess too big.',
+          name:    'Tavern Clean Up Crew Member',
+          cost:    '10G, Tavern',
+          effect:  'No mess too big.',
           flavour: 'Overtime, again?'
         }
       }),
@@ -396,18 +387,14 @@ function Upgrades (game) {
           var pdd = new PointDefenseDrone(this.resources, {x : this.player.x, y: this.player.y });
           this.entities.push(pdd);
           this.friendlies.push(pdd);
-
-          this.player.addUpgrade({
-            icon: this.sprites.flash1,
-            tooltip: 'Point defense drone.'
-          });
+          this.player.addUpgrade({ icon: this.sprites.flash1, tooltip: 'Point defense drone.' });
         },
         constraints: [
           [new UpgradeConstraint('haveGold'), 15]
         ],
         text: {
-          name: 'Point Defense Drone',
-          cost: '15G',
+          name:   'Point Defense Drone',
+          cost:   '15G',
           effect: 'Zaps nearby foes (bullet upgrade soon!)'
         }
       }),
@@ -433,7 +420,9 @@ function Upgrades (game) {
             }
           };
 
-          this.friendlies.filter(function (ent) { return ent.constructor === PointDefenseDrone; }).forEach(function (pdd) {
+          this.friendlies.filter(function (ent) {
+            return ent.constructor === PointDefenseDrone;
+          }).forEach(function (pdd) {
             pdd.tick = bulletHellTick;
           });
 
@@ -445,9 +434,9 @@ function Upgrades (game) {
           [new UpgradeConstraint('upgradeCountWithinRange'), 'pointDefenseDroneBulletHell', 0, 1]
         ],
         text: {
-          name: 'Point Defence Drone Bullet Hell',
-          cost: '35G',
-          effect: 'Bullet hell.',
+          name:    'Point Defence Drone Bullet Hell',
+          cost:    '35G',
+          effect:  'Bullet hell.',
           flavour: 'wich pdd wud u get hit by'
         },
         gameUpgradeIcon: {
@@ -469,6 +458,7 @@ function Upgrades (game) {
             recoilOffset: 0.3,
             recoilCameraShake: 0.5
           });
+
           this.player.weapon.sounds.beam = 'zap';
           this.player.additionalWeaponPierce = 0.4;
 
@@ -478,19 +468,16 @@ function Upgrades (game) {
             }
           };
 
-          this.player.addUpgrade({
-            icon: this.sprites.flash2,
-            tooltip: 'Almost as good as SLB.'
-          });
+          this.player.addUpgrade({ icon: this.sprites.flash2, tooltip: 'Nearly as good as SLB.' });
         },
         constraints: [
           [new UpgradeConstraint('haveGold'), 50],
           [new UpgradeConstraint('upgradeCountWithinRange'), 'playerBeamWeapon', 0, 1],
         ],
         text: {
-          name: 'Moonlight Breaker',
-          cost: '15G',
-          effect: 'Beam weapon.',
+          name:    'Moonlight Breaker',
+          cost:    '15G',
+          effect:  'Beam weapon.',
           flavour: 'Second degree sunlight.'
         }
       }),

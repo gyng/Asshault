@@ -16,7 +16,7 @@ MachineGun.prototype.fire = function (radians) {
     }
 
     this.fireSound();
-    if (this.recoil) this.shake(this.streams.length);
+    this.shake(this.streams.length);
     this.cooldown = this.fireRate;
   }
 };
@@ -35,17 +35,17 @@ MachineGun.prototype.bullet = function (radians, offset) {
   });
 };
 
-MachineGun.prototype.shake = function (multiplier) {
-  var offsetDistance = this.recoilOffset * multiplier;
-  var shakeDistance = this.recoilCameraShake * multiplier;
+MachineGun.prototype.shake = function (strengthMultiplier) {
+  var offsetDistance = this.recoilOffset * strengthMultiplier;
+  var shakeDistance = this.recoilCameraShake * strengthMultiplier;
   var normalized = Util.normalize({
     x: this.parent.x - this.game.ui.mouse.x,
     y: this.parent.y - this.game.ui.mouse.y
   });
-  this.game.renderer.shake.x += normalized.x * shakeDistance;
-  this.game.renderer.shake.y += normalized.y * shakeDistance;
-  this.parent.drawOffset.x += normalized.x * offsetDistance;
-  this.parent.drawOffset.y += normalized.y * offsetDistance;
+  this.game.renderer.shake.x += normalized.x * shakeDistance * this.recoilMultiplier;
+  this.game.renderer.shake.y += normalized.y * shakeDistance * this.recoilMultiplier;
+  this.parent.drawOffset.x += normalized.x * offsetDistance * this.recoilMultiplier;
+  this.parent.drawOffset.y += normalized.y * offsetDistance * this.recoilMultiplier;
 };
 
 MachineGun.prototype.fireSound = function () {

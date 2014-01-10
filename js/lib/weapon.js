@@ -14,7 +14,7 @@ function Weapon (parent, overrides) {
   this.streams = [{ spread: 0, offset: 0 }];
   this.sounds = { fire: ['shoot2', 'shoot5', 'shoot7'] };
 
-  this.recoil = true;
+  this.recoilMultiplier = 1;
   this.recoilCameraShake = 7;
   this.recoilOffset = 5;
   this.volume = 1;
