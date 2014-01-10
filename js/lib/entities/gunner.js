@@ -10,7 +10,7 @@ function Gunner (resources, overrides) {
 
   this.target    = null;
   this.targetAge = 0;
-  this.weapon = new MachineGun(this, { fireRate: 12, spread: 5, recoilMultiplier: 0 });
+  this.weapon = new MachineGun(this, { fireRate: 12, spread: 5, recoilMultiplier: 0, bulletSpeed: 15 });
 
   this.level = 0;
   this.xp = 0;
