@@ -17,7 +17,7 @@ function PointDefenseDrone (resources, overrides) {
   this.orbitRadius = 64;
   this.angularVelocity = 2;
 
-  this.weapon = new MachineGun(this, { bulletLifespan: 5, damage: 0.5, fireRate: 2, recoil: false, volume: 0.1 });
+  this.weapon = new MachineGun(this, { bulletLifespan: 5, damage: 0.5, fireRate: 2, recoilMultiplier: 0, volume: 0.1 });
   this.weapon.sounds.fire = 'shoot1';
   this.deferSource = this.game.player;
 
