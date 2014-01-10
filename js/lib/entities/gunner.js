@@ -78,6 +78,9 @@ Gunner.prototype.getImage = function () {
 };
 
 Gunner.prototype.draw = function (context) {
+  this.drawOffset.x = Math.min(this.drawOffset.x * 0.9, 100);
+  this.drawOffset.y = Math.min(this.drawOffset.y * 0.9, 100);
+
   if (this.firing) {
     this.weapon.draw(context);
   }
