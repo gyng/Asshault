@@ -5,7 +5,7 @@ function Cleaner (resources, overrides) {
   this.speed = 1 + _.random(1);
   this.variance = 4;
   this.fireRate = 80;
-  this.aoe = 75;
+  // this.aoe = 75;
   this.cleanAge = 0;
   this.shadow.on = true;
   this.moveTarget = { x: this.x, y: this.y };
@@ -20,6 +20,10 @@ function Cleaner (resources, overrides) {
   this.name = _.sample(['Gallus', 'Ocellata', 'Pictus', 'Coqui', 'Lerwa', 'Perdix', 'Rollulus', 'Bonasa']);
   this.info.draw = true;
   this.info.addToHeroList = true;
+
+  this.addComponent(new PositionComponent(this.x, this.y));
+  this.addComponent(new ConstantMovementComponent(this.speed, 0));
+  this.addComponent(new CleanerScriptComponent(this));
 
   this.sounds = {
     spawn: 'waw',
@@ -41,31 +45,6 @@ Cleaner.prototype = new Entity();
 
 Cleaner.prototype.constructor = Cleaner;
 
-Cleaner.prototype.tick = function () {
-  this.cleanAge++;
-
-  if (this.distanceTo(this.moveTarget) < 20) {
-    this.game.audio.play(this.sounds.target, 0.7);
-    this.moveTarget = { x: _.random(this.game.canvas.width), y: _.random(this.game.canvas.height) };
-    this.xp += ~~(this.cleanAge / 10);
-    this.updateInfo();
-  }
-
-  if (this.age % 60 === 0) {
-    var prevOp = this.game.renderer.decalContext.globalCompositeOperation;
-    this.game.renderer.decalContext.globalCompositeOperation = 'destination-out';
-    this.game.renderer.decalContext.fillStyle = 'rgba(0, 0, 0, 0.8)';
-    this.game.renderer.decalContext.beginPath();
-    this.game.renderer.decalContext.arc(this.x, this.y, this.aoe, 0, 2 * Math.PI);
-    this.game.renderer.decalContext.fill();
-    this.game.renderer.decalContext.globalCompositeOperation = prevOp;
-    this.cleanAge = 0;
-  }
-
-  this.moveToTarget();
-  this.lookAt(this.moveTarget);
-};
-
 Cleaner.prototype.updateInfo = function () {
   this.checkLevelUp();
 
@@ -83,7 +62,7 @@ Cleaner.prototype.getImage = function () {
 };
 
 Cleaner.prototype.draw = function (context) {
-  if (this.cleanAge < 10) {
+  if (this.age % 60 < 10) {
     context.drawImage(this.sprites.flash1, -this.width / 2, -this.height / 2);
   }
 };

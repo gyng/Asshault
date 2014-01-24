@@ -26,6 +26,15 @@ require.config({
         'lib/entities/effects/explosion',
 
         'lib/weapons/machinegun',
+
+        'lib/component',
+        'lib/components/position/PositionComponent',
+        'lib/components/movement/MovementComponent',
+        'lib/components/movement/ConstantMovementComponent',
+
+        'lib/components/target/PositionalTargetComponent',
+
+        'lib/components/script/CleanerScriptComponent',
       ]
     },
 

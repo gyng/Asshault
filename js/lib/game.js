@@ -94,9 +94,35 @@ Game.prototype = {
       }
 
       for (i = 0; i < this.entities.length; i++) {
-        this.entities[i].tick();
-        this.entities[i].executeUpgrades();
-        this.entities[i].tock();
+        var ent = this.entities[i];
+
+        ent.tick();
+        ent.executeUpgrades();
+        ent.tock();
+
+        // Refactoring into EC system
+        // Movement system
+        if (Util.isDefined(ent.components.movement) && Util.isDefined(ent.components.position)) {
+          ent.components.movement.tick(ent.components.position);
+
+          // TODO: remove once render system updated
+          ent.x = ent.components.position.x;
+          ent.y = ent.components.position.y;
+        }
+
+        // Target system
+        if (Util.isDefined(ent.components.target)) {
+          // Kill all references to dead target for GC
+          if (ent.components.target.isDead) {
+            ent.components.target.isDead()
+          }
+        }
+
+        // Script system
+        if (Util.isDefined(ent.components.script)) {
+          // TODO: make it an array of script components
+          ent.components.script.tick();
+        }
       }
 
       // Culling

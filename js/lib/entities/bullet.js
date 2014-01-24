@@ -8,8 +8,11 @@ function Bullet (resources, overrides) {
   this.alignment = this.source ? this.source.alignment : 'none';
 
   // Calculate on creation and not per tick
-  this.deltaX = -Math.cos(this.direction) * this.speed;
-  this.deltaY = -Math.sin(this.direction) * this.speed;
+  // this.deltaX = -Math.cos(this.direction) * this.speed;
+  // this.deltaY = -Math.sin(this.direction) * this.speed;
+
+  this.addComponent(new PositionComponent(overrides.x, overrides.y, overrides.direction));
+  this.addComponent(new ConstantMovementComponent(overrides.speed, overrides.direction));
 
   this.shadow = {
     on: false, // True set in tick: sometimes on to 'flicker'
@@ -29,8 +32,8 @@ Bullet.prototype = new Entity();
 Bullet.prototype.constructor = Bullet;
 
 Bullet.prototype.tick = function () {
-  this.x += this.deltaX;
-  this.y += this.deltaY;
+  // this.x += this.deltaX;
+  // this.y += this.deltaY;
 
   var list = this.game.spatialHash.query(this.x, this.y);
 

@@ -44,7 +44,7 @@ Player.prototype.constructor = Player;
 
 Player.prototype.tick = function () {
   if (this.firing) {
-    var fireDirection = Math.atan2(this.y - this.game.ui.mouse.y, this.x - this.game.ui.mouse.x);
+    var fireDirection = Math.atan2(this.game.ui.mouse.y - this.y, this.game.ui.mouse.x - this.x);
     this.weapon.fire(fireDirection);
   }
 

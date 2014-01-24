@@ -19,6 +19,8 @@ function Entity (resources, overrides) {
   this.enemyPierceChance = 0;
   this.weapons = [];
 
+  this.components = {};
+
   if (typeof resources !== 'undefined') {
     this.sprites = resources.sprites;
     this.sounds = resources.sounds;
@@ -233,5 +235,14 @@ Entity.prototype = {
     if (Util.isDefined(entityUpgrade.icon)) {
       this.game.ui.addHeroUpgradeIcon(this.uiElem, entityUpgrade.icon, entityUpgrade.tooltip);
     }
+  },
+
+  addComponent: function (component) {
+    if (typeof component.initialize === 'function') component.initialize();
+    this.components[component.type] = component;
+  },
+
+  getComponent: function (type) {
+    return this.components[component.type]
   }
 };
