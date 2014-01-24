@@ -24,6 +24,7 @@ function Cleaner (resources, overrides) {
   this.addComponent(new PositionComponent(this.x, this.y));
   this.addComponent(new ConstantMovementComponent(this.speed, 0));
   this.addComponent(new CleanerScriptComponent(this));
+  this.addComponent(new RenderSpriteComponent(this.sprites.herocleaner, this.x, this.y, this.direction, 1, this.width, this.height, 0, 0));
 
   this.sounds = {
     spawn: 'waw',
@@ -55,10 +56,6 @@ Cleaner.prototype.updateInfo = function () {
   };
 
   this.checkHeroInfo();
-};
-
-Cleaner.prototype.getImage = function () {
-  return this.sprites.herocleaner;
 };
 
 Cleaner.prototype.draw = function (context) {

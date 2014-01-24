@@ -151,8 +151,14 @@ UI.prototype = {
     if (hero.markedForDeletion) {
       el.remove();
     } else {
-      // Optimised out jQuery
-      el[0].childNodes[1].children[0].src = hero.getImage().src;
+      // Optimised out jQuery so it's ugly
+      var imageSrc;
+      if (Util.isDefined(hero.components.renderSprite)) {
+        imageSrc = hero.components.renderSprite.sprite.src;
+      } else {
+        imageSrc = '';
+      }
+      el[0].childNodes[1].children[0].src = imageSrc;
       el[0].childNodes[3].children[0].children[0].innerHTML = hero.name;
       el[0].childNodes[3].children[0].children[1].innerHTML = hero.level;
       el[0].childNodes[3].children[1].children[0].innerHTML = 'K ' + hero.kills;

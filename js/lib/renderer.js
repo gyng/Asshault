@@ -20,6 +20,9 @@ Renderer.prototype = {
 
     this.updateCameraShake();
     this.shadowPass();
+
+    this.legacy();
+
     this.spritePass();
     this.levelPass();
     this.infoPass();
@@ -33,29 +36,34 @@ Renderer.prototype = {
     this.shake.y *= this.shake.reduction;
   },
 
-  spritePass: function () {
-    // Transformation matrix
-    // [ a, c, e ]
-    // [ b, d, f ]
-    // setTransform(a, b, c, d, e, f)
-
-    var ent;
+  legacy: function () {
     for (var i = 0; i < this.game.entities.length; i++) {
-      ent = this.game.entities[i];
-      this.context.save();
-        this.context.setTransform(
-          Math.cos(ent.rotation) * ent.scale,
-          Math.sin(ent.rotation) * ent.scale,
-         -Math.sin(ent.rotation) * ent.scale,
-          Math.cos(ent.rotation) * ent.scale,
-          ent.x + ent.drawOffset.x,
-          ent.y + ent.drawOffset.y
-        );
+      var ent = this.game.entities[i];
+        // TODO: REMOVE
+        ent.drawOffset.x = Util.clamp(ent.drawOffset.x * 0.9, 0, 72);
+        ent.drawOffset.y = Util.clamp(ent.drawOffset.y * 0.9, 0, 72);
+    }
+  },
 
-        ent.drawHighlight(this.context);
-        this.context.drawImage(ent.getImage(), -ent.width / 2, -ent.height / 2, ent.width, ent.height);
-        ent.draw(this.context);
-      this.context.restore();
+  spritePass: function () {
+    for (var i = 0; i < this.game.entities.length; i++) {
+      var ent = this.game.entities[i];
+      var rotation;
+
+      if (Util.isDefined(ent.components.movement)) {
+        rotation = ent.components.movement.direction;
+      } else if (Util.isDefined(ent.components.position)) {
+        rotation = ent.components.position.direction;
+      }
+
+      if (Util.isDefined(ent.components.renderSprite) && Util.isDefined(ent.components.position)) {
+        ent.components.renderSprite.draw(
+          this.context,
+          ent.components.position.x,
+          ent.components.position.y,
+          rotation
+        );
+      }
     }
   },
 

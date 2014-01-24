@@ -19,6 +19,9 @@ function Tavern (resources, overrides) {
   this.friendlyPierceChance = 0.85;
   this.enemyPierceChance = 0.3;
 
+  this.addComponent(new PositionComponent(this.x, this.y));
+  this.addComponent(new RenderSpriteComponent(this.sprites.tavern, this.x, this.y, this.direction || 0, 1, this.width, this.height, 0, 0));
+
   this.say('Grand opening!');
 }
 
@@ -44,8 +47,4 @@ Tavern.prototype.tick = function () {
   if (this.age % 2400 === 1600) {
     this.info.text = [];
   }
-};
-
-Tavern.prototype.getImage = function () {
-  return this.sprites.tavern;
 };

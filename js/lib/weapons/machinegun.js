@@ -46,6 +46,12 @@ MachineGun.prototype.shake = function (strengthMultiplier) {
   this.game.renderer.shake.y += normalized.y * shakeDistance * this.recoilMultiplier;
   this.parent.drawOffset.x += normalized.x * offsetDistance * this.recoilMultiplier;
   this.parent.drawOffset.y += normalized.y * offsetDistance * this.recoilMultiplier;
+
+  // TODO
+  if (Util.isDefined(this.parent.components.renderSprite)) {
+    this.parent.components.renderSprite.offsetX += normalized.x * offsetDistance * this.recoilMultiplier;
+    this.parent.components.renderSprite.offsetY += normalized.y * offsetDistance * this.recoilMultiplier;
+  }
 };
 
 MachineGun.prototype.fireSound = function () {

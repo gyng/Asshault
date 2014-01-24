@@ -27,14 +27,23 @@ require.config({
 
         'lib/weapons/machinegun',
 
-        'lib/component',
         'lib/components/position/PositionComponent',
+        'lib/components/position/AwayFromEntityPositionComponent',
+
         'lib/components/movement/MovementComponent',
         'lib/components/movement/ConstantMovementComponent',
+        'lib/components/movement/FollowEntityMovementComponent',
+        'lib/components/movement/OrbitAroundEntityComponent',
+        'lib/components/movement/MoveToPositionComponent',
 
         'lib/components/target/PositionalTargetComponent',
+        'lib/components/target/RandomTargetComponent',
 
         'lib/components/script/CleanerScriptComponent',
+        'lib/components/script/GunnerScriptComponent',
+        'lib/components/script/SniperScriptComponent',
+
+        'lib/components/render/RenderSpriteComponent',
       ]
     },
 

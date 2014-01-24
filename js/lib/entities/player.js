@@ -17,6 +17,9 @@ function Player (resources, overrides) {
   this.weapon = new MachineGun(this);
   this.additionalWeaponPierce = 0;
 
+  this.addComponent(new PositionComponent(this.x, this.y));
+  this.addComponent(new RenderSpriteComponent(this.sprites.debug, this.x, this.y, this.direction || 0, 1, this.width, this.height, 0, 0));
+
   this.shadow.on = true;
   this.name = 'You!';
   this.info.draw = true;
@@ -62,6 +65,9 @@ Player.prototype.tick = function () {
       this.distanceToNearestEnemy = this.distanceTo(this.nearestEnemy);
     }
   }
+
+  this.components.renderSprite.offsetX = Util.clamp(this.components.renderSprite.offsetX * 0.9, 0, 72);
+  this.components.renderSprite.offsetY = Util.clamp(this.components.renderSprite.offsetY * 0.9, 0, 72);
 };
 
 Player.prototype.updateInfo = function () {
@@ -93,14 +99,7 @@ Player.prototype.returnToMap = function () {
   }
 };
 
-Player.prototype.getImage = function () {
-  return this.sprites.debug;
-};
-
 Player.prototype.draw = function (context) {
-  this.drawOffset.x = Util.clamp(this.drawOffset.x * 0.9, 0, 72);
-  this.drawOffset.y = Util.clamp(this.drawOffset.y * 0.9, 0, 72);
-
   if (this.firing) {
     this.weapon.draw(context);
   }

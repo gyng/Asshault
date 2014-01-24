@@ -116,6 +116,10 @@ Game.prototype = {
           if (ent.components.target.isDead) {
             ent.components.target.isDead()
           }
+
+          if (_.isFunction(ent.components.target.tick)) {
+            ent.components.target.tick();
+          }
         }
 
         // Script system
@@ -199,22 +203,7 @@ Game.prototype = {
   },
 
   spawnEnemy: function (enemy) {
-    var spawn = {};
-    var minDistanceAway = 200;
-    var maxAttempts = 100;
-    var attempts = 0;
-
-    do {
-      spawn = { x: _.random(this.canvas.width), y: _.random(this.canvas.height) };
-    } while (
-      Util.distanceBetween(spawn, this.player) < minDistanceAway &&
-      attempts++ < maxAttempts);
-
-    if (attempts < maxAttempts) {
-      enemy.x = spawn.x;
-      enemy.y = spawn.y;
-      this.addEntity(enemy, 'enemy');
-    }
+    this.addEntity(enemy, 'enemy');
   },
 
   addGold: function (amount) {

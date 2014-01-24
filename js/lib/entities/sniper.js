@@ -26,6 +26,11 @@ function Sniper (resources, overrides) {
   this.xp = 0;
   this.kills = 0;
 
+  this.addComponent(new PositionComponent(this.x, this.y));
+  this.addComponent(new RandomTargetComponent(this.game));
+  this.addComponent(new SniperScriptComponent(this));
+  this.addComponent(new RenderSpriteComponent(this.sprites.herosniper, this.x, this.y, this.direction || 0, 1, this.width, this.height, 0, 0));
+
   this.sounds = {
     spawn: 'shartshooper',
     levelup: 'powerup'
@@ -46,36 +51,7 @@ Sniper.prototype = new Entity();
 
 Sniper.prototype.constructor = Sniper;
 
-Sniper.prototype.tick = function () {
-  this.targetAge++;
-
-  if (!Util.isDefined(this.target) || this.target.markedForDeletion) {
-    this.target = _.sample(this.game.enemies);
-    // Target switching penalty, but we still want the sniper to get a shot in sometimes
-    this.targetAge = this.targetAge * 0.4 + 5;
-  }
-
-  if (Util.isDefined(this.target)) {
-    if (this.targetAge >= this.weapon.fireRate) {
-      this.fireAt(this.target);
-      this.targetAge = 0;
-
-      // Set new moveTarget position after firing
-      this.moveTarget = {
-        x: this.game.player.x + Util.randomNegation(_.random(64, 128)),
-        y: this.game.player.y + Util.randomNegation(_.random(64, 128))
-      };
-    }
-
-    // Actually move to moveTarget after firing (0.25-0.5 of cooldown)
-    if (this.weapon.cooldown > this.weapon.fireRate * 0.25 &&
-        this.weapon.cooldown < this.weapon.fireRate * 0.5) {
-      this.moveToTarget(this.speed, this.distanceTo(this.moveTarget) / 150);
-    }
-
-    this.lookAt(this.target);
-  }
-};
+Sniper.prototype.tick = function () {};
 
 Sniper.prototype.updateInfo = function () {
   this.checkLevelUp();
@@ -92,11 +68,7 @@ Sniper.prototype.updateInfo = function () {
 // Same reason as Gunner why we have a custom fireAt instead of using the weapon's fireAt:
 // so we can upgrade the tracking easily later on
 Sniper.prototype.fireAt = function (object) {
-  this.weapon.fire(Math.atan2(this.y - object.y, this.x - object.x));
-};
-
-Sniper.prototype.getImage = function () {
-  return this.sprites.herosniper;
+  this.weapon.fire(Math.atan2(object.y - this.y, object.x - this.x));
 };
 
 Sniper.prototype.draw = function (context) {

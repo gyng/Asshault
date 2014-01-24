@@ -26,7 +26,7 @@ function Weapon (parent, overrides) {
 Weapon.prototype = {
   fire: function () {},
   fireAt: function (target) {
-    this.fire(Math.atan2(this.parent.y - target.y, this.parent.x - target.x));
+    this.fire(Math.atan2(target.y - this.parent.y, target.x - this.parent.x));
   },
   tock: function () {
     if (this.cooldown > 0) this.cooldown--;

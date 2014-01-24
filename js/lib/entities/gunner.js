@@ -16,6 +16,11 @@ function Gunner (resources, overrides) {
   this.xp = 0;
   this.kills = 0;
 
+  this.addComponent(new PositionComponent(this.x, this.y));
+  this.addComponent(new GunnerScriptComponent(this));
+  this.addComponent(new RandomTargetComponent(this.game));
+  this.addComponent(new RenderSpriteComponent(this.sprites.herogunner, this.x, this.y, this.direction || 0, 1, this.width, this.height, 0, 0));
+
   this.shadow.on = true;
   this.name = _.sample(['Grunniens', 'Capra', 'Sus', 'Suidae', 'Bora', 'Scrofa', 'Hircus', 'Bos']);
   this.info.draw = true;
@@ -36,24 +41,7 @@ Gunner.prototype = new Entity();
 
 Gunner.prototype.constructor = Gunner;
 
-Gunner.prototype.tick = function () {
-  this.targetAge++;
-
-  if (Util.isDefined(this.target) && !this.target.markedForDeletion) {
-    this.fireAt(this.target);
-
-    if (this.targetAge < 10) {
-      this.moveTo(this.target.x, this.target.y, this.speed, this.distanceTo(this.target) / 500);
-    }
-
-    this.lookAt(this.target);
-    this.firing = true;
-  } else {
-    this.target = _.sample(this.game.enemies);
-    this.targetAge = 0;
-    this.firing = false;
-  }
-};
+Gunner.prototype.tick = function () {};
 
 Gunner.prototype.updateInfo = function () {
   this.checkLevelUp();
@@ -70,11 +58,7 @@ Gunner.prototype.updateInfo = function () {
 // Custom fireAt instead of weapon's fireat so we can upgrade target tracking
 // only for gunners and not other entities which use the same weapon
 Gunner.prototype.fireAt = function (object) {
-  this.weapon.fire(Math.atan2(this.y - object.y, this.x - object.x));
-};
-
-Gunner.prototype.getImage = function () {
-  return this.sprites.herogunner;
+  this.weapon.fire(Math.atan2(object.y - this.y, object.x - this.x));
 };
 
 Gunner.prototype.draw = function (context) {

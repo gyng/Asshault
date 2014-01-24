@@ -17,6 +17,10 @@ function PointDefenseDrone (resources, overrides) {
   this.orbitRadius = 64;
   this.angularVelocity = 2;
 
+  this.addComponent(new PositionComponent(this.x, this.y));
+  this.addComponent(new OrbitAroundEntityComponent(this.angularVelocity, this.orbitRadius, this.game.player));
+  this.addComponent(new RenderSpriteComponent(this.sprites.flash1, this.x, this.y, this.direction || 0, 1, this.width, this.height, 0, 0));
+
   this.weapon = new MachineGun(this, { bulletLifespan: 5, damage: 0.5, fireRate: 2, recoilMultiplier: 0, volume: 0.1 });
   this.weapon.sounds.fire = 'shoot1';
   this.deferSource = this.game.player;
@@ -29,19 +33,10 @@ PointDefenseDrone.prototype = new Entity();
 PointDefenseDrone.prototype.constructor = PointDefenseDrone;
 
 PointDefenseDrone.prototype.tick = function () {
-  var rad = Util.deg2rad(this.age % 360) * this.angularVelocity;
-  this.x = this.game.player.x + -Math.cos(rad) * this.orbitRadius;
-  this.y = this.game.player.y + Math.sin(rad) * this.orbitRadius;
-  this.rotation = rad;
-
   if (this.age % 2 === 0) {
     if (Util.isDefined(this.game.player.nearestEnemy) &&
         this.game.player.distanceToNearestEnemy < 200 &&
         !this.game.player.nearestEnemy.markedForDeletion)
       this.weapon.fireAt(this.game.player.nearestEnemy);
   }
-};
-
-PointDefenseDrone.prototype.getImage = function () {
-  return this.sprites.flash1;
 };

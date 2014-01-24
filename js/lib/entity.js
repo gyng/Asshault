@@ -132,6 +132,9 @@ Entity.prototype = {
 
   lookAt: function (object) {
     this.rotation = Math.atan2(object.x - this.x, this.y - object.y);
+    if (Util.isDefined(this.components.position)) {
+      this.components.position.direction = this.rotation;
+    }
   },
 
   executeUpgrades: function () {

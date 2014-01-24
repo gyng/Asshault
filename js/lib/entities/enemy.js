@@ -11,6 +11,10 @@ function Enemy (resources, overrides) {
   this.alignment = 'enemy';
   this.friendlyPierceChance = 0; // Alignment is relative
   this.enemyPierceChance = 0; // Pierce chance for bullets from player+heroes
+
+  this.addComponent(new AwayFromEntityPositionComponent(this.game.player, 200, this.game.canvas.width, this.game.canvas.height));
+  this.addComponent(new FollowEntityMovementComponent(this.speed, this.game.player));
+  this.addComponent(new RenderSpriteComponent(this.sprites.debug2, this.x, this.y, this.direction || 0, 1, this.width, this.height, 0, 0));
 }
 
 Enemy.prototype = new Entity();
@@ -32,12 +36,9 @@ Enemy.prototype.tick = function () {
     this.explode();
   }
 
-  this.lookAt(this.game.player);
-  this.moveTo(this.game.player.x, this.game.player.y, this.speed, this.health / 10);
-};
-
-Enemy.prototype.getImage = function () {
-  return this.sprites.debug2;
+  if (Util.isDefined(this.components.movement)) {
+    this.components.movement.speed = this.speed * this.health / 10;
+  }
 };
 
 Enemy.prototype.explode = function () {
