@@ -7,9 +7,7 @@ SniperScriptComponent.prototype.tick = function () {
   var components = this.ent.components;
   var ent = this.ent;
 
-  if (Util.isDefined(components.target) &&
-      Util.isDefined(components.target.target)) {
-
+  if (ScriptUtil.hasValidTarget(components.target)) {
     if (components.target.targetAge >= ent.weapon.fireRate){
       ent.fireAt(components.target.target.components.position);
     }
@@ -27,5 +25,7 @@ SniperScriptComponent.prototype.tick = function () {
         ent.weapon.cooldown < ent.weapon.fireRate * 0.5) {
       components.movement.speed = 10;
     }
+
+    ScriptUtil.faceTarget(components.position, components.target);
   }
 }

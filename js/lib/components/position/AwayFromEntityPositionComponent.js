@@ -1,7 +1,7 @@
 function AwayFromEntityPositionComponent (targetEntity, threshold, maxX, maxY) {
   this.x;
   this.y;
-  this.direction = 0;
+  this.facing = 0;
   this.type = 'position';
 
   this.targetEntity = targetEntity;

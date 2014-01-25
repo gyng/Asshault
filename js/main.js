@@ -37,6 +37,9 @@ require.config({
         'lib/components/movement/MoveToPositionComponent',
         'lib/components/movement/HelicopterMovementComponent',
 
+        'lib/components/effect/LineToTargetEffectComponent',
+        'lib/components/effect/SpriteBlinkEffectComponent',
+
         'lib/components/input/HelicopterInputComponent',
 
         'lib/components/target/PositionalTargetComponent',
@@ -78,7 +81,8 @@ require([
   "vendor/jquery-2.0.3.min",
   "vendor/underscore-min",
   "vendor/keypress-1.0.9.min",
-  "lib/util"
+  "lib/util",
+  "lib/ScriptUtil"
   ], function () {
     require(["lib/game", "lib/ui"], function () {
       'use strict';

@@ -73,7 +73,7 @@ Entity.prototype = {
   lookAt: function (object) {
     this.rotation = Math.atan2(object.x - this.x, this.y - object.y);
     if (Util.isDefined(this.components.position)) {
-      this.components.position.direction = this.rotation;
+      this.components.position.facing = this.rotation;
     }
   },
 
@@ -181,5 +181,13 @@ Entity.prototype = {
     }
 
     return true;
+  },
+
+  addEffect: function (effect) {
+    if (!Util.isDefined(this.components.effects)) {
+      this.components.effects = [];
+    }
+
+    this.components.effects.push(effect);
   }
 };

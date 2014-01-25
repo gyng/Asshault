@@ -30,6 +30,8 @@ function Sniper (resources, overrides) {
   this.addComponent(new RenderShadowComponent(42, 42));
   this.addComponent(new RenderInfoComponent({ addToHeroList: true }));
 
+  this.addEffect(new LineToTargetEffectComponent(this.components.position, this.components.target));
+
   this.sounds = {
     spawn: 'shartshooper',
     levelup: 'powerup'
@@ -78,14 +80,5 @@ Sniper.prototype.draw = function (context) {
     context.drawImage(this.sprites.flash1, -this.width, -this.height * 2);
   } else if (this.weapon.fireRate - this.fireAge <= 15) {
     context.drawImage(this.sprites.flash2, -this.width, -this.height * 2);
-  }
-
-  if (this.targetAge >= 50 && Util.isDefined(this.target)) {
-    context.beginPath();
-    context.moveTo(0, 0);
-    context.lineTo(0, -this.distanceTo(this.target));
-    context.strokeStyle = 'red';
-    context.strokeWidth = 2;
-    context.stroke();
   }
 };

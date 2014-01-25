@@ -1,6 +1,6 @@
-function PositionComponent (x, y, direction) {
+function PositionComponent (x, y, facing) {
   this.x = x;
   this.y = y;
-  this.direction = direction || 0;
+  this.facing = facing || 0;
   this.type = 'position';
 }

@@ -21,6 +21,7 @@ Renderer.prototype = {
     this.updateCameraShake();
     this.shadowPass();
     this.spritePass();
+    this.entityEffectsPass();
     this.levelPass();
     this.infoPass();
     this.shakeElement(this.canvas);
@@ -33,13 +34,25 @@ Renderer.prototype = {
     this.shake.y *= this.shake.reduction;
   },
 
+  entityEffectsPass: function () {
+    for (var i = 0; i < this.game.entities.length; i++) {
+      var ent = this.game.entities[i];
+
+      if (ent.hasComponents('effects')) {
+        for (var j = 0; j < ent.components.effects.length; j++) {
+          ent.components.effects[j].draw(this.context);
+        }
+      }
+    }
+  },
+
   spritePass: function () {
     for (var i = 0; i < this.game.entities.length; i++) {
       var ent = this.game.entities[i];
       var rotation;
 
       if (ent.hasComponents('position')) {
-        rotation = ent.components.position.direction;
+        rotation = ent.components.position.facing;
       } else if (ent.hasComponents('movement')) {
         rotation = ent.components.movement.direction;
       }
@@ -141,10 +154,10 @@ Renderer.prototype = {
 
         this.context.save();
           this.context.setTransform(
-            Math.cos(position.direction + radians) * shadow.scale * todSkew,
-            Math.sin(position.direction + radians) * shadow.scale,
-           -Math.sin(position.direction + radians) * shadow.scale * todSkew,
-            Math.cos(position.direction + radians) * shadow.scale,
+            Math.cos(position.facing + radians) * shadow.scale * todSkew,
+            Math.sin(position.facing + radians) * shadow.scale,
+           -Math.sin(position.facing + radians) * shadow.scale * todSkew,
+            Math.cos(position.facing + radians) * shadow.scale,
             position.x + this.shake.x / 3 + shadow.offsetX + todXOffset * offsetLength * (Math.abs(this.game.dayRatio - 0.5)) * 6,
             position.y + this.shake.y / 3 + shadow.offsetY + todYOffset * offsetLength * (1 - this.game.dayRatio)
           );

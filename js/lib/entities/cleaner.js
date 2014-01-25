@@ -22,6 +22,8 @@ function Cleaner (resources, overrides) {
   this.addComponent(new RenderShadowComponent(42, 42));
   this.addComponent(new RenderInfoComponent({ addToHeroList: true }));
 
+  this.addEffect(new SpriteBlinkEffectComponent(this.components.position, this.sprites.flash1, 32, 32, 120, 20));
+
   this.sounds = {
     spawn: 'waw',
     target: 'beep',
@@ -54,8 +56,4 @@ Cleaner.prototype.updateInfo = function () {
   this.components.renderInfo.checkInfo();
 };
 
-Cleaner.prototype.draw = function (context) {
-  if (this.age % 60 < 10) {
-    context.drawImage(this.sprites.flash1, -this.width / 2, -this.height / 2);
-  }
-};
+Cleaner.prototype.draw = function (context) {};

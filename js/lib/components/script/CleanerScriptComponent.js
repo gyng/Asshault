@@ -19,7 +19,6 @@ CleanerScriptComponent.prototype.tick = function () {
 
     components.movement.direction = Math.atan2(target.y - position.y, target.x - position.x);
     components.movement.update();
-    // components.render.rotation = components.movement.direction;
 
     if (Util.hypotenuse(target.x - position.x, target.y - position.y) < 20) {
       this.parent.game.audio.play(this.parent.sounds.target, 0.7);
