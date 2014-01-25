@@ -11,15 +11,6 @@ function Bullet (resources, overrides) {
   this.addComponent(new ConstantMovementComponent(overrides.speed, overrides.direction));
   this.addComponent(new RenderSpriteComponent(this.sprites.bullet, overrides.x, overrides.y, this.direction, 1, this.width, this.height, 0, 0));
 
-  this.shadow = {
-    on: false, // True set in tick: sometimes on to 'flicker'
-    offset: { x: 0, y: 0 },
-    color: "rgba(255, 244, 91," + Math.random() * 0.15 + ")",
-    size: { x: 28, y: 48 },
-    shape: 'circle',
-    todScale: 0
-  };
-
   this.additionalPierceChance = this.additionalPierceChance || 0; // Piercing modifier from upgrades
   this.lifespan = this.lifespan || Number.MAX_VALUE;
 }

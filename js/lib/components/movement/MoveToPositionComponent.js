@@ -7,7 +7,9 @@ function MoveToPositionComponent (speed, x, y) {
 }
 
 MoveToPositionComponent.prototype.tick = function (position) {
-  this.direction = Math.atan2(this.targetY - position.y, this.targetX - position.x);
-  position.x += Math.cos(this.direction) * this.speed;
-  position.y += Math.sin(this.direction) * this.speed;
+  if (Util.distanceBetween(this.targetX, this.targetY, position.x, position.y) > 10) {
+    this.direction = Math.atan2(this.targetY - position.y, this.targetX - position.x);
+    position.x += Math.cos(this.direction) * this.speed;
+    position.y += Math.sin(this.direction) * this.speed;
+  }
 }

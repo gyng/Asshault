@@ -3,12 +3,6 @@ function Tavern (resources, overrides) {
   this.width = 72;
   this.height = 72;
 
-  this.info.draw = true;
-  // this.info.text = "Grand opening!";
-  this.info.font = 'italic 16px Arial';
-  this.info.lineHeight = 16;
-  this.info.offset.y = -32;
-
   this.sounds = { build: 'build' };
   this.game.audio.play(this.sounds.build, 0.9);
 
@@ -19,6 +13,11 @@ function Tavern (resources, overrides) {
   this.addComponent(new PositionComponent(this.x, this.y));
   this.addComponent(new RenderSpriteComponent(this.sprites.tavern, this.x, this.y, 0, 1, this.width, this.height, 0, 0));
   this.addComponent(new RenderShadowComponent(72, 72));
+  this.addComponent(new RenderInfoComponent({
+    font: 'italic 16px Arial',
+    lineHeight: 16,
+    offset: { x: 0, y: -32 }
+  }));
 
   this.say('Grand opening!');
 }
@@ -29,7 +28,7 @@ Tavern.prototype.constructor = Tavern;
 
 Tavern.prototype.tick = function () {
   if (this.age % 2400 === 0) {
-    this.info.text.flavour = {
+    this.components.renderInfo.info.text.flavour = {
       value: _.sample([
         'Barkeep! Another!',
         ["Pay up!", "— You're broke?"],
@@ -38,11 +37,10 @@ Tavern.prototype.tick = function () {
       ]),
       draw: true
     };
-    this.info.dirty = true;
-    this.checkHeroInfo();
+    this.components.renderInfo.checkInfo();
   }
 
   if (this.age % 2400 === 1600) {
-    this.info.text = [];
+    this.components.renderInfo.info.text = [];
   }
 };

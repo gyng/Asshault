@@ -21,10 +21,9 @@ function Gunner (resources, overrides) {
   this.addComponent(new RandomTargetComponent(this.game));
   this.addComponent(new RenderSpriteComponent(this.sprites.herogunner, this.x, this.y, this.direction || 0, 1, this.width, this.height, 0, 0));
   this.addComponent(new RenderShadowComponent(42, 42));
+  this.addComponent(new RenderInfoComponent({ addToHeroList: true }));
 
   this.name = _.sample(['Grunniens', 'Capra', 'Sus', 'Suidae', 'Bora', 'Scrofa', 'Hircus', 'Bos']);
-  this.info.draw = true;
-  this.info.addToHeroList = true;
 
   this.sounds = {
     spawn: 'start',
@@ -46,13 +45,13 @@ Gunner.prototype.tick = function () {};
 Gunner.prototype.updateInfo = function () {
   this.checkLevelUp();
 
-  this.info.text = {
+  this.components.renderInfo.info.text = {
     name:  { value: this.name, draw: true },
     level: { prepend: 'level', value: this.level },
     xp:    { value: this.xp, postfix: 'xp' },
   };
 
-  this.checkHeroInfo();
+  this.components.renderInfo.checkInfo();
 };
 
 // Custom fireAt instead of weapon's fireat so we can upgrade target tracking

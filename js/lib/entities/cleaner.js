@@ -14,14 +14,13 @@ function Cleaner (resources, overrides) {
   this.kills = 0;
 
   this.name = _.sample(['Gallus', 'Ocellata', 'Pictus', 'Coqui', 'Lerwa', 'Perdix', 'Rollulus', 'Bonasa']);
-  this.info.draw = true;
-  this.info.addToHeroList = true;
 
   this.addComponent(new PositionComponent(this.x, this.y));
   this.addComponent(new ConstantMovementComponent(this.speed, 0));
   this.addComponent(new CleanerScriptComponent(this));
   this.addComponent(new RenderSpriteComponent(this.sprites.herocleaner, this.x, this.y, this.direction, 1, this.width, this.height, 0, 0));
   this.addComponent(new RenderShadowComponent(42, 42));
+  this.addComponent(new RenderInfoComponent({ addToHeroList: true }));
 
   this.sounds = {
     spawn: 'waw',
@@ -46,13 +45,13 @@ Cleaner.prototype.constructor = Cleaner;
 Cleaner.prototype.updateInfo = function () {
   this.checkLevelUp();
 
-  this.info.text = {
+  this.components.renderInfo.info.text = {
     name: { value: this.name, draw: true },
     level: { prepend: 'level', value: this.level },
     xp: { value: this.xp, postfix: 'xp' },
   };
 
-  this.checkHeroInfo();
+  this.components.renderInfo.checkInfo();
 };
 
 Cleaner.prototype.draw = function (context) {

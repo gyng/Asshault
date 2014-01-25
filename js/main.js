@@ -45,6 +45,7 @@ require.config({
 
         'lib/components/render/RenderSpriteComponent',
         'lib/components/render/RenderShadowComponent',
+        'lib/components/render/RenderInfoComponent',
       ]
     },
 

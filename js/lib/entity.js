@@ -28,24 +28,6 @@ function Entity (resources, overrides) {
     this.resources = resources;
   }
 
-  // Information exposed to UI elements
-  this.info = {
-    draw: false,
-    text: {},
-    fill: '#0f0',
-    font: 'normal 20px Arial',
-    strokeStyle: '#000',
-    strokeWidth: 2,
-    lineHeight: 28,
-    offset: { x: 0, y: 0 },
-    dirty: true,
-    drawDirty: true,
-    iconDirty: true,
-    addToHeroList: false,
-    upgradeIcons: []
-  };
-
-  this.lastInfo = _.clone(this.info); // For doing dirty checks
   this.markedForDeletion = false;
   this.overrides = overrides || {};
   this.applyOverrides();
@@ -55,7 +37,7 @@ Entity.prototype = {
   tick: function () {},
 
   tock: function () {
-    if (this.age === 1) this.info.dirty = true;
+    // if (this.age === 1) this.info.dirty = true;
     if (this.weapon) this.weapon.tock();
     this.age++;
   },
@@ -69,39 +51,6 @@ Entity.prototype = {
       context.arc(0, 0, Util.hypotenuse(this.width, this.height) * 1.5, 0, 2 * Math.PI);
       context.fill();
     }
-  },
-
-  drawInformation: function (context) {
-    // Per-entity buffer text to be drawn to canvas in a separate canvas as fillText is really really slow
-    this.infoCanvas  = this.infoCanvas  || document.createElement('canvas');
-    this.infoContext = this.infoContext || this.infoCanvas.getContext('2d');
-
-    // If the info is dirty we just update the UI anyway
-    if (this.info.dirty) {
-      if (this.info.addToHeroList) {
-        this.updateHeroListItem();
-      }
-      this.info.dirty = false;
-    }
-
-    // If any of the info to be drawn to canvas is dirty only then do we rebuffer and redraw it
-    if (this.info.drawDirty) {
-      this.infoCanvas.width = 300;
-      // +1 for zero-height canvases not showing up
-      this.infoCanvas.height = (_.keys(this.info.text).length + 0.5) * this.info.lineHeight + 1;
-      this.infoContext.font = this.info.font;
-      this.infoContext.fillStyle = this.info.fill;
-
-      var i = 0;
-      _.each(_.where(this.info.text, { draw: true }), function (line, key) {
-        var text = (line.prepend || '') + line.value + (line.postfix || '');
-        this.infoContext.fillText(text, 0, ++i * this.info.lineHeight);
-      }.bind(this));
-
-      this.info.drawDirty = false;
-    }
-
-    context.drawImage(this.infoCanvas, this.info.offset.x, this.info.offset.y);
   },
 
   getImage: function () {},
@@ -197,22 +146,6 @@ Entity.prototype = {
       if (this.sounds && this.sounds.levelup)
         this.game.audio.play(this.sounds.levelup);
     }
-  },
-
-  checkHeroInfo: function () {
-    // Two types of info: UI info and canvas info.
-    // Updating canvas info is much more expensive so we do a separate check for that info.
-    if (JSON.stringify(this.info.text) === JSON.stringify(this.lastInfo)) {
-      this.info.dirty = true;
-
-      if (JSON.stringify(_.where(this.info.text, { draw: true })) ===
-          JSON.stringify(_.where(this.lastInfo,  { draw: true }))) {
-        this.info.drawDirty = true;
-      }
-    }
-
-    this.info.dirty = true;
-    this.lastInfo = _.clone(this.info.text);
   },
 
   updateHeroListItem: function () {

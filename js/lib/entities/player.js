@@ -20,10 +20,11 @@ function Player (resources, overrides) {
   this.addComponent(new PositionComponent(this.x, this.y));
   this.addComponent(new RenderShadowComponent(45, 45, 'rgba(0, 0, 0, 0.3)', 'square', 1, true));
   this.addComponent(new RenderSpriteComponent(this.sprites.debug, this.x, this.y, this.direction || 0, 1, this.width, this.height, 0, 0));
+  this.addComponent(new RenderInfoComponent({ addToHeroList: true }));
 
   this.name = 'You!';
-  this.info.draw = true;
-  this.info.addToHeroList = true;
+  // this.info.draw = true;
+  // this.info.addToHeroList = true;
 
   this.sounds = {
     levelup: 'powerup'
@@ -73,13 +74,13 @@ Player.prototype.tick = function () {
 Player.prototype.updateInfo = function () {
   this.checkLevelUp();
 
-  this.info.text = {
+  this.components.renderInfo.info.text = {
     name:  { value: this.name, draw: true },
     level: { prepend: 'level', value: this.level },
     xp:    { value: this.xp, postfix: 'xp' },
   };
 
-  this.checkHeroInfo();
+  this.components.renderInfo.checkInfo();
 };
 
 Player.prototype.returnToMap = function () {

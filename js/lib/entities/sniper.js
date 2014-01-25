@@ -18,8 +18,6 @@ function Sniper (resources, overrides) {
   this.weapon.sounds.fire = ['shoot1', 'shoot4', 'shoot3'];
 
   this.name = _.sample(['Athene', 'Bubo', 'Otus', 'Surnia', 'Asio', 'Nesasio', 'Strix', 'Ninox']);
-  this.info.draw = true;
-  this.info.addToHeroList = true;
 
   this.level = 0;
   this.xp = 0;
@@ -30,6 +28,7 @@ function Sniper (resources, overrides) {
   this.addComponent(new SniperScriptComponent(this));
   this.addComponent(new RenderSpriteComponent(this.sprites.herosniper, this.x, this.y, this.direction || 0, 1, this.width, this.height, 0, 0));
   this.addComponent(new RenderShadowComponent(42, 42));
+  this.addComponent(new RenderInfoComponent({ addToHeroList: true }));
 
   this.sounds = {
     spawn: 'shartshooper',
@@ -56,13 +55,13 @@ Sniper.prototype.tick = function () {};
 Sniper.prototype.updateInfo = function () {
   this.checkLevelUp();
 
-  this.info.text = {
+  this.components.renderInfo.info.text = {
     name: { value: this.name, draw: true },
     level: { prepend: 'level', value: this.level },
     xp: { value: this.xp, postfix: 'xp' },
   };
 
-  this.checkHeroInfo();
+  this.components.renderInfo.checkInfo();
 };
 
 // Same reason as Gunner why we have a custom fireAt instead of using the weapon's fireAt:
