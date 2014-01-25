@@ -20,9 +20,6 @@ Renderer.prototype = {
 
     this.updateCameraShake();
     this.shadowPass();
-
-    this.legacy();
-
     this.spritePass();
     this.levelPass();
     this.infoPass();
@@ -34,15 +31,6 @@ Renderer.prototype = {
   updateCameraShake: function () {
     this.shake.x *= this.shake.reduction;
     this.shake.y *= this.shake.reduction;
-  },
-
-  legacy: function () {
-    for (var i = 0; i < this.game.entities.length; i++) {
-      var ent = this.game.entities[i];
-        // TODO: REMOVE
-        ent.drawOffset.x = Util.clamp(ent.drawOffset.x * 0.9, 0, 72);
-        ent.drawOffset.y = Util.clamp(ent.drawOffset.y * 0.9, 0, 72);
-    }
   },
 
   spritePass: function () {
