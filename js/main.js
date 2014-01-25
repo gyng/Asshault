@@ -35,6 +35,9 @@ require.config({
         'lib/components/movement/FollowEntityMovementComponent',
         'lib/components/movement/OrbitAroundEntityComponent',
         'lib/components/movement/MoveToPositionComponent',
+        'lib/components/movement/HelicopterMovementComponent',
+
+        'lib/components/input/HelicopterInputComponent',
 
         'lib/components/target/PositionalTargetComponent',
         'lib/components/target/RandomTargetComponent',
@@ -80,7 +83,7 @@ require([
     require(["lib/game", "lib/ui"], function () {
       'use strict';
       $(document).ready(function () {
-        new Game(true);
+        var game = new Game(true);
       });
     });
   }

@@ -121,98 +121,25 @@ function Upgrades (game) {
         effect: function () {
           this.subtractGold(80);
 
-          keypress.combo("w", function() {
-            this.player.heloAccelerate(1, 'y');
-          }.bind(this));
+          var position = this.player.components.position;
+          var movement = new HelicopterMovementComponent(this.audio);
+          var input = new HelicopterInputComponent(position, movement);
+          this.player.addComponent(movement);
+          this.player.addComponent(input);
 
-          keypress.combo("s", function() {
-            this.player.heloAccelerate(-1, 'y');
-          }.bind(this));
-
-          keypress.combo("a", function() {
-            this.player.heloAccelerate(1, 'x');
-          }.bind(this));
-
-          keypress.combo("d", function() {
-            this.player.heloAccelerate(-1, 'x');
-          }.bind(this));
-
-          this.player.heloXSpeed = 0;
-          this.player.heloYSpeed = 0;
-          this.player.heloXAcceleration = 0;
-          this.player.heloYAcceleration = 0;
-          this.player.acceleration = 0;
-          this.player.accelerationRate = 0.25;
-          this.player.maxAcceleration = 0.5;
-          this.player.minAcceleration = -0.5;
-          this.player.maxSpeed = 5;
-          this.player.friction = 0.985;
-
-          this.player.shadow.offset.y += 75;
-          this.player.shadow.size.x *= 1.5;
-          this.player.shadow.size.y *= 1.5;
-          this.player.shadow.color = "rgba(0, 0, 0, 0.15)";
-
-          this.player.heloAccelerate = function (scaling, axis) {
-            var closeToEW, closeToNS;
-
-            var deg = Util.rad2deg(this.rotation);
-
-            if (axis === 'x') {
-              deg = deg - 90;
-            }
-
-            if (deg < -180) {
-              deg = deg + 360;
-            }
-
-            closeToNS = Math.abs((90 - Math.abs(deg)) / 90);
-            closeToEW = 1 - closeToNS;
-
-            var yFlip = 1;
-            var xFlip = 1;
-
-            if (deg >= -180 && deg <= -90) {
-              xFlip = -1;
-            } else if (deg > -90 && deg <= 0) {
-              xFlip = -1;
-              yFlip = -1;
-            } else if (deg > 0 && deg < 90) {
-              yFlip = -1;
-            }
-
-            this.heloXAcceleration += this.accelerationRate * scaling * closeToEW * xFlip;
-            this.heloYAcceleration += this.accelerationRate * scaling * closeToNS * yFlip;
-
-            this.heloXAcceleration = Util.clamp(this.heloXAcceleration, this.minAcceleration, this.maxAcceleration);
-            this.heloYAcceleration = Util.clamp(this.heloYAcceleration, this.minAcceleration, this.maxAcceleration);
-
-            this.heloXSpeed = Util.clamp(this.heloXSpeed + this.heloXAcceleration, -this.maxSpeed, this.maxSpeed);
-            this.heloYSpeed = Util.clamp(this.heloYSpeed + this.heloYAcceleration, -this.maxSpeed, this.maxSpeed);
-          };
-
-          this.player.heloMove = function () {
-            this.x += this.heloXSpeed;
-            this.y += this.heloYSpeed;
-
-            this.heloXSpeed *= this.friction;
-            this.heloYSpeed *= this.friction;
-            this.heloXAcceleration *= this.friction - 0.025;
-            this.heloYAcceleration *= this.friction - 0.025;
-
-            this.drawOffset.x += Util.randomError(1);
-            this.drawOffset.y += Util.randomError(1);
-
-            if (Util.hypotenuse(this.heloXSpeed, this.heloYSpeed) > 1 &&
-              this.age % 60 === 0) {
-              this.game.audio.play('helicopter1', 0.2);
-            }
-          };
+          this.player.components.renderShadow.offsetY += 75;
+          this.player.components.renderShadow.width *= 1.5;
+          this.player.components.renderShadow.height *= 1.5;
+          this.player.components.renderShadow.color = "rgba(0, 0, 0, 0.15)";
 
           this.player.game.audio.loop('helicopter2', 0.3, 0.24, 0.83);
 
           this.player.addUpgrade({
-            effect:  function () { this.heloMove(); },
+            effect:  function () {
+              // TODO: move into effect component
+              this.components.renderSprite.offsetX += Util.randomError(1);
+              this.components.renderSprite.offsetY += Util.randomError(1);
+            },
             icon:    this.sprites.debug2,
             tooltip: 'Ride of the Valkyries.'
           });

@@ -38,10 +38,10 @@ Renderer.prototype = {
       var ent = this.game.entities[i];
       var rotation;
 
-      if (ent.hasComponents('movement')) {
-        rotation = ent.components.movement.direction;
-      } else if (ent.hasComponents('position')) {
+      if (ent.hasComponents('position')) {
         rotation = ent.components.position.direction;
+      } else if (ent.hasComponents('movement')) {
+        rotation = ent.components.movement.direction;
       }
 
       if (ent.hasComponents('renderSprite', 'position')) {
