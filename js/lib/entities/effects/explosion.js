@@ -8,14 +8,15 @@ function Explosion (resources, overrides) {
   this.game.renderer.shake.y += Util.randomNegation(this.height / 6);
 
   this.shadowOpacity = 0.7;
-  this.shadow = {
-    on: true,
-    offset: { x: 0, y: -30 },
-    color: "rgba(255, 244, 91," + Math.random() * this.shadowOpacity + ")",
-    size: { x: 120 + _.random(40), y: 120 },
-    shape: 'circle',
-    todScale: 0
-  };
+  this.addComponent(new PositionComponent(this.x, this.y));
+  this.addComponent(new RenderShadowComponent
+    (120 + _.random(40),
+    120,
+    "rgba(255, 244, 91," + Math.random() * this.shadowOpacity + ")",
+    'circle',
+    1,
+    false
+  ));
 
   this.sounds = {
     spawn: ['explosion', 'explosion2', 'explosion3', 'explosion4', 'explosion5']
@@ -28,9 +29,10 @@ Explosion.prototype = new Entity();
 Explosion.prototype.constructor = Explosion;
 
 Explosion.prototype.tick = function () {
-  this.shadow.size.x *= 1.07;
+  var shadow = this.components.renderShadow;
+  shadow.scale *= 1.07;
   this.shadowOpacity *= 0.80;
-  this.shadow.color = "rgba(255, 244, 91," + Math.random() * this.shadowOpacity + ")";
+  shadow.color = "rgba(255, 244, 91," + Math.random() * this.shadowOpacity + ")";
 
   this.width  /= 1.05;
   this.height /= 1.05;

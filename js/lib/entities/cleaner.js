@@ -4,11 +4,7 @@ function Cleaner (resources, overrides) {
   this.height = 42;
   this.speed = 1 + _.random(1);
   this.variance = 4;
-  this.fireRate = 80;
-  // this.aoe = 75;
-  this.cleanAge = 0;
-  this.shadow.on = true;
-  this.moveTarget = { x: this.x, y: this.y };
+
   this.alignment = 'friendly';
   this.friendlyPierceChance = 0.98;
   this.enemyPierceChance = 0;
@@ -25,6 +21,7 @@ function Cleaner (resources, overrides) {
   this.addComponent(new ConstantMovementComponent(this.speed, 0));
   this.addComponent(new CleanerScriptComponent(this));
   this.addComponent(new RenderSpriteComponent(this.sprites.herocleaner, this.x, this.y, this.direction, 1, this.width, this.height, 0, 0));
+  this.addComponent(new RenderShadowComponent(42, 42));
 
   this.sounds = {
     spawn: 'waw',

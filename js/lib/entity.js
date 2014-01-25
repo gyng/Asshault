@@ -28,15 +28,6 @@ function Entity (resources, overrides) {
     this.resources = resources;
   }
 
-  this.shadow = {
-    on: false,
-    offset: {x: 0, y: 0},
-    color: "rgba(0, 0, 0, 0.3)",
-    size: { x: 45, y: 45 },
-    shape: 'square',
-    todScale: 1
-  };
-
   // Information exposed to UI elements
   this.info = {
     draw: false,
@@ -247,5 +238,15 @@ Entity.prototype = {
 
   getComponent: function (type) {
     return this.components[component.type]
+  },
+
+  hasComponents: function () {
+    for (var i = 0; i < arguments.length; i++) {
+      if (!Util.isDefined(this.components[arguments[i]])) {
+        return false;
+      }
+    }
+
+    return true;
   }
 };

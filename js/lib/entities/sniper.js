@@ -4,7 +4,6 @@ function Sniper (resources, overrides) {
   this.width  = 42;
   this.height = 42;
   this.speed  = 7 + _.random(8);
-  this.shadow.on = true;
 
   this.alignment = 'friendly';
   this.friendlyPierceChance = 0.98;
@@ -30,6 +29,7 @@ function Sniper (resources, overrides) {
   this.addComponent(new RandomTargetComponent(this.game));
   this.addComponent(new SniperScriptComponent(this));
   this.addComponent(new RenderSpriteComponent(this.sprites.herosniper, this.x, this.y, this.direction || 0, 1, this.width, this.height, 0, 0));
+  this.addComponent(new RenderShadowComponent(42, 42));
 
   this.sounds = {
     spawn: 'shartshooper',

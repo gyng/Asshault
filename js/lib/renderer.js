@@ -50,19 +50,27 @@ Renderer.prototype = {
       var ent = this.game.entities[i];
       var rotation;
 
-      if (Util.isDefined(ent.components.movement)) {
+      if (ent.hasComponents('movement')) {
         rotation = ent.components.movement.direction;
-      } else if (Util.isDefined(ent.components.position)) {
+      } else if (ent.hasComponents('position')) {
         rotation = ent.components.position.direction;
       }
 
-      if (Util.isDefined(ent.components.renderSprite) && Util.isDefined(ent.components.position)) {
-        ent.components.renderSprite.draw(
-          this.context,
-          ent.components.position.x,
-          ent.components.position.y,
-          rotation
-        );
+      if (ent.hasComponents('renderSprite', 'position')) {
+        var sprite = ent.components.renderSprite;
+        var position = ent.components.position;
+
+        this.context.save();
+          this.context.setTransform(
+            Math.cos(rotation) * sprite.scale,
+            Math.sin(rotation) * sprite.scale,
+           -Math.sin(rotation) * sprite.scale,
+            Math.cos(rotation) * sprite.scale,
+            position.x + sprite.offsetX,
+            position.y + sprite.offsetY
+          );
+          this.context.drawImage(sprite.sprite, -sprite.width / 2, -sprite.height / 2, sprite.width, sprite.height);
+        this.context.restore();
       }
     }
   },
@@ -102,40 +110,38 @@ Renderer.prototype = {
     var todXOffset = Math.cos(radians);
     var todYOffset = Math.sin(radians);
 
-    var ent;
     for (var i = 0; i < this.game.entities.length; i++) {
-      ent = this.game.entities[i];
-      if (ent.shadow.on) {
+      var ent = this.game.entities[i];
+
+      if (ent.hasComponents('renderShadow', 'position')) {
+        var shadow   = ent.components.renderShadow;
+        var position = ent.components.position;
+        var todSkew  = (Math.max(0.2, (Math.abs(this.game.dayRatio - 0.5))) * 2) * 4;
+        // Turn off skewing. Useful for non-normal shadows such as explosion light flashes
+        if (shadow.skew === false) { todSkew = 1; }
+
         this.context.save();
-          var todSkew =  (Math.max(0.2, (Math.abs(this.game.dayRatio - 0.5))) * 2) * 4;
-
-          // Turn off shadow skewing if todScale is 0
-          // Useful for non-normal shadows such as explosion light flashes
-          var todScale = ent.shadow.todScale || 1;
-          if (Util.isDefined(ent.shadow.todScale) && ent.shadow.todScale === 0) { todSkew = 1; }
-
-          // Transform to shadow position and rotate/skew it for time of day
           this.context.setTransform(
-            Math.cos(ent.rotation + radians * todScale) * ent.scale * todSkew,
-            Math.sin(ent.rotation + radians * todScale) * ent.scale,
-           -Math.sin(ent.rotation + radians * todScale) * ent.scale * todSkew,
-            Math.cos(ent.rotation + radians * todScale) * ent.scale,
-            ent.x + ent.drawOffset.x - this.shake.x / 3 + ent.shadow.offset.x + (todScale * (todXOffset * offsetLength * ((Math.abs(this.game.dayRatio - 0.5)) * 2) * 3)),
-            ent.y + ent.drawOffset.y + this.shake.y / 3 + ent.shadow.offset.y + (todScale * (todYOffset * offsetLength * (1 - this.game.dayRatio)))
+            Math.cos(position.direction + radians) * shadow.scale * todSkew,
+            Math.sin(position.direction + radians) * shadow.scale,
+           -Math.sin(position.direction + radians) * shadow.scale * todSkew,
+            Math.cos(position.direction + radians) * shadow.scale,
+            position.x + this.shake.x / 3 + shadow.offsetX + todXOffset * offsetLength * (Math.abs(this.game.dayRatio - 0.5)) * 6,
+            position.y + this.shake.y / 3 + shadow.offsetY + todYOffset * offsetLength * (1 - this.game.dayRatio)
           );
 
-          this.context.fillStyle = ent.shadow.color;
+          this.context.fillStyle = shadow.color;
 
-          if (ent.shadow.shape === 'square') {
+          if (shadow.shape === 'square') {
             this.context.fillRect(
               -ent.width / 2,
               -ent.height / 2,
-              ent.shadow.size.x,
-              ent.shadow.size.y
+              shadow.width,
+              shadow.height
             );
           } else {
             this.context.beginPath();
-            this.context.arc(0, 0, ent.shadow.size.x, 0, 2 * Math.PI);
+            this.context.arc(0, 0, shadow.width, 0, 2 * Math.PI);
             this.context.fill();
           }
         this.context.restore();

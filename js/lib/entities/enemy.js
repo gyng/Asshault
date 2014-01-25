@@ -4,7 +4,7 @@ function Enemy (resources, overrides) {
   this.height = 32;
   this.health = 5;
   this.speed  = 5;
-  this.shadow.on = true;
+
   this.xpGiven = 10;
   this.goldGiven = 5;
 
@@ -15,6 +15,7 @@ function Enemy (resources, overrides) {
   this.addComponent(new AwayFromEntityPositionComponent(this.game.player, 200, this.game.canvas.width, this.game.canvas.height));
   this.addComponent(new FollowEntityMovementComponent(this.speed, this.game.player));
   this.addComponent(new RenderSpriteComponent(this.sprites.debug2, this.x, this.y, this.direction || 0, 1, this.width, this.height, 0, 0));
+  this.addComponent(new RenderShadowComponent(32, 32));
 }
 
 Enemy.prototype = new Entity();

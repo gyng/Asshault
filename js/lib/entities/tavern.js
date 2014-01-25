@@ -3,9 +3,6 @@ function Tavern (resources, overrides) {
   this.width = 72;
   this.height = 72;
 
-  this.shadow.on = true;
-  this.shadow.size = { x: 72, y: 72 };
-
   this.info.draw = true;
   // this.info.text = "Grand opening!";
   this.info.font = 'italic 16px Arial';
@@ -20,7 +17,8 @@ function Tavern (resources, overrides) {
   this.enemyPierceChance = 0.3;
 
   this.addComponent(new PositionComponent(this.x, this.y));
-  this.addComponent(new RenderSpriteComponent(this.sprites.tavern, this.x, this.y, this.direction || 0, 1, this.width, this.height, 0, 0));
+  this.addComponent(new RenderSpriteComponent(this.sprites.tavern, this.x, this.y, 0, 1, this.width, this.height, 0, 0));
+  this.addComponent(new RenderShadowComponent(72, 72));
 
   this.say('Grand opening!');
 }

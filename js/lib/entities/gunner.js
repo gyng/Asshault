@@ -20,8 +20,8 @@ function Gunner (resources, overrides) {
   this.addComponent(new GunnerScriptComponent(this));
   this.addComponent(new RandomTargetComponent(this.game));
   this.addComponent(new RenderSpriteComponent(this.sprites.herogunner, this.x, this.y, this.direction || 0, 1, this.width, this.height, 0, 0));
+  this.addComponent(new RenderShadowComponent(42, 42));
 
-  this.shadow.on = true;
   this.name = _.sample(['Grunniens', 'Capra', 'Sus', 'Suidae', 'Bora', 'Scrofa', 'Hircus', 'Bos']);
   this.info.draw = true;
   this.info.addToHeroList = true;

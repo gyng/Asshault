@@ -18,9 +18,9 @@ function Player (resources, overrides) {
   this.additionalWeaponPierce = 0;
 
   this.addComponent(new PositionComponent(this.x, this.y));
+  this.addComponent(new RenderShadowComponent(45, 45, 'rgba(0, 0, 0, 0.3)', 'square', 1, true));
   this.addComponent(new RenderSpriteComponent(this.sprites.debug, this.x, this.y, this.direction || 0, 1, this.width, this.height, 0, 0));
 
-  this.shadow.on = true;
   this.name = 'You!';
   this.info.draw = true;
   this.info.addToHeroList = true;

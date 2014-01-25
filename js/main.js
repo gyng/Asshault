@@ -44,6 +44,7 @@ require.config({
         'lib/components/script/SniperScriptComponent',
 
         'lib/components/render/RenderSpriteComponent',
+        'lib/components/render/RenderShadowComponent',
       ]
     },
 
