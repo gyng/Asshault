@@ -69,43 +69,42 @@ Renderer.prototype = {
       ent = this.game.entities[i];
 
       if (ent.hasComponents('renderInfo', 'position')) {
+        var info = ent.components.renderInfo.info;
+        var component = ent.components.renderInfo;
+
+        // Update UI if info is dirty and has a UI element
+        if (info.dirty) {
+          if (info.addToHeroList) {
+            ent.updateHeroListItem();
+          }
+          info.dirty = false;
+        }
+
+        // Update render-to-screen text cache iff any render-to-screen text changed
+        if (info.drawDirty) {
+          component.infoCanvas  = component.infoCanvas  || document.createElement('canvas');
+          component.infoContext = component.infoContext || component.infoCanvas.getContext('2d');
+
+          component.infoCanvas.width = 300;
+          component.infoCanvas.height = (_.keys(info.text).length + 0.5) * info.lineHeight + 1;
+          component.infoContext.font = info.font;
+          component.infoContext.fillStyle = info.fill;
+
+          var i = 0;
+          _.each(_.where(info.text, { draw: true }), function (line, key) {
+            var text = (line.prepend || '') + line.value + (line.postfix || '');
+            component.infoContext.fillText(text, 0, ++i * info.lineHeight)
+          });
+
+          info.drawDirty = false;
+        }
+
         this.context.save();
           this.context.setTransform(
             1, 0, 0, 1,
-            ent.x + ent.drawOffset.x / 2 + this.shake.x / 2,
-            ent.y + ent.drawOffset.y / 2 + this.shake.y / 2
+            ent.components.position.x + ent.components.renderSprite.offsetX / 2 + this.shake.x / 2,
+            ent.components.position.y + ent.components.renderSprite.offsetY / 2 + this.shake.y / 2
           );
-
-          var info = ent.components.renderInfo.info;
-          var component = ent.components.renderInfo;
-
-          // Update UI if info is dirty and has a UI element
-          if (info.dirty) {
-            if (info.addToHeroList) {
-              ent.updateHeroListItem();
-            }
-            info.dirty = false;
-          }
-
-          // Update render-to-screen text cache iff any render-to-screen text changed
-          if (info.drawDirty) {
-            component.infoCanvas  = component.infoCanvas  || document.createElement('canvas');
-            component.infoContext = component.infoContext || component.infoCanvas.getContext('2d');
-
-            component.infoCanvas.width = 300;
-            component.infoCanvas.height = (_.keys(info.text).length + 0.5) * info.lineHeight + 1;
-            component.infoContext.font = info.font;
-            component.infoContext.fillStyle = info.fill;
-
-            var i = 0;
-            _.each(_.where(info.text, { draw: true }), function (line, key) {
-              var text = (line.prepend || '') + line.value + (line.postfix || '');
-              component.infoContext.fillText(text, 0, ++i * info.lineHeight)
-            });
-
-            info.drawDirty = false;
-          }
-
           this.context.drawImage(component.infoCanvas, info.offset.x, info.offset.y);
         this.context.restore();
       }

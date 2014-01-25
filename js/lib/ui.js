@@ -43,7 +43,7 @@ UI.prototype = {
       $('#add-player-xp').click(function () {
         game.player.xp += 100;
         game.player.checkLevelUp();
-        game.player.checkHeroInfo();
+        game.player.components.renderInfo.checkInfo();
       });
     }
   },
