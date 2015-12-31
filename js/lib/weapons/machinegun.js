@@ -28,7 +28,7 @@ MachineGun.prototype.bullet = function (radians, offset) {
     direction: radians + offset,
     rotation: radians + offset,
     damage: this.damage,
-    speed: this.bulletSpeed,
+    speed: this.bulletSpeed + _.random(this.bulletSpeedVariance),
     source: (this.parent.deferSource || this.parent),
     additionalPierceChance: this.pierce + (this.parent.additionalWeaponPierce || 0),
     lifespan: this.bulletLifespan

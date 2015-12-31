@@ -412,10 +412,11 @@ function Upgrades (game) {
             this.rotation = rad;
             this.weapon.bulletLifespan = 360;
             this.weapon.bulletSpeed = 10;
+            this.weapon.bulletSpeedVariance = 10;
             this.weapon.damage = 3;
             this.weapon.spread = Util.deg2rad(15);
 
-            if (this.age % 10 === 0) {
+            if (this.age % (10 + _.random(3)) === 0) {
               this.weapon.fire(Math.atan2(this.game.player.y - this.y, this.game.player.x - this.x));
             }
           };
@@ -445,11 +446,46 @@ function Upgrades (game) {
         }
       }),
 
+    playerShotgunWeapon:
+      new Upgrade({
+        name: 'playerShotgunWeapon',
+        effect: function () {
+          this.subtractGold(100);
+
+          this.player.weapon.applyOverrides({
+            spreadMultiplier: 0.5,
+            bulletDamage: 0.1,
+            fireRate: 40,
+            recoilOffset: 3,
+            recoilCameraShake: 3,
+            bulletSpeed: 30,
+            bulletSpeedVariance: 20
+          });
+
+          for (var i = 0; i < 20; i++) {
+            this.player.weapon.streams.push({ offset: _.random(20), spread: 20 });
+          }
+
+          this.player.addUpgrade({ icon: this.sprites.flash2, tooltip: 'An expert at riding shotgun, and firing one, too.' });
+        },
+        constraints: [
+          [new UpgradeConstraint('haveGold'), 100],
+          [new UpgradeConstraint('upgradeCountWithinRange'), 'playerShotgunWeapon', 0, 1],
+          [new UpgradeConstraint('upgradeCountWithinRange'), 'playerBeamWeapon', 0, 1],
+        ],
+        text: {
+          name:    'Shotgun',
+          cost:    '100G',
+          effect:  'Become a disciple of the shotgun. Disables other weapon paths.',
+          flavour: 'Certified lethal.'
+        }
+      }),
+
     playerBeamWeapon:
       new Upgrade({
         name: 'playerBeamWeapon',
         effect: function () {
-          this.subtractGold(50);
+          this.subtractGold(100);
 
           this.player.weapon.applyOverrides({
             spreadMultiplier: 0.5,
@@ -471,13 +507,14 @@ function Upgrades (game) {
           this.player.addUpgrade({ icon: this.sprites.flash2, tooltip: 'Nearly as good as SLB.' });
         },
         constraints: [
-          [new UpgradeConstraint('haveGold'), 50],
+          [new UpgradeConstraint('haveGold'), 100],
           [new UpgradeConstraint('upgradeCountWithinRange'), 'playerBeamWeapon', 0, 1],
+          [new UpgradeConstraint('upgradeCountWithinRange'), 'playerShotgunWeapon', 0, 1],
         ],
         text: {
           name:    'Moonlight Breaker',
-          cost:    '15G',
-          effect:  'Beam weapon.',
+          cost:    '100G',
+          effect:  'Develop a loving for lasers. Beam weapon. Disables other weapon paths.',
           flavour: 'Second degree sunlight.'
         }
       }),
