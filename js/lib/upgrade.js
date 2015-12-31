@@ -115,9 +115,9 @@ function Upgrades (game) {
         }
       }),
 
-    playerMovement:
+    playerFlyingMovement:
       new Upgrade({
-        name:  'playerMovement',
+        name:  'playerFlyingMovement',
         effect: function () {
           this.subtractGold(80);
 
@@ -218,15 +218,100 @@ function Upgrades (game) {
           });
         },
         constraints: [
-          [new UpgradeConstraint('upgradeCountWithinRange'), 'playerMovement', 0, 1],
+          [new UpgradeConstraint('upgradeCountWithinRange'), 'playerFlyingMovement', 0, 1],
+          [new UpgradeConstraint('upgradeCountWithinRange'), 'playerWalkingMovement', 0, 1],
           [new UpgradeConstraint('propertyWithinRange'), this.game.player, 'level', 1],
           [new UpgradeConstraint('haveGold'), 80]
         ],
         text: {
           name:    'The Flying Machine',
           cost:    '80G, Player Level 1',
-          effect:  'Move with the WASD keys. Too hard to control? Just use W (and only W) like the scrub you are.',
+          effect:  'Are you a legit flyboy? Move with the WASD keys. (Harder to control, but faster than walking)',
           flavour: 'Avoid sun.'
+        }
+      }),
+
+    playerWalkingMovement:
+      new Upgrade({
+        name:  'playerWalkingMovement',
+        effect: function () {
+          this.subtractGold(80);
+
+          this.player.keyW = false;
+          this.player.keyA = false;
+          this.player.keyS = false;
+          this.player.keyD = false;
+          this.player.moveDeltaX = 0;
+          this.player.moveDeltaY = 0;
+          var moveSpeed = 3;
+
+          window.addEventListener("keydown", function (event) {
+            switch (event.keyCode) {
+              case 68: this.keyD = true; break;
+              case 83: this.keyS = true; break;
+              case 65: this.keyA = true; break;
+              case 87: this.keyW = true; break;
+            }
+          }.bind(this.player), false);
+
+          window.addEventListener("keyup", function (event) {
+            switch (event.keyCode) {
+              case 68: this.keyD = false; break;
+              case 83: this.keyS = false; break;
+              case 65: this.keyA = false; break;
+              case 87: this.keyW = false; break;
+            }
+          }.bind(this.player), false);
+
+          this.player.walk = function () {
+            var actualMoveSpeed = moveSpeed;
+            if ((this.keyW && this.keyA) ||
+                (this.keyW && this.keyD) ||
+                (this.keyA && this.keyS) ||
+                (this.keyS && this.keyD)) {
+              actualMoveSpeed = Math.sqrt(moveSpeed * moveSpeed / 2);
+            }
+
+            if (this.keyW) { this.moveDeltaY = -actualMoveSpeed; }
+            if (this.keyS) { this.moveDeltaY = actualMoveSpeed; }
+            if (this.keyA) { this.moveDeltaX = -actualMoveSpeed; }
+            if (this.keyD) { this.moveDeltaX = actualMoveSpeed; }
+
+            this.x += this.moveDeltaX;
+            this.y += this.moveDeltaY;
+
+            this.moveDeltaX *= 0.9;
+            this.moveDeltaY *= 0.9;
+            this.drawOffset.y *= 0.9;
+            this.drawOffset.scaleX += (1 - this.drawOffset.scaleX) * 0.1;
+            this.drawOffset.scaleY += (1 - this.drawOffset.scaleY) * 0.1;
+
+            var moveIntensity = Math.sqrt(this.moveDeltaX * this.moveDeltaX + this.moveDeltaY * this.moveDeltaY);
+            if (this.age % 15 === 0 && moveIntensity > 0.5) {
+              this.drawOffset.y += 7 + _.random(3);
+              this.drawOffset.scaleX = 1.05;
+              this.drawOffset.scaleY = 0.9;
+              this.game.audio.play('walk' + (_.random(2) + 1), 0.2 * moveIntensity);
+            }
+          };
+
+          this.player.addUpgrade({
+            effect:  function () { this.walk(); },
+            icon:    this.sprites.debug2,
+            tooltip: 'Perambulator ambulator.'
+          });
+        },
+        constraints: [
+          [new UpgradeConstraint('upgradeCountWithinRange'), 'playerWalkingMovement', 0, 1],
+          [new UpgradeConstraint('upgradeCountWithinRange'), 'playerFlyingMovement', 0, 1],
+          [new UpgradeConstraint('propertyWithinRange'), this.game.player, 'level', 1],
+          [new UpgradeConstraint('haveGold'), 80]
+        ],
+        text: {
+          name:    'The Walking Machine',
+          cost:    '80G, Player Level 1',
+          effect:  'Fear flying? Walk! Slowly. Move with the WASD keys.',
+          flavour: 'Ambulate in your new perambulator.'
         }
       }),
 
@@ -393,9 +478,10 @@ function Upgrades (game) {
           [new UpgradeConstraint('haveGold'), 15]
         ],
         text: {
-          name:   'Point Defense Drone',
-          cost:   '15G',
-          effect: 'Zaps nearby foes (bullet upgrade soon!)'
+          name:    'Point Defense Drone',
+          cost:    '15G',
+          effect:  'Zaps nearby foes (bullet upgrade soon!)',
+          flavour: 'A field of absolute terror. For when your friends intrude on your absolute territory.'
         }
       }),
 

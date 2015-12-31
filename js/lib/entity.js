@@ -7,7 +7,7 @@ function Entity (resources, overrides) {
   this.rotation = 0; // Image
   this.direction = 0; // Movement heading
   this.age = 0;
-  this.drawOffset = { x: 0, y: 0 };
+  this.drawOffset = { x: 0, y: 0, scaleX: 1, scaleY: 1 };
   this.speed = 0;
   this.upgrades = [];
   this.moveTarget = { x: 0, y: 0 };

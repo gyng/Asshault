@@ -44,10 +44,10 @@ Renderer.prototype = {
       ent = this.game.entities[i];
       this.context.save();
         this.context.setTransform(
-          Math.cos(ent.rotation) * ent.scale,
-          Math.sin(ent.rotation) * ent.scale,
-         -Math.sin(ent.rotation) * ent.scale,
-          Math.cos(ent.rotation) * ent.scale,
+          Math.cos(ent.rotation) * ent.scale * ent.drawOffset.scaleX,
+          Math.sin(ent.rotation) * ent.scale * ent.drawOffset.scaleY,
+         -Math.sin(ent.rotation) * ent.scale * ent.drawOffset.scaleX,
+          Math.cos(ent.rotation) * ent.scale * ent.drawOffset.scaleY,
           ent.x + ent.drawOffset.x,
           ent.y + ent.drawOffset.y
         );
@@ -108,10 +108,10 @@ Renderer.prototype = {
 
           // Transform to shadow position and rotate/skew it for time of day
           this.context.setTransform(
-            Math.cos(ent.rotation + radians * todScale) * ent.scale * todSkew,
-            Math.sin(ent.rotation + radians * todScale) * ent.scale,
-           -Math.sin(ent.rotation + radians * todScale) * ent.scale * todSkew,
-            Math.cos(ent.rotation + radians * todScale) * ent.scale,
+            Math.cos(ent.rotation + radians * todScale) * ent.scale * ent.drawOffset.scaleX * todSkew,
+            Math.sin(ent.rotation + radians * todScale) * ent.scale * ent.drawOffset.scaleY,
+           -Math.sin(ent.rotation + radians * todScale) * ent.scale * ent.drawOffset.scaleX * todSkew,
+            Math.cos(ent.rotation + radians * todScale) * ent.scale * ent.drawOffset.scaleY,
             ent.x + ent.drawOffset.x - this.shake.x / 3 + ent.shadow.offset.x + (todScale * (todXOffset * offsetLength * ((Math.abs(this.game.dayRatio - 0.5)) * 2) * 3)),
             ent.y + ent.drawOffset.y + this.shake.y / 3 + ent.shadow.offset.y + (todScale * (todYOffset * offsetLength * (1 - this.game.dayRatio)))
           );

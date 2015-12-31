@@ -32,6 +32,9 @@
     ["powerup", "Powerup.ogg"],
     ["coin", "Coin.ogg"],
     ["hum", "Hum.ogg"],
-    ["zap", "Zap.ogg"]
+    ["zap", "Zap.ogg"],
+    ["walk1", "Walk1.ogg"],
+    ["walk2", "Walk2.ogg"],
+    ["walk3", "Walk3.ogg"]
   ]
 }

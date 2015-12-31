@@ -32,6 +32,11 @@ Enemy.prototype.tick = function () {
     this.explode();
   }
 
+  if (this.age % (10 + (5 - this.health) + _.random(3))) {
+    this.drawOffset.y += Util.randomError(2);
+  }
+
+  this.drawOffset.y *= 0.9;
   this.lookAt(this.game.player);
   this.moveTo(this.game.player.x, this.game.player.y, this.speed, this.health / 10);
 };
