@@ -292,6 +292,14 @@ function Upgrades (game) {
               this.drawOffset.scaleX = 1.05;
               this.drawOffset.scaleY = 0.9;
               this.game.audio.play('walk' + (_.random(2) + 1), 0.2 * moveIntensity);
+
+              this.game.renderer.drawDecal(
+                this.sprites.explosion1,
+                this.x + this.width / 2,
+                this.y + this.height / 2,
+                Util.randomRad(),
+                10,
+                10);
             }
           };
 
