@@ -42,8 +42,21 @@ Gunner.prototype.tick = function () {
   if (Util.isDefined(this.target) && !this.target.markedForDeletion) {
     this.fireAt(this.target);
 
+    this.drawOffset.scaleX += (1 - this.drawOffset.scaleX) * 0.1;
+    this.drawOffset.scaleY += (1 - this.drawOffset.scaleY) * 0.1;
+
     if (this.targetAge < 10) {
       this.moveTo(this.target.x, this.target.y, this.speed, this.distanceTo(this.target) / 500);
+      if (this.age % 5 === 0) {
+        this.drawOffset.y += 7 + _.random(3);
+        this.drawOffset.scaleX = 1.6;
+        this.drawOffset.scaleY = 1.1;
+        this.game.audio.play('walk' + (_.random(2) + 1), 0.5);
+      }
+
+      if (this.targetAge === 1) {
+        this.game.audio.play('yell' + (_.random(3) + 1), 0.3 + Math.random() * 0.5);
+      }
     }
 
     this.lookAt(this.target);

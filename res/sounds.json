@@ -35,6 +35,10 @@
     ["zap", "Zap.ogg"],
     ["walk1", "Walk1.ogg"],
     ["walk2", "Walk2.ogg"],
-    ["walk3", "Walk3.ogg"]
+    ["walk3", "Walk3.ogg"],
+    ["yell1", "Yell1.ogg"],
+    ["yell2", "Yell2.ogg"],
+    ["yell3", "Yell3.ogg"],
+    ["yell4", "Yell4.ogg"]
   ]
 }
