@@ -195,17 +195,5 @@ Renderer.prototype = {
     var transformation = 'rotateX(' + this.shake.y / 50 + 'deg) rotateY(' + -this.shake.x / 50 + 'deg)';
     el.style.transform = transformation;
     el.style["-webkit-transform"] = transformation;
-  },
-
-  flash: function (elSelector, color) {
-    var el = document.querySelector(elSelector);
-    if (el) {
-      el.classList.add("flash-none");
-      var cssClass = "flash-" + color;
-      el.classList.add(cssClass);
-      setTimeout(function () { el.classList.remove(cssClass); }, 100);
-    } else {
-      console.log("No element found for selector '" + elSelector + "' to flash");
-    }
   }
 };

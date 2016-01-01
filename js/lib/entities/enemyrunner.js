@@ -31,3 +31,12 @@ EnemyRunner.prototype.tick = function () {
   this.speed *= 1.01;
   Enemy.prototype.tick.bind(this)();
 };
+
+EnemyRunner.prototype.explode = function () {
+  this.die();
+
+  // Drop a bomb if killed by player
+  if (this.health <= 0) {
+    this.game.addPowerup(new PowerupExplosion(this.resources, this.getPosition()));
+  }
+};

@@ -87,5 +87,12 @@ window.Util = {
     } else {
       return null;
     }
+  },
+
+  jitterPosition: function (position, variance) {
+    return {
+      x: position.x + this.randomError(variance),
+      y: position.y + this.randomError(variance)
+    };
   }
-}
+};

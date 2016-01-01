@@ -25,7 +25,7 @@ Enemy.prototype.tick = function () {
     if (ent.constructor === Player && this.collidesWith(ent)) {
       ent.health -= 1;
       if (ent === this.game.player) {
-        this.game.renderer.flash("#canvas", "danger");
+        this.game.ui.flash("#canvas", "danger");
       }
       this.explode();
     }

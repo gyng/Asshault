@@ -17,6 +17,8 @@
         ["herosniper",  "herosniper.png"],
         ["herocleaner",  "herocleaner.png"],
         ["bloodstain",  "bloodstain.png"],
-        ["bloodspray",  "bloodspray.png"]
+        ["bloodspray",  "bloodspray.png"],
+        ["gold",  "gold.png"],
+        ["ball",  "ball.png"]
     ]
 }

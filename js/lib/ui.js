@@ -222,5 +222,17 @@ UI.prototype = {
     }, duration);
 
     $('.ui').append(el);
+  },
+
+  flash: function (elSelector, color) {
+    var el = document.querySelector(elSelector);
+    if (el) {
+      el.classList.add("flash-none");
+      var cssClass = "flash-" + color;
+      el.classList.add(cssClass);
+      setTimeout(function () { el.classList.remove(cssClass); }, 100);
+    } else {
+      console.log("No element found for selector '" + elSelector + "' to flash");
+    }
   }
 };

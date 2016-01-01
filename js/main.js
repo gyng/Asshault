@@ -13,6 +13,10 @@ require.config({
         'lib/levels/levels',
         'lib/levels/breaklevel',
 
+        'lib/entities/powerup',
+        'lib/entities/powerupcoin',
+        'lib/entities/powerupexplosion',
+
         'lib/entities/gunner',
         'lib/entities/sniper',
         'lib/entities/player',
@@ -36,6 +40,10 @@ require.config({
       'lib/level',
       'lib/levels/breaklevel'
     ]},
+
+    'lib/entities/powerup':              { deps: ['lib/entity'] },
+    'lib/entities/powerupcoin':          { deps: ['lib/entities/powerup'] },
+    'lib/entities/powerupexplosion':     { deps: ['lib/entities/powerup'] },
 
     'lib/entities/gunner':               { deps: ['lib/entity'] },
     'lib/entities/sniper':               { deps: ['lib/entity'] },

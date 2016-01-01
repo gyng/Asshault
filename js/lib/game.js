@@ -172,6 +172,11 @@ Game.prototype = {
     }
   },
 
+  addPowerup: function (entity) {
+    entity.alignment = 'enemy';
+    this.addEntity(entity, 'enemy');
+  },
+
   spawnEnemy: function (enemy) {
     var spawn = {};
     var minDistanceAway = 200;

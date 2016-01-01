@@ -62,16 +62,16 @@ function Upgrades (game) {
       new Upgrade({
         name:  'increaseBulletCount',
         effect: function () {
-          this.subtractGold(15);
+          this.subtractGold(50);
           this.player.weapon.streams.push({ offset: _.random(8), spread: 7 });
           this.player.addUpgrade({ icon: this.sprites.debug, tooltip: 'Increased bullet count.' });
         },
         constraints: [
-          [new UpgradeConstraint('haveGold'), 15],
+          [new UpgradeConstraint('haveGold'), 50],
         ],
         text: {
           name: 'Jury Rig Ammo Feed',
-          cost: '15G',
+          cost: '50G',
           effect: 'More bullets! Un·bullet·able!'
         }
       }),
@@ -80,17 +80,17 @@ function Upgrades (game) {
       new Upgrade({
         name: 'playerPiercingBullets',
         effect: function () {
-          this.subtractGold(250);
+          this.subtractGold(400);
           this.player.additionalWeaponPierce += 0.7;
           this.player.addUpgrade({ icon: this.sprites.flash2, tooltip: 'Piercing bullets.' });
         },
         constraints: [
-          [new UpgradeConstraint('haveGold'), 250],
+          [new UpgradeConstraint('haveGold'), 400],
           [new UpgradeConstraint('upgradeCountWithinRange'), 'playerPiercingBullets', 0, 1]
         ],
         text: {
           name: 'Piercing bullets',
-          cost: '250G',
+          cost: '400G',
           effect: 'No better way to cut through butter.'
         }
       }),
@@ -99,15 +99,15 @@ function Upgrades (game) {
       new Upgrade({
         name:  'reduceCameraShake',
         effect: function () {
-          this.subtractGold(15);
+          this.subtractGold(50);
           this.renderer.shake.reduction *= 0.85;
         },
         constraints: [
-          [new UpgradeConstraint('haveGold'), 15],
+          [new UpgradeConstraint('haveGold'), 50],
         ],
         text: {
           name:   'Reinforce Camera Tripod',
-          cost:   '15G',
+          cost:   '30G',
           effect: 'Reduces camera shake.'
         },
         gameUpgradeIcon: {
@@ -327,7 +327,7 @@ function Upgrades (game) {
       new Upgrade({
         name:  'buildTavern',
         effect: function () {
-          this.subtractGold(35);
+          this.subtractGold(50);
           var spawnX = this.player.x + Util.randomNegation(_.random(100, 300));
           var spawnY = this.player.y + Util.randomNegation(_.random(100, 300));
           var tavern = new Tavern(this.resources, { x: spawnX, y: spawnY });
@@ -336,11 +336,11 @@ function Upgrades (game) {
         },
         constraints: [
           [new UpgradeConstraint('upgradeCountWithinRange'), 'buildTavern', 0, 1],
-          [new UpgradeConstraint('haveGold'), 35]
+          [new UpgradeConstraint('haveGold'), 50]
         ],
         text: {
           name:    'A House of Heroes',
-          cost:    '35G, No Tavern built',
+          cost:    '50G, No Tavern built',
           effect:  'A tavern is constructed in the village. Taverns are known for attracting heroes of all kinds.',
           flavour: 'Beer, ale and whiskey.'
         },
@@ -354,7 +354,7 @@ function Upgrades (game) {
       new Upgrade({
         name:  'heroGunner',
         effect: function () {
-          this.subtractGold(50);
+          this.subtractGold(100);
           var tavern = _.findWhere(this.entities, { constructor: Tavern });
           var gunner = new Gunner(this.resources, { x: tavern.x, y: tavern.y });
           this.entities.push(gunner);
@@ -362,11 +362,11 @@ function Upgrades (game) {
         },
         constraints: [
           ['buildTavern', 1],
-          [new UpgradeConstraint('haveGold'), 50]
+          [new UpgradeConstraint('haveGold'), 100]
         ],
         text: {
           name:    'A Ram Boar Arrives',
-          cost:    'Tavern, 50G',
+          cost:    'Tavern, 100G',
           effect:  'A Ram Boar is a half-gun, half-man, half-ram and half-boar creature.',
           flavour: 'Ram Boars are known to be broke all the time.'
         }
@@ -376,7 +376,7 @@ function Upgrades (game) {
       new Upgrade({
         name:  'gunnerTracking',
         effect: function () {
-          this.subtractGold(200);
+          this.subtractGold(400);
           var betterFireAt = function (ent) {
             var bulletTravelTime = this.distanceTo(ent) / this.weapon.bulletSpeed;
             var moveDelta = ent.getMoveDelta(this.game.player.x, this.game.player.y, ent.speed, ent.health / 10);
@@ -392,11 +392,11 @@ function Upgrades (game) {
         constraints: [
           ['heroGunner', 1],
           [new UpgradeConstraint('upgradeCountWithinRange'), 'gunnerTracking', 0, 1],
-          [new UpgradeConstraint('haveGold'), 200]
+          [new UpgradeConstraint('haveGold'), 400]
         ],
         text: {
           name:    'Ram Boar Weapons Training',
-          cost:    '200G, Ram Boar',
+          cost:    '400G, Ram Boar',
           effect:  'Ram Boars learn to fire ahead of their targets.',
           flavour: 'Who knew Ram Boars didn’t know how to shoot?'
         },
@@ -432,7 +432,7 @@ function Upgrades (game) {
       new Upgrade({
         name:  'heroSniper',
         effect: function () {
-          this.subtractGold(100);
+          this.subtractGold(150);
           var tavern = _.findWhere(this.entities, { constructor: Tavern });
           var sniper = new Sniper(this.resources, { x: tavern.x, y: tavern.y });
           this.entities.push(sniper);
@@ -440,11 +440,11 @@ function Upgrades (game) {
         },
         constraints: [
           ['buildTavern', 1],
-          [new UpgradeConstraint('haveGold'), 100]
+          [new UpgradeConstraint('haveGold'), 150]
         ],
         text: {
           name:    'A Shartshooper Appears',
-          cost:    '100G, Tavern',
+          cost:    '150G, Tavern',
           effect:  'Shartshoopers are skilled at ranged combat.',
           flavour: 'Nearby foes they kill with their stench.'
         }
@@ -476,18 +476,18 @@ function Upgrades (game) {
       new Upgrade({
         name: 'playerPointDefenseDrone',
         effect: function () {
-          this.subtractGold(75);
+          this.subtractGold(50);
           var pdd = new PointDefenseDrone(this.resources, {x : this.player.x, y: this.player.y });
           this.entities.push(pdd);
           this.friendlies.push(pdd);
           this.player.addUpgrade({ icon: this.sprites.flash1, tooltip: 'Point defense drone.' });
         },
         constraints: [
-          [new UpgradeConstraint('haveGold'), 75]
+          [new UpgradeConstraint('haveGold'), 50]
         ],
         text: {
           name:    'Point Defense Drone',
-          cost:    '75G',
+          cost:    '50G',
           effect:  'Zaps nearby foes.',
           flavour: 'A field of absolute terror. For when your friends intrude on your absolute territory.'
         }
@@ -497,7 +497,7 @@ function Upgrades (game) {
       new Upgrade({
         name: 'pointDefenseDroneBulletHell',
         effect: function () {
-          this.subtractGold(100);
+          this.subtractGold(400);
 
           var bulletHellTick = function () {
             var rad = Util.deg2rad(this.age % 360) * this.angularVelocity;
@@ -524,13 +524,13 @@ function Upgrades (game) {
           PointDefenseDrone.prototype.tick = bulletHellTick;
         },
         constraints: [
-          [new UpgradeConstraint('haveGold'), 100],
+          [new UpgradeConstraint('haveGold'), 400],
           ['playerPointDefenseDrone', 1],
           [new UpgradeConstraint('upgradeCountWithinRange'), 'pointDefenseDroneBulletHell', 0, 1]
         ],
         text: {
           name:    'Point Defence Drone Bullet Hell',
-          cost:    '100G',
+          cost:    '400G',
           effect:  'Bullet hell.',
           flavour: 'wich pdd wud u get hit by'
         },
