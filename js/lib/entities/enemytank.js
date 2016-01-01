@@ -1,9 +1,13 @@
 function EnemyTank (resources, overrides) {
   Entity.call(this, resources, overrides);
-  this.width  = 48;
-  this.height = 48;
-  this.health = 20;
-  this.speed  = 1;
+
+  // Big Boss!
+  var sizeVariance = _.random(24);
+  this.width = 48 + sizeVariance;
+  this.height = 48 + sizeVariance;
+  this.speed = 0.9 - Math.min(0.7, sizeVariance / 48);
+  this.health = 10 + sizeVariance;
+
   this.shadow.on = true;
   this.xpGiven = 20;
   this.goldGiven = 10;
@@ -12,8 +16,6 @@ function EnemyTank (resources, overrides) {
   this.alignment = 'enemy';
   this.friendlyPierceChance = 0; // Alignment is relative
   this.enemyPierceChance = 0; // Pierce chance for bullets from player+heroes
-
-  this.applyOverrides();
 }
 
 EnemyTank.prototype = new Entity();

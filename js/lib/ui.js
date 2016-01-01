@@ -145,8 +145,8 @@ UI.prototype = {
       });
 
       el.mouseup(function (e) {
-        that.setAvailableUpgrades();
         that.game.upgrade($(this).attr('data-upgrade'));
+        that.setAvailableUpgrades();
       });
 
       return el;
