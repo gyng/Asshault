@@ -210,7 +210,7 @@ Game.prototype = {
       "<p>" + this.friendlies.length + " friendlies</p>" +
       "<p>" + this.enemies.length + " enemies</p>" +
       "<p>" + this.player.health + " player health</p>" +
-      "<p>" + this.audio.compressor.reduction.value.toFixed(2) + " compressor reduction</p>"
+      "<p>" + this.audio.compressor.reduction.toFixed(2) + " compressor reduction</p>"
     );
 
     this.lastAge = this.age;
