@@ -7,10 +7,13 @@ function Enemy (resources, overrides) {
   this.shadow.on = true;
   this.xpGiven = 10;
   this.goldGiven = 5;
+  this.sprite = resources.sprites.debug2;
 
   this.alignment = 'enemy';
   this.friendlyPierceChance = 0; // Alignment is relative
   this.enemyPierceChance = 0; // Pierce chance for bullets from player+heroes
+
+  this.applyOverrides();
 }
 
 Enemy.prototype = new Entity();
@@ -45,7 +48,7 @@ Enemy.prototype.tick = function () {
 };
 
 Enemy.prototype.getImage = function () {
-  return this.sprites.debug2;
+  return this.sprite;
 };
 
 Enemy.prototype.explode = function () {

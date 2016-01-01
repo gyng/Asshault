@@ -3,6 +3,8 @@
     "sources": [
         ["debug",       "debug.png"],
         ["debug2",      "debug2.png"],
+        ["debug3",      "debug3.png"],
+        ["transparent", "transparent.png"],
         ["flash1",      "flash1.png"],
         ["flash2",      "flash2.png"],
         ["bullet",      "bullet.png"],
