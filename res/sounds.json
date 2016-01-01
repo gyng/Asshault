@@ -39,6 +39,7 @@
     ["yell1", "Yell1.ogg"],
     ["yell2", "Yell2.ogg"],
     ["yell3", "Yell3.ogg"],
-    ["yell4", "Yell4.ogg"]
+    ["yell4", "Yell4.ogg"],
+    ["bell", "Bell.ogg"]
   ]
 }

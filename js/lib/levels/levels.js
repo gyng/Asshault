@@ -10,6 +10,7 @@ function Levels (game) {
       45: {
         f: function (i) {
           game.ui.setLevelInformation('Wave ' + i);
+          game.audio.play('bell', 1.0);
 
           for (var j = i + 10; j > 0; j--) {
             game.spawnEnemy(new Enemy(game.resources));
