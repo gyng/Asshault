@@ -90,6 +90,22 @@ Gunner.prototype.getImage = function () {
   return this.sprites.herogunner;
 };
 
+Gunner.prototype.levelUp = function () {
+  if (this.level % 5 === 0 || this.level === 1) {
+    this.weapon.streams.push({ offset: _.random(20), spread: 10 });
+    this.addUpgrade({ icon: this.game.sprites.debug4, tooltip: 'Levelled up! More bullets.' });
+    this.say(_.sample([
+      'MORE BULLETS!',
+      'CAN\'T STOP ME NOW!'
+    ]), 1);
+  } else {
+    this.say(_.sample([
+      this.name.toUpperCase() + ' GROWS STRONGER!',
+      'JUST YOU WAIT!'
+    ]), 1);
+  }
+};
+
 Gunner.prototype.draw = function (context) {
   this.drawOffset.x = Math.min(this.drawOffset.x * 0.9, 100);
   this.drawOffset.y = Math.min(this.drawOffset.y * 0.9, 100);

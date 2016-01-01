@@ -15,7 +15,7 @@ function Sniper (resources, overrides) {
   this.firing    = false;
   this.moveTarget = { x: this.game.player.x, y: this.game.player.y };
 
-  this.weapon = new MachineGun(this, { fireRate: 70, spread: 4, bulletSpeed: 80, damage: 5, volume: 5 });
+  this.weapon = new MachineGun(this, { fireRate: 70, spread: 4, bulletSpeed: 60, bulletSpeedVariance: 30, damage: 5, volume: 5 });
   this.weapon.sounds.fire = ['shoot1', 'shoot4', 'shoot3'];
 
   this.name = _.sample(['Athene', 'Bubo', 'Otus', 'Surnia', 'Asio', 'Nesasio', 'Strix', 'Ninox']);
@@ -36,7 +36,6 @@ function Sniper (resources, overrides) {
   this.say(_.sample([
     'Shartest shooper in all the lands.',
     '100% stopping power.',
-    'Grab the penetration upgrade, will ya?',
     'Precision.',
   ]));
   this.updateInfo();
@@ -97,6 +96,22 @@ Sniper.prototype.fireAt = function (object) {
 
 Sniper.prototype.getImage = function () {
   return this.sprites.herosniper;
+};
+
+Sniper.prototype.levelUp = function () {
+  if (this.level % 5 === 0 || this.level === 1) {
+    this.weapon.streams.push({ offset: _.random(20), spread: 16 });
+    this.addUpgrade({ icon: this.game.sprites.debug4, tooltip: 'Levelled up! An extra bullet with every shot.' });
+    this.say(_.sample([
+      'Quick reload!',
+      'They don\'t call me ' + this.weapon.streams.length + '-shot for nothing.'
+    ]), 1);
+  } else {
+    this.say(_.sample([
+      'My power grows.',
+      'I\'m getting good.'
+    ]), 1);
+  }
 };
 
 Sniper.prototype.draw = function (context) {

@@ -194,13 +194,19 @@ Entity.prototype = {
 
   checkLevelUp: function (requiredXp) {
     requiredXp = requiredXp || 100;
-    if (this.xp >= 100) {
-      this.xp = this.xp - 100;
+    if (this.xp >= requiredXp) {
+      this.xp = 0;
       this.level += 1;
 
-      if (this.sounds && this.sounds.levelup)
+      if (this.sounds && this.sounds.levelup) {
         this.game.audio.play(this.sounds.levelup);
+      }
+
+      this.levelUp();
     }
+  },
+
+  levelUp: function () {
   },
 
   checkHeroInfo: function () {
