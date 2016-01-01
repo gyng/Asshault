@@ -45,7 +45,9 @@ PowerupExplosion.prototype.activate = function () {
       y: this.y + Util.randomError(20),
       rotation: rad,
       direction: rad,
-      alignment: 'friendly'
+      alignment: 'friendly',
+      damage: 10,
+      source: this.game.player
     });
 
     this.game.addEntity(bullet);
