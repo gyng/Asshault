@@ -6,6 +6,7 @@ function BreakLevel (game, script) {
   $('.ui .ready-button').show();
   $('.ui .ready-button').on('click', function () {
     $(this).hide();
+    $(".ui .ready-text").hide();
     that.over = true;
   });
 }

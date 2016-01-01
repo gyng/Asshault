@@ -155,11 +155,11 @@ canvas {
     user-select: none;
 }
 
-.loading {
+.loading, .paused {
     position: absolute;
     top: 0;
     left: 0;
-    padding-top: 10%;
+    padding-top: 20%;
     width: 100%;
     height: 100%;
     background: rgba(255, 255, 255 0.7);
@@ -167,6 +167,14 @@ canvas {
     font-size: 7.2rem;
 }
 
+.paused {
+    color: white;
+    display: none;
+}
+
+.paused-subtitle {
+    font-size: 3.6rem;
+}
 
 .button {
     margin: 0.5rem 0;
@@ -208,6 +216,12 @@ canvas {
 
 .ready-button:hover {
     background-color: rgb(45, 216, 51);
+}
+
+.ready-text {
+    font-size: 1.8rem;
+    padding-top: 1.8rem;
+    text-align: center;
 }
 
 /* UI */
@@ -277,7 +291,9 @@ canvas {
 .ui .middle-bar {
     /*flex-basis: 70%;*/
     /*display: flex;*/
-    align-items: flex-start;
+    align-items: center;
+    justify-content: flex-start;
+    flex-direction: column;
     height: 70%;
     pointer-events: none;
     flex-grow: 3;

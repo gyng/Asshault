@@ -12,20 +12,7 @@ UI.prototype = {
   setupBindings: function () {
     var game = this.game;
 
-    window.onblur = function () {
-      game.running = false;
-      game.audio.setMasterVolume(0);
-      $('.ui').css('background-color', 'rgba(0, 0, 0, 0.7)');
-    };
-
-    window.onfocus = function () {
-      if (!game.running) {
-        game.running = true;
-        game.draw();
-      }
-      game.audio.setMasterVolume(1);
-      $('.ui').css('background-color', 'transparent');
-    };
+    window.onblur = this.pauseGame.bind(this);
 
     $('#canvas').mousemove(function (e) {
       // Factor in CSS scaling of canvas distorting mouse pointer location comparisons
@@ -46,6 +33,34 @@ UI.prototype = {
         game.player.checkHeroInfo();
       });
     }
+
+    // Keybindings
+    keypress.combo("space", this.pauseGameToggle.bind(this));
+  },
+
+  pauseGameToggle: function () {
+    if (this.game.running) {
+      this.pauseGame();
+    } else {
+      this.unpauseGame();
+    }
+  },
+
+  pauseGame: function () {
+    this.game.running = false;
+    this.game.audio.setMasterVolume(0);
+    $('.ui').css('background-color', 'rgba(0, 0, 0, 0.8)');
+    $('.paused').show();
+  },
+
+  unpauseGame: function () {
+    if (!this.game.running) {
+      this.game.running = true;
+      this.game.draw();
+    }
+    this.game.audio.setMasterVolume(1);
+    $('.ui').css('background-color', 'transparent');
+    $('.paused').hide();
   },
 
   tick: function () {
