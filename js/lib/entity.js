@@ -21,6 +21,7 @@ function Entity (resources, overrides) {
 
   if (typeof resources !== 'undefined') {
     this.sprites = resources.sprites;
+    this.sprite = resources.sprites.transparent;
     this.sounds = resources.sounds;
     this.game = resources.game;
     this.resources = resources;
@@ -111,7 +112,9 @@ Entity.prototype = {
     context.drawImage(this.infoCanvas, this.info.offset.x, this.info.offset.y);
   },
 
-  getImage: function () {},
+  getImage: function () {
+    return this.sprite;
+  },
 
   applyOverrides: function () {
     _.keys(this.overrides).forEach(function (key) {

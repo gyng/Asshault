@@ -28,10 +28,6 @@ PowerupCoin.prototype.tick = function () {
   this.pulse(this.age);
 };
 
-PowerupCoin.prototype.getImage = function () {
-  return this.sprite;
-};
-
 PowerupCoin.prototype.activate = function () {
   if (Math.random() < 0.01) {
     // 1% chance to explode into coins

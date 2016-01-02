@@ -5,13 +5,13 @@ function EnemyTank (resources, overrides) {
   var sizeVariance = _.random(24);
   this.width = 48 + sizeVariance;
   this.height = 48 + sizeVariance;
+  this.sprite = this.sprites.debug3;
   this.speed = 0.9 - Math.min(0.7, sizeVariance / 48);
   this.health = 10 + sizeVariance;
 
   this.shadow.on = true;
   this.xpGiven = 20;
   this.goldGiven = 10;
-  this.sprite = this.sprites.debug3;
 
   this.alignment = 'enemy';
   this.friendlyPierceChance = 0; // Alignment is relative

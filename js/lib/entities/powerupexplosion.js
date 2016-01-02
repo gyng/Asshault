@@ -28,10 +28,6 @@ PowerupExplosion.prototype.tick = function () {
   this.pulse(this.age);
 };
 
-PowerupExplosion.prototype.getImage = function () {
-  return this.sprite;
-};
-
 PowerupExplosion.prototype.activate = function () {
   this.game.addEntity(new Explosion(this.resources, this.getPosition()));
 

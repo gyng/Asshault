@@ -2,6 +2,7 @@ function Gunner (resources, overrides) {
   Entity.call(this, resources, overrides);
   this.width  = 42;
   this.height = 42;
+  this.sprite = this.sprites.herogunner;
   this.speed  = 7 + _.random(8);
 
   this.alignment = 'friendly';
@@ -84,10 +85,6 @@ Gunner.prototype.updateInfo = function () {
 // only for gunners and not other entities which use the same weapon
 Gunner.prototype.fireAt = function (object) {
   this.weapon.fire(Math.atan2(this.y - object.y, this.x - object.x));
-};
-
-Gunner.prototype.getImage = function () {
-  return this.sprites.herogunner;
 };
 
 Gunner.prototype.levelUp = function () {

@@ -65,7 +65,6 @@ UI.prototype = {
 
   tick: function () {
     this.setAvailableUpgrades();
-    // this.scaleCanvas();
   },
 
   setAvailableUpgrades: function () {

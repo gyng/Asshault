@@ -14,8 +14,3 @@ function BreakLevel (game, script) {
 BreakLevel.prototype = new Level();
 
 BreakLevel.prototype.constructor = BreakLevel;
-
-BreakLevel.prototype.tick = function () {
-  this.x += this.deltaX;
-  this.y += this.deltaY;
-};

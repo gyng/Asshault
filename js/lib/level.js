@@ -43,7 +43,7 @@ Level.prototype = {
   },
 
   draw: function () {
-
+    // noop, to be replaced
   },
 
   addEvent: function (time, scriptEvent, args) {

@@ -26,10 +26,6 @@ Powerup.prototype.pulse = function (age) {
   this.drawOffset.scaleX = ((age % 10) / 5) - 1;
 };
 
-Powerup.prototype.getImage = function () {
-  return this.sprite;
-};
-
 Powerup.prototype.activate = function () {
   // noop, to be replaced
 };

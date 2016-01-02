@@ -2,12 +2,12 @@ function Enemy (resources, overrides) {
   Entity.call(this, resources, overrides);
   this.width  = 32;
   this.height = 32;
+  this.sprite = resources.sprites.debug2;
   this.health = 5;
   this.speed  = 5;
   this.shadow.on = true;
   this.xpGiven = 10;
   this.goldGiven = 5;
-  this.sprite = resources.sprites.debug2;
 
   this.alignment = 'enemy';
   this.friendlyPierceChance = 0; // Alignment is relative
@@ -45,10 +45,6 @@ Enemy.prototype.tick = function () {
   this.drawOffset.y *= 0.9;
   this.lookAt(this.game.player);
   this.moveTo(this.game.player.x, this.game.player.y, this.speed, this.health / 10);
-};
-
-Enemy.prototype.getImage = function () {
-  return this.sprite;
 };
 
 Enemy.prototype.explode = function () {

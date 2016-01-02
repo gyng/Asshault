@@ -2,6 +2,7 @@ function PointDefenseDrone (resources, overrides) {
   Entity.call(this, resources, overrides);
   this.width = 32;
   this.height = 32;
+  this.sprite = this.sprites.flash1;
 
   this.shadow.on = true;
   this.shadow.size = { x: 4, y: 4 };
@@ -40,8 +41,4 @@ PointDefenseDrone.prototype.tick = function () {
         !this.game.player.nearestEnemy.markedForDeletion)
       this.weapon.fireAt(this.game.player.nearestEnemy);
   }
-};
-
-PointDefenseDrone.prototype.getImage = function () {
-  return this.sprites.flash1;
 };

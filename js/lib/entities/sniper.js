@@ -3,6 +3,7 @@ function Sniper (resources, overrides) {
 
   this.width  = 42;
   this.height = 42;
+  this.sprite = this.sprites.herosniper;
   this.speed  = 7 + _.random(8);
   this.shadow.on = true;
 
@@ -92,10 +93,6 @@ Sniper.prototype.updateInfo = function () {
 // so we can upgrade the tracking easily later on
 Sniper.prototype.fireAt = function (object) {
   this.weapon.fire(Math.atan2(this.y - object.y, this.x - object.x));
-};
-
-Sniper.prototype.getImage = function () {
-  return this.sprites.herosniper;
 };
 
 Sniper.prototype.levelUp = function () {

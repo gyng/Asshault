@@ -29,8 +29,7 @@ function Levels (game) {
           }
         },
         r: 600
-      },
-      15: { f: function (arg1) { }, a: 'myarg2' },
+      }
     })
   };
 }

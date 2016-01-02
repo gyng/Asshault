@@ -2,6 +2,7 @@ function Player (resources, overrides) {
   Entity.call(this, resources, overrides);
   this.width  = 48;
   this.height = 48;
+  this.sprite = this.sprites.debug;
   this.health = 10;
   this.speed = 0;
 
@@ -91,10 +92,6 @@ Player.prototype.returnToMap = function () {
   } else if (this.y < margin) {
     this.y += returnScale * (margin - this.y);
   }
-};
-
-Player.prototype.getImage = function () {
-  return this.sprites.debug;
 };
 
 Player.prototype.draw = function (context) {

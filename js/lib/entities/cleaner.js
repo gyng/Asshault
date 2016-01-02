@@ -2,6 +2,7 @@ function Cleaner (resources, overrides) {
   Entity.call(this, resources, overrides);
   this.width = 42;
   this.height = 42;
+  this.sprite = this.sprites.herocleaner;
   this.speed = 1 + _.random(1);
   this.variance = 4;
   this.fireRate = 80;
@@ -76,10 +77,6 @@ Cleaner.prototype.updateInfo = function () {
   };
 
   this.checkHeroInfo();
-};
-
-Cleaner.prototype.getImage = function () {
-  return this.sprites.herocleaner;
 };
 
 Cleaner.prototype.draw = function (context) {
