@@ -375,7 +375,11 @@ canvas {
     margin-left: 0.25rem;
 }
 
-.hero-kills {
+.hero-kills, .hero-xp {
+    margin-right: 0.25rem;
+}
+
+.hero-gold {
     margin-right: 0.5rem;
 }
 
@@ -449,6 +453,12 @@ canvas {
 
 .gold-popup > .gold-amount {
     font-size: 1.8rem !important;
+    color: red;
+}
+
+.tax-popup > .gold-amount {
+    font-size: 1.8rem !important;
+    color: green !important;
 }
 
 .gold {

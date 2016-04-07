@@ -12,11 +12,26 @@ function Levels (game) {
           game.ui.setLevelInformation('Wave ' + i);
           game.audio.play('bell', 1.0);
 
+          // Salary and taxes
           game.friendlies.forEach(function (e) {
             if (e.salary) {
-              e.popup(-e.salary, 650, '#template-gold-popup');
+              var initial = e.gold;
+
               game.addGold(-e.salary * Math.ceil(e.level / 3));
-              game.audio.play('coin3', 0.5);
+
+              var tax = Math.floor(e.gold * e.taxRate);
+              e.addGold(-tax);
+              game.addGold(tax);
+
+              var change = initial - e.gold;
+
+              if (change < 0) {
+                game.audio.play('coin3', 0.5);
+                e.popup(-change, 650, '#template-gold-popup');
+              } else {
+                game.audio.play('coin2', 0.5);
+                e.popup('+' + change, 650, '#template-tax-popup');
+              }
             }
           });
 

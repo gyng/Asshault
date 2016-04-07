@@ -13,6 +13,8 @@ function Entity (resources, overrides) {
   this.moveTarget = { x: 0, y: 0 };
   this.health = 0;
   this.lastHitBy = null;
+  this.gold = 0;
+  this.taxRate = 0.5;
 
   this.alignment = 'none';
   this.friendlyPierceChance = 0;
@@ -186,6 +188,10 @@ Entity.prototype = {
 
     this.health -= damage;
     this.lastHitBy = by;
+  },
+
+  addGold: function (amount) {
+    this.gold += amount;
   },
 
   say: function (text, duration) {

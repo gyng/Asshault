@@ -75,6 +75,7 @@ Cleaner.prototype.updateInfo = function () {
     name: { value: this.name, draw: true },
     level: { prepend: 'level', value: this.level },
     xp: { value: this.xp, postfix: 'xp' },
+    gold: { value: this.gold, postfix: 'G' }
   };
 
   this.checkHeroInfo();

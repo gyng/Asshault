@@ -35,7 +35,11 @@ Enemy.prototype.tick = function () {
   if (this.health <= 0) {
     this.lastHitBy.source.addXP(this.xpGiven, 1);
     this.lastHitBy.source.updateInfo();
-    this.game.addGold(this.goldGiven);
+    if (this.lastHitBy && this.lastHitBy.source) {
+      this.lastHitBy.source.addGold(this.goldGiven);
+    } else {
+      this.game.addGold(this.goldGiven);
+    }
     this.explode();
   }
 

@@ -109,7 +109,7 @@ Game.prototype = {
       this.dayRatio = 1 - this.timeOfDay / this.dayLength;
 
       // UI
-      if (this.age % 15 === 0) this.ui.tick();
+      if (this.age % 30 === 0) this.ui.tick();
       if (this.age % 120 === 0) this.ui.scaleCanvas();
 
       // Levels

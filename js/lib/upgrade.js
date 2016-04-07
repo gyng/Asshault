@@ -118,7 +118,7 @@ function Upgrades (game) {
         ],
         text: {
           name:   'Reinforce Camera Tripod',
-          cost:   '30G',
+          cost:   '50G',
           effect: 'Reduces camera shake.'
         },
         gameUpgradeIcon: {
@@ -352,7 +352,7 @@ function Upgrades (game) {
         text: {
           name:    'A House of Heroes',
           cost:    '50G, No Tavern built',
-          effect:  'Taverns are known for attracting heroes of all kinds. Hire heroes for a small stipend.',
+          effect:  'Taverns are known for attracting heroes of all kinds. Hire heroes for a small stipend. Heroes are taxed at 50% of their gold at the end of each wave.',
           flavour: 'Beer, ale and whiskey.'
         },
         gameUpgradeIcon: {

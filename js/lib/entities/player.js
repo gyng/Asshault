@@ -66,6 +66,10 @@ Player.prototype.tick = function () {
   }
 };
 
+Player.prototype.addGold = function (value) {
+  this.game.addGold(value);
+};
+
 Player.prototype.updateInfo = function () {
   this.checkLevelUp();
 
@@ -73,6 +77,7 @@ Player.prototype.updateInfo = function () {
     name:  { value: this.name, draw: true },
     level: { prepend: 'level', value: this.level },
     xp:    { value: this.xp, postfix: 'xp' },
+    gold:  { value: this.game.gold }
   };
 
   this.checkHeroInfo();

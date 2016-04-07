@@ -98,6 +98,7 @@ UI.prototype = {
 
   updateGold: function () {
     $('.gold > .gold-amount').text(this.game.gold);
+    $('.hero-list-item').first().find('.hero-gold').text('G ' + this.game.gold); // Player gold UI hack
   },
 
   scaleCanvas: function () {
@@ -184,6 +185,7 @@ UI.prototype = {
       el[0].childNodes[3].children[0].children[1].innerHTML = hero.level;
       el[0].childNodes[3].children[1].children[0].innerHTML = 'K ' + hero.kills;
       el[0].childNodes[3].children[1].children[1].innerHTML = 'XP ' + hero.xp;
+      el[0].childNodes[3].children[1].children[2].innerHTML = 'G ' + (hero.constructor === Player ? this.game.gold : hero.gold);
     }
   },
 
