@@ -30,6 +30,7 @@ Game.prototype = {
     this.renderer    = new Renderer(this, this.canvas, this.decalCanvas);
 
     this.running    = true;
+    this.gameOver   = false;
     this.tickRate   = 60;
     this.age        = 0;
     this.fpsCounter = 0;
@@ -72,7 +73,7 @@ Game.prototype = {
   },
 
   step: function () {
-    if (this.running) {
+    if (this.running && !this.gameOver) {
       this.age++;
 
       // Do not add bullets to spatial hash. Do all checking in individual

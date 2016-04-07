@@ -38,7 +38,20 @@ UI.prototype = {
     keypress.combo("space", this.pauseGameToggle.bind(this));
   },
 
+  gameOver: function () {
+    $('.ui').css('background-color', 'rgba(0, 0, 0, 0.8)');
+    $('.game-over').show();
+    this.game.running = false;
+
+    $('.game-over .restart').click(function () {
+      // hack!
+      document.location.reload();
+    }.bind(this));
+  },
+
   pauseGameToggle: function () {
+    if (this.game.gameOver) return;
+
     if (this.game.running) {
       this.pauseGame();
     } else {
@@ -47,6 +60,8 @@ UI.prototype = {
   },
 
   pauseGame: function () {
+    if (this.game.gameOver) return;
+
     this.game.running = false;
     this.game.audio.setMasterVolume(0);
     $('.ui').css('background-color', 'rgba(0, 0, 0, 0.8)');

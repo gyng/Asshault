@@ -188,6 +188,11 @@ Entity.prototype = {
 
     this.health -= damage;
     this.lastHitBy = by;
+
+    if (this.constructor === Player && this.health <= 0) {
+      this.game.gameOver = true;
+      this.game.ui.gameOver();
+    }
   },
 
   addGold: function (amount) {
