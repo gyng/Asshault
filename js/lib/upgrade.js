@@ -74,7 +74,7 @@ function Upgrades (game) {
           [new UpgradeConstraint('dynamic'), function () { return game.gold >= Math.ceil(50 + (game.upgradeCount['increaseBulletCount'] || 0) * 1.2 * 50); }]
         ],
         text: {
-          name: 'Jury Rig Ammo Feed',
+          name: function () { return 'Jury Rig Ammo Feed ' + ((game.upgradeCount['increaseBulletCount'] || 0) + 1); },
           cost: function () { return Math.ceil(50 + (game.upgradeCount['increaseBulletCount'] || 0) * 1.2 * 50) + 'G' },
           effect: 'More bullets! Un·bullet·able! Each consecutive upgrade is more expensive.'
         }
@@ -85,17 +85,21 @@ function Upgrades (game) {
         name: 'playerPiercingBullets',
         effect: function () {
           this.subtractGold(400);
-          this.player.additionalWeaponPierce += 0.7;
+          this.player.additionalWeaponPierce += 0.1;
           this.player.addUpgrade({ icon: this.sprites.flash2, tooltip: 'Piercing bullets.' });
         },
         constraints: [
           [new UpgradeConstraint('haveGold'), 400],
-          [new UpgradeConstraint('upgradeCountWithinRange'), 'playerPiercingBullets', 0, 1]
+          [new UpgradeConstraint('upgradeCountWithinRange'), 'playerPiercingBullets', 0, 10]
         ],
         text: {
-          name: 'Piercing bullets',
+          name: function () {
+            var names = ['Iron', 'Cobalt', 'Nickel', 'Copper', 'Zinc', 'Tin', 'Tungsten', 'Lead', 'Uranium'];
+            var level = game.upgradeCount['playerPiercingBullets'] || 0;
+            return 'Piercing ' + names[level] + ' Bullets ' + (level + 1);
+          },
           cost: '400G',
-          effect: 'No better way to cut through butter.'
+          effect: 'No better way to cut through butter. Bullets get +10% chance to pierce. Max of 10 upgrades.'
         }
       }),
 
