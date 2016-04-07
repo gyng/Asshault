@@ -74,7 +74,7 @@ function Upgrades (game) {
           [new UpgradeConstraint('dynamic'), function () { return game.gold >= Math.ceil(50 + (game.upgradeCount['increaseBulletCount'] || 0) * 1.2 * 50); }]
         ],
         text: {
-          name: function () { return 'Jury Rig Ammo Feed ' + ((game.upgradeCount['increaseBulletCount'] || 0) + 1); },
+          name: function () { return 'Ammo Feed Jury Rig ' + Util.romanize((game.upgradeCount['increaseBulletCount'] || 0) + 1); },
           cost: function () { return Math.ceil(50 + (game.upgradeCount['increaseBulletCount'] || 0) * 1.2 * 50) + 'G' },
           effect: 'More bullets! Un·bullet·able! Each consecutive upgrade is more expensive.'
         }
@@ -94,9 +94,9 @@ function Upgrades (game) {
         ],
         text: {
           name: function () {
-            var names = ['Iron', 'Cobalt', 'Nickel', 'Copper', 'Zinc', 'Tin', 'Tungsten', 'Lead', 'Uranium'];
+            var names = ['Iron', 'Cobalt', 'Nickel', 'Copper', 'Zinc', 'Tin', 'Tungsten', 'Lead', 'Polonium', 'Uranium'];
             var level = game.upgradeCount['playerPiercingBullets'] || 0;
-            return 'Piercing ' + names[level] + ' Bullets ' + (level + 1);
+            return 'Piercing ' + names[level] + ' Bullets ' + Util.romanize(level + 1);
           },
           cost: '400G',
           effect: 'No better way to cut through butter. Bullets get +10% chance to pierce. Max of 10 upgrades.'
@@ -349,7 +349,7 @@ function Upgrades (game) {
         text: {
           name:    'A House of Heroes',
           cost:    '50G, No Tavern built',
-          effect:  'A tavern is constructed in the village. Taverns are known for attracting heroes of all kinds.',
+          effect:  'Taverns are known for attracting heroes of all kinds. Hire heroes for a small stipend.',
           flavour: 'Beer, ale and whiskey.'
         },
         gameUpgradeIcon: {
