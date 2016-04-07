@@ -420,13 +420,14 @@ function Upgrades (game) {
             gunner.addUpgrade({ icon: game.sprites.debug, tooltip: 'Going fuller auto.' });
           });
         },
+
         constraints: [
           ['heroGunner', 1],
-          [new UpgradeConstraint('haveGold'), 100]
+          [new UpgradeConstraint('dynamic'), function () { return game.gold >= 100 * game.friendlies.filter(function (ent) { return ent.constructor === Gunner; }).length }]
         ],
         text: {
           name:    'Ram Boar Goes Full Auto',
-          cost:    '100G, Ram Boar',
+          cost:    function () { return '100G/Ram Boar (' + 100 * game.friendlies.filter(function (ent) { return ent.constructor === Gunner; }).length + 'G)' },
           effect:  '25% faster firing for *existing* Ram Boars, up to a limit.',
           flavour: 'Always go full auto.'
         }
