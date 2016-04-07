@@ -24,7 +24,8 @@ function Player (resources, overrides) {
   this.info.addToHeroList = true;
 
   this.sounds = {
-    levelup: 'powerup'
+    levelup: 'powerup',
+    hurt: 'scream3'
   };
 
   $('#canvas').mousedown(function (e) {

@@ -23,7 +23,8 @@ Enemy.prototype.constructor = Enemy;
 Enemy.prototype.tick = function () {
   this.game.friendlies.forEach(function (ent) {
     if (ent.constructor === Player && this.collidesWith(ent)) {
-      ent.health -= 1;
+      ent.damage(1, this);
+
       if (ent === this.game.player) {
         this.game.ui.flash("#canvas", "danger");
       }

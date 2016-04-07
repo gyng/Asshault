@@ -180,6 +180,10 @@ Entity.prototype = {
   },
 
   damage: function (damage, by) {
+    if (this.sounds && this.sounds.hurt) {
+      this.game.audio.play(this.sounds.hurt);
+    }
+
     this.health -= damage;
     this.lastHitBy = by;
   },
