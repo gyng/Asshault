@@ -99,7 +99,10 @@ function Upgrades (game) {
             return 'Piercing ' + names[level] + ' Bullets ' + Util.romanize(level + 1);
           },
           cost: '400G',
-          effect: 'No better way to cut through butter. Bullets get +10% chance to pierce. Max of 10 upgrades.'
+          effect: function () {
+            var level = (game.upgradeCount['playerPiercingBullets'] || 0) + 1;
+            return 'No better way to cut through butter. Bullets now have ' + (10 * level) + '% chance to pierce. Max of 10 upgrades.';
+          }
         }
       }),
 
