@@ -189,6 +189,11 @@ Entity.prototype = {
     this.game.ui.createSpeechBubble(null, this.x, this.y - this.height * 2, text, duration);
   },
 
+  popup: function (text, duration, template) {
+    // Use DOM for delicious CSS and !text wrapping!
+    this.game.ui.createPopup(template, this.x, this.y - this.height * 2, text, duration);
+  },
+
   // Hero stuff, TODO: split into 'subclass'
   addXP: function (xp, kills) {
     this.xp += xp;

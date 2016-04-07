@@ -13,6 +13,7 @@ function Cleaner (resources, overrides) {
   this.alignment = 'friendly';
   this.friendlyPierceChance = 0.98;
   this.enemyPierceChance = 0;
+  this.salary = 1;
 
   this.level = 0;
   this.xp = 0;

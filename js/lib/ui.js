@@ -84,7 +84,7 @@ UI.prototype = {
   },
 
   updateGold: function () {
-    $('.gold-amount').text(this.game.gold);
+    $('.gold > .gold-amount').text(this.game.gold);
   },
 
   scaleCanvas: function () {
@@ -203,6 +203,24 @@ UI.prototype = {
     });
 
     return el;
+  },
+
+  createPopup: function (template, left, top, text, duration) {
+    template = template || '#template-popup';
+    duration = duration || 5000;
+
+    var el = $($(template).html());
+    el.find('.text').text(text);
+    el.css('left', left / this.cssScale + this.game.canvas.offsetLeft + 'px');
+    el.css('top',  top / this.cssScale + this.game.canvas.offsetTop + 'px');
+
+    setTimeout(function () {
+      el.fadeOut(1000, function () {
+        el.remove();
+      });
+    }, duration);
+
+    $('.ui').append(el);
   },
 
   createSpeechBubble: function (template, left, top, text, duration) {

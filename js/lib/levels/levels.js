@@ -12,6 +12,14 @@ function Levels (game) {
           game.ui.setLevelInformation('Wave ' + i);
           game.audio.play('bell', 1.0);
 
+          game.friendlies.forEach(function (e) {
+            if (e.salary) {
+              e.popup(-e.salary, 650, '#template-gold-popup');
+              game.addGold(-e.salary * Math.ceil(e.level / 3));
+              game.audio.play('coin3', 0.5);
+            }
+          });
+
           for (var j = (i * 2) + 10; j > 0; j--) {
             var overrides = {};
             var enemy;

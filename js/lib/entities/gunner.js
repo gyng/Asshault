@@ -16,6 +16,7 @@ function Gunner (resources, overrides) {
   this.level = 0;
   this.xp = 0;
   this.kills = 0;
+  this.salary = 5;
 
   this.shadow.on = true;
   this.name = _.sample(['Grunniens', 'Capra', 'Sus', 'Suidae', 'Bora', 'Scrofa', 'Hircus', 'Bos']);

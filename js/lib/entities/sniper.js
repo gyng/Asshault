@@ -26,6 +26,7 @@ function Sniper (resources, overrides) {
   this.level = 0;
   this.xp = 0;
   this.kills = 0;
+  this.salary = 5;
 
   this.sounds = {
     spawn: 'shartshooper',
