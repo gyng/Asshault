@@ -70,15 +70,28 @@ UI.prototype = {
   setAvailableUpgrades: function () {
     _.keys(this.game.upgrades.list).forEach(function (upgradeName) {
       var upgrade = this.game.upgrades.list[upgradeName];
+      var upgradeEl = $('[data-upgrade=' + upgrade.name + ']');
 
       if (upgrade.isConstraintsMet(this.game)) {
-        $('[data-upgrade=' + upgrade.name + ']')
+        upgradeEl
           .toggleClass('active-upgrade', true)
           .toggleClass('button', true);
       } else {
-        $('[data-upgrade=' + upgrade.name + ']')
+        upgradeEl
           .toggleClass('active-upgrade', false)
           .toggleClass('button', false);
+      }
+
+      if (typeof upgrade.text.name === 'function') {
+        upgradeEl.find('.upgrade-name').text(upgrade.text.name());
+      }
+
+      if (typeof upgrade.text.cost === 'function') {
+        upgradeEl.find('.upgrade-cost').text(upgrade.text.cost());
+      }
+
+      if (typeof upgrade.text.effect === 'function') {
+        upgradeEl.find('.upgrade-effect').text(upgrade.text.effect());
       }
     }.bind(this));
   },

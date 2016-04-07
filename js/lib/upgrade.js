@@ -49,6 +49,10 @@ function UpgradeConstraint(name) {
     propertyWithinRange: function (game, ent, property, min, max) {
       max = max || Number.MAX_VALUE;
       return ent[property] >= min && ent[property] < max;
+    },
+
+    dynamic: function(game, fn) {
+      return fn.apply(game);
     }
   };
 
@@ -62,17 +66,17 @@ function Upgrades (game) {
       new Upgrade({
         name:  'increaseBulletCount',
         effect: function () {
-          this.subtractGold(50);
+          this.subtractGold(Math.ceil(50 + (game.upgradeCount['increaseBulletCount'] || 0) * 1.2 * 50));
           this.player.weapon.streams.push({ offset: _.random(8), spread: 7 });
           this.player.addUpgrade({ icon: this.sprites.debug, tooltip: 'Increased bullet count.' });
         },
         constraints: [
-          [new UpgradeConstraint('haveGold'), 50],
+          [new UpgradeConstraint('dynamic'), function () { return game.gold >= Math.ceil(50 + (game.upgradeCount['increaseBulletCount'] || 0) * 1.2 * 50); }]
         ],
         text: {
           name: 'Jury Rig Ammo Feed',
-          cost: '50G',
-          effect: 'More bullets! Un·bullet·able!'
+          cost: function () { return Math.ceil(50 + (game.upgradeCount['increaseBulletCount'] || 0) * 1.2 * 50) + 'G' },
+          effect: 'More bullets! Un·bullet·able! Each consecutive upgrade is more expensive.'
         }
       }),
 
