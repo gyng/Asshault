@@ -210,7 +210,7 @@ Game.prototype = {
 
   updateDebugInfo: function () {
     var reduction = this.audio.compressor.reduction;
-    reduction = reduction && parseFloat(reduction) ? reduction : reduction.value;
+    var reductionLevel = reduction && parseFloat(reduction) ? reduction : reduction.value;
 
     $('#debug').html(
       "<p>" + this.fpsCounter + " FPS</p>" +
@@ -219,7 +219,7 @@ Game.prototype = {
       "<p>" + this.friendlies.length + " friendlies</p>" +
       "<p>" + this.enemies.length + " enemies</p>" +
       "<p>" + this.player.health + " player health</p>" +
-      "<p>" + reduction ? reduction.toFixed(2) : '?' + " compressor reduction</p>"
+      "<p>" + (reductionLevel ? reductionLevel.toFixed(2) : '?') + " compressor reduction</p>"
     );
 
     this.lastAge = this.age;

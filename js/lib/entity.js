@@ -103,7 +103,7 @@ Entity.prototype = {
       this.infoContext.fillStyle = this.info.fill;
 
       var i = 0;
-      _.each(_.where(this.info.text, { draw: true }), function (line, key) {
+      _.each(_.filter(this.info.text, { draw: true }), function (line, key) {
         var text = (line.prepend || '') + line.value + (line.postfix || '');
         this.infoContext.fillText(text, 0, ++i * this.info.lineHeight);
       }.bind(this));
