@@ -180,7 +180,7 @@ Game.prototype = {
 
   spawnEnemy: function (enemy) {
     var spawn = {};
-    var minDistanceAway = 200;
+    var minDistanceAway = 300;
     var maxAttempts = 100;
     var attempts = 0;
 
