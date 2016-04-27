@@ -81,7 +81,10 @@ Audio.prototype = {
     var loopend     = opts.loopend || 1.0;
 
     var source = this.audioContext.createBufferSource();
-    source.buffer = this.sounds[name];
+
+    if (this.sounds[name]) {
+      source.buffer = this.sounds[name];
+    }
 
     if (typeof source.buffer === 'undefined' || source.buffer === null) {
       return;

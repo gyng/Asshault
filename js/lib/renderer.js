@@ -9,7 +9,6 @@ function Renderer (game, canvas, decalCanvas) {
   // Nearest-neighbour scaling
   [this.context, this.decalContext].forEach(function (ctx) {
     ctx.imageSmoothingEnabled       = false;
-    ctx.webkitImageSmoothingEnabled = false;
     ctx.mozImageSmoothingEnabled    = false;
   });
 }
