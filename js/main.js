@@ -64,7 +64,7 @@ require.config({
 });
 
 require([
-  "vendor/jquery-2.0.3.min",
+  "vendor/jquery-2.2.3.min",
   "vendor/underscore-min",
   "vendor/keypress-1.0.9.min",
   "lib/util"
