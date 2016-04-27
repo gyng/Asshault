@@ -139,6 +139,21 @@ canvas {
     font-size: 1.2rem;
 }
 
+.upgrade-highlight.active-upgrade {
+    background-color: #ECDC25;
+}
+
+.upgrade-highlight.active-upgrade:hover {
+    background-color: #C5790C;
+}
+
+.upgrade-highlight.active-upgrade::before {
+    content: 'Most popular!';
+    background-color: #F04618;
+    color: white;
+    padding: 0.2rem;
+}
+
 .upgrades {
     display: flex;
     flex-direction: column;

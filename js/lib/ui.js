@@ -108,6 +108,12 @@ UI.prototype = {
       if (typeof upgrade.text.effect === 'function') {
         upgradeEl.find('.upgrade-effect').text(upgrade.text.effect());
       }
+
+      if (typeof upgrade.text.highlight === 'function') {
+        upgradeEl.toggleClass('upgrade-highlight', upgrade.text.highlight());
+      } else if (upgrade.text.highlight) {
+        upgradeEl.toggleClass('upgrade-highlight', upgrade.text.highlight);
+      }
     }.bind(this));
   },
 

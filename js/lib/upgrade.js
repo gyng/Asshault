@@ -327,10 +327,11 @@ function Upgrades (game) {
           [new UpgradeConstraint('haveGold'), 50]
         ],
         text: {
-          name:    'The Walking Machine',
-          cost:    '50G, Player Level 1',
-          effect:  'Fear flying? Walk! Slowly. Move with the WASD keys.',
-          flavour: 'Ambulate in your new perambulator.'
+          name:      'The Walking Machine',
+          cost:      '50G, Player Level 1',
+          effect:    'Fear flying? Walk! Slowly. Move with the WASD keys.',
+          flavour:   'Ambulate in your new perambulator.',
+          highlight: true
         }
       }),
 
