@@ -421,7 +421,7 @@ function Upgrades (game) {
       new Upgrade({
         name:  'gunnerBulletCount',
         effect: function () {
-          this.subtractGold(100);
+          this.subtractGold(100 * game.friendlies.filter(function (ent) { return ent.constructor === Gunner; }).length);
           _.where(this.friendlies, { constructor: Gunner }).forEach(function (gunner) {
             gunner.weapon.fireRate = Math.ceil(gunner.weapon.fireRate * 0.75);
             gunner.addUpgrade({ icon: game.sprites.debug, tooltip: 'Going fuller auto.' });
