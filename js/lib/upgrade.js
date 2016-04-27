@@ -561,7 +561,7 @@ function Upgrades (game) {
 
           this.player.weapon.applyOverrides({
             spreadMultiplier: 0.5,
-            bulletDamage: 0.1,
+            damage: 0.5,
             fireRate: 40,
             recoilOffset: 3,
             recoilCameraShake: 3,
@@ -595,15 +595,14 @@ function Upgrades (game) {
           this.subtractGold(100);
 
           this.player.weapon.applyOverrides({
-            spreadMultiplier: 0.5,
-            bulletDamage: 0.1,
+            spreadMultiplier: 0.3,
+            damage: 0.35,
             fireRate: 0,
             recoilOffset: 0.3,
             recoilCameraShake: 0.5
           });
 
           this.player.weapon.sounds.beam = 'zap';
-          this.player.additionalWeaponPierce = 0.4;
 
           this.player.weapon.fireSound = function () {
             if (Math.random() > 0.025) {
