@@ -489,19 +489,23 @@ function Upgrades (game) {
       new Upgrade({
         name: 'playerPointDefenseDrone',
         effect: function () {
-          this.subtractGold(50);
-          var pdd = new PointDefenseDrone(this.resources, {x : this.player.x, y: this.player.y });
+          this.subtractGold(Math.ceil(50 + (game.upgradeCount['playerPointDefenseDrone'] || 0) * 1.3 * 50));
+          var pdd = new PointDefenseDrone(this.resources, {
+            x: this.player.x,
+            y: this.player.y,
+            rad: _.random(360)
+          });
           this.entities.push(pdd);
           this.friendlies.push(pdd);
           this.player.addUpgrade({ icon: this.sprites.flash1, tooltip: 'Point defense drone.' });
         },
         constraints: [
-          [new UpgradeConstraint('haveGold'), 50]
+          [new UpgradeConstraint('dynamic'), function () { return game.gold >= Math.ceil(50 + (game.upgradeCount['playerPointDefenseDrone'] || 0) * 1.3 * 50) }]
         ],
         text: {
           name:    'Point Defense Drone',
-          cost:    '50G',
-          effect:  'Zaps nearby foes.',
+          cost:    function () { return Math.ceil(50 + (game.upgradeCount['playerPointDefenseDrone'] || 0) * 1.3 * 50) + 'G' },
+          effect:  'Zaps nearby foes. Cost increases with number of drones bought.',
           flavour: 'A field of absolute terror. For when your friends intrude on your absolute territory.'
         }
       }),

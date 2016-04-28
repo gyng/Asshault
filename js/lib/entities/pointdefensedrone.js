@@ -30,7 +30,8 @@ PointDefenseDrone.prototype = new Entity();
 PointDefenseDrone.prototype.constructor = PointDefenseDrone;
 
 PointDefenseDrone.prototype.tick = function () {
-  var rad = Util.deg2rad(this.age % 360) * this.angularVelocity;
+  this.rad += 1;
+  var rad = Util.deg2rad(this.rad % 360) * this.angularVelocity;
   this.x = this.game.player.x + -Math.cos(rad) * this.orbitRadius;
   this.y = this.game.player.y + Math.sin(rad) * this.orbitRadius;
   this.rotation = rad;
