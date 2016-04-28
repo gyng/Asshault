@@ -36,8 +36,8 @@ MachineGun.prototype.bullet = function (radians, offset) {
 };
 
 MachineGun.prototype.shake = function (strengthMultiplier) {
-  var offsetDistance = this.recoilOffset * strengthMultiplier;
-  var shakeDistance = this.recoilCameraShake * strengthMultiplier;
+  var offsetDistance = this.recoilOffset * Math.log(strengthMultiplier + 1) * 2;
+  var shakeDistance = _.random(this.recoilCameraShake / 2) + this.recoilCameraShake * Math.log(strengthMultiplier + 1) * 2;
   var normalized = Util.normalize({
     x: this.parent.x - this.game.ui.mouse.x,
     y: this.parent.y - this.game.ui.mouse.y
