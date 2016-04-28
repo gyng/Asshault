@@ -73,7 +73,7 @@ Player.prototype.addGold = function (value) {
 Player.prototype.levelUp = function () {
   if (this.level % 15 === 0) {
     this.health += 1;
-    this.say('Extra life!', 3000);
+    this.say('Level ' + this.level + '! Extra life!', 3000);
   }
 };
 

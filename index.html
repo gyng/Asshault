@@ -5,7 +5,8 @@
   <meta charset="utf-8">
   <link rel="stylesheet" media="all" href="css/game.css" rel="stylesheet">
   <script data-main="js/main" src="js/require.js"></script>
-  <title>Assault</title>
+  <title>Asshault</title>
+  <link href='https://fonts.googleapis.com/css?family=Megrim|Noto+Serif:400,400italic,700italic,700|Noto+Sans:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
 </head>
 
 <body>
@@ -17,7 +18,7 @@
     <canvas id="persistent-canvas" width="1920px" height="1080px"></canvas>
   </div>
 
-  <div class="ui", id="ui">
+  <div class="ui" id="ui">
     <div class="left-bar column">
       <div id="debug"></div>
       <div id="cheat">
@@ -41,7 +42,7 @@
         <div class="ready-button button">Ready!</div>
         <div class="ready-text">
           Prepare yourself!<br>
-          Press SPACE at any time to pause and buy new upgrades in peace
+          Press <span class="key">SPACE</span> at any time to pause and buy new upgrades in peace
         </div>
       </div>
       <div class="bottom-bar row"></div>
@@ -54,7 +55,7 @@
     <div class="loading">Loading...</div>
     <div class="paused">
       Paused
-      <div class="paused-subtitle">Press SPACE to resume</div>
+      <div class="paused-subtitle">Press <span class="key key-white">SPACE</span> to resume</div>
       <div class="paused-subtitle">You can buy upgrades while paused!</div>
     </div>
 

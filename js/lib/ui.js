@@ -39,7 +39,7 @@ UI.prototype = {
   },
 
   gameOver: function () {
-    $('.ui').css('background-color', 'rgba(0, 0, 0, 0.8)');
+    $('.ui').addClass('pause-overlay');
     $('.game-over').show();
     this.game.running = false;
 
@@ -64,8 +64,8 @@ UI.prototype = {
 
     this.game.running = false;
     this.game.audio.setMasterVolume(0);
-    $('.ui').css('background-color', 'rgba(0, 0, 0, 0.8)');
-    $('.paused').show();
+    $('.ui').addClass('pause-overlay');
+    $('.paused').css('display', 'flex');
   },
 
   unpauseGame: function () {
@@ -74,7 +74,7 @@ UI.prototype = {
       this.game.draw();
     }
     this.game.audio.setMasterVolume(1);
-    $('.ui').css('background-color', 'transparent');
+    $('.ui').removeClass('pause-overlay');
     $('.paused').hide();
   },
 
