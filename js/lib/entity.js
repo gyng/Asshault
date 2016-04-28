@@ -43,7 +43,7 @@ function Entity (resources, overrides) {
     draw: false,
     text: {},
     fill: '#0f0',
-    font: 'normal 20px Arial',
+    font: 'bold 20px Megrim',
     strokeStyle: '#000',
     strokeWidth: 2,
     lineHeight: 28,

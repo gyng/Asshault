@@ -9,7 +9,7 @@ function Tavern (resources, overrides) {
 
   this.info.draw = true;
   // this.info.text = "Grand opening!";
-  this.info.font = 'italic 16px Arial';
+  this.info.font = 'italic 16px "Noto Sans"';
   this.info.lineHeight = 16;
   this.info.offset.y = -32;
 
