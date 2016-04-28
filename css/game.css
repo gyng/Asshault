@@ -186,7 +186,7 @@ canvas {
     color: white;
     text-align: center;
     font-size: 9.6rem;
-    box-shadow: inset 0 0 20vh #000;
+    // box-shadow: inset 0 0 20vh #000;
     text-shadow: 1em 1em 2em black, 0 0 1em black, 0 0 0.2em black;
 }
 
@@ -618,4 +618,8 @@ canvas {
     font-family: 'Noto Serif', serif;
     font-weight: bold;
     font-style: italic;
+}
+
+.vignette {
+    box-shadow: inset 0 0 20vw rgba(0, 0, 0, 0.9);
 }
