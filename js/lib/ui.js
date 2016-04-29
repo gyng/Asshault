@@ -5,7 +5,7 @@ function UI (game) {
   this.populateUpgradeButtons(game.upgrades.list);
   this.setupBindings();
   this.updateGold();
-  $(".loading").hide();
+  $(".loading").fadeOut(90);
 }
 
 UI.prototype = {
