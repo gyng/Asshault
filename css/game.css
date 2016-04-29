@@ -605,7 +605,7 @@ canvas {
 #debug {
     position: absolute;
     top: 10px;
-    left: 300px;
+    left: 260px;
     color: black;
     text-shadow: 1px 1px 0 #080, -1px -1px 0 #080, 1px -1px 0 #080,
             -1px 1px 0 #080, 3px 3px 5px #333;
@@ -615,12 +615,23 @@ canvas {
     pointer-events: none;
 }
 
+#debug p {
+    margin: 0;
+}
+
 #cheat {
     position: absolute;
     top: 10px;
     left: 400px;
-    background-color: rgba(0, 0, 0, 0.7);
+    background-color: rgba(0, 0, 0, 0.4);
     color: #fff;
+}
+
+#cheat .button {
+    background-color: rgba(0, 0, 0, 0.8);
+    padding: 0.2rem;
+    margin: 10px;
+    text-align: center;
 }
 
 .ironic {
