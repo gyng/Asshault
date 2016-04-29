@@ -65,6 +65,7 @@ UI.prototype = {
 
     this.game.running = false;
     this.game.audio.setMasterVolume(0);
+    this.setAvailableUpgrades();
     $('body').addClass('vignette');
     $('.ui').addClass('pause-overlay');
     $('.paused').css('display', 'flex');
