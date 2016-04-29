@@ -33,6 +33,11 @@ UI.prototype = {
         game.player.checkLevelUp();
         game.player.checkHeroInfo();
       });
+
+      $('#add-player-health').click(function () {
+        this.game.player.health += 1;
+        this.game.ui.updateHealth();
+      }.bind(this))
     }
 
     // Keybindings
@@ -122,7 +127,8 @@ UI.prototype = {
     }.bind(this));
   },
 
-  updateHealth: function (health) {
+  updateHealth: function () {
+    console.log(this.game.player.health)
     $('.health > .health-amount').text(this.game.player.health);
   },
 

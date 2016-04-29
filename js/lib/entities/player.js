@@ -72,13 +72,13 @@ Player.prototype.addGold = function (value) {
 
 Player.prototype.damage = function(damage, by) {
   Entity.prototype.damage.bind(this)(damage, by);
-  this.game.ui.updateHealth(this.health);
+  this.game.ui.updateHealth();
 }
 
 Player.prototype.levelUp = function () {
   if (this.level % 15 === 0) {
     this.health += 1;
-    this.game.ui.updateHealth(this.health);
+    this.game.ui.updateHealth();
     this.say('Level ' + this.level + '! Extra life!', 3000);
   }
 };
