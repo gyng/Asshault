@@ -5,6 +5,7 @@ function UI (game) {
   this.populateUpgradeButtons(game.upgrades.list);
   this.setupBindings();
   this.updateGold();
+  this.updateHealth();
   $(".loading").fadeOut(90);
 }
 
@@ -119,6 +120,10 @@ UI.prototype = {
         upgradeEl.toggleClass('upgrade-highlight', upgrade.text.highlight);
       }
     }.bind(this));
+  },
+
+  updateHealth: function (health) {
+    $('.health > .health-amount').text(this.game.player.health);
   },
 
   updateGold: function () {

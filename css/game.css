@@ -554,22 +554,31 @@ canvas {
     color: green !important;
 }
 
-.gold {
+.info-box {
     flex-grow: 1;
     display: flex;
     justify-content: flex-end;
     align-items: center;
 }
 
-.gold-amount {
+.info-text {
     font-family: 'Megrim', sans-serif;
     font-size: 2.8rem;
+}
+
+.health-amount {
+    color: #c5200c;
+    text-shadow: 1px 1px 0 #ecdc25, -1px -1px 0 #903e18, 1px -1px 0 #ecdc25,
+            -1px 1px 0 #903e18, 3px 3px 5px #333;
+}
+
+.gold-amount {
     color: #c5790c;
     text-shadow: 1px 1px 0 #ecdc25, -1px -1px 0 #90582e, 1px -1px 0 #ecdc25,
             -1px 1px 0 #90582e, 3px 3px 5px #333;
 }
 
-.gold-image {
+.info-icon {
     margin: 0 0 0 0.2rem;
     max-height: 2.6rem;
     pointer-events: none;
