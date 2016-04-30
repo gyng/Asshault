@@ -614,7 +614,8 @@ function Upgrades (game) {
             damage: 0.1,
             fireRate: 0,
             recoilOffset: 0.3,
-            recoilCameraShake: 0.5
+            recoilCameraShake: 0.5,
+            bulletSprite: this.sprites.beam
           });
 
           this.player.weapon.sounds.beam = 'zap';
