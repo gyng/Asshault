@@ -90,7 +90,7 @@ Gunner.prototype.fireAt = function (object) {
 };
 
 Gunner.prototype.levelUp = function () {
-  if (this.level % 5 === 0 || this.level === 1) {
+  if (this.level % 10 === 0 || this.level === 1) {
     this.weapon.streams.push({ offset: _.random(20), spread: 10 });
     this.addUpgrade({ icon: this.game.sprites.debug4, tooltip: 'Levelled up! More bullets.' });
     this.say(_.sample([

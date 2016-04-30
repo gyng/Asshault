@@ -98,7 +98,7 @@ Sniper.prototype.fireAt = function (object) {
 };
 
 Sniper.prototype.levelUp = function () {
-  if (this.level % 5 === 0 || this.level === 1) {
+  if (this.level % 10 === 0 || this.level === 1) {
     this.weapon.streams.push({ offset: _.random(20), spread: 16 });
     this.addUpgrade({ icon: this.game.sprites.debug4, tooltip: 'Levelled up! An extra bullet with every shot.' });
     this.say(_.sample([
