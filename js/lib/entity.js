@@ -15,6 +15,7 @@ function Entity (resources, overrides) {
   this.lastHitBy = null;
   this.gold = 0;
   this.taxRate = 0.5;
+  this.collisionRadius = 16;
 
   this.alignment = 'none';
   this.friendlyPierceChance = 0;

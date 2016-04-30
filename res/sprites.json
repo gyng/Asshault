@@ -17,6 +17,7 @@
         ["bulletping1", "bulletping1.png"],
         ["explosion1",  "explosion1.png"],
         ["explosion2",  "explosion2.png"],
+        ["enemyshield", "enemyshield.png"],
         ["tavern",      "tavern.png"],
         ["herogunner",  "herogunner.png"],
         ["herosniper",  "herosniper.png"],
