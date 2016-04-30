@@ -14,6 +14,10 @@ function EnemyCamper (resources, overrides) {
   this.enemyPierceChance = 0; // Pierce chance for bullets from player+heroes
 
   this.triggered = false;
+  this.sounds = {
+    warn: 'moan',
+    attack: 'blare'
+  };
 }
 
 EnemyCamper.prototype = new Entity();
@@ -23,12 +27,20 @@ EnemyCamper.prototype.constructor = EnemyCamper;
 
 EnemyCamper.prototype.tick = function () {
   var distanceToPlayer = this.distanceTo(this.game.player);
+  var warningDistance = 300;
+  var attackDistance = 150;
 
-  this.highlighted = distanceToPlayer < 300;
+  this.highlighted = distanceToPlayer < warningDistance;
 
-  if (distanceToPlayer < 150 && !this.triggered) {
+  if (distanceToPlayer < warningDistance && distanceToPlayer > attackDistance) {
+    var volumeModifier = 0.5 * (1.0 - ((distanceToPlayer - attackDistance) / attackDistance));
+    this.game.audio.play(this.sounds.warn, volumeModifier);
+  }
+
+  if (distanceToPlayer < attackDistance && !this.triggered) {
     this.highlightColor = 'rgba(250, 37, 37, 0.5)';
     this.triggered = true;
+    this.game.audio.play(this.sounds.attack);
     this.speed = 1;
   }
 

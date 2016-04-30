@@ -1,6 +1,7 @@
 {
     "relativeDir": "res/ogg/",
     "sources": [
+    ["blare", "Blare.ogg"],
     ["beep", "Beep.ogg"],
     ["bell", "Bell.ogg"],
     ["build", "Build.ogg"],
@@ -25,6 +26,7 @@
     ["hit_hurt5", "Hit_Hurt5.ogg"],
     ["hit_hurt6", "Hit_Hurt6.ogg"],
     ["hum", "Hum.ogg"],
+    ["moan", "Moan.ogg"],
     ["powerup", "Powerup.ogg"],
     ["scream1", "Scream.ogg"],
     ["scream2", "Scream2.ogg"],
