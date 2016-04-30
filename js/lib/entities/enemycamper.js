@@ -2,7 +2,7 @@ function EnemyCamper (resources, overrides) {
   Entity.call(this, resources, overrides);
   this.width  = 24;
   this.height = 24;
-  this.health = 8;
+  this.health = 10;
   this.speed  = 0;
   this.shadow.on = true;
   this.xpGiven = 20;
@@ -28,7 +28,7 @@ EnemyCamper.prototype.constructor = EnemyCamper;
 EnemyCamper.prototype.tick = function () {
   var distanceToPlayer = this.distanceTo(this.game.player);
   var warningDistance = 300;
-  var attackDistance = 150;
+  var attackDistance = 200;
 
   this.highlighted = distanceToPlayer < warningDistance;
 
