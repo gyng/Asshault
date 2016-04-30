@@ -128,6 +128,12 @@ UI.prototype = {
   },
 
   updateHealth: function () {
+    if (this.game.player.health <= 2) {
+      $('.ui').addClass('blood-vision');
+    } else {
+      $('.ui').removeClass('blood-vision');
+    }
+
     $('.health > .health-amount').text(this.game.player.health);
   },
 
