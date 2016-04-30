@@ -67,7 +67,12 @@ function Upgrades (game) {
         name:  'increaseBulletCount',
         effect: function () {
           this.subtractGold(Math.ceil(50 + (game.upgradeCount['increaseBulletCount'] || 0) * 1.2 * 50));
-          this.player.weapon.streams.push({ offset: _.random(8), spread: 7 });
+
+          this.player.weapon.streams.push({
+            offset: _.random(8),
+            spread: this.player.weapon.spreadMultiplier
+          });
+
           this.player.addUpgrade({ icon: this.sprites.debug, tooltip: 'Increased bullet count.' });
         },
         constraints: [
@@ -599,8 +604,9 @@ function Upgrades (game) {
           this.subtractGold(100);
 
           this.player.weapon.applyOverrides({
-            spreadMultiplier: 0.3,
-            damage: 0.35,
+            spreadMultiplier: 0.15,
+            offsetMultiplier: 0.15,
+            damage: 0.1,
             fireRate: 0,
             recoilOffset: 0.3,
             recoilCameraShake: 0.5
@@ -610,7 +616,7 @@ function Upgrades (game) {
 
           this.player.weapon.fireSound = function () {
             if (Math.random() > 0.025) {
-              this.game.audio.play(this.sounds.beam, Util.clamp(0.15 * this.streams.length, 0.15, 1));
+              this.game.audio.play(this.sounds.beam, Util.clamp(0.1 * this.streams.length, 0.1, 1));
             }
           };
 

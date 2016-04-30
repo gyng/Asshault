@@ -11,7 +11,10 @@ MachineGun.prototype.fire = function (radians) {
   if (this.cooldown <= 0) {
     for (var i = 0; i < this.streams.length; i++) {
       var stream = this.streams[i];
-      var offset = Util.deg2rad(Util.randomError(stream.spread * this.spreadMultiplier) + Util.randomNegation(stream.offset));
+      var offset = Util.deg2rad(
+        Util.randomError(stream.spread * this.spreadMultiplier)
+        + Util.randomNegation(stream.offset * this.offsetMultiplier)
+      );
       this.game.addEntity(this.bullet(radians, offset));
     }
 

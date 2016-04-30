@@ -7,6 +7,7 @@ function Weapon (parent, overrides) {
   this.bulletSpeedVariance = 0;
   this.damage              = 1;
   this.pierce              = 0;
+  this.offsetMultiplier    = 1;
   this.spreadMultiplier    = 1;
   // this.ammo = 10;
   // this.reloadTime = 10;
