@@ -579,7 +579,8 @@ function Upgrades (game) {
             recoilCameraShake: 3,
             bulletSpeed: 30,
             bulletSpeedVariance: 20,
-            streamsPerLevel: 2
+            streamsPerLevel: 2,
+            bulletSprite: this.sprites.bullettear2
           });
 
           for (var i = 0; i < 20; i++) {

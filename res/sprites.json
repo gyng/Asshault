@@ -11,6 +11,8 @@
         ["flash1",      "flash1.png"],
         ["flash2",      "flash2.png"],
         ["bullet",      "bullet.png"],
+        ["bullettear",  "bullettear.png"],
+        ["bullettear2", "bullettear2.png"],
         ["beam",        "beam.png"],
         ["bulletping1", "bulletping1.png"],
         ["explosion1",  "explosion1.png"],
