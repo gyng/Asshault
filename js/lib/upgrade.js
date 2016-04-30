@@ -89,12 +89,12 @@ function Upgrades (game) {
       new Upgrade({
         name: 'playerPiercingBullets',
         effect: function () {
-          this.subtractGold(400);
+          this.subtractGold(Math.ceil(400 + (game.upgradeCount['playerPiercingBullets'] || 0) * 1.1 * 100));
           this.player.additionalWeaponPierce += 0.1;
           this.player.addUpgrade({ icon: this.sprites.flash2, tooltip: 'Piercing bullets.' });
         },
         constraints: [
-          [new UpgradeConstraint('haveGold'), 400],
+          [new UpgradeConstraint('dynamic'), function () { return game.gold >= Math.ceil(400 + (game.upgradeCount['playerPiercingBullets'] || 0) * 1.1 * 100); }],
           [new UpgradeConstraint('upgradeCountWithinRange'), 'playerPiercingBullets', 0, 10]
         ],
         text: {
@@ -103,11 +103,12 @@ function Upgrades (game) {
             var level = game.upgradeCount['playerPiercingBullets'] || 0;
             return 'Piercing ' + names[level] + ' Bullets ' + Util.romanize(level + 1);
           },
-          cost: '400G',
+          cost: function () { return Math.ceil(400 + (game.upgradeCount['playerPiercingBullets'] || 0) * 1.2 * 150) + 'G'; },
           effect: function () {
             var level = (game.upgradeCount['playerPiercingBullets'] || 0) + 1;
-            return 'No better way to cut through butter. Bullets now have ' + (10 * level) + '% chance to pierce. Max of 10 upgrades.';
-          }
+            return 'No better way to cut through butter. Bullets now have ' + (10 * level) + '% chance to pierce. Max of 10 upgrades. Each consecutive upgrade is more expensive.';
+          },
+          flavour: 'Shot through the heart. Who’s to blame?'
         }
       }),
 
