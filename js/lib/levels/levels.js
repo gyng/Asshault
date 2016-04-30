@@ -45,6 +45,10 @@ function Levels (game) {
             } else if (diceRoll < 0.16) {
               enemy = new EnemyRunner(game.resources);
             } else {
+              if (i > 5 && diceRoll < 0.24) {
+                game.spawnEnemy(new EnemyCamper(game.resources));
+              }
+
               enemy = new Enemy(game.resources);
             }
 

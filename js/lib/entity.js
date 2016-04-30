@@ -75,7 +75,7 @@ Entity.prototype = {
   drawHighlight: function (context) {
     if (this.highlighted) {
       context.beginPath();
-      context.fillStyle = "rgba(247, 243, 37, 0.5)";
+      context.fillStyle = this.highlightColor || "rgba(247, 243, 37, 0.5)";
       context.arc(0, 0, Util.hypotenuse(this.width, this.height) * 1.5, 0, 2 * Math.PI);
       context.fill();
     }
