@@ -91,12 +91,12 @@ function Upgrades (game) {
       new Upgrade({
         name: 'playerPiercingBullets',
         effect: function () {
-          this.subtractGold(Math.ceil(400 + (game.upgradeCount['playerPiercingBullets'] || 0) * 1.2 * 100));
+          this.subtractGold(Math.ceil(400 + (game.upgradeCount['playerPiercingBullets'] || 0) * 1.3 * 150));
           this.player.additionalWeaponPierce += 0.1;
           this.player.addUpgrade({ icon: this.sprites.flash2, tooltip: 'Piercing bullets.' });
         },
         constraints: [
-          [new UpgradeConstraint('dynamic'), function () { return game.gold >= Math.ceil(400 + (game.upgradeCount['playerPiercingBullets'] || 0) * 1.2 * 100); }],
+          [new UpgradeConstraint('dynamic'), function () { return game.gold >= Math.ceil(400 + (game.upgradeCount['playerPiercingBullets'] || 0) * 1.3 * 150); }],
           [new UpgradeConstraint('upgradeCountWithinRange'), 'playerPiercingBullets', 0, 10]
         ],
         text: {
@@ -105,7 +105,7 @@ function Upgrades (game) {
             var level = game.upgradeCount['playerPiercingBullets'] || 0;
             return 'Piercing ' + names[level] + ' Bullets ' + Util.romanize(level + 1);
           },
-          cost: function () { return Math.ceil(400 + (game.upgradeCount['playerPiercingBullets'] || 0) * 1.2 * 150) + 'G'; },
+          cost: function () { return Math.ceil(400 + (game.upgradeCount['playerPiercingBullets'] || 0) * 1.3 * 150) + 'G'; },
           effect: function () {
             var level = (game.upgradeCount['playerPiercingBullets'] || 0) + 1;
             return 'No better way to cut through butter. Bullets now have ' + (10 * level) + '% chance to pierce. Max of 10 upgrades. Each consecutive upgrade is more expensive.';
