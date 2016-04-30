@@ -1,9 +1,9 @@
 function Bullet (resources, overrides) {
 
   Entity.call(this, resources, overrides);
-  this.width = 32;
-  this.height = 16;
-  this.sprite = this.sprites.bullet;
+  this.width = this.width || 32;
+  this.height = this.height || 16;
+  this.sprite = this.sprite || this.sprites.bullet;
   this.damage = this.damage || 1;
   this.speed = this.speed || 30;
   this.alignment = this.source ? this.source.alignment : 'none';

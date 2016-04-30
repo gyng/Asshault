@@ -12,6 +12,8 @@ function Weapon (parent, overrides) {
   // this.ammo = 10;
   // this.reloadTime = 10;
   this.bulletLifespan = Number.MAX_VALUE;
+  this.bulletLifespanVariance = 0;
+  this.streamsPerLevel = 1;
   // List of bullet streams. Useful for stuff like triple-machineguns.
   this.streams = [{ spread: 0, offset: 0 }];
   this.sounds = { fire: ['shoot2', 'shoot5', 'shoot7'] };

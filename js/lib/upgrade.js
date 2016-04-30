@@ -68,10 +68,12 @@ function Upgrades (game) {
         effect: function () {
           this.subtractGold(Math.ceil(50 + (game.upgradeCount['increaseBulletCount'] || 0) * 1.2 * 50));
 
-          this.player.weapon.streams.push({
-            offset: _.random(8),
-            spread: this.player.weapon.spreadMultiplier
-          });
+          for (var i = 0; i < (this.player.weapon.streamsPerLevel || 1); i++) {
+            this.player.weapon.streams.push({
+              offset: _.random(8),
+              spread: this.player.weapon.spreadMultiplier
+            });
+          }
 
           this.player.addUpgrade({ icon: this.sprites.debug, tooltip: 'Increased bullet count.' });
         },
@@ -576,7 +578,8 @@ function Upgrades (game) {
             recoilOffset: 3,
             recoilCameraShake: 3,
             bulletSpeed: 30,
-            bulletSpeedVariance: 20
+            bulletSpeedVariance: 20,
+            streamsPerLevel: 2
           });
 
           for (var i = 0; i < 20; i++) {
@@ -589,6 +592,7 @@ function Upgrades (game) {
           [new UpgradeConstraint('haveGold'), 100],
           [new UpgradeConstraint('upgradeCountWithinRange'), 'playerShotgunWeapon', 0, 1],
           [new UpgradeConstraint('upgradeCountWithinRange'), 'playerBeamWeapon', 0, 1],
+          [new UpgradeConstraint('upgradeCountWithinRange'), 'playerFireWeapon', 0, 1]
         ],
         text: {
           name:    'Shotgun',
@@ -627,12 +631,61 @@ function Upgrades (game) {
           [new UpgradeConstraint('haveGold'), 100],
           [new UpgradeConstraint('upgradeCountWithinRange'), 'playerBeamWeapon', 0, 1],
           [new UpgradeConstraint('upgradeCountWithinRange'), 'playerShotgunWeapon', 0, 1],
+          [new UpgradeConstraint('upgradeCountWithinRange'), 'playerFireWeapon', 0, 1]
         ],
         text: {
           name:    'Moonlight Breaker',
           cost:    '100G',
           effect:  'Develop a loving for radiation. Beam weapon. Disables other weapon paths.',
           flavour: 'Second degree sunlight.'
+        }
+      }),
+
+    playerFireWeapon:
+      new Upgrade({
+        name: 'playerFireWeapon',
+        effect: function () {
+          this.subtractGold(100);
+
+          this.player.weapon.applyOverrides({
+            spreadMultiplier: 1.5,
+            offsetMultiplier: 1.5,
+            damage: 0.35,
+            fireRate: 2,
+            recoilOffset: 0.3,
+            recoilCameraShake: 0.5,
+            bulletLifespan: 30,
+            bulletSpeed: 5,
+            bulletSpeedVariance: 2,
+            bulletLifespanVariance: 10,
+            bulletSprite: this.sprites.flame,
+            bulletWidth: 24,
+            bulletHeight: 24
+          });
+
+          this.player.weapon.streams.push({ offset: _.random(24), spread: 28 });
+
+          this.player.weapon.sounds.flame = ['flame', 'flame2'];
+
+          this.player.weapon.fireSound = function () {
+            if (Math.random() > 0.02) {
+              this.game.audio.play(this.sounds.flame, Util.clamp(0.1 * this.streams.length, 0.1, 1));
+            }
+          };
+
+          this.player.addUpgrade({ icon: this.sprites.flash2, tooltip: 'Fire! Fire! Fire!' });
+        },
+        constraints: [
+          [new UpgradeConstraint('haveGold'), 100],
+          [new UpgradeConstraint('upgradeCountWithinRange'), 'playerBeamWeapon', 0, 1],
+          [new UpgradeConstraint('upgradeCountWithinRange'), 'playerShotgunWeapon', 0, 1],
+          [new UpgradeConstraint('upgradeCountWithinRange'), 'playerFireWeapon', 0, 1]
+        ],
+        text: {
+          name:    'Flamethrower',
+          cost:    '100G',
+          effect:  '🔥🔥🔥',
+          flavour: '🔥🔥🔥'
         }
       }),
   };
