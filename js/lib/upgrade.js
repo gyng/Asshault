@@ -66,7 +66,7 @@ function Upgrades (game) {
       new Upgrade({
         name:  'increaseBulletCount',
         effect: function () {
-          this.subtractGold(Math.ceil(50 + (game.upgradeCount['increaseBulletCount'] || 0) * 1.2 * 50));
+          this.subtractGold(Math.ceil(50 + (game.upgradeCount['increaseBulletCount'] || 0) * 1.2 * 100));
 
           for (var i = 0; i < (this.player.weapon.streamsPerLevel || 1); i++) {
             this.player.weapon.streams.push({
@@ -78,11 +78,11 @@ function Upgrades (game) {
           this.player.addUpgrade({ icon: this.sprites.debug, tooltip: 'Increased bullet count.' });
         },
         constraints: [
-          [new UpgradeConstraint('dynamic'), function () { return game.gold >= Math.ceil(50 + (game.upgradeCount['increaseBulletCount'] || 0) * 1.2 * 50); }]
+          [new UpgradeConstraint('dynamic'), function () { return game.gold >= Math.ceil(50 + (game.upgradeCount['increaseBulletCount'] || 0) * 1.2 * 100); }]
         ],
         text: {
           name: function () { return 'Ammo Feed Jury Rig ' + Util.romanize((game.upgradeCount['increaseBulletCount'] || 0) + 1); },
-          cost: function () { return Math.ceil(50 + (game.upgradeCount['increaseBulletCount'] || 0) * 1.2 * 50) + 'G' },
+          cost: function () { return Math.ceil(50 + (game.upgradeCount['increaseBulletCount'] || 0) * 1.2 * 100) + 'G' },
           effect: 'More bullets! Un·bullet·able! Each consecutive upgrade is more expensive.'
         }
       }),
@@ -91,12 +91,12 @@ function Upgrades (game) {
       new Upgrade({
         name: 'playerPiercingBullets',
         effect: function () {
-          this.subtractGold(Math.ceil(400 + (game.upgradeCount['playerPiercingBullets'] || 0) * 1.1 * 100));
+          this.subtractGold(Math.ceil(400 + (game.upgradeCount['playerPiercingBullets'] || 0) * 1.2 * 100));
           this.player.additionalWeaponPierce += 0.1;
           this.player.addUpgrade({ icon: this.sprites.flash2, tooltip: 'Piercing bullets.' });
         },
         constraints: [
-          [new UpgradeConstraint('dynamic'), function () { return game.gold >= Math.ceil(400 + (game.upgradeCount['playerPiercingBullets'] || 0) * 1.1 * 100); }],
+          [new UpgradeConstraint('dynamic'), function () { return game.gold >= Math.ceil(400 + (game.upgradeCount['playerPiercingBullets'] || 0) * 1.2 * 100); }],
           [new UpgradeConstraint('upgradeCountWithinRange'), 'playerPiercingBullets', 0, 10]
         ],
         text: {
@@ -690,5 +690,8 @@ function Upgrades (game) {
           flavour: '🔥🔥🔥'
         }
       }),
+
+    playerRicochetWeapon:
+
   };
 }
