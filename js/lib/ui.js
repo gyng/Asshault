@@ -128,7 +128,6 @@ UI.prototype = {
   },
 
   updateHealth: function () {
-    console.log(this.game.player.health)
     $('.health > .health-amount').text(this.game.player.health);
   },
 
