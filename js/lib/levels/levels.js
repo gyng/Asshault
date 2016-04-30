@@ -36,7 +36,7 @@ function Levels (game) {
           });
 
           // Boss!
-          if (i % 10 == 0) {
+          if (i % 5 == 0) {
             for (var j = i / 10; j > 0; j--) {
               game.spawnEnemy(new EnemyShield(game.resources));
             }

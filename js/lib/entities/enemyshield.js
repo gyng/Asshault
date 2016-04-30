@@ -44,7 +44,7 @@ EnemyShield.prototype.damage = function (damage, by) {
   if (Math.abs(diff) > Math.PI) {
     Entity.prototype.damage.bind(this)(damage, by);
   } else {
-    Entity.prototype.damage.bind(this)(damage / 5, by);
+    Entity.prototype.damage.bind(this)(damage / 20, by);
     by.pierceChange = -0.5;
     this.game.audio.play(this.sounds.ping);
   }
