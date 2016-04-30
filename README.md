@@ -13,10 +13,11 @@ Some of the more interesting features and optimisation techniques I've used/expe
 * Double canvases, one for decals and one for drawing
 * Proper HTML canvas resizing based off window size
 * Simple spatial hash for faster collision detection
+* JSON-based asset loading
 * Simple sound system for playing sounds, with an audio compressor attached
+* Simple sprite management and rendering system
 * Dirty detection of text for rendering on canvases (big perf hit)
 * Waves/levels
-* Simple sprite management and rendering system
 * Sprite-based effects
 * Highlighting in-canvas objects on hover of HTML elements
 
