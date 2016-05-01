@@ -86,7 +86,7 @@ EnemyShield.prototype.explode = function () {
   // Drop a coin if killed by player
   if (this.health <= 0) {
     this.game.addPowerup(new PowerupCoin(this.resources, this.getPosition()));
-    PowerupExplosion.prototype.activate.bind(this)();
+    PowerupExplosion.prototype.activate.bind(this)(BulletRicochet);
   }
 
   Enemy.prototype.explode.bind(this)();
