@@ -6,7 +6,7 @@ function EnemyShield(resources, overrides) {
   this.width = 84 + sizeVariance;
   this.height = 84 + sizeVariance;
   this.sprite = this.sprites.enemyshield;
-  this.speed = 0.5 - Util.clamp(sizeVariance / 24, 0.0, 0.3);
+  this.speed = 0.4 - Util.clamp(sizeVariance / 24, 0.0, 0.3);
   this.health = 30 + sizeVariance;
 
   this.shadow.on = true;
