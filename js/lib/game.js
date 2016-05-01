@@ -54,7 +54,7 @@ Game.prototype = {
     this.level = null;
     this.levels = new Levels(this).levels;
 
-    this.gold = 50;
+    this.gold = 60;
 
     this.dayLength = 1440;
     this.timeOfDay = 0;

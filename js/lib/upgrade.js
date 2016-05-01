@@ -123,15 +123,15 @@ function Upgrades(game) { // eslint-disable-line no-unused-vars
       new Upgrade({
         name:  'reduceCameraShake',
         effect: function () {
-          this.subtractGold(50);
-          this.renderer.shake.reduction *= 0.85;
+          this.subtractGold(100);
+          this.renderer.shake.reduction *= 0.75;
         },
         constraints: [
-          [new UpgradeConstraint('haveGold'), 50]
+          [new UpgradeConstraint('haveGold'), 100]
         ],
         text: {
           name:   'Reinforce Camera Tripod',
-          cost:   '50G',
+          cost:   '100G',
           effect: 'Reduces camera shake.'
         },
         gameUpgradeIcon: {
@@ -261,7 +261,7 @@ function Upgrades(game) { // eslint-disable-line no-unused-vars
       new Upgrade({
         name:  'playerWalkingMovement',
         effect: function () {
-          this.subtractGold(50);
+          this.subtractGold(10);
 
           this.player.keyW = false;
           this.player.keyA = false;
@@ -340,11 +340,11 @@ function Upgrades(game) { // eslint-disable-line no-unused-vars
         constraints: [
           [new UpgradeConstraint('upgradeCountWithinRange'), 'playerWalkingMovement', 0, 1],
           [new UpgradeConstraint('upgradeCountWithinRange'), 'playerFlyingMovement', 0, 1],
-          [new UpgradeConstraint('haveGold'), 50]
+          [new UpgradeConstraint('haveGold'), 10]
         ],
         text: {
           name:      'The Walking Machine',
-          cost:      '50G, Player Level 1',
+          cost:      '10G, Player Level 1',
           effect:    'Fear flying? Walk! Slowly. Move with the WASD keys.',
           flavour:   'Ambulate in your new perambulator.',
           highlight: true
