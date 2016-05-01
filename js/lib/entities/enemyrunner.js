@@ -24,6 +24,8 @@ EnemyRunner.prototype.tick = function () {
     this.say('Uraaa!', 1);
   }
 
+  this.returnToMap();
+
   if (this.age > 120) {
     this.highlighted = true;
   }
