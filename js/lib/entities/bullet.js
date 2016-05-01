@@ -44,12 +44,14 @@ Bullet.prototype.tick = function () {
             (this.alignment === 'enemy' && ent.alignment === 'friendly')) {
           pierceChance = ent.enemyPierceChance;
           ent.damage(this.damage, this);
+          if (typeof this.onhit === 'function') {
+            this.onhit();
+          }
         } else if (this.alignment === ent.alignment) {
           pierceChance = ent.friendlyPierceChance;
-        }
-
-        if (typeof this.onhit === 'function') {
-          this.onhit();
+          if (Math.random() > ent.friendlyPierceChance && typeof this.onhit === 'function') {
+            this.onhit();
+          }
         }
       }
 

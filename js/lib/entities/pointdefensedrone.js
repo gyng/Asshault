@@ -12,7 +12,7 @@ function PointDefenseDrone(resources, overrides) {
   this.game.audio.play(this.sounds.build, 0.9);
 
   this.alignment = 'friendly';
-  this.friendlyPierceChance = 1;
+  this.friendlyPierceChance = 0.9;
   this.enemyPierceChance = 0;
 
   this.orbitRadius = 64;
