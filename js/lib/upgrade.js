@@ -794,7 +794,7 @@ function Upgrades(game) { // eslint-disable-line no-unused-vars
           $('#fade-canvas').css('mix-blend-mode', 'difference');
         },
         constraints: [
-          ['enhancedSenses', 0],
+          [new UpgradeConstraint('upgradeCountWithinRange'), 'enhancedSenses', 0, 1],
           [new UpgradeConstraint('haveGold'), 1000]
         ],
         text: {
