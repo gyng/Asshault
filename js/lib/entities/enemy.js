@@ -49,7 +49,12 @@ Enemy.prototype.tick = function () {
 
   this.drawOffset.y *= 0.9;
   this.lookAt(this.game.player);
-  this.moveTo(this.game.player.x, this.game.player.y, this.speed, this.health / 10);
+  this.moveTo(
+    this.game.player.x,
+    this.game.player.y,
+    this.speed,
+    this.health / (this.startingHealth || 10)
+  );
 };
 
 Enemy.prototype.explode = function () {

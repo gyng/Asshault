@@ -6,7 +6,7 @@ function EnemyShield(resources, overrides) {
   this.width = 84 + sizeVariance;
   this.height = 84 + sizeVariance;
   this.sprite = this.sprites.enemyshield;
-  this.speed = 0.4 - Util.clamp(sizeVariance / 24, 0.0, 0.3);
+  this.speed = 1 - Util.clamp(sizeVariance / 24, 0.0, 0.1);
   this.health = 30 + sizeVariance;
 
   this.shadow.on = true;
@@ -35,6 +35,11 @@ _.extend(EnemyShield.prototype, Enemy.prototype);
 
 EnemyShield.prototype.constructor = EnemyShield;
 
+EnemyShield.prototype.tick = function () {
+  this.returnToMap();
+  Enemy.prototype.tick.bind(this)();
+};
+
 EnemyShield.prototype.damage = function (damage, by) {
   var rot = 2 * Math.PI;
   var diff = ((rot + this.rotation) - (rot + by.direction)) % rot;
@@ -42,7 +47,7 @@ EnemyShield.prototype.damage = function (damage, by) {
   if (Math.abs(diff) > Math.PI) {
     Entity.prototype.damage.bind(this)(damage, by);
   } else {
-    Entity.prototype.damage.bind(this)(damage / 20, by);
+    Entity.prototype.damage.bind(this)(damage / 10, by);
     by.pierceChange = -0.5;
     this.game.audio.play(this.sounds.ping);
   }

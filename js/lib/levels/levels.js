@@ -35,33 +35,34 @@ function Levels(game) { // eslint-disable-line no-unused-vars
             }
           });
 
-          // Boss!
           if (wave % 5 === 0) {
+            // Boss!
             for (var bosses = wave / 10; bosses > 0; bosses--) {
               var boss = new EnemyShield(game.resources);
-              boss.health *= wave / 3;
+              boss.health *= wave / 5;
+              boss.startingHealth = boss.health;
               game.spawnEnemy(boss);
             }
-          }
+          } else {
+            // Normal scrubs
+            for (var scrubs = (wave * 2) + 10; scrubs > 0; scrubs--) {
+              var enemy;
 
-          // Normal scrubs
-          for (var scrubs = (wave * 2) + 10; scrubs > 0; scrubs--) {
-            var enemy;
+              var diceRoll = Math.random();
+              if (diceRoll < 0.08) {
+                enemy = new EnemyTank(game.resources);
+              } else if (diceRoll < 0.16) {
+                enemy = new EnemyRunner(game.resources);
+              } else {
+                if (wave > 5 && diceRoll < 0.24) {
+                  game.spawnEnemy(new EnemyCamper(game.resources));
+                }
 
-            var diceRoll = Math.random();
-            if (diceRoll < 0.08) {
-              enemy = new EnemyTank(game.resources);
-            } else if (diceRoll < 0.16) {
-              enemy = new EnemyRunner(game.resources);
-            } else {
-              if (wave > 5 && diceRoll < 0.24) {
-                game.spawnEnemy(new EnemyCamper(game.resources));
+                enemy = new Enemy(game.resources);
               }
 
-              enemy = new Enemy(game.resources);
+              game.spawnEnemy(enemy);
             }
-
-            game.spawnEnemy(enemy);
           }
         },
         r: 600

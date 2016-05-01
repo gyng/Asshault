@@ -61,6 +61,7 @@ function Entity(resources, overrides) {
   this.markedForDeletion = false;
   this.overrides = overrides || {};
   this.applyOverrides();
+  this.startingHealth = this.health;
 }
 
 Entity.prototype = {
