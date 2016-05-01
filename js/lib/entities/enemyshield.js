@@ -6,7 +6,7 @@ function EnemyShield(resources, overrides) {
   this.width = 84 + sizeVariance;
   this.height = 84 + sizeVariance;
   this.sprite = this.sprites.enemyshield;
-  this.speed = 0.7 - Util.clamp(sizeVariance / 24, 0.0, 0.7);
+  this.speed = 0.7 - Util.clamp(sizeVariance / 24, 0.0, 0.3);
   this.health = 30 + sizeVariance;
 
   this.shadow.on = true;
@@ -50,7 +50,7 @@ EnemyShield.prototype.damage = function (damage, by) {
 
 EnemyShield.prototype.lookAt = function (object) {
   var rot = 2 * Math.PI;
-  this.rotation = rot + ((this.rotation - rot) - (0.003 * (this.rotation - rot - Math.atan2(object.x - this.x, this.y - object.y))));
+  this.rotation = rot + ((this.rotation - rot) - (0.004 * (this.rotation - rot - Math.atan2(object.x - this.x, this.y - object.y))));
 };
 
 EnemyShield.prototype.explode = function () {
