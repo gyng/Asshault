@@ -548,6 +548,7 @@ function Upgrades(game) { // eslint-disable-line no-unused-vars
         name: 'pointDefenseDroneBulletHell',
         effect: function () {
           this.subtractGold(400);
+          var sprites = this.sprites;
 
           var bulletHellTick = function () {
             var rad = Util.deg2rad(this.age % 360) * this.angularVelocity;
@@ -559,6 +560,7 @@ function Upgrades(game) { // eslint-disable-line no-unused-vars
             this.weapon.bulletSpeedVariance = 10;
             this.weapon.damage = 3;
             this.weapon.spread = Util.deg2rad(15);
+            this.weapon.bulletSprite = sprites.energyball;
 
             if (this.age % (10 + _.random(3)) === 0) {
               this.weapon.fire(Math.atan2(this.game.player.y - this.y, this.game.player.x - this.x));
