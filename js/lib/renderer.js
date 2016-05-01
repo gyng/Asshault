@@ -10,6 +10,7 @@ function Renderer(game, canvas, decalCanvas, fadeCanvas) {
   this.fadeContext = fadeCanvas.getContext('2d');
   this.fadeContext.fillStyle = 'rgba(0, 0, 0, 0.35)';
   this.shake = { x: 0, y: 0, reduction: 0.95 };
+  this.clearContext = true;
 
   // Nearest-neighbour scaling
   [this.context, this.decalContext, this.fadeContext].forEach(function (ctx) {
@@ -20,7 +21,9 @@ function Renderer(game, canvas, decalCanvas, fadeCanvas) {
 
 Renderer.prototype = {
   draw: function () {
-    this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
+    if (this.clearContext) {
+      this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
+    }
 
     // Trails
     this.fadeContext.fillRect(0, 0, this.fadeCanvas.width, this.fadeCanvas.height);

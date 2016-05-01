@@ -777,6 +777,32 @@ function Upgrades(game) { // eslint-disable-line no-unused-vars
           effect:  'A cute weapon for acute situations. Disables other weapon paths',
           flavour: 'The machine that goes ping, and pong, and peng.'
         }
+      }),
+
+    enhancedSenses:
+      new Upgrade({
+        name:  'enhancedSenses',
+        effect: function () {
+          this.subtractGold(1000);
+          game.renderer.context.clearRect(0, 0, game.canvas.width, game.canvas.height);
+          game.renderer.canvas = game.renderer.fadeCanvas;
+          game.renderer.context = game.renderer.fadeContext;
+          game.renderer.fadeContext.fillStyle = 'rgba(0, 0, 0, 0.03)';
+          game.renderer.clearContext = false;
+          game.player.speed += 1;
+          game.setBackground('', '', 'grey');
+          $('#fade-canvas').css('mix-blend-mode', 'difference');
+        },
+        constraints: [
+          ['enhancedSenses', 0],
+          [new UpgradeConstraint('haveGold'), 1000]
+        ],
+        text: {
+          name:    'Go Blind',
+          cost:    '1000G',
+          effect:  'Force yourself to master the art of awareness. Be one with everything (and move slightly faster)!',
+          flavour: 'No, this does not give you all the upgrades. Side effects may include hair loss and blindness.'
+        }
       })
   };
 }
