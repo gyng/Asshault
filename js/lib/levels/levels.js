@@ -38,7 +38,9 @@ function Levels(game) { // eslint-disable-line no-unused-vars
           // Boss!
           if (wave % 5 === 0) {
             for (var bosses = wave / 10; bosses > 0; bosses--) {
-              game.spawnEnemy(new EnemyShield(game.resources));
+              var boss = new EnemyShield(game.resources);
+              boss.health *= wave / 3;
+              game.spawnEnemy(boss);
             }
           }
 
