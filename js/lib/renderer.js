@@ -8,7 +8,7 @@ function Renderer(game, canvas, decalCanvas, fadeCanvas) {
   this.decalContext = decalCanvas.getContext('2d');
   this.fadeCanvas = fadeCanvas;
   this.fadeContext = fadeCanvas.getContext('2d');
-  this.fadeContext.fillStyle = 'rgba(0, 0, 0, 0.4)';
+  this.fadeContext.fillStyle = 'rgba(0, 0, 0, 0.35)';
   this.shake = { x: 0, y: 0, reduction: 0.95 };
 
   // Nearest-neighbour scaling
@@ -53,14 +53,15 @@ Renderer.prototype = {
       this.context.save();
         this.setContextTransform(this.context, ent);
         ent.drawHighlight(this.context);
-        ent.drawImage(this.context);
-        ent.draw(this.context);
 
         if (ent.drawFade === true) {
           this.fadeContext.save();
             this.setContextTransform(this.fadeContext, ent);
             ent.drawFadingImage(this.fadeContext);
           this.fadeContext.restore();
+        } else {
+          ent.drawImage(this.context);
+          ent.draw(this.context);
         }
       this.context.restore();
     }
