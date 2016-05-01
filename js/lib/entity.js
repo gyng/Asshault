@@ -16,7 +16,7 @@ function Entity(resources, overrides) {
   this.lastHitBy = null;
   this.gold = 0;
   this.taxRate = 0.5;
-  this.collisionRadius = 16;
+  this.collisionRadius = 20;
 
   this.alignment = 'none';
   this.friendlyPierceChance = 0;
@@ -127,7 +127,7 @@ Entity.prototype = {
   },
 
   collidesWith: function (object, threshold) {
-    return (this.distanceTo(object) < (threshold || 20));
+    return (this.distanceTo(object) < (threshold || this.collisionRadius));
   },
 
   distanceTo: function (object) {

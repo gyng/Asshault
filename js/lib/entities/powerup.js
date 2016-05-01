@@ -11,6 +11,8 @@ function Powerup(resources, overrides) {
   this.alignment = 'none';
   this.friendlyPierceChance = 0; // Alignment is relative
   this.enemyPierceChance = 0; // Pierce chance for bullets from player+heroes
+
+  this.collisionRadius = 40;
 }
 
 Powerup.prototype = new Entity();

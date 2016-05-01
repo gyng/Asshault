@@ -13,7 +13,7 @@ _.extend(PowerupExplosion.prototype, Powerup.prototype);
 PowerupExplosion.prototype.constructor = PowerupExplosion;
 
 PowerupExplosion.prototype.tick = function () {
-  if (this.collidesWith(this.game.player)) {
+  if (this.collidesWith(this.game.player, this.collisionRadius)) {
     this.activate();
   }
 
