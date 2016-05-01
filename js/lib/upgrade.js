@@ -679,7 +679,9 @@ function Upgrades(game) { // eslint-disable-line no-unused-vars
             bulletLifespanVariance: 10,
             bulletSprite: this.sprites.flame,
             bulletWidth: 24,
-            bulletHeight: 24
+            bulletHeight: 24,
+            bulletShadow: true,
+            bulletFade: true
           });
 
           this.player.weapon.streams.push({ offset: _.random(24), spread: 28 });

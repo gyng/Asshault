@@ -4,7 +4,7 @@ function Levels(game) { // eslint-disable-line no-unused-vars
     2: new Level(game, {
       0:  {
         f: function () {
-          game.setBackground('res/bg/bggrass.png', 'res/bg/bggrassvig.png');
+          game.setBackground('res/bg/bggrass.png', 'res/bg/bggrassvig.png', '#3D5025');
         }
       },
       45: {

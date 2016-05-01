@@ -37,7 +37,8 @@ MachineGun.prototype.bullet = function (radians, offset) {
     lifespan: this.bulletLifespan + _.random(this.bulletLifespanVariance),
     sprite: this.bulletSprite,
     width: this.bulletWidth,
-    height: this.bulletHeight
+    height: this.bulletHeight,
+    drawFade: this.bulletFade
   });
 };
 

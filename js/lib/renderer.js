@@ -8,7 +8,7 @@ function Renderer(game, canvas, decalCanvas, fadeCanvas) {
   this.decalContext = decalCanvas.getContext('2d');
   this.fadeCanvas = fadeCanvas;
   this.fadeContext = fadeCanvas.getContext('2d');
-  this.fadeContext.fillStyle = 'rgba(0, 0, 0, 0.4)';
+  this.fadeContext.fillStyle = 'rgba(0, 0, 0, 0.3)';
   this.shake = { x: 0, y: 0, reduction: 0.95 };
 
   // Nearest-neighbour scaling
@@ -32,8 +32,6 @@ Renderer.prototype = {
     this.infoPass();
     this.shakeElement(this.canvas);
     this.shakeElement(this.decalCanvas);
-    // this.shakeElement(this.fadeCanvas);
-    // this.shakeElement(this.fadeCanvas);
     this.rotate3d(document.getElementById('ui'), this.shake.y, Math.abs(this.shake.x), 0, Util.hypotenuse(this.shake.x, this.shake.y));
   },
 
@@ -57,7 +55,7 @@ Renderer.prototype = {
         ent.drawImage(this.context);
         ent.draw(this.context);
 
-        if (ent.drawFade) {
+        if (ent.drawFade === true) {
           this.fadeContext.save();
             this.setContextTransform(this.fadeContext, ent);
             ent.drawFadingImage(this.fadeContext);

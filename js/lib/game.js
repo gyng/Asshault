@@ -141,10 +141,10 @@ Game.prototype = {
     }
   },
 
-  setBackground: function (canvasbg, documentbg) {
+  setBackground: function (canvasbg, documentbg, containerbgColor) {
     $('#persistent-canvas').css('background-image', 'url(' + canvasbg + ')');
     $('body').css('background-image', 'url(' + documentbg + ')');
-    $('.container').css('background-color', 'transparent');
+    $('.container').css('background-color', containerbgColor || 'transparent');
   },
 
   upgrade: function (upgradeName, args) {
