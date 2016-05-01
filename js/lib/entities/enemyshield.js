@@ -2,16 +2,16 @@ function EnemyShield(resources, overrides) {
   Entity.call(this, resources, overrides);
 
   // Big Boss!
-  var sizeVariance = _.random(24);
-  this.width = 84 + sizeVariance;
-  this.height = 84 + sizeVariance;
+  this.sizeVariance = _.random(24);
+  this.width = 84 + this.sizeVariance;
+  this.height = 84 + this.sizeVariance;
   this.sprite = this.sprites.enemyshield;
-  this.speed = 1 - Util.clamp(sizeVariance / 24, 0.0, 0.1);
-  this.health = 30 + sizeVariance;
+  this.speed = 1.2 - Util.clamp(this.sizeVariance / 24, 0.0, 0.1);
+  this.health = 30 + this.sizeVariance;
 
   this.shadow.on = true;
-  this.xpGiven = 20;
-  this.goldGiven = 10;
+  this.xpGiven = 40;
+  this.goldGiven = 20;
 
   this.rotation = Math.PI * 2;
   this.collisionRadius = 32;
@@ -38,6 +38,10 @@ EnemyShield.prototype.constructor = EnemyShield;
 EnemyShield.prototype.tick = function () {
   this.returnToMap();
   Enemy.prototype.tick.bind(this)();
+
+  var ratio = this.health / this.startingHealth;
+  this.width = (84 + this.sizeVariance) * Util.clamp(ratio, 0.2, 1.0);
+  this.height = (84 + this.sizeVariance) * Util.clamp(ratio, 0.2, 1.0);
 };
 
 EnemyShield.prototype.damage = function (damage, by) {
@@ -82,6 +86,7 @@ EnemyShield.prototype.explode = function () {
   // Drop a coin if killed by player
   if (this.health <= 0) {
     this.game.addPowerup(new PowerupCoin(this.resources, this.getPosition()));
+    PowerupExplosion.prototype.activate.bind(this)();
   }
 
   Enemy.prototype.explode.bind(this)();
