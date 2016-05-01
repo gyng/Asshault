@@ -33,7 +33,7 @@ require.config({
         'lib/entities/effects/bulletping',
         'lib/entities/effects/explosion',
 
-        'lib/weapons/machinegun',
+        'lib/weapons/machinegun'
       ]
     },
 
@@ -41,7 +41,7 @@ require.config({
     'lib/levels/levels':      { deps: [
       'lib/level',
       'lib/levels/breaklevel'
-    ]},
+    ] },
 
     'lib/entities/powerup':              { deps: ['lib/entity'] },
     'lib/entities/powerupcoin':          { deps: ['lib/entities/powerup'] },
@@ -63,21 +63,21 @@ require.config({
     'lib/entities/effects/bulletping':   { deps: ['lib/entity'] },
     'lib/entities/effects/explosion':    { deps: ['lib/entity'] },
 
-    'lib/weapons/machinegun':            { deps: ['lib/weapon'] },
-  },
+    'lib/weapons/machinegun':            { deps: ['lib/weapon'] }
+  }
 });
 
 require([
-  "vendor/jquery-2.2.3.min",
-  "vendor/underscore-min",
-  "vendor/keypress-1.0.9.min",
-  "lib/util"
-  ], function () {
-    require(["lib/game", "lib/ui"], function () {
-      'use strict';
-      $(document).ready(function () {
-        new Game(true);
-      });
+  'vendor/jquery-2.2.3.min',
+  'vendor/underscore-min',
+  'vendor/keypress-1.0.9.min',
+  'lib/util'
+], function () {
+  require(['lib/game', 'lib/ui'], function () {
+    'use strict';
+    $(document).ready(function () {
+      new Game(true);
     });
-  }
+  });
+}
 );

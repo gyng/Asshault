@@ -1,5 +1,5 @@
 // Slightly modified from http://entitycrisis.blogspot.com/2011/07/spatial-hash-in-javascript-for-2d.html
-function SpatialHash (cellSize) {
+function SpatialHash(cellSize) {
   this.cellSize = cellSize;
   this.idx = [];
 }

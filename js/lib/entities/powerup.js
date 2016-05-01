@@ -1,6 +1,6 @@
-function Powerup (resources, overrides) {
+function Powerup(resources, overrides) {
   Entity.call(this, resources, overrides);
-  this.width  = 32;
+  this.width = 32;
   this.height = 32;
   this.shadow.on = true;
   this.xpGiven = 0;

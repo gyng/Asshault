@@ -1,6 +1,6 @@
-function PowerupCoin (resources, overrides) {
+function PowerupCoin(resources, overrides) {
   Entity.call(this, resources, overrides);
-  this.width  = 48;
+  this.width = 48;
   this.height = 48;
   this.shadow.on = true;
   this.sprite = resources.sprites.gold;

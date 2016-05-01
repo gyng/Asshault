@@ -1,4 +1,4 @@
-function Upgrade (data) {
+function Upgrade(data) {
   this.name = data.name;
   this.effect = data.effect;
   this.constraints = data.constraints || [];
@@ -58,7 +58,7 @@ function UpgradeConstraint(name) {
   return this.list[name];
 }
 
-function Upgrades (game) {
+function Upgrades(game) {
   this.game = game;
   this.list = {
     increaseBulletCount:
@@ -81,7 +81,7 @@ function Upgrades (game) {
         ],
         text: {
           name: function () { return 'Ammo Feed Jury Rig ' + Util.romanize((game.upgradeCount['increaseBulletCount'] || 0) + 1); },
-          cost: function () { return Math.ceil(50 + (game.upgradeCount['increaseBulletCount'] || 0) * 1.2 * 100) + 'G' },
+          cost: function () { return Math.ceil(50 + (game.upgradeCount['increaseBulletCount'] || 0) * 1.2 * 100) + 'G'; },
           effect: 'More bullets! Un·bullet·able! Each consecutive upgrade is more expensive.'
         }
       }),
@@ -140,19 +140,19 @@ function Upgrades (game) {
         effect: function () {
           this.subtractGold(80);
 
-          keypress.combo("w", function() {
+          keypress.combo('w', function () {
             this.player.heloAccelerate(1, 'y');
           }.bind(this));
 
-          keypress.combo("s", function() {
+          keypress.combo('s', function () {
             this.player.heloAccelerate(-1, 'y');
           }.bind(this));
 
-          keypress.combo("a", function() {
+          keypress.combo('a', function () {
             this.player.heloAccelerate(1, 'x');
           }.bind(this));
 
-          keypress.combo("d", function() {
+          keypress.combo('d', function () {
             this.player.heloAccelerate(-1, 'x');
           }.bind(this));
 
@@ -170,7 +170,7 @@ function Upgrades (game) {
           this.player.shadow.offset.y += 75;
           this.player.shadow.size.x *= 1.5;
           this.player.shadow.size.y *= 1.5;
-          this.player.shadow.color = "rgba(0, 0, 0, 0.15)";
+          this.player.shadow.color = 'rgba(0, 0, 0, 0.15)';
 
           this.player.heloAccelerate = function (scaling, axis) {
             var closeToEW;
@@ -265,7 +265,7 @@ function Upgrades (game) {
           this.player.moveDeltaY = 0;
           var moveSpeed = 3;
 
-          window.addEventListener("keydown", function (event) {
+          window.addEventListener('keydown', function (event) {
             switch (event.keyCode) {
               case 68: this.keyD = true; break;
               case 83: this.keyS = true; break;
@@ -275,7 +275,7 @@ function Upgrades (game) {
             }
           }.bind(this.player), false);
 
-          window.addEventListener("keyup", function (event) {
+          window.addEventListener('keyup', function (event) {
             switch (event.keyCode) {
               case 68: this.keyD = false; break;
               case 83: this.keyS = false; break;
@@ -402,7 +402,7 @@ function Upgrades (game) {
           var betterFireAt = function (ent) {
             var bulletTravelTime = this.distanceTo(ent) / this.weapon.bulletSpeed;
             var moveDelta = ent.getMoveDelta(this.game.player.x, this.game.player.y, ent.speed, ent.health / 10);
-            this.weapon.fire(Math.atan2(this.y - ent.y - bulletTravelTime * moveDelta.y , this.x - ent.x - bulletTravelTime * moveDelta.x));
+            this.weapon.fire(Math.atan2(this.y - ent.y - bulletTravelTime * moveDelta.y, this.x - ent.x - bulletTravelTime * moveDelta.x));
           };
 
           this.friendlies.filter(function (ent) { return ent.constructor === Gunner; }).forEach(function (gunner) {
@@ -441,11 +441,11 @@ function Upgrades (game) {
 
         constraints: [
           ['heroGunner', 1],
-          [new UpgradeConstraint('dynamic'), function () { return game.gold >= 100 * game.friendlies.filter(function (ent) { return ent.constructor === Gunner; }).length }]
+          [new UpgradeConstraint('dynamic'), function () { return game.gold >= 100 * game.friendlies.filter(function (ent) { return ent.constructor === Gunner; }).length; }]
         ],
         text: {
           name:    'Ram Boar Goes Full Auto',
-          cost:    function () { return '100G/Ram Boar (' + 100 * game.friendlies.filter(function (ent) { return ent.constructor === Gunner; }).length + 'G)' },
+          cost:    function () { return '100G/Ram Boar (' + 100 * game.friendlies.filter(function (ent) { return ent.constructor === Gunner; }).length + 'G)'; },
           effect:  '25% faster firing for *existing* Ram Boars, up to a limit.',
           flavour: 'Always go full auto.'
         }
@@ -510,11 +510,11 @@ function Upgrades (game) {
           this.player.addUpgrade({ icon: this.sprites.flash1, tooltip: 'Point defense drone.' });
         },
         constraints: [
-          [new UpgradeConstraint('dynamic'), function () { return game.gold >= Math.ceil(50 + (game.upgradeCount['playerPointDefenseDrone'] || 0) * 1.3 * 50) }]
+          [new UpgradeConstraint('dynamic'), function () { return game.gold >= Math.ceil(50 + (game.upgradeCount['playerPointDefenseDrone'] || 0) * 1.3 * 50); }]
         ],
         text: {
           name:    'Point Defense Drone',
-          cost:    function () { return Math.ceil(50 + (game.upgradeCount['playerPointDefenseDrone'] || 0) * 1.3 * 50) + 'G' },
+          cost:    function () { return Math.ceil(50 + (game.upgradeCount['playerPointDefenseDrone'] || 0) * 1.3 * 50) + 'G'; },
           effect:  'Zaps nearby foes. Cost increases with number of drones bought.',
           flavour: 'A field of absolute terror. For when your friends intrude on your absolute territory.'
         }

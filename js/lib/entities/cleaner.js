@@ -1,4 +1,4 @@
-function Cleaner (resources, overrides) {
+function Cleaner(resources, overrides) {
   Entity.call(this, resources, overrides);
   this.width = 42;
   this.height = 42;
@@ -34,7 +34,7 @@ function Cleaner (resources, overrides) {
     'Yuck!',
     'Stop killing!',
     'Things die when they are killed!',
-    'Disgusting.',
+    'Disgusting.'
   ]));
   this.updateInfo();
 }

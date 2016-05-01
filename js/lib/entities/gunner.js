@@ -1,15 +1,15 @@
-function Gunner (resources, overrides) {
+function Gunner(resources, overrides) {
   Entity.call(this, resources, overrides);
-  this.width  = 42;
+  this.width = 42;
   this.height = 42;
   this.sprite = this.sprites.herogunner;
-  this.speed  = 7 + _.random(8);
+  this.speed = 7 + _.random(8);
 
   this.alignment = 'friendly';
   this.friendlyPierceChance = 0.98;
   this.enemyPierceChance = 0;
 
-  this.target    = null;
+  this.target = null;
   this.targetAge = 0;
   this.weapon = new MachineGun(this, { fireRate: 12, spread: 5, recoilMultiplier: 0, bulletSpeed: 15 });
 

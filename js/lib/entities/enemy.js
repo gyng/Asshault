@@ -1,10 +1,10 @@
-function Enemy (resources, overrides) {
+function Enemy(resources, overrides) {
   Entity.call(this, resources, overrides);
-  this.width  = 32;
+  this.width = 32;
   this.height = 32;
   this.sprite = resources.sprites.debug2;
   this.health = 5;
-  this.speed  = 5;
+  this.speed = 5;
   this.shadow.on = true;
   this.xpGiven = 10;
   this.goldGiven = 5;
@@ -26,7 +26,7 @@ Enemy.prototype.tick = function () {
       ent.damage(1, this);
 
       if (ent === this.game.player) {
-        this.game.ui.flash("#canvas", "danger");
+        this.game.ui.flash('#canvas', 'danger');
       }
       this.explode();
     }

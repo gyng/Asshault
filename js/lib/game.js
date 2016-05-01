@@ -1,4 +1,4 @@
-function Game (debug) {
+function Game(debug) {
   this.debug = debug || false;
   this.load();
 }
@@ -25,16 +25,16 @@ Game.prototype = {
   },
 
   initialize: function () {
-    this.canvas      = $('#canvas')[0];
+    this.canvas = $('#canvas')[0];
     this.decalCanvas = $('#persistent-canvas')[0];
-    this.renderer    = new Renderer(this, this.canvas, this.decalCanvas);
+    this.renderer = new Renderer(this, this.canvas, this.decalCanvas);
 
-    this.running    = true;
-    this.gameOver   = false;
-    this.tickRate   = 60;
-    this.age        = 0;
+    this.running = true;
+    this.gameOver = false;
+    this.tickRate = 60;
+    this.age = 0;
     this.fpsCounter = 0;
-    this.center     = { x: this.canvas.width / 2, y: this.canvas.height / 2 };
+    this.center = { x: this.canvas.width / 2, y: this.canvas.height / 2 };
 
     this.resources = {
       game:    this,
@@ -42,10 +42,10 @@ Game.prototype = {
       sounds:  this.sounds
     };
 
-    this.player     = new Player(this.resources, { x: this.center.x, y: this.center.y });
-    this.entities   = [this.player];
+    this.player = new Player(this.resources, { x: this.center.x, y: this.center.y });
+    this.entities = [this.player];
     this.friendlies = [this.player];
-    this.enemies    = [];
+    this.enemies = [];
 
     this.upgradeCount = {};
     this.upgrades = new Upgrades(this);
@@ -101,9 +101,9 @@ Game.prototype = {
       }
 
       // Culling
-      this.entities   = this.entities.filter(this.getMarkedForDeletion);
+      this.entities = this.entities.filter(this.getMarkedForDeletion);
       this.friendlies = this.friendlies.filter(this.getMarkedForDeletion);
-      this.enemies    = this.enemies.filter(this.getMarkedForDeletion);
+      this.enemies = this.enemies.filter(this.getMarkedForDeletion);
 
       // Time of day
       this.timeOfDay = this.age % this.dayLength;
@@ -168,7 +168,7 @@ Game.prototype = {
     this.entities.push(entity);
     type = type || 'entity';
     switch (type) {
-      case 'enemy':    this.enemies.push(entity);    break;
+      case 'enemy': this.enemies.push(entity); break;
       case 'friendly': this.friendlies.push(entity); break;
     }
   },
@@ -213,13 +213,13 @@ Game.prototype = {
     var reductionLevel = reduction && parseFloat(reduction) ? reduction : reduction.value;
 
     $('#debug').html(
-      "<p>" + this.fpsCounter + " FPS</p>" +
-      "<p>" + (this.age - this.lastAge) + " ticks/s</p>" +
-      "<p>" + this.entities.length + " entities</p>" +
-      "<p>" + this.friendlies.length + " friendlies</p>" +
-      "<p>" + this.enemies.length + " enemies</p>" +
-      "<p>" + this.player.health + " player health</p>" +
-      "<p>" + (reductionLevel ? reductionLevel.toFixed(2) : '?') + " compressor reduction</p>"
+      '<p>' + this.fpsCounter + ' FPS</p>' +
+      '<p>' + (this.age - this.lastAge) + ' ticks/s</p>' +
+      '<p>' + this.entities.length + ' entities</p>' +
+      '<p>' + this.friendlies.length + ' friendlies</p>' +
+      '<p>' + this.enemies.length + ' enemies</p>' +
+      '<p>' + this.player.health + ' player health</p>' +
+      '<p>' + (reductionLevel ? reductionLevel.toFixed(2) : '?') + ' compressor reduction</p>'
     );
 
     this.lastAge = this.age;

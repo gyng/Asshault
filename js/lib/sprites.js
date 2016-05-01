@@ -1,6 +1,6 @@
-function Sprites (sprites) {
+function Sprites(sprites) {
   this.sprites = sprites || {
-    relativeDir: "",
+    relativeDir: '',
     sources: []
   };
 
@@ -25,8 +25,8 @@ Sprites.prototype = {
 
   loadSprite: function (key, url) {
     this.sprites[key] = new Image();
-    this.sprites[key].onload = function() {
-      if (++this.loaded === this.toLoad) { 
+    this.sprites[key].onload = function () {
+      if (++this.loaded === this.toLoad) {
         this.preloaded();
       }
     }.bind(this);

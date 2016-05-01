@@ -1,4 +1,4 @@
-function Renderer (game, canvas, decalCanvas) {
+function Renderer(game, canvas, decalCanvas) {
   this.game = game;
   this.canvas = canvas;
   this.context = canvas.getContext('2d');
@@ -8,8 +8,8 @@ function Renderer (game, canvas, decalCanvas) {
 
   // Nearest-neighbour scaling
   [this.context, this.decalContext].forEach(function (ctx) {
-    ctx.imageSmoothingEnabled       = false;
-    ctx.mozImageSmoothingEnabled    = false;
+    ctx.imageSmoothingEnabled = false;
+    ctx.mozImageSmoothingEnabled = false;
   });
 }
 
@@ -42,7 +42,7 @@ Renderer.prototype = {
     for (var i = 0; i < this.game.entities.length; i++) {
       ent = this.game.entities[i];
       this.context.save();
-        this.context.setTransform(
+      this.context.setTransform(
           Math.cos(ent.rotation) * ent.scale * ent.drawOffset.scaleX,
           Math.sin(ent.rotation) * ent.scale * ent.drawOffset.scaleY,
          -Math.sin(ent.rotation) * ent.scale * ent.drawOffset.scaleX,
@@ -51,9 +51,9 @@ Renderer.prototype = {
           ent.y + ent.drawOffset.y
         );
 
-        ent.drawHighlight(this.context);
-        this.context.drawImage(ent.getImage(), -ent.width / 2, -ent.height / 2, ent.width, ent.height);
-        ent.draw(this.context);
+      ent.drawHighlight(this.context);
+      this.context.drawImage(ent.getImage(), -ent.width / 2, -ent.height / 2, ent.width, ent.height);
+      ent.draw(this.context);
       this.context.restore();
     }
   },
@@ -64,12 +64,12 @@ Renderer.prototype = {
       ent = this.game.entities[i];
       if (ent.info.draw) {
         this.context.save();
-          this.context.setTransform(
+        this.context.setTransform(
             1, 0, 0, 1,
             ent.x + ent.drawOffset.x / 2 + this.shake.x / 2,
             ent.y + ent.drawOffset.y / 2 + this.shake.y / 2
           );
-          ent.drawInformation(this.context);
+        ent.drawInformation(this.context);
         this.context.restore();
       }
     }
@@ -98,15 +98,15 @@ Renderer.prototype = {
       ent = this.game.entities[i];
       if (ent.shadow.on) {
         this.context.save();
-          var todSkew =  (Math.max(0.2, (Math.abs(this.game.dayRatio - 0.5))) * 2) * 4;
+        var todSkew = (Math.max(0.2, (Math.abs(this.game.dayRatio - 0.5))) * 2) * 4;
 
           // Turn off shadow skewing if todScale is 0
           // Useful for non-normal shadows such as explosion light flashes
-          var todScale = ent.shadow.todScale || 1;
-          if (Util.isDefined(ent.shadow.todScale) && ent.shadow.todScale === 0) { todSkew = 1; }
+        var todScale = ent.shadow.todScale || 1;
+        if (Util.isDefined(ent.shadow.todScale) && ent.shadow.todScale === 0) { todSkew = 1; }
 
           // Transform to shadow position and rotate/skew it for time of day
-          this.context.setTransform(
+        this.context.setTransform(
             Math.cos(ent.rotation + radians * todScale) * ent.scale * ent.drawOffset.scaleX * todSkew,
             Math.sin(ent.rotation + radians * todScale) * ent.scale * ent.drawOffset.scaleY,
            -Math.sin(ent.rotation + radians * todScale) * ent.scale * ent.drawOffset.scaleX * todSkew,
@@ -115,26 +115,26 @@ Renderer.prototype = {
             ent.y + ent.drawOffset.y + this.shake.y / 3 + ent.shadow.offset.y + (todScale * (todYOffset * offsetLength * (1 - this.game.dayRatio)))
           );
 
-          this.context.fillStyle = ent.shadow.color;
+        this.context.fillStyle = ent.shadow.color;
 
-          if (ent.shadow.shape === 'square') {
-            this.context.fillRect(
+        if (ent.shadow.shape === 'square') {
+          this.context.fillRect(
               -ent.width / 2,
               -ent.height / 2,
               ent.shadow.size.x,
               ent.shadow.size.y
             );
-          } else {
-            this.context.beginPath();
-            this.context.arc(0, 0, ent.shadow.size.x, 0, 2 * Math.PI);
-            this.context.fill();
-          }
+        } else {
+          this.context.beginPath();
+          this.context.arc(0, 0, ent.shadow.size.x, 0, 2 * Math.PI);
+          this.context.fill();
+        }
         this.context.restore();
       }
     }
   },
 
-  levelPass: function() {
+  levelPass: function () {
     if (Util.isDefined(this.game.level)) {
       this.game.level.draw();
     }
@@ -142,10 +142,10 @@ Renderer.prototype = {
 
   drawDecal: function (image, x, y, rotation, w, h, startFromBotLeft) {
     this.decalContext.save();
-      w = w || image.naturalWidth;
-      h = h || image.naturalHeight;
+    w = w || image.naturalWidth;
+    h = h || image.naturalHeight;
 
-      this.decalContext.setTransform(
+    this.decalContext.setTransform(
         Math.cos(rotation),
         Math.sin(rotation),
        -Math.sin(rotation),
@@ -154,13 +154,13 @@ Renderer.prototype = {
         y
       );
 
-      var xOffset = 0, yOffset = 0;
-      if (!Util.isDefined(startFromBotLeft)) {
-        xOffset -= w / 2;
-        yOffset -= h / 2;
-      }
+    var xOffset = 0, yOffset = 0;
+    if (!Util.isDefined(startFromBotLeft)) {
+      xOffset -= w / 2;
+      yOffset -= h / 2;
+    }
 
-      this.decalContext.drawImage(image, xOffset, yOffset, w, h);
+    this.decalContext.drawImage(image, xOffset, yOffset, w, h);
     this.decalContext.restore();
   },
 
@@ -180,19 +180,19 @@ Renderer.prototype = {
       'rotateY(' + -this.shake.x / 50 + 'deg)';
 
     el.style.transform = transformation;
-    el.style["-webkit-transform"] = transformation;
+    el.style['-webkit-transform'] = transformation;
   },
 
   translate3d: function (el, x, y, z) {
     z = z || 0;
-    var transformation = "translate3d(" + x + "px," + y + "px," + z + "px)";
+    var transformation = 'translate3d(' + x + 'px,' + y + 'px,' + z + 'px)';
     el.style.transform = transformation;
-    el.style["-webkit-transform"] = transformation;
+    el.style['-webkit-transform'] = transformation;
   },
 
   rotate3d: function (el, x, y, z, deg) {
     var transformation = 'rotateX(' + this.shake.y / 50 + 'deg) rotateY(' + -this.shake.x / 50 + 'deg)';
     el.style.transform = transformation;
-    el.style["-webkit-transform"] = transformation;
+    el.style['-webkit-transform'] = transformation;
   }
 };

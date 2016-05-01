@@ -1,19 +1,19 @@
-function Sniper (resources, overrides) {
+function Sniper(resources, overrides) {
   Entity.call(this, resources, overrides);
 
-  this.width  = 42;
+  this.width = 42;
   this.height = 42;
   this.sprite = this.sprites.herosniper;
-  this.speed  = 7 + _.random(8);
+  this.speed = 7 + _.random(8);
   this.shadow.on = true;
 
   this.alignment = 'friendly';
   this.friendlyPierceChance = 0.98;
   this.enemyPierceChance = 0;
 
-  this.target    = null;
+  this.target = null;
   this.targetAge = 0;
-  this.firing    = false;
+  this.firing = false;
   this.moveTarget = { x: this.game.player.x, y: this.game.player.y };
 
   this.weapon = new MachineGun(this, { fireRate: 70, spread: 4, bulletSpeed: 60, bulletSpeedVariance: 30, damage: 5, volume: 5 });
@@ -38,7 +38,7 @@ function Sniper (resources, overrides) {
   this.say(_.sample([
     'Shartest shooper in all the lands.',
     '100% stopping power.',
-    'Precision.',
+    'Precision.'
   ]));
   this.updateInfo();
 }

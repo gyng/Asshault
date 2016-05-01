@@ -1,9 +1,9 @@
-function EnemyCamper (resources, overrides) {
+function EnemyCamper(resources, overrides) {
   Entity.call(this, resources, overrides);
-  this.width  = 24;
+  this.width = 24;
   this.height = 24;
   this.health = 10;
-  this.speed  = 0;
+  this.speed = 0;
   this.shadow.on = true;
   this.xpGiven = 20;
   this.goldGiven = 10;

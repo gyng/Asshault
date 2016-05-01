@@ -1,4 +1,4 @@
-function Levels (game) {
+function Levels(game) {
   this.levels = {
     1: new BreakLevel(game),
     2: new Level(game, {

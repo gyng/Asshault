@@ -1,4 +1,4 @@
-function Audio (sounds) {
+function Audio(sounds) {
   try {
     window.AudioContext = window.AudioContext || window.webkitAudioContext;
     this.audioContext = new AudioContext();
@@ -9,7 +9,7 @@ function Audio (sounds) {
   }
 
   this.sounds = sounds || {
-    relativeDir: "",
+    relativeDir: '',
     sources: []
   };
 
@@ -43,7 +43,7 @@ Audio.prototype = {
     }
   },
 
-  setMasterVolume: function(volume) {
+  setMasterVolume: function (volume) {
     var adjustedVolume = (Math.pow(10, volume) - 1) / (10 - 1); // Log Base 10
     this.masterGainNode.gain.value = adjustedVolume;
   },
@@ -53,7 +53,7 @@ Audio.prototype = {
     request.open('GET', url, true);
     request.responseType = 'arraybuffer';
 
-    request.onload = function() {
+    request.onload = function () {
       this.audioContext.decodeAudioData(request.response, function (buffer) {
         this.sounds[key] = buffer;
       }.bind(this));
@@ -64,7 +64,7 @@ Audio.prototype = {
     request.send();
   },
 
-  play: function(name, volume, opts) {
+  play: function (name, volume, opts) {
     if (!this.audioSupport) {
       return;
     }
@@ -73,12 +73,12 @@ Audio.prototype = {
       name = name[Math.floor(Math.random() * name.length)];
     }
 
-    volume          = volume || 1;
-    opts            = opts || {};
+    volume = volume || 1;
+    opts = opts || {};
     var sourceStart = opts.sourceStart || 0;
-    var loop        = opts.loop || false;
-    var loopstart   = opts.loopstart || 0.0;
-    var loopend     = opts.loopend || 1.0;
+    var loop = opts.loop || false;
+    var loopstart = opts.loopstart || 0.0;
+    var loopend = opts.loopend || 1.0;
 
     var source = this.audioContext.createBufferSource();
 
@@ -105,7 +105,7 @@ Audio.prototype = {
     }
   },
 
-  loop: function(name, volume, loopstart, loopend) {
+  loop: function (name, volume, loopstart, loopend) {
     loopstart = loopstart || 0.0;
     loopend = loopend || 1.0;
     this.play(name, volume, { loop: true, loopstart: loopstart, loopend: loopend });

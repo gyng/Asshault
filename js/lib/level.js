@@ -1,4 +1,4 @@
-function Level (game, script) {
+function Level(game, script) {
   this.game = game;
   this.age = 0;
   this.length = 0;

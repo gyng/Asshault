@@ -1,6 +1,6 @@
-function PowerupExplosion (resources, overrides) {
+function PowerupExplosion(resources, overrides) {
   Entity.call(this, resources, overrides);
-  this.width  = 48;
+  this.width = 48;
   this.height = 48;
   this.shadow.on = true;
   this.sprite = resources.sprites.ball;

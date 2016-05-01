@@ -1,9 +1,9 @@
-function EnemyRunner (resources, overrides) {
+function EnemyRunner(resources, overrides) {
   Entity.call(this, resources, overrides);
-  this.width  = 24;
+  this.width = 24;
   this.height = 24;
   this.health = 3;
-  this.speed  = 5;
+  this.speed = 5;
   this.shadow.on = true;
   this.xpGiven = 20;
   this.goldGiven = 10;
@@ -21,7 +21,7 @@ EnemyRunner.prototype.constructor = EnemyRunner;
 
 EnemyRunner.prototype.tick = function () {
   if (this.age === 0) {
-    this.say("Uraaa!", 1);
+    this.say('Uraaa!', 1);
   }
 
   if (this.age > 120) {

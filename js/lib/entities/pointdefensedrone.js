@@ -1,4 +1,4 @@
-function PointDefenseDrone (resources, overrides) {
+function PointDefenseDrone(resources, overrides) {
   Entity.call(this, resources, overrides);
   this.width = 32;
   this.height = 32;

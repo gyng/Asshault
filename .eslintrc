@@ -7,12 +7,35 @@
   "globals": {
     "_": true,
     "Util": true,
-    "keypress": true
+    "keypress": true,
+    "$": true,
+    "Tavern": true,
+    "Gunner": true,
+    "Cleaner": true,
+    "Sniper": true,
+    "Entity": true,
+    "Bullet": true,
+    "Upgrade": true,
+    "Enemy": true,
+    "EnemyTank": true,
+    "EnemyRunner": true,
+    "EnemyCamper": true,
+    "EnemyShield": true,
+    "BreakLevel": true,
+    "Level": true,
+    "UI": true,
+    "Player": true,
+    "Explosion": true,
+    "MachineGun": true,
+    "PowerupCoin": true,
+    "PowerupExplosion": true,
+    "Powerup": true
   },
   "rules": {
     "func-names": 0,
     "key-spacing": 0,
     "max-len": [2, 140],
+    "no-param-reassign": 0,
     "vars-on-top": 0,
   }
 }

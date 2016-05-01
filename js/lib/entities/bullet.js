@@ -1,4 +1,4 @@
-function Bullet (resources, overrides) {
+function Bullet(resources, overrides) {
 
   Entity.call(this, resources, overrides);
   this.width = this.width || 32;
@@ -15,7 +15,7 @@ function Bullet (resources, overrides) {
   this.shadow = {
     on: false, // True set in tick: sometimes on to 'flicker'
     offset: { x: 0, y: 0 },
-    color: "rgba(255, 244, 91," + Math.random() * 0.15 + ")",
+    color: 'rgba(255, 244, 91,' + Math.random() * 0.15 + ')',
     size: { x: 28, y: 48 },
     shape: 'circle',
     todScale: 0

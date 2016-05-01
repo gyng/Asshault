@@ -1,14 +1,14 @@
-function Weapon (parent, overrides) {
+function Weapon(parent, overrides) {
   this.parent = parent;
 
-  this.fireRate            = 4;
-  this.cooldown            = 0;
-  this.bulletSpeed         = 30;
+  this.fireRate = 4;
+  this.cooldown = 0;
+  this.bulletSpeed = 30;
   this.bulletSpeedVariance = 0;
-  this.damage              = 1;
-  this.pierce              = 0;
-  this.offsetMultiplier    = 1;
-  this.spreadMultiplier    = 1;
+  this.damage = 1;
+  this.pierce = 0;
+  this.offsetMultiplier = 1;
+  this.spreadMultiplier = 1;
   // this.ammo = 10;
   // this.reloadTime = 10;
   this.bulletLifespan = Number.MAX_VALUE;

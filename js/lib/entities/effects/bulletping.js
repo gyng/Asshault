@@ -1,10 +1,10 @@
-function BulletPing (resources, overrides) {
+function BulletPing(resources, overrides) {
   Entity.call(this, resources, overrides);
 
-  this.width     = 48 + _.random(64);
-  this.height    = 48 + _.random(64);
-  this.lifespan  = 13 + _.random(4);
-  this.todScale  = 0;
+  this.width = 48 + _.random(64);
+  this.height = 48 + _.random(64);
+  this.lifespan = 13 + _.random(4);
+  this.todScale = 0;
   this.rotation += Util.deg2rad(Util.randomNegation(_.random(50)));
 
   this.sounds = {

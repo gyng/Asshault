@@ -1,4 +1,4 @@
-function BreakLevel (game, script) {
+function BreakLevel(game, script) {
   script = script || {};
   Level.call(this, script);
 
@@ -8,7 +8,7 @@ function BreakLevel (game, script) {
   $('.ui .ready-button').on('click', function () {
     $(this).hide();
     $('body').removeClass('vignette');
-    $(".ui .ready-ui").hide();
+    $('.ui .ready-ui').hide();
     that.over = true;
   });
 }

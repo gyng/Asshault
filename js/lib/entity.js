@@ -1,4 +1,4 @@
-function Entity (resources, overrides) {
+function Entity(resources, overrides) {
   this.width = 0;
   this.height = 0;
   this.x = 0;
@@ -32,8 +32,8 @@ function Entity (resources, overrides) {
 
   this.shadow = {
     on: false,
-    offset: {x: 0, y: 0},
-    color: "rgba(0, 0, 0, 0.3)",
+    offset: { x: 0, y: 0 },
+    color: 'rgba(0, 0, 0, 0.3)',
     size: { x: 45, y: 45 },
     shape: 'square',
     todScale: 1
@@ -76,7 +76,7 @@ Entity.prototype = {
   drawHighlight: function (context) {
     if (this.highlighted) {
       context.beginPath();
-      context.fillStyle = this.highlightColor || "rgba(247, 243, 37, 0.5)";
+      context.fillStyle = this.highlightColor || 'rgba(247, 243, 37, 0.5)';
       context.arc(0, 0, Util.hypotenuse(this.width, this.height) * 1.5, 0, 2 * Math.PI);
       context.fill();
     }
@@ -84,7 +84,7 @@ Entity.prototype = {
 
   drawInformation: function (context) {
     // Per-entity buffer text to be drawn to canvas in a separate canvas as fillText is really really slow
-    this.infoCanvas  = this.infoCanvas  || document.createElement('canvas');
+    this.infoCanvas = this.infoCanvas || document.createElement('canvas');
     this.infoContext = this.infoContext || this.infoCanvas.getContext('2d');
 
     // If the info is dirty we just update the UI anyway
@@ -161,7 +161,7 @@ Entity.prototype = {
   },
 
   moveInDirection: function (direction, speed, scaling) {
-    speed   = speed || this.speed;
+    speed = speed || this.speed;
     scaling = scaling || 1;
     this.y -= Math.cos(direction) * speed * scaling;
     this.x += Math.sin(direction) * speed * scaling;
@@ -240,7 +240,7 @@ Entity.prototype = {
       this.info.dirty = true;
 
       if (JSON.stringify(_.where(this.info.text, { draw: true })) ===
-          JSON.stringify(_.where(this.lastInfo,  { draw: true }))) {
+          JSON.stringify(_.where(this.lastInfo, { draw: true }))) {
         this.info.drawDirty = true;
       }
     }

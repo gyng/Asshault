@@ -1,4 +1,4 @@
-function EnemyTank (resources, overrides) {
+function EnemyTank(resources, overrides) {
   Entity.call(this, resources, overrides);
 
   // Big Boss!

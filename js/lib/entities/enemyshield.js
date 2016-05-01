@@ -1,4 +1,4 @@
-function EnemyShield (resources, overrides) {
+function EnemyShield(resources, overrides) {
   Entity.call(this, resources, overrides);
 
   // Big Boss!
@@ -23,7 +23,7 @@ function EnemyShield (resources, overrides) {
   this.sounds = {
     spawn: 'warning',
     ping: 'ping'
-  }
+  };
 
   this.game.audio.play(this.sounds.spawn);
   Entity.prototype.lookAt.bind(this)(this.game.player);
@@ -46,12 +46,12 @@ EnemyShield.prototype.damage = function (damage, by) {
     by.pierceChange = -0.5;
     this.game.audio.play(this.sounds.ping);
   }
-}
+};
 
 EnemyShield.prototype.lookAt = function (object) {
   var rot = 2 * Math.PI;
   this.rotation = rot + ((this.rotation - rot) - (0.003 * (this.rotation - rot - Math.atan2(object.x - this.x, this.y - object.y))));
-}
+};
 
 EnemyShield.prototype.explode = function () {
   var position = this.getPosition();

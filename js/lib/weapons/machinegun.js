@@ -1,4 +1,4 @@
-function MachineGun (parent, overrides) {
+function MachineGun(parent, overrides) {
   Weapon.call(this, parent, overrides);
   this.streams = [{ spread: 5, offset: 0 }];
 }

@@ -1,4 +1,4 @@
-function Tavern (resources, overrides) {
+function Tavern(resources, overrides) {
   Entity.call(this, resources, overrides);
   this.width = 72;
   this.height = 72;
@@ -32,9 +32,9 @@ Tavern.prototype.tick = function () {
     this.info.text.flavour = {
       value: _.sample([
         'Barkeep! Another!',
-        ["Pay up!", "— You're broke?"],
-        "My mead is better than your ale",
-        "This one time, at Ram Boar school..."
+        ['Pay up!', "— You're broke?"],
+        'My mead is better than your ale',
+        'This one time, at Ram Boar school...'
       ]),
       draw: true
     };

@@ -1,6 +1,6 @@
-function Player (resources, overrides) {
+function Player(resources, overrides) {
   Entity.call(this, resources, overrides);
-  this.width  = 48;
+  this.width = 48;
   this.height = 48;
   this.sprite = this.sprites.debug;
   this.health = 10;
@@ -70,10 +70,10 @@ Player.prototype.addGold = function (value) {
   this.game.addGold(value);
 };
 
-Player.prototype.damage = function(damage, by) {
+Player.prototype.damage = function (damage, by) {
   Entity.prototype.damage.bind(this)(damage, by);
   this.game.ui.updateHealth();
-}
+};
 
 Player.prototype.levelUp = function () {
   if (this.level % 15 === 0) {
@@ -101,7 +101,7 @@ Player.prototype.returnToMap = function () {
   var margin = 50;
 
   if (this.x > this.game.canvas.width - margin) {
-      this.x -= returnScale * (this.x - (this.game.canvas.width - margin));
+    this.x -= returnScale * (this.x - (this.game.canvas.width - margin));
   } else if (this.x < margin) {
     this.x += returnScale * (margin - this.x);
   }
