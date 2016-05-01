@@ -28,11 +28,11 @@ function Player(resources, overrides) {
     hurt: 'scream3'
   };
 
-  $('#canvas').mousedown(function (e) {
+  $('#canvas').mousedown(function (_e) {
     this.firing = true;
   }.bind(this));
 
-  $(document).mouseup(function (e) {
+  $(document).mouseup(function (_e) {
     this.firing = false;
   }.bind(this));
 

@@ -5,7 +5,7 @@ function Audio(sounds) {
     this.audioSupport = true;
   } catch (e) {
     this.audioSupport = false;
-    console.log(e);
+    console.log(e); // eslint-disable-line no-console
   }
 
   this.sounds = sounds || {
@@ -88,21 +88,21 @@ Audio.prototype = {
 
     if (typeof source.buffer === 'undefined' || source.buffer === null) {
       return;
-    } else {
-      source.loop = loop;
-      source.loopStart = source.buffer.duration * loopstart;
-      source.loopEnd = source.buffer.duration * loopend;
-
-      var gainNode = this.audioContext.createGain();
-      // Approximate volume log scale
-      var adjustedVolume = (Math.pow(10, volume) - 1) / (10 - 1); // Log Base 10
-      gainNode.gain.value = adjustedVolume;
-
-      source.connect(gainNode);
-      gainNode.connect(this.compressor);
-
-      source.start(sourceStart);
     }
+
+    source.loop = loop;
+    source.loopStart = source.buffer.duration * loopstart;
+    source.loopEnd = source.buffer.duration * loopend;
+
+    var gainNode = this.audioContext.createGain();
+    // Approximate volume log scale
+    var adjustedVolume = (Math.pow(10, volume) - 1) / (10 - 1); // Log Base 10
+    gainNode.gain.value = adjustedVolume;
+
+    source.connect(gainNode);
+    gainNode.connect(this.compressor);
+
+    source.start(sourceStart);
   },
 
   loop: function (name, volume, loopstart, loopend) {

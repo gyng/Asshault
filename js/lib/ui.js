@@ -53,7 +53,7 @@ UI.prototype = {
     $('.game-over .restart').click(function () {
       // hack!
       document.location.reload();
-    }.bind(this));
+    });
   },
 
   pauseGameToggle: function () {
@@ -188,17 +188,17 @@ UI.prototype = {
     el.find('.upgrade-flavour').text(data.flavour || '');
 
     var that = this;
-    el.mouseenter(function (e) {
+    el.mouseenter(function (_e) {
       if ($(this).hasClass('button')) {
         that.game.audio.play('hit_hurt');
       }
     });
 
-    el.mousedown(function (e) {
+    el.mousedown(function (_e) {
       that.game.audio.play('click');
     });
 
-    el.mouseup(function (e) {
+    el.mouseup(function (_e) {
       that.game.upgrade($(this).attr('data-upgrade'));
       that.setAvailableUpgrades();
     });
@@ -240,9 +240,9 @@ UI.prototype = {
 
   createUpgradeIcon: function (icon, tooltip) {
     return $('<img />', {
-      'src': icon.src,
-      'class': 'hero-upgrade-icon',
-      'title': tooltip
+      src: icon.src,
+      class: 'hero-upgrade-icon',
+      title: tooltip
     });
   },
 
@@ -250,11 +250,11 @@ UI.prototype = {
     var el = $($(template).html());
     this.updateHeroListItem(el, hero);
 
-    el.mouseenter(function (e) {
+    el.mouseenter(function (_e) {
       hero.highlighted = true;
     });
 
-    el.mouseout(function (e) {
+    el.mouseout(function (_e) {
       hero.highlighted = false;
     });
 
@@ -305,7 +305,7 @@ UI.prototype = {
       el.classList.add(cssClass);
       setTimeout(function () { el.classList.remove(cssClass); }, 100);
     } else {
-      console.log("No element found for selector '" + elSelector + "' to flash");
+      console.log("No element found for selector '" + elSelector + "' to flash"); // eslint-disable-line no-console
     }
   }
 };

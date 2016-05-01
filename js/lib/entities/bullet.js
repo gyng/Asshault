@@ -1,5 +1,4 @@
 function Bullet(resources, overrides) {
-
   Entity.call(this, resources, overrides);
   this.width = this.width || 32;
   this.height = this.height || 16;
@@ -38,8 +37,8 @@ Bullet.prototype.tick = function () {
   for (var i = 0; i < list.length; i++) {
     var ent = list[i];
     if (this.collidesWith(ent, Math.max(this.collisionRadius, this.speed * 0.75))) {
+      var pierceChance = 1;
 
-      var pierceChance;
       if (this.alignment !== 'none') {
         if ((this.alignment === 'friendly' && ent.alignment === 'enemy') ||
             (this.alignment === 'enemy' && ent.alignment === 'friendly')) {
@@ -48,8 +47,6 @@ Bullet.prototype.tick = function () {
         } else if (this.alignment === ent.alignment) {
           pierceChance = ent.friendlyPierceChance;
         }
-      } else {
-        pierceChance = 1;
       }
 
       if (Math.random() - this.additionalPierceChance > pierceChance) {

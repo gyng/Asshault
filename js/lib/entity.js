@@ -1,3 +1,4 @@
+
 function Entity(resources, overrides) {
   this.width = 0;
   this.height = 0;
@@ -71,7 +72,7 @@ Entity.prototype = {
     this.age++;
   },
 
-  draw: function (context) {},
+  draw: function (_context) {},
 
   drawHighlight: function (context) {
     if (this.highlighted) {
@@ -104,7 +105,7 @@ Entity.prototype = {
       this.infoContext.fillStyle = this.info.fill;
 
       var i = 0;
-      _.each(_.filter(this.info.text, { draw: true }), function (line, key) {
+      _.each(_.filter(this.info.text, { draw: true }), function (line, _key) {
         var text = (line.prepend || '') + line.value + (line.postfix || '');
         this.infoContext.fillText(text, 0, ++i * this.info.lineHeight);
       }.bind(this));
@@ -126,8 +127,7 @@ Entity.prototype = {
   },
 
   collidesWith: function (object, threshold) {
-    threshold = threshold || 20;
-    return (this.distanceTo(object) < threshold) ? true : false;
+    return (this.distanceTo(object) < (threshold || 20));
   },
 
   distanceTo: function (object) {

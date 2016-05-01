@@ -2,11 +2,11 @@ window.Util = {
   randomFloat: function (low, high) {
     if (typeof high === 'undefined') {
       return low * Math.random();
-    } else {
-      var offset = (low < 0) ? -low : -low;
-      var number = Math.random() * (high + offset);
-      return number - offset;
     }
+
+    var offset = (low < 0) ? -low : low;
+    var number = Math.random() * (high + offset);
+    return number - offset;
   },
 
   randomNegation: function (num) {
@@ -50,16 +50,20 @@ window.Util = {
   distanceBetween: function (p1, p2, x2, y2) {
     if (typeof x2 === 'undefined') {
       return this.hypotenuse(p2.x - p1.x, p2.y - p1.y);
-    } else {
-      return this.hypotenuse(x2 - p1, y2 - p2);
     }
+
+    return this.hypotenuse(x2 - p1, y2 - p2);
   },
 
   nearestPoint: function (list, point) {
     var minDistance = Number.MAX_VALUE;
-    var object, d;
+    var object;
+    var d;
+
     for (var i = 0; i < list.length; i++) {
-      if ((d = this.distanceBetween(list[i], point)) < minDistance) {
+      d = this.distanceBetween(list[i], point);
+
+      if (d < minDistance) {
         minDistance = d;
         object = list[i];
       }
@@ -75,18 +79,18 @@ window.Util = {
     if (typeof y !== 'undefined') {
       h = this.hypotenuse(v, y);
       return [v / h, y / h];
-    } else {
-      h = this.hypotenuse(v.x, v.y);
-      return { x: v.x / h, y: v.y / h };
     }
+
+    h = this.hypotenuse(v.x, v.y);
+    return { x: v.x / h, y: v.y / h };
   },
 
   sample: function (array) {
     if (array.length && array.length >= 0) {
       return array[~~(Math.random() * array.length)];
-    } else {
-      return null;
     }
+
+    return null;
   },
 
   jitterPosition: function (position, variance) {

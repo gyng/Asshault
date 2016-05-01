@@ -170,6 +170,7 @@ Game.prototype = {
     switch (type) {
       case 'enemy': this.enemies.push(entity); break;
       case 'friendly': this.friendlies.push(entity); break;
+      default: /* noop */ break;
     }
   },
 

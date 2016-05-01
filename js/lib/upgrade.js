@@ -6,32 +6,6 @@ function Upgrade(data) {
   this.gameUpgradeIcon = data.gameUpgradeIcon;
 }
 
-Upgrade.prototype = {
-  // Constraints are an array of ['upgradeName', minCount]
-  // or [function, args], function (...) { return true/false }
-  isConstraintsMet: function (game) {
-    var met = 0;
-
-    this.constraints.forEach(function (req) {
-      var constraint, args;
-
-      if (!_.isFunction(req[0])) {
-        constraint = new UpgradeConstraint('upgradeCountWithinRange');
-        args = [game].concat(req);
-      } else if (_.isFunction(req[0])) {
-        constraint = req[0];
-        args = [game].concat(_.rest(req));
-      }
-
-      if (constraint.apply(this, args)) {
-        met++;
-      }
-    }.bind(this));
-
-    return met === this.constraints.length;
-  }
-};
-
 function UpgradeConstraint(name) {
   this.list = {
     // Upgrade <name> count within [min, max)
@@ -58,14 +32,41 @@ function UpgradeConstraint(name) {
   return this.list[name];
 }
 
-function Upgrades(game) {
+Upgrade.prototype = {
+  // Constraints are an array of ['upgradeName', minCount]
+  // or [function, args], function (...) { return true/false }
+  isConstraintsMet: function (game) {
+    var met = 0;
+
+    this.constraints.forEach(function (req) {
+      var constraint;
+      var args;
+
+      if (!_.isFunction(req[0])) {
+        constraint = new UpgradeConstraint('upgradeCountWithinRange');
+        args = [game].concat(req);
+      } else if (_.isFunction(req[0])) {
+        constraint = req[0];
+        args = [game].concat(_.rest(req));
+      }
+
+      if (constraint.apply(this, args)) {
+        met++;
+      }
+    }.bind(this));
+
+    return met === this.constraints.length;
+  }
+};
+
+function Upgrades(game) { // eslint-disable-line no-unused-vars
   this.game = game;
   this.list = {
     increaseBulletCount:
       new Upgrade({
         name:  'increaseBulletCount',
         effect: function () {
-          this.subtractGold(Math.ceil(50 + (game.upgradeCount['increaseBulletCount'] || 0) * 1.2 * 100));
+          this.subtractGold(Math.ceil(50 + (game.upgradeCount.increaseBulletCount || 0) * 1.2 * 100));
 
           for (var i = 0; i < (this.player.weapon.streamsPerLevel || 1); i++) {
             this.player.weapon.streams.push({
@@ -77,11 +78,13 @@ function Upgrades(game) {
           this.player.addUpgrade({ icon: this.sprites.debug, tooltip: 'Increased bullet count.' });
         },
         constraints: [
-          [new UpgradeConstraint('dynamic'), function () { return game.gold >= Math.ceil(50 + (game.upgradeCount['increaseBulletCount'] || 0) * 1.2 * 100); }]
+          [new UpgradeConstraint('dynamic'), function () {
+            return game.gold >= Math.ceil(50 + (game.upgradeCount.increaseBulletCount || 0) * 1.2 * 100);
+          }]
         ],
         text: {
-          name: function () { return 'Ammo Feed Jury Rig ' + Util.romanize((game.upgradeCount['increaseBulletCount'] || 0) + 1); },
-          cost: function () { return Math.ceil(50 + (game.upgradeCount['increaseBulletCount'] || 0) * 1.2 * 100) + 'G'; },
+          name: function () { return 'Ammo Feed Jury Rig ' + Util.romanize((game.upgradeCount.increaseBulletCount || 0) + 1); },
+          cost: function () { return Math.ceil(50 + (game.upgradeCount.increaseBulletCount || 0) * 1.2 * 100) + 'G'; },
           effect: 'More bullets! Un·bullet·able! Each consecutive upgrade is more expensive.'
         }
       }),
@@ -90,24 +93,27 @@ function Upgrades(game) {
       new Upgrade({
         name: 'playerPiercingBullets',
         effect: function () {
-          this.subtractGold(Math.ceil(400 + (game.upgradeCount['playerPiercingBullets'] || 0) * 1.3 * 150));
+          this.subtractGold(Math.ceil(400 + (game.upgradeCount.playerPiercingBullets || 0) * 1.3 * 150));
           this.player.additionalWeaponPierce += 0.1;
           this.player.addUpgrade({ icon: this.sprites.flash2, tooltip: 'Piercing bullets.' });
         },
         constraints: [
-          [new UpgradeConstraint('dynamic'), function () { return game.gold >= Math.ceil(400 + (game.upgradeCount['playerPiercingBullets'] || 0) * 1.3 * 150); }],
+          [new UpgradeConstraint('dynamic'), function () {
+            return game.gold >= Math.ceil(400 + (game.upgradeCount.playerPiercingBullets || 0) * 1.3 * 150);
+          }],
           [new UpgradeConstraint('upgradeCountWithinRange'), 'playerPiercingBullets', 0, 10]
         ],
         text: {
           name: function () {
             var names = ['Iron', 'Cobalt', 'Nickel', 'Copper', 'Zinc', 'Tin', 'Tungsten', 'Lead', 'Polonium', 'Uranium'];
-            var level = game.upgradeCount['playerPiercingBullets'] || 0;
+            var level = game.upgradeCount.playerPiercingBullets || 0;
             return 'Piercing ' + names[level] + ' Bullets ' + Util.romanize(level + 1);
           },
-          cost: function () { return Math.ceil(400 + (game.upgradeCount['playerPiercingBullets'] || 0) * 1.3 * 150) + 'G'; },
+          cost: function () { return Math.ceil(400 + (game.upgradeCount.playerPiercingBullets || 0) * 1.3 * 150) + 'G'; },
           effect: function () {
-            var level = (game.upgradeCount['playerPiercingBullets'] || 0) + 1;
-            return 'No better way to cut through butter. Bullets now have ' + (10 * level) + '% chance to pierce. Max of 10 upgrades. Each consecutive upgrade is more expensive.';
+            var level = (game.upgradeCount.playerPiercingBullets || 0) + 1;
+            return 'No better way to cut through butter. Bullets now have ' + (10 * level)
+              + '% chance to pierce. Max of 10 upgrades. Each consecutive upgrade is more expensive.';
           },
           flavour: 'Shot through the heart. Who’s to blame?'
         }
@@ -363,7 +369,8 @@ function Upgrades(game) {
         text: {
           name:    'A House of Heroes',
           cost:    '50G, No Tavern built',
-          effect:  'Taverns are known for attracting heroes of all kinds. Hire heroes for a small stipend. Heroes are taxed at 50% of their gold at the end of each wave.',
+          effect:  'Taverns are known for attracting heroes of all kinds. '
+                   + 'Hire heroes for a small stipend. Heroes are taxed at 50% of their gold at the end of each wave.',
           flavour: 'Beer, ale and whiskey.'
         },
         gameUpgradeIcon: {
@@ -441,11 +448,15 @@ function Upgrades(game) {
 
         constraints: [
           ['heroGunner', 1],
-          [new UpgradeConstraint('dynamic'), function () { return game.gold >= 100 * game.friendlies.filter(function (ent) { return ent.constructor === Gunner; }).length; }]
+          [new UpgradeConstraint('dynamic'), function () {
+            return game.gold >= 100 * game.friendlies.filter(function (ent) { return ent.constructor === Gunner; }).length;
+          }]
         ],
         text: {
           name:    'Ram Boar Goes Full Auto',
-          cost:    function () { return '100G/Ram Boar (' + 100 * game.friendlies.filter(function (ent) { return ent.constructor === Gunner; }).length + 'G)'; },
+          cost:    function () {
+            return '100G/Ram Boar (' + 100 * game.friendlies.filter(function (ent) { return ent.constructor === Gunner; }).length + 'G)';
+          },
           effect:  '25% faster firing for *existing* Ram Boars, up to a limit.',
           flavour: 'Always go full auto.'
         }
@@ -499,7 +510,7 @@ function Upgrades(game) {
       new Upgrade({
         name: 'playerPointDefenseDrone',
         effect: function () {
-          this.subtractGold(Math.ceil(50 + (game.upgradeCount['playerPointDefenseDrone'] || 0) * 1.3 * 50));
+          this.subtractGold(Math.ceil(50 + (game.upgradeCount.playerPointDefenseDrone || 0) * 1.3 * 50));
           var pdd = new PointDefenseDrone(this.resources, {
             x: this.player.x,
             y: this.player.y,
@@ -510,11 +521,13 @@ function Upgrades(game) {
           this.player.addUpgrade({ icon: this.sprites.flash1, tooltip: 'Point defense drone.' });
         },
         constraints: [
-          [new UpgradeConstraint('dynamic'), function () { return game.gold >= Math.ceil(50 + (game.upgradeCount['playerPointDefenseDrone'] || 0) * 1.3 * 50); }]
+          [new UpgradeConstraint('dynamic'), function () {
+            return game.gold >= Math.ceil(50 + (game.upgradeCount.playerPointDefenseDrone || 0) * 1.3 * 50);
+          }]
         ],
         text: {
           name:    'Point Defense Drone',
-          cost:    function () { return Math.ceil(50 + (game.upgradeCount['playerPointDefenseDrone'] || 0) * 1.3 * 50) + 'G'; },
+          cost:    function () { return Math.ceil(50 + (game.upgradeCount.playerPointDefenseDrone || 0) * 1.3 * 50) + 'G'; },
           effect:  'Zaps nearby foes. Cost increases with number of drones bought.',
           flavour: 'A field of absolute terror. For when your friends intrude on your absolute territory.'
         }

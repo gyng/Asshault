@@ -1,4 +1,4 @@
-function Levels(game) {
+function Levels(game) { // eslint-disable-line no-unused-vars
   this.levels = {
     1: new BreakLevel(game),
     2: new Level(game, {
@@ -8,8 +8,8 @@ function Levels(game) {
         }
       },
       45: {
-        f: function (i) {
-          game.ui.setLevelInformation('Wave ' + i);
+        f: function (wave) {
+          game.ui.setLevelInformation('Wave ' + wave);
           game.audio.play('bell', 1.0);
 
           // Salary and taxes
@@ -36,15 +36,14 @@ function Levels(game) {
           });
 
           // Boss!
-          if (i % 5 == 0) {
-            for (var j = i / 10; j > 0; j--) {
+          if (wave % 5 === 0) {
+            for (var bosses = wave / 10; bosses > 0; bosses--) {
               game.spawnEnemy(new EnemyShield(game.resources));
             }
           }
 
           // Normal scrubs
-          for (var j = (i * 2) + 10; j > 0; j--) {
-            var overrides = {};
+          for (var scrubs = (wave * 2) + 10; scrubs > 0; scrubs--) {
             var enemy;
 
             var diceRoll = Math.random();
@@ -53,7 +52,7 @@ function Levels(game) {
             } else if (diceRoll < 0.16) {
               enemy = new EnemyRunner(game.resources);
             } else {
-              if (i > 5 && diceRoll < 0.24) {
+              if (wave > 5 && diceRoll < 0.24) {
                 game.spawnEnemy(new EnemyCamper(game.resources));
               }
 

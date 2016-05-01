@@ -1,7 +1,7 @@
 function Explosion(resources, overrides) {
   Entity.call(this, resources, overrides);
 
-  scale = 1;
+  var scale = 1;
   this.width = 128 + 128 * Math.random() * scale;
   this.height = 128 + 128 * Math.random() * scale;
   this.game.renderer.shake.x += Util.randomNegation(this.width / 6);
@@ -60,7 +60,7 @@ Explosion.prototype.getImage = function () {
     return this.sprites.flash2;
   } else if (this.age <= 15) {
     return this.sprites.explosion1;
-  } else {
-    return this.sprites.explosion2;
   }
+
+  return this.sprites.explosion2;
 };
