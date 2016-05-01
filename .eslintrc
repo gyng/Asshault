@@ -1,0 +1,18 @@
+{
+  "ecmaVersion": 5,
+  "env": {
+    "browser": true
+  },
+  "extends": "airbnb-base/legacy",
+  "globals": {
+    "_": true,
+    "Util": true,
+    "keypress": true
+  },
+  "rules": {
+    "func-names": 0,
+    "key-spacing": 0,
+    "max-len": [2, 140],
+    "vars-on-top": 0,
+  }
+}

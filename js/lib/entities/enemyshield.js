@@ -39,8 +39,6 @@ EnemyShield.prototype.damage = function (damage, by) {
   var rot = 2 * Math.PI;
   var diff = ((rot + this.rotation) - (rot + by.direction)) % rot;
 
-  console.log(Util.rad2deg(diff))
-
   if (Math.abs(diff) > Math.PI) {
     Entity.prototype.damage.bind(this)(damage, by);
   } else {

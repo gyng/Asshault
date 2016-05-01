@@ -10,7 +10,6 @@ Upgrade.prototype = {
   // Constraints are an array of ['upgradeName', minCount]
   // or [function, args], function (...) { return true/false }
   isConstraintsMet: function (game) {
-    var upgradeCount = game.upgradeCount;
     var met = 0;
 
     this.constraints.forEach(function (req) {
@@ -36,10 +35,10 @@ Upgrade.prototype = {
 function UpgradeConstraint(name) {
   this.list = {
     // Upgrade <name> count within [min, max)
-    upgradeCountWithinRange: function (game, name, min, max) {
-      max = max || Number.MAX_VALUE;
-      var upgradeCount = game.upgradeCount[name] || 0;
-      return upgradeCount >= min && upgradeCount < max;
+    upgradeCountWithinRange: function (game, upgradeName, min, max) {
+      var maxUpgrades = max || Number.MAX_VALUE;
+      var upgradeCount = game.upgradeCount[upgradeName] || 0;
+      return upgradeCount >= min && upgradeCount < maxUpgrades;
     },
 
     haveGold: function (game, amount) {
@@ -47,11 +46,11 @@ function UpgradeConstraint(name) {
     },
 
     propertyWithinRange: function (game, ent, property, min, max) {
-      max = max || Number.MAX_VALUE;
-      return ent[property] >= min && ent[property] < max;
+      var maxUpgrades = max || Number.MAX_VALUE;
+      return ent[property] >= min && ent[property] < maxUpgrades;
     },
 
-    dynamic: function(game, fn) {
+    dynamic: function (game, fn) {
       return fn.apply(game);
     }
   };
@@ -122,7 +121,7 @@ function Upgrades (game) {
           this.renderer.shake.reduction *= 0.85;
         },
         constraints: [
-          [new UpgradeConstraint('haveGold'), 50],
+          [new UpgradeConstraint('haveGold'), 50]
         ],
         text: {
           name:   'Reinforce Camera Tripod',
@@ -174,7 +173,8 @@ function Upgrades (game) {
           this.player.shadow.color = "rgba(0, 0, 0, 0.15)";
 
           this.player.heloAccelerate = function (scaling, axis) {
-            var closeToEW, closeToNS;
+            var closeToEW;
+            var closeToNS;
 
             var deg = Util.rad2deg(this.rotation);
 
@@ -271,6 +271,7 @@ function Upgrades (game) {
               case 83: this.keyS = true; break;
               case 65: this.keyA = true; break;
               case 87: this.keyW = true; break;
+              default: /*  noop */ break;
             }
           }.bind(this.player), false);
 
@@ -280,6 +281,7 @@ function Upgrades (game) {
               case 83: this.keyS = false; break;
               case 65: this.keyA = false; break;
               case 87: this.keyW = false; break;
+              default: /*  noop */ break;
             }
           }.bind(this.player), false);
 
@@ -689,9 +691,6 @@ function Upgrades (game) {
           effect:  '🔥🔥🔥',
           flavour: '🔥🔥🔥'
         }
-      }),
-
-    playerRicochetWeapon:
-
+      })
   };
 }

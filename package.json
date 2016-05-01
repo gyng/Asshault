@@ -1,0 +1,28 @@
+{
+  "name": "asshault",
+  "version": "0.0.1",
+  "description": "Experiments in juicing a game up",
+  "main": "js/main.js",
+  "dependencies": {},
+  "devDependencies": {
+    "eslint": "^2.9.0",
+    "eslint-config-airbnb-base": "^2.0.0",
+    "eslint-plugin-import": "^1.6.1"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gyng/Asshault.git"
+  },
+  "keywords": [
+    "game"
+  ],
+  "author": "Ng Guoyou",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/gyng/Asshault/issues"
+  },
+  "homepage": "https://github.com/gyng/Asshault#readme"
+}
