@@ -600,13 +600,13 @@ function Upgrades(game) { // eslint-disable-line no-unused-vars
 
           this.player.weapon.applyOverrides({
             spreadMultiplier: 0.5,
-            damage: 0.5,
+            damage: 0.55,
             fireRate: 40,
             recoilOffset: 3,
             recoilCameraShake: 3,
             bulletSpeed: 30,
             bulletSpeedVariance: 20,
-            streamsPerLevel: 2,
+            streamsPerLevel: 4,
             bulletSprite: this.sprites.bullettear2
           });
 
