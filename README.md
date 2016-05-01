@@ -10,7 +10,7 @@ Some of the more interesting features and optimisation techniques I've used/expe
 
 * Flexible upgrade system with constraints, along with a flexbox UI for available upgrades
 * 3D camera shake; affects UI (CSS)
-* Double canvases, one for decals and one for drawing
+* Triple canvases, one for decals, one for drawing, and one for fading effects trails
 * Proper HTML canvas resizing based off window size
 * Simple spatial hash for faster collision detection
 * JSON-based asset loading

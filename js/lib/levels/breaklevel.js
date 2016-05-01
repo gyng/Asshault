@@ -3,11 +3,11 @@ function BreakLevel(game, script) {
   Level.call(this, script);
 
   var that = this;
-  $('body').addClass('vignette');
+  $('.container').addClass('vignette');
   $('.ui .ready-button').show();
   $('.ui .ready-button').on('click', function () {
     $(this).hide();
-    $('body').removeClass('vignette');
+    $('.container').removeClass('vignette');
     $('.ui .ready-ui').hide();
     that.over = true;
   });

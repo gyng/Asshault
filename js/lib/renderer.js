@@ -1,15 +1,18 @@
 /* eslint-disable indent */
 
-function Renderer(game, canvas, decalCanvas) {
+function Renderer(game, canvas, decalCanvas, fadeCanvas) {
   this.game = game;
   this.canvas = canvas;
   this.context = canvas.getContext('2d');
   this.decalCanvas = decalCanvas;
   this.decalContext = decalCanvas.getContext('2d');
+  this.fadeCanvas = fadeCanvas;
+  this.fadeContext = fadeCanvas.getContext('2d');
+  this.fadeContext.fillStyle = 'rgba(0, 0, 0, 0.4)';
   this.shake = { x: 0, y: 0, reduction: 0.95 };
 
   // Nearest-neighbour scaling
-  [this.context, this.decalContext].forEach(function (ctx) {
+  [this.context, this.decalContext, this.fadeContext].forEach(function (ctx) {
     ctx.imageSmoothingEnabled = false;
     ctx.mozImageSmoothingEnabled = false;
   });
@@ -19,6 +22,9 @@ Renderer.prototype = {
   draw: function () {
     this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
 
+    // Trails
+    this.fadeContext.fillRect(0, 0, this.fadeCanvas.width, this.fadeCanvas.height);
+
     this.updateCameraShake();
     this.shadowPass();
     this.spritePass();
@@ -26,6 +32,8 @@ Renderer.prototype = {
     this.infoPass();
     this.shakeElement(this.canvas);
     this.shakeElement(this.decalCanvas);
+    // this.shakeElement(this.fadeCanvas);
+    // this.shakeElement(this.fadeCanvas);
     this.rotate3d(document.getElementById('ui'), this.shake.y, Math.abs(this.shake.x), 0, Util.hypotenuse(this.shake.x, this.shake.y));
   },
 
@@ -44,20 +52,30 @@ Renderer.prototype = {
     for (var i = 0; i < this.game.entities.length; i++) {
       ent = this.game.entities[i];
       this.context.save();
-        this.context.setTransform(
-          Math.cos(ent.rotation) * ent.scale * ent.drawOffset.scaleX,
-          Math.sin(ent.rotation) * ent.scale * ent.drawOffset.scaleY,
-         -Math.sin(ent.rotation) * ent.scale * ent.drawOffset.scaleX,
-          Math.cos(ent.rotation) * ent.scale * ent.drawOffset.scaleY,
-          ent.x + ent.drawOffset.x,
-          ent.y + ent.drawOffset.y
-        );
-
+        this.setContextTransform(this.context, ent);
         ent.drawHighlight(this.context);
-        this.context.drawImage(ent.getImage(), -ent.width / 2, -ent.height / 2, ent.width, ent.height);
+        ent.drawImage(this.context);
         ent.draw(this.context);
+
+        if (ent.drawFade) {
+          this.fadeContext.save();
+            this.setContextTransform(this.fadeContext, ent);
+            ent.drawFadingImage(this.fadeContext);
+          this.fadeContext.restore();
+        }
       this.context.restore();
     }
+  },
+
+  setContextTransform: function (context, ent) {
+    context.setTransform(
+      Math.cos(ent.rotation) * ent.scale * ent.drawOffset.scaleX,
+      Math.sin(ent.rotation) * ent.scale * ent.drawOffset.scaleY,
+     -Math.sin(ent.rotation) * ent.scale * ent.drawOffset.scaleX,
+      Math.cos(ent.rotation) * ent.scale * ent.drawOffset.scaleY,
+      ent.x + ent.drawOffset.x,
+      ent.y + ent.drawOffset.y
+    );
   },
 
   infoPass: function () {

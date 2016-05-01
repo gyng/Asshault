@@ -42,12 +42,13 @@ BulletRicochet.prototype.onhit = function () {
         height: this.height / 1.2,
         rotation: rad,
         direction: rad,
-        lifespan: 20 + Util.randomError(10),
-        speed: Math.max(this.speed / 1.5 + Util.randomError(5), 1),
+        lifespan: 25 + Util.randomError(10),
+        speed: Math.max(this.speed / 2 + Util.randomError(5), 1),
         alignment: 'friendly',
         damage: this.damage / 4,
         source: this.game.player,
-        sprite: this.game.sprites.bullettear
+        sprite: this.game.sprites.bullet,
+        drawFade: true
       });
 
       this.game.addEntity(bullet);

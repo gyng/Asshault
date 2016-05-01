@@ -27,7 +27,8 @@ Game.prototype = {
   initialize: function () {
     this.canvas = $('#canvas')[0];
     this.decalCanvas = $('#persistent-canvas')[0];
-    this.renderer = new Renderer(this, this.canvas, this.decalCanvas);
+    this.fadeCanvas = $('#fade-canvas')[0];
+    this.renderer = new Renderer(this, this.canvas, this.decalCanvas, this.fadeCanvas);
 
     this.running = true;
     this.gameOver = false;
@@ -143,6 +144,7 @@ Game.prototype = {
   setBackground: function (canvasbg, documentbg) {
     $('#persistent-canvas').css('background-image', 'url(' + canvasbg + ')');
     $('body').css('background-image', 'url(' + documentbg + ')');
+    $('.container').css('background-color', 'transparent');
   },
 
   upgrade: function (upgradeName, args) {

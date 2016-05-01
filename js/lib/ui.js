@@ -45,7 +45,7 @@ UI.prototype = {
   },
 
   gameOver: function () {
-    $('body').addClass('vignette');
+    $('.container').addClass('vignette');
     $('.ui').addClass('pause-overlay');
     $('.game-over').show();
     this.game.running = false;
@@ -72,7 +72,7 @@ UI.prototype = {
     this.game.running = false;
     this.game.audio.setMasterVolume(0);
     this.setAvailableUpgrades();
-    $('body').addClass('vignette');
+    $('.container').addClass('vignette');
     $('.ui').addClass('pause-overlay');
     $('.paused').css('display', 'flex');
   },
@@ -83,7 +83,7 @@ UI.prototype = {
       this.game.draw();
     }
     this.game.audio.setMasterVolume(1);
-    $('body').removeClass('vignette');
+    $('.container').removeClass('vignette');
     $('.ui').removeClass('pause-overlay');
     $('.paused').hide();
   },
@@ -164,10 +164,14 @@ UI.prototype = {
     }
 
     var persistentCanvas = $('#persistent-canvas')[0];
-    persistentCanvas.style.height = canvas.style.height;
-    persistentCanvas.style.width = canvas.style.width;
-    persistentCanvas.style.left = canvas.offsetLeft + 'px';
-    persistentCanvas.style.top = canvas.offsetTop + 'px';
+    var fadeCanvas = $('#fade-canvas')[0];
+
+    [persistentCanvas, fadeCanvas].forEach(function (c) {
+      c.style.height = canvas.style.height;
+      c.style.width = canvas.style.width;
+      c.style.left = canvas.offsetLeft + 'px';
+      c.style.top = canvas.offsetTop + 'px';
+    });
   },
 
   populateUpgradeButtons: function (object) {

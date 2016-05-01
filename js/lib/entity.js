@@ -84,6 +84,14 @@ Entity.prototype = {
     }
   },
 
+  drawImage: function (context) {
+    context.drawImage(this.getImage(), -this.width / 2, -this.height / 2, this.width, this.height);
+  },
+
+  drawFadingImage: function (context) {
+    this.drawImage(context);
+  },
+
   drawInformation: function (context) {
     // Per-entity buffer text to be drawn to canvas in a separate canvas as fillText is really really slow
     this.infoCanvas = this.infoCanvas || document.createElement('canvas');
