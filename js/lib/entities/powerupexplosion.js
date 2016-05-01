@@ -43,7 +43,8 @@ PowerupExplosion.prototype.activate = function () {
       direction: rad,
       alignment: 'friendly',
       damage: 10,
-      source: this.game.player
+      source: this.game.player,
+      sprite: this.game.sprites.bullet
     });
 
     this.game.addEntity(bullet);
