@@ -9,6 +9,7 @@
     "_": true,
     "BreakLevel": true,
     "Bullet": true,
+    "BulletRicochet": true,
     "BulletPing": true,
     "Cleaner": true,
     "Enemy": true,

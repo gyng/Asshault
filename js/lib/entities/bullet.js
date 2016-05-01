@@ -47,6 +47,10 @@ Bullet.prototype.tick = function () {
         } else if (this.alignment === ent.alignment) {
           pierceChance = ent.friendlyPierceChance;
         }
+
+        if (typeof this.onhit === 'function') {
+          this.onhit();
+        }
       }
 
       if (Math.random() - this.additionalPierceChance > pierceChance) {
@@ -73,8 +77,8 @@ Bullet.prototype.tick = function () {
 };
 
 Bullet.prototype.checkOutOfBounds = function () {
-  if (this.x < -10 || this.x > this.game.canvas.width + 10 ||
-      this.y < -10 || this.y > this.game.canvas.height + 10) {
+  if (this.x < -100 || this.x > this.game.canvas.width + 100 ||
+      this.y < -100 || this.y > this.game.canvas.height + 100) {
     this.markedForDeletion = true;
   }
 };

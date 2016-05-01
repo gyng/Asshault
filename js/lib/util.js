@@ -1,4 +1,6 @@
 window.Util = {
+  twoPi: Math.PI * 2,
+
   randomFloat: function (low, high) {
     if (typeof high === 'undefined') {
       return low * Math.random();

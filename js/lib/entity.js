@@ -263,5 +263,22 @@ Entity.prototype = {
     if (Util.isDefined(entityUpgrade.icon)) {
       this.game.ui.addHeroUpgradeIcon(this.uiElem, entityUpgrade.icon, entityUpgrade.tooltip);
     }
+  },
+
+  returnToMap: function (returnScale, margin) {
+    returnScale = returnScale || 0.05;
+    margin = margin || 50;
+
+    if (this.x > this.game.canvas.width - margin) {
+      this.x -= returnScale * (this.x - (this.game.canvas.width - margin));
+    } else if (this.x < margin) {
+      this.x += returnScale * (margin - this.x);
+    }
+
+    if (this.y > this.game.canvas.height - margin) {
+      this.y -= returnScale * (this.y - (this.game.canvas.height - margin));
+    } else if (this.y < margin) {
+      this.y += returnScale * (margin - this.y);
+    }
   }
 };

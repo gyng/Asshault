@@ -608,7 +608,8 @@ function Upgrades(game) { // eslint-disable-line no-unused-vars
           [new UpgradeConstraint('haveGold'), 100],
           [new UpgradeConstraint('upgradeCountWithinRange'), 'playerShotgunWeapon', 0, 1],
           [new UpgradeConstraint('upgradeCountWithinRange'), 'playerBeamWeapon', 0, 1],
-          [new UpgradeConstraint('upgradeCountWithinRange'), 'playerFireWeapon', 0, 1]
+          [new UpgradeConstraint('upgradeCountWithinRange'), 'playerFireWeapon', 0, 1],
+          [new UpgradeConstraint('upgradeCountWithinRange'), 'playerRicochetWeapon', 0, 1]
         ],
         text: {
           name:    'Shotgun',
@@ -648,7 +649,8 @@ function Upgrades(game) { // eslint-disable-line no-unused-vars
           [new UpgradeConstraint('haveGold'), 100],
           [new UpgradeConstraint('upgradeCountWithinRange'), 'playerBeamWeapon', 0, 1],
           [new UpgradeConstraint('upgradeCountWithinRange'), 'playerShotgunWeapon', 0, 1],
-          [new UpgradeConstraint('upgradeCountWithinRange'), 'playerFireWeapon', 0, 1]
+          [new UpgradeConstraint('upgradeCountWithinRange'), 'playerFireWeapon', 0, 1],
+          [new UpgradeConstraint('upgradeCountWithinRange'), 'playerRicochetWeapon', 0, 1]
         ],
         text: {
           name:    'Moonlight Breaker',
@@ -696,7 +698,8 @@ function Upgrades(game) { // eslint-disable-line no-unused-vars
           [new UpgradeConstraint('haveGold'), 100],
           [new UpgradeConstraint('upgradeCountWithinRange'), 'playerBeamWeapon', 0, 1],
           [new UpgradeConstraint('upgradeCountWithinRange'), 'playerShotgunWeapon', 0, 1],
-          [new UpgradeConstraint('upgradeCountWithinRange'), 'playerFireWeapon', 0, 1]
+          [new UpgradeConstraint('upgradeCountWithinRange'), 'playerFireWeapon', 0, 1],
+          [new UpgradeConstraint('upgradeCountWithinRange'), 'playerRicochetWeapon', 0, 1]
         ],
         text: {
           name:    'Flamethrower',
@@ -704,6 +707,59 @@ function Upgrades(game) { // eslint-disable-line no-unused-vars
           effect:  '🔥🔥🔥',
           flavour: '🔥🔥🔥'
         }
+      }),
+
+    playerRicochetWeapon:
+      new Upgrade({
+        name: 'playerRicochetWeapon',
+        effect: function () {
+          this.subtractGold(100);
+
+          this.player.weapon.applyOverrides({
+            spreadMultiplier: 0.5,
+            damage: 20,
+            fireRate: 40,
+            recoilOffset: 3,
+            recoilCameraShake: 3,
+            bulletSpeed: 40,
+            bulletSpeedVariance: 20,
+            streamsPerLevel: 1,
+            bulletSprite: this.sprites.bullettear
+          });
+
+          this.player.weapon.bullet = function (radians, offset) {
+            return new BulletRicochet(this.parent.resources, {
+              x: this.parent.x,
+              y: this.parent.y,
+              direction: radians + offset,
+              rotation: radians + offset,
+              damage: this.damage,
+              speed: this.bulletSpeed + _.random(this.bulletSpeedVariance),
+              source: (this.parent.deferSource || this.parent),
+              additionalPierceChance: this.pierce + (this.parent.additionalWeaponPierce || 0),
+              lifespan: this.bulletLifespan + _.random(this.bulletLifespanVariance),
+              sprite: this.bulletSprite,
+              width: this.bulletWidth,
+              height: this.bulletHeight
+            });
+          };
+
+          this.player.addUpgrade({ icon: this.sprites.flash2, tooltip: 'A cute weapon for acute angles.' });
+        },
+        constraints: [
+          [new UpgradeConstraint('haveGold'), 100],
+          [new UpgradeConstraint('upgradeCountWithinRange'), 'playerShotgunWeapon', 0, 1],
+          [new UpgradeConstraint('upgradeCountWithinRange'), 'playerBeamWeapon', 0, 1],
+          [new UpgradeConstraint('upgradeCountWithinRange'), 'playerFireWeapon', 0, 1],
+          [new UpgradeConstraint('upgradeCountWithinRange'), 'playerRicochetWeapon', 0, 1]
+        ],
+        text: {
+          name:    'Ricochet',
+          cost:    '100G',
+          effect:  'Become a disciple of the shotgun. Disables other weapon paths.',
+          flavour: 'The machine that goes ping.'
+        }
       })
   };
 }
+

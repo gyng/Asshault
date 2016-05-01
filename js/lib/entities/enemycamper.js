@@ -46,6 +46,10 @@ EnemyCamper.prototype.tick = function () {
 
   this.speed *= 1.05;
   Enemy.prototype.tick.bind(this)();
+
+  if (!this.triggered) {
+    this.returnToMap();
+  }
 };
 
 EnemyCamper.prototype.explode = function () {
