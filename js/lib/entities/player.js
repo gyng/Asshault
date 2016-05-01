@@ -3,7 +3,7 @@ function Player(resources, overrides) {
   this.width = 48;
   this.height = 48;
   this.sprite = this.sprites.debug;
-  this.health = 10;
+  this.health = 12;
   this.speed = 0;
 
   this.level = 0;
