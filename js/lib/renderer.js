@@ -162,12 +162,20 @@ Renderer.prototype = {
     }
   },
 
+  drawFadingDecal: function (image, x, y, rotation, w, h, startFromBotLeft) {
+    this.drawOnContext(this.fadeContext, image, x, y, rotation, w, h, startFromBotLeft);
+  },
+
   drawDecal: function (image, x, y, rotation, w, h, startFromBotLeft) {
-    this.decalContext.save();
+    this.drawOnContext(this.decalContext, image, x, y, rotation, w, h, startFromBotLeft);
+  },
+
+  drawOnContext: function (context, image, x, y, rotation, w, h, startFromBotLeft) {
+    context.save();
       w = w || image.naturalWidth;
       h = h || image.naturalHeight;
 
-      this.decalContext.setTransform(
+      context.setTransform(
         Math.cos(rotation),
         Math.sin(rotation),
        -Math.sin(rotation),
@@ -183,8 +191,8 @@ Renderer.prototype = {
         yOffset -= h / 2;
       }
 
-      this.decalContext.drawImage(image, xOffset, yOffset, w, h);
-    this.decalContext.restore();
+      context.drawImage(image, xOffset, yOffset, w, h);
+    context.restore();
   },
 
   shakeElement: function (el, scaling) {

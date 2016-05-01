@@ -327,7 +327,17 @@ function Upgrades(game) { // eslint-disable-line no-unused-vars
                 this.y + this.height / 2,
                 Util.randomRad(),
                 10,
-                10);
+                10
+              );
+
+              this.game.renderer.drawFadingDecal(
+                this.sprites.explosion1,
+                this.x + Util.randomError(24),
+                this.y + Util.randomError(24),
+                Util.randomRad(),
+                50 + Util.randomError(20),
+                50 + Util.randomError(20)
+              );
             }
           };
 
