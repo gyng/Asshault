@@ -704,7 +704,7 @@ function Upgrades(game) { // eslint-disable-line no-unused-vars
         text: {
           name:    'Flamethrower',
           cost:    '100G',
-          effect:  '🔥🔥🔥',
+          effect:  '🔥🔥🔥 (Disables other weapon paths.)',
           flavour: '🔥🔥🔥'
         }
       }),
@@ -721,8 +721,8 @@ function Upgrades(game) { // eslint-disable-line no-unused-vars
             fireRate: 40,
             recoilOffset: 3,
             recoilCameraShake: 3,
-            bulletSpeed: 40,
-            bulletSpeedVariance: 20,
+            bulletSpeed: 30,
+            bulletSpeedVariance: 10,
             streamsPerLevel: 1,
             bulletSprite: this.sprites.bullettear
           });
@@ -744,7 +744,10 @@ function Upgrades(game) { // eslint-disable-line no-unused-vars
             });
           };
 
-          this.player.addUpgrade({ icon: this.sprites.flash2, tooltip: 'A cute weapon for acute angles.' });
+          this.player.addUpgrade({
+            icon: this.sprites.flash2,
+            tooltip: 'A cute weapon for acute situations'
+          });
         },
         constraints: [
           [new UpgradeConstraint('haveGold'), 100],
@@ -754,10 +757,10 @@ function Upgrades(game) { // eslint-disable-line no-unused-vars
           [new UpgradeConstraint('upgradeCountWithinRange'), 'playerRicochetWeapon', 0, 1]
         ],
         text: {
-          name:    'Ricochet',
+          name:    'Flak Cannon',
           cost:    '100G',
-          effect:  'Become a disciple of the shotgun. Disables other weapon paths.',
-          flavour: 'The machine that goes ping.'
+          effect:  'A cute weapon for acute situations. Disables other weapon paths',
+          flavour: 'The machine that goes ping, and pong, and peng.'
         }
       })
   };
