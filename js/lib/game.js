@@ -184,9 +184,13 @@ Game.prototype = {
     var minDistanceAway = 300;
     var maxAttempts = 100;
     var attempts = 0;
+    var margin = 400;
 
     do {
-      spawn = { x: _.random(this.canvas.width), y: _.random(this.canvas.height) };
+      spawn = {
+        x: _.random(this.canvas.width + margin * 2) - margin,
+        y: _.random(this.canvas.height + margin * 2) - margin
+      };
     } while (
       Util.distanceBetween(spawn, this.player) < minDistanceAway &&
       attempts++ < maxAttempts);
