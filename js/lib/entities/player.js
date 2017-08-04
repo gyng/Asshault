@@ -72,6 +72,17 @@ Player.prototype.addGold = function (value) {
 
 Player.prototype.damage = function (damage, by) {
   Entity.prototype.damage.bind(this)(damage, by);
+
+  var portionGoldDropped = 0.15;
+  var powerupGoldAmount = 10;
+  var goldAmountDropped = Math.floor(this.game.gold * portionGoldDropped);
+  var goldDropped = goldAmountDropped / powerupGoldAmount;
+  this.game.gold -= goldAmountDropped;
+
+  for (var i = 0; i < goldDropped; i++) {
+    this.game.addPowerup(new PowerupCoin(this.resources, Util.jitterPosition(this.getPosition(), 50 + 10 * i)));
+  }
+
   this.game.ui.updateHealth();
 };
 
