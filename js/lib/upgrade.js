@@ -1,5 +1,7 @@
 function Upgrade(data) {
   this.name = data.name;
+  this.lame = !!data.lame;
+  this.important = !!data.important;
   this.effect = data.effect;
   this.constraints = data.constraints || [];
   this.text = data.text;
@@ -122,6 +124,7 @@ function Upgrades(game) { // eslint-disable-line no-unused-vars
     reduceCameraShake:
       new Upgrade({
         name:  'reduceCameraShake',
+        lame: true,
         effect: function () {
           this.subtractGold(100);
           this.renderer.shake.reduction *= 0.75;
@@ -260,6 +263,7 @@ function Upgrades(game) { // eslint-disable-line no-unused-vars
     playerWalkingMovement:
       new Upgrade({
         name:  'playerWalkingMovement',
+        important: true,
         effect: function () {
           this.subtractGold(10);
 
@@ -364,6 +368,7 @@ function Upgrades(game) { // eslint-disable-line no-unused-vars
     buildTavern:
       new Upgrade({
         name:  'buildTavern',
+        important: true,
         effect: function () {
           this.subtractGold(50);
           var spawnX = this.player.x + Util.randomNegation(_.random(100, 300));
@@ -488,7 +493,7 @@ function Upgrades(game) { // eslint-disable-line no-unused-vars
           [new UpgradeConstraint('haveGold'), 150]
         ],
         text: {
-          name:    '🐺 A Shartshooper Appears',
+          name:    '🦉 A Shartshooper Appears',
           cost:    '150G, Tavern',
           effect:  'Shartshoopers are skilled at ranged combat. 25G/reload.',
           flavour: 'Nearby foes they kill with their stench.'
@@ -692,8 +697,8 @@ function Upgrades(game) { // eslint-disable-line no-unused-vars
             bulletSpeedVariance: 2,
             bulletLifespanVariance: 10,
             bulletSprite: this.sprites.flame,
-            bulletWidth: 24,
-            bulletHeight: 24,
+            bulletWidth: 20,
+            bulletHeight: 20,
             bulletShadow: true,
             bulletFade: true
           });
@@ -783,6 +788,7 @@ function Upgrades(game) { // eslint-disable-line no-unused-vars
     enhancedSenses:
       new Upgrade({
         name:  'enhancedSenses',
+        lame: true,
         effect: function () {
           this.subtractGold(1000);
           game.renderer.context.clearRect(0, 0, game.canvas.width, game.canvas.height);

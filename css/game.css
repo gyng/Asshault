@@ -117,7 +117,7 @@ canvas {
 
 .active-upgrade {
     background-color: #ccc;
-    order: -1;
+    order: -2;
 
     pointer-events: auto;
 }
@@ -129,6 +129,14 @@ canvas {
 
 .active-upgrade:active {
     background-color: #ccc;
+}
+
+.active-upgrade.lame-upgrade {
+    order: -1;
+}
+
+.active-upgrade.important-upgrade {
+    order: -100;
 }
 
 .upgrade-name {

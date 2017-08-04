@@ -100,7 +100,9 @@ UI.prototype = {
       if (upgrade.isConstraintsMet(this.game)) {
         upgradeEl
           .toggleClass('active-upgrade', true)
-          .toggleClass('button', true);
+          .toggleClass('button', true)
+          .toggleClass('lame-upgrade', !!upgrade.lame)
+          .toggleClass('important-upgrade', !!upgrade.important);
       } else {
         upgradeEl
           .toggleClass('active-upgrade', false)
