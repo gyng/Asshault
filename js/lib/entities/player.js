@@ -76,7 +76,7 @@ Player.prototype.damage = function (damage, by) {
   var portionGoldDropped = 0.15;
   var powerupGoldAmount = 10;
   var goldAmountDropped = Math.floor(this.game.gold * portionGoldDropped);
-  var goldDropped = goldAmountDropped / powerupGoldAmount;
+  var goldDropped = Math.floor(goldAmountDropped / powerupGoldAmount);
   this.game.gold -= goldAmountDropped;
 
   for (var i = 0; i < goldDropped; i++) {
