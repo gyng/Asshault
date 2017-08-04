@@ -4,6 +4,7 @@ function PowerupExplosion(resources, overrides) {
   this.height = 48;
   this.shadow.on = true;
   this.sprite = resources.sprites.ball;
+  this.duration = 250 + _.random(100);
   this.health = 40;
 }
 
@@ -21,7 +22,7 @@ PowerupExplosion.prototype.tick = function () {
     this.activate();
   }
 
-  if (this.age > 300) {
+  if (this.age > this.duration) {
     this.die();
   }
 

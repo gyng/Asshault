@@ -7,6 +7,7 @@ function Powerup(resources, overrides) {
   this.goldGiven = 0;
   this.sprite = resources.sprites.debug4;
   this.health = 1000;
+  this.duration = 300;
 
   this.alignment = 'none';
   this.friendlyPierceChance = 0; // Alignment is relative

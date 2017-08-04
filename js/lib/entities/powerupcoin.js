@@ -1,10 +1,13 @@
 function PowerupCoin(resources, overrides) {
   Entity.call(this, resources, overrides);
-  this.width = 48;
-  this.height = 48;
   this.shadow.on = true;
   this.sprite = resources.sprites.gold;
   this.health = 40;
+  this.baseAmount = 10;
+  this.extraAmountMultiplier = 10;
+  this.duration = 250 + _.random(100);
+  this.width = (38 + this.baseAmount) * (this.extraAmountMultiplier / 10);
+  this.height = (38 + this.baseAmount) * (this.extraAmountMultiplier / 10);
 }
 
 PowerupCoin.prototype = new Entity();
@@ -21,7 +24,7 @@ PowerupCoin.prototype.tick = function () {
     this.activate();
   }
 
-  if (this.age > 300) {
+  if (this.age > this.duration) {
     this.die();
   }
 
@@ -42,7 +45,7 @@ PowerupCoin.prototype.activate = function () {
       );
     }
   } else {
-    this.game.addGold(10 + _.random(0, 1) * 10);
+    this.game.addGold(this.baseAmount + _.random(0, 1) * this.extraAmountMultiplier);
     this.game.audio.play('coin2');
   }
 
