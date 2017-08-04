@@ -39,8 +39,8 @@ EnemyRunner.prototype.tick = function () {
 EnemyRunner.prototype.explode = function () {
   this.die();
 
-  // Drop a bomb if killed by player
-  if (this.health <= 0) {
+  // Drop a bomb sometimes if killed by player
+  if (this.health <= 0 && Math.random() < 0.8) {
     this.game.addPowerup(new PowerupExplosion(this.resources, this.getPosition()));
   }
 };

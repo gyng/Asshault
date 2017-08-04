@@ -44,8 +44,8 @@ EnemyTank.prototype.explode = function () {
     this.game.addEntity(new Explosion(this.resources, explosionOverrides()));
   }
 
-  // Drop a coin if killed by player
-  if (this.health <= 0) {
+  // Drop a coin sometimes if killed by player
+  if (this.health <= 0 && Math.random() < 0.5) {
     this.game.addPowerup(new PowerupCoin(this.resources, this.getPosition()));
   }
 

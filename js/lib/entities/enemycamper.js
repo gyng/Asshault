@@ -58,7 +58,7 @@ EnemyCamper.prototype.explode = function () {
   Enemy.prototype.explode.bind(this)();
 
   // Drop a bomb if killed by player
-  if (this.health <= 0 && Math.random() > 0.9) {
+  if (this.health <= 0 && Math.random() < 0.2) {
     this.game.addPowerup(new PowerupExplosion(this.resources, this.getPosition()));
   }
 };
