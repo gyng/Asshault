@@ -16,6 +16,7 @@
     "EnemyCamper": true,
     "EnemyRunner": true,
     "EnemyShield": true,
+    "EnemySpawner": true,
     "EnemyTank": true,
     "Entity": true,
     "Explosion": true,

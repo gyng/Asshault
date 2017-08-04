@@ -181,7 +181,7 @@ Game.prototype = {
     this.addEntity(entity, 'enemy');
   },
 
-  spawnEnemy: function (enemy) {
+  spawnEnemy: function (enemy, x, y) {
     var spawn = {};
     var minDistanceAway = 300;
     var maxAttempts = 100;
@@ -190,10 +190,12 @@ Game.prototype = {
 
     do {
       spawn = {
-        x: _.random(this.canvas.width + margin * 2) - margin,
-        y: _.random(this.canvas.height + margin * 2) - margin
+        x: x || _.random(this.canvas.width + margin * 2) - margin,
+        y: y || _.random(this.canvas.height + margin * 2) - margin
       };
     } while (
+      typeof x === 'undefined' &&
+      typeof y === 'undefined' &&
       Util.distanceBetween(spawn, this.player) < minDistanceAway &&
       attempts++ < maxAttempts);
 

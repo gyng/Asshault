@@ -43,6 +43,12 @@ function Levels(game) { // eslint-disable-line no-unused-vars
               boss.startingHealth = boss.health;
               game.spawnEnemy(boss);
             }
+
+            if (wave >= 15) {
+              for (var spawners = wave / 10; spawners > 0; spawners--) {
+                game.spawnEnemy(new EnemySpawner(game.resources));
+              }
+            }
           } else {
             // Normal scrubs
             for (var scrubs = (wave * 2) + 10; scrubs > 0; scrubs--) {

@@ -15,7 +15,6 @@ function Renderer(game, canvas, decalCanvas, fadeCanvas) {
   // Nearest-neighbour scaling
   [this.context, this.decalContext, this.fadeContext].forEach(function (ctx) {
     ctx.imageSmoothingEnabled = false;
-    ctx.mozImageSmoothingEnabled = false;
   });
 }
 
@@ -119,7 +118,7 @@ Renderer.prototype = {
     var ent;
     for (var i = 0; i < this.game.entities.length; i++) {
       ent = this.game.entities[i];
-      if (ent.shadow.on) {
+      if (ent.shadow && ent.shadow.on) {
         this.context.save();
           var todSkew = (Math.max(0.2, (Math.abs(this.game.dayRatio - 0.5))) * 2) * 4;
 
