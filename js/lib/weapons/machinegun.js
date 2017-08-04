@@ -62,7 +62,7 @@ MachineGun.prototype.shake = function (strengthMultiplier) {
 };
 
 MachineGun.prototype.fireSound = function () {
-  this.game.audio.play(this.sounds.fire, Util.clamp(this.streams.length * 0.2 * this.volume, 0.2, 1));
+  this.game.audio.play(this.sounds.fire, Util.clamp(this.streams.length * 0.2 * this.volume, 0.2, 1) * this.volumeModifier);
 };
 
 MachineGun.prototype.draw = function (context) {

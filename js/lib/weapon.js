@@ -26,6 +26,7 @@ function Weapon(parent, overrides) {
   this.recoilCameraShake = 7;
   this.recoilOffset = 5;
   this.volume = 1;
+  this.volumeModifier = 1;
 
   this.applyOverrides(overrides);
   if (typeof parent !== 'undefined') this.game = parent.game;
@@ -45,7 +46,7 @@ Weapon.prototype = {
     this.cooldown += this.reloadTime;
 
     if (this.sounds && this.sounds.reload) {
-      this.game.audio.play(this.sounds.reload, 1.0);
+      this.game.audio.play(this.sounds.reload, 1.0 * this.volumeModifier);
     }
   },
   reload: function () {

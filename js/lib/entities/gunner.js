@@ -97,6 +97,7 @@ Gunner.prototype.updateInfo = function () {
 // only for gunners and not other entities which use the same weapon
 Gunner.prototype.fireAt = function (object) {
   this.checkBullets(15);
+  this.setSpatialVolume(300);
   this.weapon.fire(Math.atan2(this.y - object.y, this.x - object.x));
 };
 

@@ -288,6 +288,13 @@ Entity.prototype = {
     this.lastInfo = _.clone(this.info.text);
   },
 
+  setSpatialVolume: function (earshot) {
+    earshot = earshot || 300;
+    var distance = this.distanceTo(this.game.player);
+    var volumeModifier = Util.clamp(earshot / distance, 0.5, 2);
+    if (this.weapon) this.weapon.volumeModifier = volumeModifier;
+  },
+
   updateHeroListItem: function () {
     this.uiElem = this.uiElem || this.game.ui.addToHeroList(this);
     this.game.ui.updateHeroListItem(this.uiElem, this);

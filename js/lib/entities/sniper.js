@@ -22,7 +22,7 @@ function Sniper(resources, overrides) {
     bulletSpeed: 60,
     bulletSpeedVariance: 30,
     damage: 5,
-    volume: 5,
+    volume: 2,
     hasMagazine: true,
     bullets: 12,
     bulletMagazineSize: 12,
@@ -107,6 +107,7 @@ Sniper.prototype.updateInfo = function () {
 // so we can upgrade the tracking easily later on
 Sniper.prototype.fireAt = function (object) {
   this.checkBullets(25);
+  this.setSpatialVolume(600);
   this.weapon.fire(Math.atan2(this.y - object.y, this.x - object.x));
 };
 
