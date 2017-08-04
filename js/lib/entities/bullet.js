@@ -44,6 +44,8 @@ Bullet.prototype.tick = function () {
             (this.alignment === 'enemy' && ent.alignment === 'friendly')) {
           pierceChance = ent.enemyPierceChance;
           ent.damage(this.damage, this);
+          this.game.audio.play('pierce', 0.7);
+
           if (typeof this.onhit === 'function') {
             this.onhit();
           }
