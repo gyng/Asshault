@@ -662,3 +662,17 @@ canvas {
     font-weight: bold;
     font-style: italic;
 }
+
+.github {
+    pointer-events: auto;
+    font-size: 1.4rem;
+    margin-top: 2rem;
+}
+
+.github > a {
+    color: white;
+}
+
+.ready-text > .github > a {
+    color: black;
+}
