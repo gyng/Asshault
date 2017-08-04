@@ -16,7 +16,11 @@ function Weapon(parent, overrides) {
   this.streamsPerLevel = 1;
   // List of bullet streams. Useful for stuff like triple-machineguns.
   this.streams = [{ spread: 0, offset: 0 }];
-  this.sounds = { fire: ['shoot2', 'shoot5', 'shoot7'] };
+  this.hasMagazine = false;
+  this.bullets = Number.MAX_VALUE;
+  this.bulletMagazineSize = Number.MAX_VALUE;
+  this.reloadTime = 0;
+  this.sounds = { fire: ['shoot2', 'shoot5', 'shoot7'], reload: 'reload', empty: 'empty' };
 
   this.recoilMultiplier = 1;
   this.recoilCameraShake = 7;
@@ -36,8 +40,19 @@ Weapon.prototype = {
     if (this.cooldown > 0) this.cooldown--;
   },
   draw: function () {},
-  bullet: function () {},
+  bullet: function () {
+    this.bullets = this.bulletMagazineSize;
+    this.cooldown += this.reloadTime;
 
+    if (this.sounds && this.sounds.reload) {
+      this.game.audio.play(this.sounds.reload, 1.0);
+    }
+  },
+  reload: function () {
+    this.cooldown += this.reloadTime;
+    this.bullets = this.bulletMagazineSize;
+    this.game.audio.play(this.sounds.reload);
+  },
   applyOverrides: function (overrides) {
     overrides = overrides || {};
     _.keys(overrides).forEach(function (key) {

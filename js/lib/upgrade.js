@@ -83,7 +83,7 @@ function Upgrades(game) { // eslint-disable-line no-unused-vars
           }]
         ],
         text: {
-          name: function () { return 'Ammo Feed Jury Rig ' + Util.romanize((game.upgradeCount.increaseBulletCount || 0) + 1); },
+          name: function () { return '🔮 Ammo Feed Jury Rig ' + Util.romanize((game.upgradeCount.increaseBulletCount || 0) + 1); },
           cost: function () { return Math.ceil(50 + (game.upgradeCount.increaseBulletCount || 0) * 1.5 * 100) + 'G'; },
           effect: 'More bullets! Un·bullet·able! Each consecutive upgrade is more expensive.'
         }
@@ -107,7 +107,7 @@ function Upgrades(game) { // eslint-disable-line no-unused-vars
           name: function () {
             var names = ['Iron', 'Cobalt', 'Nickel', 'Copper', 'Zinc', 'Tin', 'Tungsten', 'Lead', 'Polonium', 'Uranium'];
             var level = game.upgradeCount.playerPiercingBullets || 0;
-            return 'Piercing ' + names[level] + ' Bullets ' + Util.romanize(level + 1);
+            return '🔮 Piercing ' + names[level] + ' Bullets ' + Util.romanize(level + 1);
           },
           cost: function () { return Math.ceil(400 + (game.upgradeCount.playerPiercingBullets || 0) * 1.5 * 150) + 'G'; },
           effect: function () {
@@ -130,7 +130,7 @@ function Upgrades(game) { // eslint-disable-line no-unused-vars
           [new UpgradeConstraint('haveGold'), 100]
         ],
         text: {
-          name:   'Reinforce Camera Tripod',
+          name:   '🎥 Reinforce Camera Tripod',
           cost:   '100G',
           effect: 'Reduces camera shake.'
         },
@@ -250,7 +250,7 @@ function Upgrades(game) { // eslint-disable-line no-unused-vars
           [new UpgradeConstraint('haveGold'), 80]
         ],
         text: {
-          name:    'The Flying Machine',
+          name:    '🚶 The Flying Machine',
           cost:    '80G, Player Level 1',
           effect:  'Are you a legit flyboy? Move with the WASD keys. (Harder to control, but faster than walking)',
           flavour: 'Avoid sun.'
@@ -353,7 +353,7 @@ function Upgrades(game) { // eslint-disable-line no-unused-vars
           [new UpgradeConstraint('haveGold'), 10]
         ],
         text: {
-          name:      'The Walking Machine',
+          name:      '🚶 The Walking Machine',
           cost:      '10G, Player Level 1',
           effect:    'Fear flying? Walk! Slowly. Move with the WASD keys.',
           flavour:   'Ambulate in your new perambulator.',
@@ -377,10 +377,10 @@ function Upgrades(game) { // eslint-disable-line no-unused-vars
           [new UpgradeConstraint('haveGold'), 50]
         ],
         text: {
-          name:    'A House of Heroes',
+          name:    '🍺 A House of Heroes',
           cost:    '50G, No Tavern built',
           effect:  'Taverns are known for attracting heroes of all kinds. '
-                   + 'Hire heroes for a small stipend. Heroes are taxed at 50% of their gold at the end of each wave.',
+                   + 'Hire heroes for a small stipend. Heroes use gold to reload and are taxed 25% of their remaining gold at the end of each wave.',
           flavour: 'Beer, ale and whiskey.'
         },
         gameUpgradeIcon: {
@@ -404,9 +404,9 @@ function Upgrades(game) { // eslint-disable-line no-unused-vars
           [new UpgradeConstraint('haveGold'), 100]
         ],
         text: {
-          name:    'A Ram Boar Arrives',
+          name:    '🐷 A Ram Boar Arrives',
           cost:    'Tavern, 100G',
-          effect:  'A Ram Boar is a half-gun, half-man, half-ram and half-boar creature.',
+          effect:  'A Ram Boar is a half-gun, half-man, half-ram and half-boar creature. 15G/reload.',
           flavour: 'Ram Boars are known to be broke all the time.'
         }
       }),
@@ -417,6 +417,7 @@ function Upgrades(game) { // eslint-disable-line no-unused-vars
         effect: function () {
           this.subtractGold(400);
           var betterFireAt = function (ent) {
+            this.checkBullets(15);
             var bulletTravelTime = this.distanceTo(ent) / this.weapon.bulletSpeed;
             var moveDelta = ent.getMoveDelta(this.game.player.x, this.game.player.y, ent.speed, ent.health / 10);
             this.weapon.fire(Math.atan2(this.y - ent.y - bulletTravelTime * moveDelta.y, this.x - ent.x - bulletTravelTime * moveDelta.x));
@@ -434,7 +435,7 @@ function Upgrades(game) { // eslint-disable-line no-unused-vars
           [new UpgradeConstraint('haveGold'), 400]
         ],
         text: {
-          name:    'Ram Boar Weapons Training',
+          name:    '🐷 Ram Boar Weapons Training',
           cost:    '400G, Ram Boar',
           effect:  'Ram Boars learn to fire ahead of their targets.',
           flavour: 'Who knew Ram Boars didn’t know how to shoot?'
@@ -463,7 +464,7 @@ function Upgrades(game) { // eslint-disable-line no-unused-vars
           }]
         ],
         text: {
-          name:    'Ram Boar Goes Full Auto',
+          name:    '🐷 Ram Boar Goes Full Auto',
           cost:    function () {
             return '100G/Ram Boar (' + 100 * game.friendlies.filter(function (ent) { return ent.constructor === Gunner; }).length + 'G)';
           },
@@ -487,9 +488,9 @@ function Upgrades(game) { // eslint-disable-line no-unused-vars
           [new UpgradeConstraint('haveGold'), 150]
         ],
         text: {
-          name:    'A Shartshooper Appears',
+          name:    '🐺 A Shartshooper Appears',
           cost:    '150G, Tavern',
-          effect:  'Shartshoopers are skilled at ranged combat.',
+          effect:  'Shartshoopers are skilled at ranged combat. 25G/reload.',
           flavour: 'Nearby foes they kill with their stench.'
         }
       }),
@@ -509,7 +510,7 @@ function Upgrades(game) { // eslint-disable-line no-unused-vars
           [new UpgradeConstraint('haveGold'), 10]
         ],
         text: {
-          name:    'Tavern Clean Up Crew Member',
+          name:    '🐵 Tavern Clean Up Crew Member',
           cost:    '10G, Tavern',
           effect:  'No mess too big.',
           flavour: 'No salary too small.'
@@ -536,7 +537,7 @@ function Upgrades(game) { // eslint-disable-line no-unused-vars
           }]
         ],
         text: {
-          name:    'Point Defense Drone',
+          name:    '💿 Point Defense Drone',
           cost:    function () { return Math.ceil(50 + (game.upgradeCount.playerPointDefenseDrone || 0) * 1.2 * 50) + 'G'; },
           effect:  'Zaps nearby foes. Cost increases with number of drones bought.',
           flavour: 'A field of absolute terror. For when your friends intrude on your absolute territory.'
@@ -581,7 +582,7 @@ function Upgrades(game) { // eslint-disable-line no-unused-vars
           [new UpgradeConstraint('upgradeCountWithinRange'), 'pointDefenseDroneBulletHell', 0, 1]
         ],
         text: {
-          name:    'Point Defence Drone Bullet Hell',
+          name:    '💿 Point Defence Drone Bullet Hell',
           cost:    '400G',
           effect:  'Bullet hell.',
           flavour: 'wich pdd wud u get hit by'
@@ -624,7 +625,7 @@ function Upgrades(game) { // eslint-disable-line no-unused-vars
           [new UpgradeConstraint('upgradeCountWithinRange'), 'playerRicochetWeapon', 0, 1]
         ],
         text: {
-          name:    'Shotgun',
+          name:    '🔫 Shotgun',
           cost:    '100G',
           effect:  'Become a disciple of the shotgun. Disables other weapon paths.',
           flavour: 'Certified lethal.'
@@ -666,7 +667,7 @@ function Upgrades(game) { // eslint-disable-line no-unused-vars
           [new UpgradeConstraint('upgradeCountWithinRange'), 'playerRicochetWeapon', 0, 1]
         ],
         text: {
-          name:    'Moonlight Breaker',
+          name:    '🔫 Moonlight Breaker',
           cost:    '100G',
           effect:  'Develop a loving for radiation. Beam weapon. Disables other weapon paths.',
           flavour: 'Second degree sunlight.'
@@ -717,7 +718,7 @@ function Upgrades(game) { // eslint-disable-line no-unused-vars
           [new UpgradeConstraint('upgradeCountWithinRange'), 'playerRicochetWeapon', 0, 1]
         ],
         text: {
-          name:    'Flamethrower',
+          name:    '🔫 Flamethrower',
           cost:    '100G',
           effect:  '🔥🔥🔥 (Disables other weapon paths.)',
           flavour: '🔥🔥🔥'
@@ -772,7 +773,7 @@ function Upgrades(game) { // eslint-disable-line no-unused-vars
           [new UpgradeConstraint('upgradeCountWithinRange'), 'playerRicochetWeapon', 0, 1]
         ],
         text: {
-          name:    'Flak Cannon',
+          name:    '🔫 Flak Cannon',
           cost:    '100G',
           effect:  'A cute weapon for acute situations. Disables other weapon paths',
           flavour: 'The machine that goes ping, and pong, and peng.'
@@ -798,7 +799,7 @@ function Upgrades(game) { // eslint-disable-line no-unused-vars
           [new UpgradeConstraint('haveGold'), 1000]
         ],
         text: {
-          name:    'Go Blind',
+          name:    '🙈 Go Blind',
           cost:    '1000G',
           effect:  'Force yourself to master the art of awareness. Be one with everything (and move slightly faster)!',
           flavour: 'No, this does not give you all the upgrades. Side effects may include hair loss and blindness.'

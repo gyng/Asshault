@@ -11,7 +11,16 @@ function Gunner(resources, overrides) {
 
   this.target = null;
   this.targetAge = 0;
-  this.weapon = new MachineGun(this, { fireRate: 12, spread: 5, recoilMultiplier: 0, bulletSpeed: 15 });
+  this.weapon = new MachineGun(this, {
+    fireRate: 12,
+    spread: 5,
+    recoilMultiplier: 0,
+    bulletSpeed: 15,
+    hasMagazine: true,
+    bullets: 60,
+    bulletMagazineSize: 60,
+    reloadTime: 100
+  });
 
   this.level = 0;
   this.xp = 0;
@@ -77,7 +86,8 @@ Gunner.prototype.updateInfo = function () {
     name:  { value: this.name, draw: true },
     level: { prepend: 'level', value: this.level },
     xp:    { value: this.xp, postfix: 'xp' },
-    gold: { value: this.gold, postfix: 'G' }
+    gold: { value: this.gold, postfix: 'G' },
+    bullets: { value: this.weapon.bullets / this.weapon.bulletMagazineSize }
   };
 
   this.checkHeroInfo();
@@ -86,6 +96,7 @@ Gunner.prototype.updateInfo = function () {
 // Custom fireAt instead of weapon's fireat so we can upgrade target tracking
 // only for gunners and not other entities which use the same weapon
 Gunner.prototype.fireAt = function (object) {
+  this.checkBullets(15);
   this.weapon.fire(Math.atan2(this.y - object.y, this.x - object.x));
 };
 

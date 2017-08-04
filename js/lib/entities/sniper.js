@@ -16,7 +16,18 @@ function Sniper(resources, overrides) {
   this.firing = false;
   this.moveTarget = { x: this.game.player.x, y: this.game.player.y };
 
-  this.weapon = new MachineGun(this, { fireRate: 70, spread: 4, bulletSpeed: 60, bulletSpeedVariance: 30, damage: 5, volume: 5 });
+  this.weapon = new MachineGun(this, {
+    fireRate: 70,
+    spread: 4,
+    bulletSpeed: 60,
+    bulletSpeedVariance: 30,
+    damage: 5,
+    volume: 5,
+    hasMagazine: true,
+    bullets: 12,
+    bulletMagazineSize: 12,
+    reloadTime: 200
+  });
   this.weapon.sounds.fire = ['shoot1', 'shoot4', 'shoot3'];
 
   this.name = _.sample(['Athene', 'Bubo', 'Otus', 'Surnia', 'Asio', 'Nesasio', 'Strix', 'Ninox']);
@@ -85,7 +96,8 @@ Sniper.prototype.updateInfo = function () {
     name: { value: this.name, draw: true },
     level: { prepend: 'level', value: this.level },
     xp: { value: this.xp, postfix: 'xp' },
-    gold: { value: this.gold, postfix: 'G' }
+    gold: { value: this.gold, postfix: 'G' },
+    bullets: { value: this.weapon.bullets / this.weapon.bulletMagazineSize }
   };
 
   this.checkHeroInfo();
@@ -94,12 +106,13 @@ Sniper.prototype.updateInfo = function () {
 // Same reason as Gunner why we have a custom fireAt instead of using the weapon's fireAt:
 // so we can upgrade the tracking easily later on
 Sniper.prototype.fireAt = function (object) {
+  this.checkBullets(25);
   this.weapon.fire(Math.atan2(this.y - object.y, this.x - object.x));
 };
 
 Sniper.prototype.levelUp = function () {
   if (this.level % 10 === 0 || this.level === 1) {
-    this.weapon.streams.push({ offset: _.random(20), spread: 16 });
+    this.weapon.streams.push({ offset: _.random(25), spread: 16 });
     this.addUpgrade({ icon: this.game.sprites.debug4, tooltip: 'Levelled up! An extra bullet with every shot.' });
     this.say(_.sample([
       'Quick reload!',

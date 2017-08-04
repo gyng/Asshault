@@ -231,6 +231,10 @@ UI.prototype = {
       el[0].childNodes[3].children[1].children[0].innerHTML = 'K ' + hero.kills;
       el[0].childNodes[3].children[1].children[1].innerHTML = 'XP ' + hero.xp;
       el[0].childNodes[3].children[1].children[2].innerHTML = 'G ' + (hero.constructor === Player ? this.game.gold : hero.gold);
+
+      if (hero.weapon && hero.weapon.hasMagazine) {
+        el[0].childNodes[3].children[1].children[3].innerHTML = '•' + hero.weapon.bullets;
+      }
     }
   },
 

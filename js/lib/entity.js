@@ -15,7 +15,7 @@ function Entity(resources, overrides) {
   this.health = 0;
   this.lastHitBy = null;
   this.gold = 0;
-  this.taxRate = 0.5;
+  this.taxRate = 0.25;
   this.collisionRadius = 20;
 
   this.alignment = 'none';
@@ -217,6 +217,36 @@ Entity.prototype = {
   popup: function (text, duration, template) {
     // Use DOM for delicious CSS and !text wrapping!
     this.game.ui.createPopup(template, this.x, this.y - this.height * 2, text, duration);
+  },
+
+  // Enemy stuff
+  checkBullets: function (reloadCost) {
+    if (!this.weapon) return;
+
+    reloadCost = reloadCost || 10;
+
+    if (this.weapon.bullets === 0) {
+      if (this.gold >= reloadCost) {
+        this.popup('Reloading!', this.weapon.reloadTime * 3, '#template-speech-popup');
+        this.gold -= reloadCost;
+        this.updateInfo();
+
+        window.setTimeout(function () {
+          this.popup('-' + reloadCost, 650, '#template-gold-popup');
+        }.bind(this), this.weapon.reloadTime);
+
+        this.weapon.reload();
+      } else {
+        this.weapon.cooldown += this.weapon.fireRate * 2;
+        this.weapon.bullets += 1;
+        this.popup('Need ' + reloadCost + 'G for bullets!', this.weapon.cooldown * 2, '#template-speech-popup');
+        this.game.audio.play(this.weapon.sounds.empty, 1.0);
+      }
+    }
+  },
+
+  updateInfo: function () {
+
   },
 
   // Hero stuff, TODO: split into 'subclass'
