@@ -2,7 +2,7 @@
 
 ![Screenshot](http://i.imgur.com/lzGBXrD.png)
 
-Asshault is an in-browser action game created to play around with [game feel](https://www.youtube.com/watch?v=AJdEqssNZ-U), or [juice](https://www.youtube.com/watch?v=Fy0aCDmgnxg). Juice, among other things, comprises effects such as camera shake, particles, and sounds.
+Asshault is an in-browser action game started in 2013 to play around with [game feel](https://www.youtube.com/watch?v=AJdEqssNZ-U), or [juice](https://www.youtube.com/watch?v=Fy0aCDmgnxg). Juice, among other things, comprises effects such as camera shake, particles, and sounds.
 
 As such, the code is hacked together, and should really be refactored from the current prototypal inheritance into an entity-component system.
 
