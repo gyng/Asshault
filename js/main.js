@@ -79,8 +79,8 @@ require([
   "lib/util"
 ], function() {
   require(["lib/game", "lib/ui"], function() {
-    // eslint-disable-line global-require
     "use strict";
+
     $(document).ready(function() {
       new Game(true); // eslint-disable-line no-new
     });

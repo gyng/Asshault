@@ -291,7 +291,7 @@ Renderer.prototype = {
     el.style.transform = transformation;
   },
 
-  rotate3d: function(el, x, y, z, _deg) {
+  rotate3d: function(el, _x, _y, _z, _deg) {
     var transformation =
       "rotateX(" +
       this.shake.y / 50 +

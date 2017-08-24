@@ -48,8 +48,8 @@ Level.prototype = {
     // noop, to be replaced
   },
 
-  addEvent: function(time, scriptEvent, args) {
-    args = args || [];
+  addEvent: function(time, scriptEvent, _args) {
+    _args = _args || [];
     this.script[time] = scriptEvent;
   }
 };
