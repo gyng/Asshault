@@ -8,7 +8,14 @@ function BulletPing(resources, overrides) {
   this.rotation += Util.deg2rad(Util.randomNegation(_.random(50)));
 
   this.sounds = {
-    spawn: ['hit_hurt', 'hit_hurt2', 'hit_hurt3', 'hit_hurt4', 'hit_hurt5', 'hit_hurt6']
+    spawn: [
+      "hit_hurt",
+      "hit_hurt2",
+      "hit_hurt3",
+      "hit_hurt4",
+      "hit_hurt5",
+      "hit_hurt6"
+    ]
   };
   this.game.audio.play(this.sounds.spawn, 0.8);
 }
@@ -17,12 +24,12 @@ BulletPing.prototype = new Entity();
 
 BulletPing.prototype.constructor = BulletPing;
 
-BulletPing.prototype.tick = function () {
+BulletPing.prototype.tick = function() {
   if (this.age > this.lifespan) {
     this.die();
   }
 };
 
-BulletPing.prototype.getImage = function () {
+BulletPing.prototype.getImage = function() {
   return this.sprites.bulletping1;
 };

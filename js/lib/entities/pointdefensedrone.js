@@ -6,12 +6,12 @@ function PointDefenseDrone(resources, overrides) {
 
   this.shadow.on = true;
   this.shadow.size = { x: 4, y: 4 };
-  this.shadow.shape = 'circle';
+  this.shadow.shape = "circle";
 
-  this.sounds = { build: 'beep' };
+  this.sounds = { build: "beep" };
   this.game.audio.play(this.sounds.build, 0.9);
 
-  this.alignment = 'friendly';
+  this.alignment = "friendly";
   this.friendlyPierceChance = 0.9;
   this.enemyPierceChance = 0;
 
@@ -26,7 +26,7 @@ function PointDefenseDrone(resources, overrides) {
     volume: 0.1,
     bulletSpeedVariance: 5
   });
-  this.weapon.sounds.fire = 'shoot1';
+  this.weapon.sounds.fire = "shoot1";
   this.deferSource = this.game.player;
 
   this.target = null;
@@ -36,7 +36,7 @@ PointDefenseDrone.prototype = new Entity();
 
 PointDefenseDrone.prototype.constructor = PointDefenseDrone;
 
-PointDefenseDrone.prototype.tick = function () {
+PointDefenseDrone.prototype.tick = function() {
   this.rad += 1;
   var rad = Util.deg2rad(this.rad % 360) * this.angularVelocity;
   this.x = this.game.player.x + -Math.cos(rad) * this.orbitRadius;
@@ -44,9 +44,11 @@ PointDefenseDrone.prototype.tick = function () {
   this.rotation = rad;
 
   if (this.age % 2 === 0) {
-    if (Util.isDefined(this.game.player.nearestEnemy) &&
-        this.game.player.distanceToNearestEnemy < 200 &&
-        !this.game.player.nearestEnemy.markedForDeletion) {
+    if (
+      Util.isDefined(this.game.player.nearestEnemy) &&
+      this.game.player.distanceToNearestEnemy < 200 &&
+      !this.game.player.nearestEnemy.markedForDeletion
+    ) {
       this.weapon.fireAt(this.game.player.nearestEnemy);
     }
   }

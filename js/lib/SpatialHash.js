@@ -5,11 +5,11 @@ function SpatialHash(cellSize) {
 }
 
 SpatialHash.prototype = {
-  add: function (x, y, object) {
+  add: function(x, y, object) {
     var cell = [];
     var key = this.key(x, y);
 
-    if (typeof this.idx.key !== 'undefined') {
+    if (typeof this.idx.key !== "undefined") {
       cell = this.idx[key];
     } else {
       this.idx[key] = cell;
@@ -20,13 +20,13 @@ SpatialHash.prototype = {
     }
   },
 
-  query: function (x, y, pxRadius) {
+  query: function(x, y, pxRadius) {
     pxRadius = pxRadius || this.cellSize;
     var keys = this.keys(x, y, pxRadius);
     var results = [];
 
     for (var i = 0; i < keys.length; i++) {
-      if (typeof this.idx[keys[i]] !== 'undefined') {
+      if (typeof this.idx[keys[i]] !== "undefined") {
         results.push(this.idx[keys[i]]);
       }
     }
@@ -35,7 +35,7 @@ SpatialHash.prototype = {
   },
 
   // Obtain keys for cells in a radius (default 1 cell around)  cell at x, y position
-  keys: function (x, y, pxRadius) {
+  keys: function(x, y, pxRadius) {
     var results = [];
     var depth = Math.ceil(pxRadius / this.cellSize);
 
@@ -48,9 +48,9 @@ SpatialHash.prototype = {
     return results;
   },
 
-  key: function (x, y) {
+  key: function(x, y) {
     x = Math.floor(x / this.cellSize) * this.cellSize;
     y = Math.floor(y / this.cellSize) * this.cellSize;
-    return x + ':' + y;
+    return x + ":" + y;
   }
 };

@@ -20,7 +20,11 @@ function Weapon(parent, overrides) {
   this.bullets = Number.MAX_VALUE;
   this.bulletMagazineSize = Number.MAX_VALUE;
   this.reloadTime = 0;
-  this.sounds = { fire: ['shoot2', 'shoot5', 'shoot7'], reload: 'reload', empty: 'empty' };
+  this.sounds = {
+    fire: ["shoot2", "shoot5", "shoot7"],
+    reload: "reload",
+    empty: "empty"
+  };
 
   this.recoilMultiplier = 1;
   this.recoilCameraShake = 7;
@@ -29,19 +33,19 @@ function Weapon(parent, overrides) {
   this.volumeModifier = 1;
 
   this.applyOverrides(overrides);
-  if (typeof parent !== 'undefined') this.game = parent.game;
+  if (typeof parent !== "undefined") this.game = parent.game;
 }
 
 Weapon.prototype = {
-  fire: function () {},
-  fireAt: function (target) {
+  fire: function() {},
+  fireAt: function(target) {
     this.fire(Math.atan2(this.parent.y - target.y, this.parent.x - target.x));
   },
-  tock: function () {
+  tock: function() {
     if (this.cooldown > 0) this.cooldown--;
   },
-  draw: function () {},
-  bullet: function () {
+  draw: function() {},
+  bullet: function() {
     this.bullets = this.bulletMagazineSize;
     this.cooldown += this.reloadTime;
 
@@ -49,15 +53,17 @@ Weapon.prototype = {
       this.game.audio.play(this.sounds.reload, 1.0 * this.volumeModifier);
     }
   },
-  reload: function () {
+  reload: function() {
     this.cooldown += this.reloadTime;
     this.bullets = this.bulletMagazineSize;
     this.game.audio.play(this.sounds.reload);
   },
-  applyOverrides: function (overrides) {
+  applyOverrides: function(overrides) {
     overrides = overrides || {};
-    _.keys(overrides).forEach(function (key) {
-      this[key] = overrides[key];
-    }.bind(this));
+    _.keys(overrides).forEach(
+      function(key) {
+        this[key] = overrides[key];
+      }.bind(this)
+    );
   }
 };

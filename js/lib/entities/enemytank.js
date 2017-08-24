@@ -13,7 +13,7 @@ function EnemyTank(resources, overrides) {
   this.xpGiven = 20;
   this.goldGiven = 10;
 
-  this.alignment = 'enemy';
+  this.alignment = "enemy";
   this.friendlyPierceChance = 0; // Alignment is relative
   this.enemyPierceChance = 0; // Pierce chance for bullets from player+heroes
 }
@@ -23,19 +23,19 @@ _.extend(EnemyTank.prototype, Enemy.prototype);
 
 EnemyTank.prototype.constructor = EnemyTank;
 
-EnemyTank.prototype.explode = function () {
+EnemyTank.prototype.explode = function() {
   var position = this.getPosition();
   var minExtraExplosions = 1;
   var maxExtraExplosions = 4;
 
-  var explosionOverrides = function () {
+  var explosionOverrides = function() {
     var maxOffset = 64;
     var maxDelay = 72;
 
     return {
       x: position.x + _.random(maxOffset),
       y: position.y + _.random(maxOffset),
-      age: -(_.random(maxDelay))
+      age: -_.random(maxDelay)
     };
   };
 

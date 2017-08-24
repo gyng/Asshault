@@ -13,28 +13,28 @@ function Tavern(resources, overrides) {
   this.info.lineHeight = 16;
   this.info.offset.y = -32;
 
-  this.sounds = { build: 'build' };
+  this.sounds = { build: "build" };
   this.game.audio.play(this.sounds.build, 0.9);
 
-  this.alignment = 'friendly';
+  this.alignment = "friendly";
   this.friendlyPierceChance = 0.85;
   this.enemyPierceChance = 0.3;
 
-  this.say('Grand opening!');
+  this.say("Grand opening!");
 }
 
 Tavern.prototype = new Entity();
 
 Tavern.prototype.constructor = Tavern;
 
-Tavern.prototype.tick = function () {
+Tavern.prototype.tick = function() {
   if (this.age % 2400 === 0) {
     this.info.text.flavour = {
       value: _.sample([
-        'Barkeep! Another!',
-        ['Pay up!', "— You're broke?"],
-        'My mead is better than your ale',
-        'This one time, at Ram Boar school...'
+        "Barkeep! Another!",
+        ["Pay up!", "— You're broke?"],
+        "My mead is better than your ale",
+        "This one time, at Ram Boar school..."
       ]),
       draw: true
     };

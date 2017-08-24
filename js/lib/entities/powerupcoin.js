@@ -15,7 +15,7 @@ _.extend(PowerupCoin.prototype, Powerup.prototype);
 
 PowerupCoin.prototype.constructor = PowerupCoin;
 
-PowerupCoin.prototype.tick = function () {
+PowerupCoin.prototype.tick = function() {
   if (this.collidesWith(this.game.player, this.collisionRadius)) {
     this.activate();
   }
@@ -31,22 +31,26 @@ PowerupCoin.prototype.tick = function () {
   this.pulse(this.age);
 };
 
-PowerupCoin.prototype.activate = function () {
+PowerupCoin.prototype.activate = function() {
   if (Math.random() < 0.01) {
     // 1% chance to explode into coins
     this.game.addEntity(new Explosion(this.resources, this.getPosition()));
-    this.game.audio.play('coin', 2.0);
-    this.game.audio.play('coin2', 2.0);
+    this.game.audio.play("coin", 2.0);
+    this.game.audio.play("coin2", 2.0);
 
     for (var i = 0; i < 8; i++) {
-      this.game.addPowerup(new PowerupCoin(
-        this.resources,
-        Util.jitterPosition(this.getPosition(), 64))
+      this.game.addPowerup(
+        new PowerupCoin(
+          this.resources,
+          Util.jitterPosition(this.getPosition(), 64)
+        )
       );
     }
   } else {
-    this.game.addGold(this.baseAmount + _.random(0, 1) * this.extraAmountMultiplier);
-    this.game.audio.play('coin2');
+    this.game.addGold(
+      this.baseAmount + _.random(0, 1) * this.extraAmountMultiplier
+    );
+    this.game.audio.play("coin2");
   }
 
   this.die();

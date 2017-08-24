@@ -4,31 +4,42 @@ function Game(debug) {
 }
 
 Game.prototype = {
-  load: function () {
+  load: function() {
     var toLoad = 2; // 1 for sprite, 1 for audio
     var loaded = 0;
 
-    var loadedCallback = function () {
+    var loadedCallback = function() {
       if (++loaded === toLoad) this.initialize();
     }.bind(this);
 
-    $.getJSON('res/sprites.json', function (sprites) {
-      this.spriteLoader = new Sprites(sprites);
-      this.spriteLoader.preload(loadedCallback);
-      this.sprites = this.spriteLoader.getSprites();
-    }.bind(this));
+    $.getJSON(
+      "res/sprites.json",
+      function(sprites) {
+        this.spriteLoader = new Sprites(sprites);
+        this.spriteLoader.preload(loadedCallback);
+        this.sprites = this.spriteLoader.getSprites();
+      }.bind(this)
+    );
 
-    $.getJSON('res/sounds.json', function (sounds) {
-      this.audio = new Audio(sounds);
-      this.audio.preload(loadedCallback);
-    }.bind(this));
+    $.getJSON(
+      "res/sounds.json",
+      function(sounds) {
+        this.audio = new Audio(sounds);
+        this.audio.preload(loadedCallback);
+      }.bind(this)
+    );
   },
 
-  initialize: function () {
-    this.canvas = $('#canvas')[0];
-    this.decalCanvas = $('#persistent-canvas')[0];
-    this.fadeCanvas = $('#fade-canvas')[0];
-    this.renderer = new Renderer(this, this.canvas, this.decalCanvas, this.fadeCanvas);
+  initialize: function() {
+    this.canvas = $("#canvas")[0];
+    this.decalCanvas = $("#persistent-canvas")[0];
+    this.fadeCanvas = $("#fade-canvas")[0];
+    this.renderer = new Renderer(
+      this,
+      this.canvas,
+      this.decalCanvas,
+      this.fadeCanvas
+    );
 
     this.running = true;
     this.gameOver = false;
@@ -38,12 +49,15 @@ Game.prototype = {
     this.center = { x: this.canvas.width / 2, y: this.canvas.height / 2 };
 
     this.resources = {
-      game:    this,
+      game: this,
       sprites: this.sprites,
-      sounds:  this.sounds
+      sounds: this.sounds
     };
 
-    this.player = new Player(this.resources, { x: this.center.x, y: this.center.y });
+    this.player = new Player(this.resources, {
+      x: this.center.x,
+      y: this.center.y
+    });
     this.entities = [this.player];
     this.friendlies = [this.player];
     this.enemies = [];
@@ -73,7 +87,7 @@ Game.prototype = {
     this.draw();
   },
 
-  step: function () {
+  step: function() {
     if (this.running && !this.gameOver) {
       this.age++;
 
@@ -126,11 +140,11 @@ Game.prototype = {
   },
 
   // Optimisation for culling; cache function
-  getMarkedForDeletion: function (ent) {
+  getMarkedForDeletion: function(ent) {
     return !ent.markedForDeletion;
   },
 
-  draw: function () {
+  draw: function() {
     if (this.running) {
       // Update scaling only once per second.
       if (++this.fpsCounter === 1) this.ui.scaleCanvas();
@@ -141,13 +155,13 @@ Game.prototype = {
     }
   },
 
-  setBackground: function (canvasbg, documentbg, containerbgColor) {
-    $('#persistent-canvas').css('background-image', 'url(' + canvasbg + ')');
-    $('body').css('background-image', 'url(' + documentbg + ')');
-    $('.container').css('background-color', containerbgColor || 'transparent');
+  setBackground: function(canvasbg, documentbg, containerbgColor) {
+    $("#persistent-canvas").css("background-image", "url(" + canvasbg + ")");
+    $("body").css("background-image", "url(" + documentbg + ")");
+    $(".container").css("background-color", containerbgColor || "transparent");
   },
 
-  upgrade: function (upgradeName, args) {
+  upgrade: function(upgradeName, args) {
     var upgrade = this.upgrades.list[upgradeName];
 
     if (upgrade.isConstraintsMet(this)) {
@@ -161,27 +175,35 @@ Game.prototype = {
       }
 
       if (Util.isDefined(upgrade.gameUpgradeIcon)) {
-        this.ui.addGameUpgradeIcon(upgrade.gameUpgradeIcon.icon, upgrade.gameUpgradeIcon.tooltip);
+        this.ui.addGameUpgradeIcon(
+          upgrade.gameUpgradeIcon.icon,
+          upgrade.gameUpgradeIcon.tooltip
+        );
       }
     }
   },
 
-  addEntity: function (entity, type) {
+  addEntity: function(entity, type) {
     this.entities.push(entity);
-    type = type || 'entity';
+    type = type || "entity";
     switch (type) {
-      case 'enemy': this.enemies.push(entity); break;
-      case 'friendly': this.friendlies.push(entity); break;
-      default: /* noop */ break;
+      case "enemy":
+        this.enemies.push(entity);
+        break;
+      case "friendly":
+        this.friendlies.push(entity);
+        break;
+      default:
+        /* noop */ break;
     }
   },
 
-  addPowerup: function (entity) {
-    entity.alignment = 'enemy';
-    this.addEntity(entity, 'enemy');
+  addPowerup: function(entity) {
+    entity.alignment = "enemy";
+    this.addEntity(entity, "enemy");
   },
 
-  spawnEnemy: function (enemy, x, y) {
+  spawnEnemy: function(enemy, x, y) {
     var spawn = {};
     var minDistanceAway = 300;
     var maxAttempts = 100;
@@ -194,41 +216,57 @@ Game.prototype = {
         y: y || _.random(this.canvas.height + margin * 2) - margin
       };
     } while (
-      typeof x === 'undefined' &&
-      typeof y === 'undefined' &&
+      typeof x === "undefined" &&
+      typeof y === "undefined" &&
       Util.distanceBetween(spawn, this.player) < minDistanceAway &&
-      attempts++ < maxAttempts);
+      attempts++ < maxAttempts
+    );
 
     if (attempts < maxAttempts) {
       enemy.x = spawn.x;
       enemy.y = spawn.y;
-      this.addEntity(enemy, 'enemy');
+      this.addEntity(enemy, "enemy");
     }
   },
 
-  addGold: function (amount) {
+  addGold: function(amount) {
     this.gold += amount;
     this.ui.updateGold();
   },
 
-  subtractGold: function (amount) {
+  subtractGold: function(amount) {
     this.gold -= amount;
     this.ui.updateGold();
-    this.audio.play('coin');
+    this.audio.play("coin");
   },
 
-  updateDebugInfo: function () {
+  updateDebugInfo: function() {
     var reduction = this.audio.compressor.reduction;
-    var reductionLevel = reduction && parseFloat(reduction) ? reduction : reduction.value;
+    var reductionLevel =
+      reduction && parseFloat(reduction) ? reduction : reduction.value;
 
-    $('#debug').html(
-      '<p>' + this.fpsCounter + ' FPS</p>' +
-      '<p>' + (this.age - this.lastAge) + ' ticks/s</p>' +
-      '<p>' + this.entities.length + ' entities</p>' +
-      '<p>' + this.friendlies.length + ' friendlies</p>' +
-      '<p>' + this.enemies.length + ' enemies</p>' +
-      '<p>' + this.player.health + ' player health</p>' +
-      '<p>' + (reductionLevel ? reductionLevel.toFixed(2) : '?') + ' compressor reduction</p>'
+    $("#debug").html(
+      "<p>" +
+        this.fpsCounter +
+        " FPS</p>" +
+        "<p>" +
+        (this.age - this.lastAge) +
+        " ticks/s</p>" +
+        "<p>" +
+        this.entities.length +
+        " entities</p>" +
+        "<p>" +
+        this.friendlies.length +
+        " friendlies</p>" +
+        "<p>" +
+        this.enemies.length +
+        " enemies</p>" +
+        "<p>" +
+        this.player.health +
+        " player health</p>" +
+        "<p>" +
+        (reductionLevel ? reductionLevel.toFixed(2) : "?") +
+        " compressor reduction</p>"
     );
 
     this.lastAge = this.age;

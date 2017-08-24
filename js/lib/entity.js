@@ -1,4 +1,3 @@
-
 function Entity(resources, overrides) {
   this.width = 0;
   this.height = 0;
@@ -18,12 +17,12 @@ function Entity(resources, overrides) {
   this.taxRate = 0.25;
   this.collisionRadius = 20;
 
-  this.alignment = 'none';
+  this.alignment = "none";
   this.friendlyPierceChance = 0;
   this.enemyPierceChance = 0;
   this.weapons = [];
 
-  if (typeof resources !== 'undefined') {
+  if (typeof resources !== "undefined") {
     this.sprites = resources.sprites;
     this.sprite = resources.sprites.transparent;
     this.sounds = resources.sounds;
@@ -34,9 +33,9 @@ function Entity(resources, overrides) {
   this.shadow = {
     on: false,
     offset: { x: 0, y: 0 },
-    color: 'rgba(0, 0, 0, 0.3)',
+    color: "rgba(0, 0, 0, 0.3)",
     size: { x: 45, y: 45 },
-    shape: 'square',
+    shape: "square",
     todScale: 1
   };
 
@@ -44,9 +43,9 @@ function Entity(resources, overrides) {
   this.info = {
     draw: false,
     text: {},
-    fill: '#0f0',
-    font: 'bold 20px Megrim',
-    strokeStyle: '#000',
+    fill: "#0f0",
+    font: "bold 20px Megrim",
+    strokeStyle: "#000",
     strokeWidth: 2,
     lineHeight: 28,
     offset: { x: 0, y: 0 },
@@ -65,37 +64,49 @@ function Entity(resources, overrides) {
 }
 
 Entity.prototype = {
-  tick: function () {},
+  tick: function() {},
 
-  tock: function () {
+  tock: function() {
     if (this.age === 1) this.info.dirty = true;
     if (this.weapon) this.weapon.tock();
     this.age++;
   },
 
-  draw: function (_context) {},
+  draw: function(_context) {},
 
-  drawHighlight: function (context) {
+  drawHighlight: function(context) {
     if (this.highlighted) {
       context.beginPath();
-      context.fillStyle = this.highlightColor || 'rgba(247, 243, 37, 0.5)';
-      context.arc(0, 0, Util.hypotenuse(this.width, this.height) * 1.5, 0, 2 * Math.PI);
+      context.fillStyle = this.highlightColor || "rgba(247, 243, 37, 0.5)";
+      context.arc(
+        0,
+        0,
+        Util.hypotenuse(this.width, this.height) * 1.5,
+        0,
+        2 * Math.PI
+      );
       context.fill();
     }
   },
 
-  drawImage: function (context) {
-    context.drawImage(this.getImage(), -this.width / 2, -this.height / 2, this.width, this.height);
+  drawImage: function(context) {
+    context.drawImage(
+      this.getImage(),
+      -this.width / 2,
+      -this.height / 2,
+      this.width,
+      this.height
+    );
   },
 
-  drawFadingImage: function (context) {
+  drawFadingImage: function(context) {
     this.drawImage(context);
   },
 
-  drawInformation: function (context) {
+  drawInformation: function(context) {
     // Per-entity buffer text to be drawn to canvas in a separate canvas as fillText is really really slow
-    this.infoCanvas = this.infoCanvas || document.createElement('canvas');
-    this.infoContext = this.infoContext || this.infoCanvas.getContext('2d');
+    this.infoCanvas = this.infoCanvas || document.createElement("canvas");
+    this.infoContext = this.infoContext || this.infoCanvas.getContext("2d");
 
     // If the info is dirty we just update the UI anyway
     if (this.info.dirty) {
@@ -109,15 +120,19 @@ Entity.prototype = {
     if (this.info.drawDirty) {
       this.infoCanvas.width = 300;
       // +1 for zero-height canvases not showing up
-      this.infoCanvas.height = (_.keys(this.info.text).length + 0.5) * this.info.lineHeight + 1;
+      this.infoCanvas.height =
+        (_.keys(this.info.text).length + 0.5) * this.info.lineHeight + 1;
       this.infoContext.font = this.info.font;
       this.infoContext.fillStyle = this.info.fill;
 
       var i = 0;
-      _.each(_.filter(this.info.text, { draw: true }), function (line, _key) {
-        var text = (line.prepend || '') + line.value + (line.postfix || '');
-        this.infoContext.fillText(text, 0, ++i * this.info.lineHeight);
-      }.bind(this));
+      _.each(
+        _.filter(this.info.text, { draw: true }),
+        function(line, _key) {
+          var text = (line.prepend || "") + line.value + (line.postfix || "");
+          this.infoContext.fillText(text, 0, ++i * this.info.lineHeight);
+        }.bind(this)
+      );
 
       this.info.drawDirty = false;
     }
@@ -125,39 +140,41 @@ Entity.prototype = {
     context.drawImage(this.infoCanvas, this.info.offset.x, this.info.offset.y);
   },
 
-  getImage: function () {
+  getImage: function() {
     return this.sprite;
   },
 
-  applyOverrides: function () {
-    _.keys(this.overrides).forEach(function (key) {
-      this[key] = this.overrides[key];
-    }.bind(this));
+  applyOverrides: function() {
+    _.keys(this.overrides).forEach(
+      function(key) {
+        this[key] = this.overrides[key];
+      }.bind(this)
+    );
   },
 
-  collidesWith: function (object, threshold) {
-    return (this.distanceTo(object) < (threshold || this.collisionRadius));
+  collidesWith: function(object, threshold) {
+    return this.distanceTo(object) < (threshold || this.collisionRadius);
   },
 
-  distanceTo: function (object) {
+  distanceTo: function(object) {
     return Util.hypotenuse(object.x - this.x, object.y - this.y);
   },
 
-  lookAt: function (object) {
+  lookAt: function(object) {
     this.rotation = Math.atan2(object.x - this.x, this.y - object.y);
   },
 
-  executeUpgrades: function () {
+  executeUpgrades: function() {
     for (var i = 0; i < this.upgrades.length; i++) {
       this.upgrades[i].call(this);
     }
   },
 
-  moveToTarget: function (speed, scaling) {
+  moveToTarget: function(speed, scaling) {
     this.moveTo(this.moveTarget.x, this.moveTarget.y, speed, scaling);
   },
 
-  moveTo: function (x, y, speed, scaling) {
+  moveTo: function(x, y, speed, scaling) {
     scaling = scaling || 1;
     speed = speed || this.speed;
     var normalized = Util.normalize({ x: x - this.x, y: y - this.y });
@@ -165,33 +182,36 @@ Entity.prototype = {
     this.y += normalized.y * speed * scaling;
   },
 
-  moveForward: function (speed, scaling) {
+  moveForward: function(speed, scaling) {
     this.moveInDirection(this.direction, speed, scaling);
   },
 
-  moveInDirection: function (direction, speed, scaling) {
+  moveInDirection: function(direction, speed, scaling) {
     speed = speed || this.speed;
     scaling = scaling || 1;
     this.y -= Math.cos(direction) * speed * scaling;
     this.x += Math.sin(direction) * speed * scaling;
   },
 
-  getMoveDelta: function (x, y, speed, scaling) {
+  getMoveDelta: function(x, y, speed, scaling) {
     scaling = scaling || 1;
     speed = speed || this.speed;
     var normalized = Util.normalize({ x: x - this.x, y: y - this.y });
-    return { x: normalized.x * this.speed * scaling, y: normalized.y * this.speed * scaling };
+    return {
+      x: normalized.x * this.speed * scaling,
+      y: normalized.y * this.speed * scaling
+    };
   },
 
-  getPosition: function () {
+  getPosition: function() {
     return { x: this.x, y: this.y };
   },
 
-  die: function () {
+  die: function() {
     this.markedForDeletion = true;
   },
 
-  damage: function (damage, by) {
+  damage: function(damage, by) {
     if (this.sounds && this.sounds.hurt) {
       this.game.audio.play(this.sounds.hurt);
     }
@@ -205,57 +225,78 @@ Entity.prototype = {
     }
   },
 
-  addGold: function (amount) {
+  addGold: function(amount) {
     this.gold += amount;
   },
 
-  say: function (text, duration) {
+  say: function(text, duration) {
     // Use DOM for delicious CSS and !text wrapping!
-    this.game.ui.createSpeechBubble(null, this.x, this.y - this.height * 2, text, duration);
+    this.game.ui.createSpeechBubble(
+      null,
+      this.x,
+      this.y - this.height * 2,
+      text,
+      duration
+    );
   },
 
-  popup: function (text, duration, template) {
+  popup: function(text, duration, template) {
     // Use DOM for delicious CSS and !text wrapping!
-    this.game.ui.createPopup(template, this.x, this.y - this.height * 2, text, duration);
+    this.game.ui.createPopup(
+      template,
+      this.x,
+      this.y - this.height * 2,
+      text,
+      duration
+    );
   },
 
   // Enemy stuff
-  checkBullets: function (reloadCost) {
+  checkBullets: function(reloadCost) {
     if (!this.weapon) return;
 
     reloadCost = reloadCost || 10;
 
     if (this.weapon.bullets === 0) {
       if (this.gold >= reloadCost) {
-        this.popup('Reloading!', this.weapon.reloadTime * 3, '#template-speech-popup');
+        this.popup(
+          "Reloading!",
+          this.weapon.reloadTime * 3,
+          "#template-speech-popup"
+        );
         this.gold -= reloadCost;
         this.updateInfo();
 
-        window.setTimeout(function () {
-          this.popup('-' + reloadCost, 650, '#template-gold-popup');
-        }.bind(this), this.weapon.reloadTime);
+        window.setTimeout(
+          function() {
+            this.popup("-" + reloadCost, 650, "#template-gold-popup");
+          }.bind(this),
+          this.weapon.reloadTime
+        );
 
         this.weapon.reload();
       } else {
         this.weapon.cooldown += this.weapon.fireRate * 2;
         this.weapon.bullets += 1;
-        this.popup('Need ' + reloadCost + 'G for bullets!', this.weapon.cooldown * 2, '#template-speech-popup');
+        this.popup(
+          "Need " + reloadCost + "G for bullets!",
+          this.weapon.cooldown * 2,
+          "#template-speech-popup"
+        );
         this.game.audio.play(this.weapon.sounds.empty, 1.0);
       }
     }
   },
 
-  updateInfo: function () {
-
-  },
+  updateInfo: function() {},
 
   // Hero stuff, TODO: split into 'subclass'
-  addXP: function (xp, kills) {
+  addXP: function(xp, kills) {
     this.xp += xp;
     this.kills += kills || 0;
   },
 
-  checkLevelUp: function (requiredXp) {
+  checkLevelUp: function(requiredXp) {
     requiredXp = requiredXp || 100;
     if (this.xp >= requiredXp) {
       this.xp = 0;
@@ -269,17 +310,18 @@ Entity.prototype = {
     }
   },
 
-  levelUp: function () {
-  },
+  levelUp: function() {},
 
-  checkHeroInfo: function () {
+  checkHeroInfo: function() {
     // Two types of info: UI info and canvas info.
     // Updating canvas info is much more expensive so we do a separate check for that info.
     if (JSON.stringify(this.info.text) === JSON.stringify(this.lastInfo)) {
       this.info.dirty = true;
 
-      if (JSON.stringify(_.where(this.info.text, { draw: true })) ===
-          JSON.stringify(_.where(this.lastInfo, { draw: true }))) {
+      if (
+        JSON.stringify(_.where(this.info.text, { draw: true })) ===
+        JSON.stringify(_.where(this.lastInfo, { draw: true }))
+      ) {
         this.info.drawDirty = true;
       }
     }
@@ -288,30 +330,34 @@ Entity.prototype = {
     this.lastInfo = _.clone(this.info.text);
   },
 
-  setSpatialVolume: function (earshot) {
+  setSpatialVolume: function(earshot) {
     earshot = earshot || 300;
     var distance = this.distanceTo(this.game.player);
     var volumeModifier = Util.clamp(earshot / distance, 0.5, 2);
     if (this.weapon) this.weapon.volumeModifier = volumeModifier;
   },
 
-  updateHeroListItem: function () {
+  updateHeroListItem: function() {
     this.uiElem = this.uiElem || this.game.ui.addToHeroList(this);
     this.game.ui.updateHeroListItem(this.uiElem, this);
   },
 
-  addUpgrade: function (entityUpgrade) {
+  addUpgrade: function(entityUpgrade) {
     // Not the full upgrade but a JS object {*effect: function, *icon: image}
     if (Util.isDefined(entityUpgrade.effect)) {
       this.upgrades.push(entityUpgrade.effect);
     }
 
     if (Util.isDefined(entityUpgrade.icon)) {
-      this.game.ui.addHeroUpgradeIcon(this.uiElem, entityUpgrade.icon, entityUpgrade.tooltip);
+      this.game.ui.addHeroUpgradeIcon(
+        this.uiElem,
+        entityUpgrade.icon,
+        entityUpgrade.tooltip
+      );
     }
   },
 
-  returnToMap: function (returnScale, margin) {
+  returnToMap: function(returnScale, margin) {
     returnScale = returnScale || 0.05;
     margin = margin || 50;
 

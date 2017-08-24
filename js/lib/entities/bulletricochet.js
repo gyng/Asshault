@@ -5,7 +5,7 @@ function BulletRicochet(resources, overrides) {
   this.sprite = this.sprite || this.sprites.bullet;
   this.damage = this.damage || 1;
   this.speed = this.speed || 30;
-  this.alignment = this.source ? this.source.alignment : 'none';
+  this.alignment = this.source ? this.source.alignment : "none";
 
   // Calculate on creation and not per tick
   this.deltaX = -Math.cos(this.direction) * this.speed;
@@ -14,9 +14,9 @@ function BulletRicochet(resources, overrides) {
   this.shadow = {
     on: true, // True set in tick: sometimes on to 'flicker'
     offset: { x: 0, y: 0 },
-    color: 'rgba(255, 190, 91,' + Math.random() * 0.15 + ')',
+    color: "rgba(255, 190, 91," + Math.random() * 0.15 + ")",
     size: { x: 28, y: 48 },
-    shape: 'circle',
+    shape: "circle",
     todScale: 0
   };
 
@@ -30,7 +30,7 @@ _.extend(BulletRicochet.prototype, Bullet.prototype);
 
 BulletRicochet.prototype.constructor = BulletRicochet;
 
-BulletRicochet.prototype.onhit = function () {
+BulletRicochet.prototype.onhit = function() {
   if (this.damage > 1) {
     for (var i = 0; i < this.numRicochets; i++) {
       var rad = Util.randomFloat(Util.twoPi);
@@ -44,7 +44,7 @@ BulletRicochet.prototype.onhit = function () {
         direction: rad,
         lifespan: 25 + Util.randomError(10),
         speed: Math.max(this.speed / 2 + Util.randomError(5), 1),
-        alignment: 'friendly',
+        alignment: "friendly",
         damage: this.damage / 4,
         source: this.game.player,
         sprite: this.game.sprites.bullet,

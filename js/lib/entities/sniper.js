@@ -7,7 +7,7 @@ function Sniper(resources, overrides) {
   this.speed = 7 + _.random(8);
   this.shadow.on = true;
 
-  this.alignment = 'friendly';
+  this.alignment = "friendly";
   this.friendlyPierceChance = 0.98;
   this.enemyPierceChance = 0;
 
@@ -28,9 +28,18 @@ function Sniper(resources, overrides) {
     bulletMagazineSize: 12,
     reloadTime: 200
   });
-  this.weapon.sounds.fire = ['shoot1', 'shoot4', 'shoot3'];
+  this.weapon.sounds.fire = ["shoot1", "shoot4", "shoot3"];
 
-  this.name = _.sample(['Athene', 'Bubo', 'Otus', 'Surnia', 'Asio', 'Nesasio', 'Strix', 'Ninox']);
+  this.name = _.sample([
+    "Athene",
+    "Bubo",
+    "Otus",
+    "Surnia",
+    "Asio",
+    "Nesasio",
+    "Strix",
+    "Ninox"
+  ]);
   this.info.draw = true;
   this.info.addToHeroList = true;
 
@@ -40,17 +49,19 @@ function Sniper(resources, overrides) {
   this.salary = 5;
 
   this.sounds = {
-    spawn: 'shartshooper',
-    levelup: 'powerup'
+    spawn: "shartshooper",
+    levelup: "powerup"
   };
 
   this.game.audio.play(this.sounds.spawn);
 
-  this.say(_.sample([
-    'Shartest shooper in all the lands.',
-    '100% stopping power.',
-    'Precision.'
-  ]));
+  this.say(
+    _.sample([
+      "Shartest shooper in all the lands.",
+      "100% stopping power.",
+      "Precision."
+    ])
+  );
   this.updateInfo();
 }
 
@@ -58,7 +69,7 @@ Sniper.prototype = new Entity();
 
 Sniper.prototype.constructor = Sniper;
 
-Sniper.prototype.tick = function () {
+Sniper.prototype.tick = function() {
   this.targetAge++;
 
   if (!Util.isDefined(this.target) || this.target.markedForDeletion) {
@@ -80,8 +91,10 @@ Sniper.prototype.tick = function () {
     }
 
     // Actually move to moveTarget after firing (0.25-0.5 of cooldown)
-    if (this.weapon.cooldown > this.weapon.fireRate * 0.25 &&
-        this.weapon.cooldown < this.weapon.fireRate * 0.5) {
+    if (
+      this.weapon.cooldown > this.weapon.fireRate * 0.25 &&
+      this.weapon.cooldown < this.weapon.fireRate * 0.5
+    ) {
       this.moveToTarget(this.speed, this.distanceTo(this.moveTarget) / 150);
     }
 
@@ -89,14 +102,14 @@ Sniper.prototype.tick = function () {
   }
 };
 
-Sniper.prototype.updateInfo = function () {
+Sniper.prototype.updateInfo = function() {
   this.checkLevelUp();
 
   this.info.text = {
     name: { value: this.name, draw: true },
-    level: { prepend: 'level', value: this.level },
-    xp: { value: this.xp, postfix: 'xp' },
-    gold: { value: this.gold, postfix: 'G' },
+    level: { prepend: "level", value: this.level },
+    xp: { value: this.xp, postfix: "xp" },
+    gold: { value: this.gold, postfix: "G" },
     bullets: { value: this.weapon.bullets / this.weapon.bulletMagazineSize }
   };
 
@@ -105,29 +118,34 @@ Sniper.prototype.updateInfo = function () {
 
 // Same reason as Gunner why we have a custom fireAt instead of using the weapon's fireAt:
 // so we can upgrade the tracking easily later on
-Sniper.prototype.fireAt = function (object) {
+Sniper.prototype.fireAt = function(object) {
   this.checkBullets(25);
   this.setSpatialVolume(600);
   this.weapon.fire(Math.atan2(this.y - object.y, this.x - object.x));
 };
 
-Sniper.prototype.levelUp = function () {
+Sniper.prototype.levelUp = function() {
   if (this.level % 10 === 0 || this.level === 1) {
     this.weapon.streams.push({ offset: _.random(25), spread: 16 });
-    this.addUpgrade({ icon: this.game.sprites.debug4, tooltip: 'Levelled up! An extra bullet with every shot.' });
-    this.say(_.sample([
-      'Quick reload!',
-      'They don\'t call me ' + this.weapon.streams.length + '-shot for nothing.'
-    ]), 1);
+    this.addUpgrade({
+      icon: this.game.sprites.debug4,
+      tooltip: "Levelled up! An extra bullet with every shot."
+    });
+    this.say(
+      _.sample([
+        "Quick reload!",
+        "They don't call me " +
+          this.weapon.streams.length +
+          "-shot for nothing."
+      ]),
+      1
+    );
   } else {
-    this.say(_.sample([
-      'My power grows.',
-      'I\'m getting good.'
-    ]), 1);
+    this.say(_.sample(["My power grows.", "I'm getting good."]), 1);
   }
 };
 
-Sniper.prototype.draw = function (context) {
+Sniper.prototype.draw = function(context) {
   this.drawOffset.x = Math.min(this.drawOffset.x * 0.9, 100);
   this.drawOffset.y = Math.min(this.drawOffset.y * 0.9, 100);
 
@@ -141,7 +159,7 @@ Sniper.prototype.draw = function (context) {
     context.beginPath();
     context.moveTo(0, 0);
     context.lineTo(0, -this.distanceTo(this.target));
-    context.strokeStyle = 'red';
+    context.strokeStyle = "red";
     context.strokeWidth = 2;
     context.stroke();
   }
