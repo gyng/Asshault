@@ -1,9 +1,9 @@
 function BulletPing(resources, overrides) {
   Entity.call(this, resources, overrides);
 
-  this.width = 48 + _.random(64);
-  this.height = 48 + _.random(64);
-  this.lifespan = 13 + _.random(4);
+  this.width = 32 + _.random(64) + _.random(64);
+  this.height = 32 + _.random(64) + _.random(64);
+  this.lifespan = 10 + _.random(24);
   this.todScale = 0;
   this.rotation += Util.deg2rad(Util.randomNegation(_.random(50)));
 
@@ -24,5 +24,9 @@ BulletPing.prototype.tick = function () {
 };
 
 BulletPing.prototype.getImage = function () {
-  return this.sprites.bulletping1;
+  var frameDuration = this.lifespan / this.sprites.aSparks.length;
+  var frame = Math.floor(this.age / frameDuration);
+  var sprite = this.sprites.aSparks[frame];
+
+  return sprite || this.sprites.transparent;
 };
