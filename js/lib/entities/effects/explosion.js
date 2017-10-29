@@ -2,10 +2,11 @@ function Explosion(resources, overrides) {
   Entity.call(this, resources, overrides);
 
   var scale = 1;
-  this.width = 128 + 128 * Math.random() * scale;
-  this.height = 128 + 128 * Math.random() * scale;
-  this.game.renderer.shake.x += Util.randomNegation(this.width / 6);
-  this.game.renderer.shake.y += Util.randomNegation(this.height / 6);
+  this.width = 192 + 64 * Math.random() * scale;
+  this.height = 192 + 64 * Math.random() * scale;
+  this.rotation = Math.random() * 2 * Math.PI;
+  this.game.renderer.shake.x += Util.randomNegation(this.width / 6.5);
+  this.game.renderer.shake.y += Util.randomNegation(this.height / 6.5);
 
   this.shadowOpacity = 0.7;
   this.shadow = {
@@ -38,29 +39,29 @@ Explosion.prototype.tick = function () {
   }
 
   if (this.age >= 0) {
-    this.shadow.size.x *= 1.07;
-    this.shadowOpacity *= 0.80;
+    this.shadow.size.x *= 1.03;
+    this.shadowOpacity *= 0.40;
     this.shadow.color = 'rgba(255, 244, 91,' + Math.random() * this.shadowOpacity + ')';
 
-    this.width /= 1.05;
-    this.height /= 1.05;
+    this.width /= 1 + Math.random() * 0.02;
+    this.height /= 1 + Math.random() * 0.02;
   }
 
-  if (this.age > 18) {
+  if (this.age > 30) {
     this.markedForDeletion = true;
   }
 };
 
 Explosion.prototype.getImage = function () {
+  var frames = 8;
+  var length = 30;
+  var frameDuration = length / frames;
+
   if (this.age <= 0) {
     return this.sprites.transparent;
-  } else if (this.age <= 5) {
-    return this.sprites.flash1;
-  } else if (this.age <= 10) {
-    return this.sprites.flash2;
-  } else if (this.age <= 15) {
-    return this.sprites.explosion1;
   }
 
-  return this.sprites.explosion2;
+  var frame = Math.floor(this.age / frameDuration);
+  var sprite = this.sprites.aExplosion[frame];
+  return sprite || this.sprites.transparent;
 };
