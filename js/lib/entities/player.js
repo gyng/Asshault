@@ -10,7 +10,7 @@ function Player(resources, overrides) {
   this.xp = 0;
   this.kills = 0;
 
-  this.alignment = 'friendly';
+  this.alignment = "friendly";
   this.friendlyPierceChance = 1;
   this.enemyPierceChance = 0;
   this.nearestEnemy = null;
@@ -20,22 +20,26 @@ function Player(resources, overrides) {
   this.additionalWeaponPierce = 0;
 
   this.shadow.on = true;
-  this.name = 'You!';
+  this.name = "You!";
   this.info.draw = true;
   this.info.addToHeroList = true;
 
   this.sounds = {
-    levelup: 'powerup',
-    hurt: 'scream3'
+    levelup: "powerup",
+    hurt: "scream3"
   };
 
-  $('#canvas').mousedown(function (_e) {
-    this.firing = true;
-  }.bind(this));
+  $("#canvas").mousedown(
+    function(_e) {
+      this.firing = true;
+    }.bind(this)
+  );
 
-  $(document).mouseup(function (_e) {
-    this.firing = false;
-  }.bind(this));
+  $(document).mouseup(
+    function(_e) {
+      this.firing = false;
+    }.bind(this)
+  );
 
   this.uiElem = null;
   this.updateInfo();
@@ -45,9 +49,12 @@ Player.prototype = new Entity();
 
 Player.prototype.constructor = Player;
 
-Player.prototype.tick = function () {
+Player.prototype.tick = function() {
   if (this.firing) {
-    var fireDirection = Math.atan2(this.y - this.game.ui.mouse.y, this.x - this.game.ui.mouse.x);
+    var fireDirection = Math.atan2(
+      this.y - this.game.ui.mouse.y,
+      this.x - this.game.ui.mouse.x
+    );
     this.weapon.fire(fireDirection);
   }
 
@@ -56,9 +63,15 @@ Player.prototype.tick = function () {
 
   // Update nearest enemy for point-defence drones so we don't have to do the expensive op in each drone
   if (this.age % 30 === 0) {
-    this.nearestEnemy = Util.nearestPoint(this.game.enemies, { x: this.x, y: this.y });
+    this.nearestEnemy = Util.nearestPoint(this.game.enemies, {
+      x: this.x,
+      y: this.y
+    });
 
-    if (!Util.isDefined(this.nearestEnemy) || this.nearestEnemy.markedForDeletion) {
+    if (
+      !Util.isDefined(this.nearestEnemy) ||
+      this.nearestEnemy.markedForDeletion
+    ) {
       this.nearestEnemy = null;
       this.distanceToNearestEnemy = null;
     } else {
@@ -67,11 +80,11 @@ Player.prototype.tick = function () {
   }
 };
 
-Player.prototype.addGold = function (value) {
+Player.prototype.addGold = function(value) {
   this.game.addGold(value);
 };
 
-Player.prototype.damage = function (damage, by) {
+Player.prototype.damage = function(damage, by) {
   Entity.prototype.damage.bind(this)(damage, by);
 
   var portionGoldDropped = 0.15;
@@ -81,34 +94,39 @@ Player.prototype.damage = function (damage, by) {
   this.game.gold -= goldAmountDropped;
 
   for (var i = 0; i < goldDropped; i++) {
-    this.game.addPowerup(new PowerupCoin(this.resources, Util.jitterPosition(this.getPosition(), 50 + 10 * i)));
+    this.game.addPowerup(
+      new PowerupCoin(
+        this.resources,
+        Util.jitterPosition(this.getPosition(), 50 + 10 * i)
+      )
+    );
   }
 
   this.game.ui.updateHealth();
 };
 
-Player.prototype.levelUp = function () {
+Player.prototype.levelUp = function() {
   if (this.level % 15 === 0) {
     this.health += 1;
     this.game.ui.updateHealth();
-    this.say('Level ' + this.level + '! Extra life!', 3000);
+    this.say("Level " + this.level + "! Extra life!", 3000);
   }
 };
 
-Player.prototype.updateInfo = function () {
+Player.prototype.updateInfo = function() {
   this.checkLevelUp();
 
   this.info.text = {
-    name:  { value: this.name, draw: true },
-    level: { prepend: 'level', value: this.level },
-    xp:    { value: this.xp, postfix: 'xp' },
-    gold:  { value: this.game.gold }
+    name: { value: this.name, draw: true },
+    level: { prepend: "level", value: this.level },
+    xp: { value: this.xp, postfix: "xp" },
+    gold: { value: this.game.gold }
   };
 
   this.checkHeroInfo();
 };
 
-Player.prototype.draw = function (context) {
+Player.prototype.draw = function(context) {
   this.drawOffset.x = Util.clamp(this.drawOffset.x * 0.9, 0, 72);
   this.drawOffset.y = Util.clamp(this.drawOffset.y * 0.9, 0, 72);
 

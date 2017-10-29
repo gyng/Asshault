@@ -7,14 +7,14 @@ MachineGun.prototype = new Weapon();
 
 MachineGun.prototype.constructor = MachineGun;
 
-MachineGun.prototype.fire = function (radians) {
+MachineGun.prototype.fire = function(radians) {
   if (this.cooldown <= 0) {
     if (!this.hasMagazine || (this.hasMagazine && this.bullets > 0)) {
       for (var i = 0; i < this.streams.length; i++) {
         var stream = this.streams[i];
         var offset = Util.deg2rad(
-          Util.randomError(stream.spread * this.spreadMultiplier)
-          + Util.randomNegation(stream.offset * this.offsetMultiplier)
+          Util.randomError(stream.spread * this.spreadMultiplier) +
+            Util.randomNegation(stream.offset * this.offsetMultiplier)
         );
         this.game.addEntity(this.bullet(radians, offset));
       }
@@ -30,7 +30,7 @@ MachineGun.prototype.fire = function (radians) {
   }
 };
 
-MachineGun.prototype.bullet = function (radians, offset) {
+MachineGun.prototype.bullet = function(radians, offset) {
   return new Bullet(this.parent.resources, {
     x: this.parent.x,
     y: this.parent.y,
@@ -38,8 +38,9 @@ MachineGun.prototype.bullet = function (radians, offset) {
     rotation: radians + offset,
     damage: this.damage,
     speed: this.bulletSpeed + _.random(this.bulletSpeedVariance),
-    source: (this.parent.deferSource || this.parent),
-    additionalPierceChance: this.pierce + (this.parent.additionalWeaponPierce || 0),
+    source: this.parent.deferSource || this.parent,
+    additionalPierceChance:
+      this.pierce + (this.parent.additionalWeaponPierce || 0),
     lifespan: this.bulletLifespan + _.random(this.bulletLifespanVariance),
     sprite: this.bulletSprite,
     animationLength: this.bulletAnimationLength || 10,
@@ -50,24 +51,34 @@ MachineGun.prototype.bullet = function (radians, offset) {
   });
 };
 
-MachineGun.prototype.shake = function (strengthMultiplier) {
+MachineGun.prototype.shake = function(strengthMultiplier) {
   var offsetDistance = this.recoilOffset * Math.log(strengthMultiplier + 1) * 2;
-  var shakeDistance = _.random(this.recoilCameraShake / 2) + this.recoilCameraShake * Math.log(strengthMultiplier + 1) * 2;
+  var shakeDistance =
+    _.random(this.recoilCameraShake / 2) +
+    this.recoilCameraShake * Math.log(strengthMultiplier + 1) * 2;
   var normalized = Util.normalize({
     x: this.parent.x - this.game.ui.mouse.x,
     y: this.parent.y - this.game.ui.mouse.y
   });
-  this.game.renderer.shake.x += normalized.x * shakeDistance * this.recoilMultiplier;
-  this.game.renderer.shake.y += normalized.y * shakeDistance * this.recoilMultiplier;
-  this.parent.drawOffset.x += normalized.x * offsetDistance * this.recoilMultiplier;
-  this.parent.drawOffset.y += normalized.y * offsetDistance * this.recoilMultiplier;
+  this.game.renderer.shake.x +=
+    normalized.x * shakeDistance * this.recoilMultiplier;
+  this.game.renderer.shake.y +=
+    normalized.y * shakeDistance * this.recoilMultiplier;
+  this.parent.drawOffset.x +=
+    normalized.x * offsetDistance * this.recoilMultiplier;
+  this.parent.drawOffset.y +=
+    normalized.y * offsetDistance * this.recoilMultiplier;
 };
 
-MachineGun.prototype.fireSound = function () {
-  this.game.audio.play(this.sounds.fire, Util.clamp(this.streams.length * 0.2 * this.volume, 0.2, 1) * this.volumeModifier);
+MachineGun.prototype.fireSound = function() {
+  this.game.audio.play(
+    this.sounds.fire,
+    Util.clamp(this.streams.length * 0.2 * this.volume, 0.2, 1) *
+      this.volumeModifier
+  );
 };
 
-MachineGun.prototype.draw = function (context) {
+MachineGun.prototype.draw = function(context) {
   var flashPos = { x: -this.parent.width / 2, y: -this.parent.height * 1.5 };
 
   if (this.cooldown <= this.fireRate / 2) {

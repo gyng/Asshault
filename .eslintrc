@@ -1,9 +1,17 @@
 {
-  "ecmaVersion": 5,
+  "parserOptions": {
+    "ecmaVersion": 5
+  },
   "env": {
     "browser": true
   },
-  "extends": "airbnb-base/legacy",
+  "extends": [
+    "airbnb-base/legacy",
+    "prettier"
+  ],
+  "plugins": [
+    "prettier"
+  ],
   "globals": {
     "$": true,
     "_": true,
@@ -40,7 +48,7 @@
     "Upgrade": true,
     "Upgrades": true,
     "Util": true,
-    "Weapon": true,
+    "Weapon": true
   },
   "rules": {
     "func-names": 0,
@@ -49,5 +57,9 @@
     "no-param-reassign": 0,
     "no-unused-vars": [2, { "argsIgnorePattern": "^_" }],
     "vars-on-top": 0,
+    "global-require": 0,
+    "no-plusplus": 0,
+    "no-bitwise": 0,
+    "prettier/prettier": "error"
   }
 }

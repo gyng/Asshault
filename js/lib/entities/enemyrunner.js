@@ -9,7 +9,7 @@ function EnemyRunner(resources, overrides) {
   this.goldGiven = 10;
   this.sprite = this.sprites.debug4;
 
-  this.alignment = 'enemy';
+  this.alignment = "enemy";
   this.friendlyPierceChance = 0; // Alignment is relative
   this.enemyPierceChance = 0; // Pierce chance for bullets from player+heroes
 
@@ -21,9 +21,9 @@ _.extend(EnemyRunner.prototype, Enemy.prototype);
 
 EnemyRunner.prototype.constructor = EnemyRunner;
 
-EnemyRunner.prototype.tick = function () {
+EnemyRunner.prototype.tick = function() {
   if (this.age === 0) {
-    this.say('Uraaa!', 1);
+    this.say("Uraaa!", 1);
   }
 
   this.returnToMap();
@@ -36,11 +36,13 @@ EnemyRunner.prototype.tick = function () {
   Enemy.prototype.tick.bind(this)();
 };
 
-EnemyRunner.prototype.explode = function () {
+EnemyRunner.prototype.explode = function() {
   this.die();
 
   // Drop a bomb sometimes if killed by player
   if (this.health <= 0 && Math.random() < 0.8) {
-    this.game.addPowerup(new PowerupExplosion(this.resources, this.getPosition()));
+    this.game.addPowerup(
+      new PowerupExplosion(this.resources, this.getPosition())
+    );
   }
 };

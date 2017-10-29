@@ -1,19 +1,25 @@
-function Levels(game) { // eslint-disable-line no-unused-vars
+/* eslint-disable no-unused-vars */
+function Levels(game) {
+  /* eslint-enable no-unused-vars */
   this.levels = {
     1: new BreakLevel(game),
     2: new Level(game, {
-      0:  {
-        f: function () {
-          game.setBackground('res/bg/bggrass.png', 'res/bg/bggrassvig.png', '#3D5025');
+      0: {
+        f: function() {
+          game.setBackground(
+            "res/bg/bggrass.png",
+            "res/bg/bggrassvig.png",
+            "#3D5025"
+          );
         }
       },
       45: {
-        f: function (wave) {
-          game.ui.setLevelInformation('Wave ' + wave);
-          game.audio.play('bell', 1.0);
+        f: function(wave) {
+          game.ui.setLevelInformation("Wave " + wave);
+          game.audio.play("bell", 1.0);
 
           // Salary and taxes
-          game.friendlies.forEach(function (e) {
+          game.friendlies.forEach(function(e) {
             if (e.salary) {
               var initial = e.gold;
 
@@ -26,11 +32,11 @@ function Levels(game) { // eslint-disable-line no-unused-vars
               var change = initial - e.gold;
 
               if (change < 0) {
-                game.audio.play('coin3', 0.5);
-                e.popup(-change, 650, '#template-gold-popup');
+                game.audio.play("coin3", 0.5);
+                e.popup(-change, 650, "#template-gold-popup");
               } else {
-                game.audio.play('coin2', 0.5);
-                e.popup('+' + change, 650, '#template-tax-popup');
+                game.audio.play("coin2", 0.5);
+                e.popup("+" + change, 650, "#template-tax-popup");
               }
             }
           });
@@ -51,7 +57,7 @@ function Levels(game) { // eslint-disable-line no-unused-vars
             }
           } else {
             // Normal scrubs
-            for (var scrubs = (wave * 2) + 10; scrubs > 0; scrubs--) {
+            for (var scrubs = wave * 2 + 10; scrubs > 0; scrubs--) {
               var enemy;
 
               var diceRoll = Math.random();

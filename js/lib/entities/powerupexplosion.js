@@ -13,7 +13,7 @@ _.extend(PowerupExplosion.prototype, Powerup.prototype);
 
 PowerupExplosion.prototype.constructor = PowerupExplosion;
 
-PowerupExplosion.prototype.tick = function () {
+PowerupExplosion.prototype.tick = function() {
   if (this.collidesWith(this.game.player, this.collisionRadius)) {
     this.activate();
   }
@@ -29,21 +29,21 @@ PowerupExplosion.prototype.tick = function () {
   this.pulse(this.age);
 };
 
-PowerupExplosion.prototype.activate = function (bulletType) {
+PowerupExplosion.prototype.activate = function(BulletType) {
   this.game.addEntity(new Explosion(this.resources, this.getPosition()));
-  bulletType = bulletType || Bullet;
+  BulletType = BulletType || Bullet;
 
   var numBullets = 32 + _.random(32);
   var stepDeg = 360 / numBullets;
 
   for (var i = 0; i < numBullets; i++) {
     var rad = Util.deg2rad(stepDeg * i);
-    var bullet = new bulletType(this.resources, {
+    var bullet = new BulletType(this.resources, {
       x: this.x + Util.randomError(20),
       y: this.y + Util.randomError(20),
       rotation: rad,
       direction: rad,
-      alignment: 'friendly',
+      alignment: "friendly",
       damage: 10,
       source: this.game.player,
       sprite: this.game.sprites.bullet

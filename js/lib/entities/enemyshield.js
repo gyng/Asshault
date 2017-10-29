@@ -16,13 +16,13 @@ function EnemyShield(resources, overrides) {
   this.rotation = Math.PI * 2;
   this.collisionRadius = 32;
 
-  this.alignment = 'enemy';
+  this.alignment = "enemy";
   this.friendlyPierceChance = 0; // Alignment is relative
   this.enemyPierceChance = 0; // Pierce chance for bullets from player+heroes
 
   this.sounds = {
-    spawn: 'warning',
-    ping: 'ping'
+    spawn: "warning",
+    ping: "ping"
   };
 
   this.game.audio.play(this.sounds.spawn);
@@ -35,7 +35,7 @@ _.extend(EnemyShield.prototype, Enemy.prototype);
 
 EnemyShield.prototype.constructor = EnemyShield;
 
-EnemyShield.prototype.tick = function () {
+EnemyShield.prototype.tick = function() {
   this.returnToMap();
   Enemy.prototype.tick.bind(this)();
 
@@ -44,9 +44,9 @@ EnemyShield.prototype.tick = function () {
   this.height = (84 + this.sizeVariance) * Util.clamp(ratio, 0.2, 1.0);
 };
 
-EnemyShield.prototype.damage = function (damage, by) {
+EnemyShield.prototype.damage = function(damage, by) {
   var rot = 2 * Math.PI;
-  var diff = ((rot + this.rotation) - (rot + by.direction)) % rot;
+  var diff = (rot + this.rotation - (rot + by.direction)) % rot;
 
   if (Math.abs(diff) > Math.PI) {
     Entity.prototype.damage.bind(this)(damage, by);
@@ -57,24 +57,31 @@ EnemyShield.prototype.damage = function (damage, by) {
   }
 };
 
-EnemyShield.prototype.lookAt = function (object) {
+EnemyShield.prototype.lookAt = function(object) {
   var rot = 2 * Math.PI;
-  this.rotation = rot + ((this.rotation - rot) - (0.004 * (this.rotation - rot - Math.atan2(object.x - this.x, this.y - object.y))));
+  this.rotation =
+    rot +
+    (this.rotation -
+      rot -
+      0.004 *
+        (this.rotation -
+          rot -
+          Math.atan2(object.x - this.x, this.y - object.y)));
 };
 
-EnemyShield.prototype.explode = function () {
+EnemyShield.prototype.explode = function() {
   var position = this.getPosition();
   var minExtraExplosions = 3;
   var maxExtraExplosions = 8;
 
-  var explosionOverrides = function () {
+  var explosionOverrides = function() {
     var maxOffset = 64;
     var maxDelay = 72;
 
     return {
       x: position.x + _.random(maxOffset),
       y: position.y + _.random(maxOffset),
-      age: -(_.random(maxDelay))
+      age: -_.random(maxDelay)
     };
   };
 

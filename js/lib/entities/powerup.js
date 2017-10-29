@@ -9,7 +9,7 @@ function Powerup(resources, overrides) {
   this.health = 1000;
   this.duration = 300;
 
-  this.alignment = 'none';
+  this.alignment = "none";
   this.friendlyPierceChance = 0; // Alignment is relative
   this.enemyPierceChance = 0; // Pierce chance for bullets from player+heroes
 
@@ -20,15 +20,15 @@ Powerup.prototype = new Entity();
 
 Powerup.prototype.constructor = Powerup;
 
-Powerup.prototype.tick = function () {
+Powerup.prototype.tick = function() {
   // noop, to be replaced
 };
 
-Powerup.prototype.pulse = function (age) {
+Powerup.prototype.pulse = function(age) {
   // Map to [-1, 1]
-  this.drawOffset.scaleX = ((age % 10) / 5) - 1;
+  this.drawOffset.scaleX = age % 10 / 5 - 1;
 };
 
-Powerup.prototype.activate = function () {
+Powerup.prototype.activate = function() {
   // noop, to be replaced
 };

@@ -9,7 +9,7 @@ function Enemy(resources, overrides) {
   this.xpGiven = 10;
   this.goldGiven = 5;
 
-  this.alignment = 'enemy';
+  this.alignment = "enemy";
   this.friendlyPierceChance = 0; // Alignment is relative
   this.enemyPierceChance = 0; // Pierce chance for bullets from player+heroes
 
@@ -20,17 +20,19 @@ Enemy.prototype = new Entity();
 
 Enemy.prototype.constructor = Enemy;
 
-Enemy.prototype.tick = function () {
-  this.game.friendlies.forEach(function (ent) {
-    if (ent.constructor === Player && this.collidesWith(ent)) {
-      ent.damage(1, this);
+Enemy.prototype.tick = function() {
+  this.game.friendlies.forEach(
+    function(ent) {
+      if (ent.constructor === Player && this.collidesWith(ent)) {
+        ent.damage(1, this);
 
-      if (ent === this.game.player) {
-        this.game.ui.flash('#canvas', 'danger');
+        if (ent === this.game.player) {
+          this.game.ui.flash("#canvas", "danger");
+        }
+        this.explode();
       }
-      this.explode();
-    }
-  }.bind(this));
+    }.bind(this)
+  );
 
   if (this.health <= 0) {
     this.lastHitBy.source.addXP(this.xpGiven, 1);
@@ -57,17 +59,18 @@ Enemy.prototype.tick = function () {
   );
 };
 
-Enemy.prototype.explode = function () {
+Enemy.prototype.explode = function() {
   this.die();
   this.game.addEntity(new Explosion(this.resources, this.getPosition()));
 
   this.game.renderer.drawDecal(
-      this.sprites.bloodstain,
-      this.x - this.width / 2,
-      this.y - this.height / 2,
-      Util.randomRad(),
-      64 + _.random(32),
-      64 + _.random(32));
+    this.sprites.bloodstain,
+    this.x - this.width / 2,
+    this.y - this.height / 2,
+    Util.randomRad(),
+    64 + _.random(32),
+    64 + _.random(32)
+  );
 
   this.game.renderer.drawDecal(
     this.sprites.bloodspray,
@@ -76,5 +79,6 @@ Enemy.prototype.explode = function () {
     this.rotation,
     52 + _.random(16),
     128 + _.random(386),
-    true);
+    true
+  );
 };

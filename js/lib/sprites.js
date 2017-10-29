@@ -1,6 +1,6 @@
 function Sprites(sprites) {
   this.sprites = sprites || {
-    relativeDir: '',
+    relativeDir: "",
     sources: []
   };
 
@@ -8,7 +8,7 @@ function Sprites(sprites) {
 }
 
 Sprites.prototype = {
-  preload: function (callback) {
+  preload: function(callback) {
     this.callback = callback;
     this.toLoad = this.sprites.sources.length;
 
@@ -21,15 +21,15 @@ Sprites.prototype = {
     }.bind(this));
   },
 
-  preloaded: function () {
-    if (this.callback && typeof this.callback === 'function') {
+  preloaded: function() {
+    if (this.callback && typeof this.callback === "function") {
       this.callback.call();
     }
   },
 
-  loadSprite: function (key, url) {
+  loadSprite: function(key, url) {
     this.sprites[key] = new Image();
-    this.sprites[key].onload = function () {
+    this.sprites[key].onload = function() {
       if (++this.loaded === this.toLoad) {
         this.preloaded();
       }

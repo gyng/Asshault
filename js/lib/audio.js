@@ -9,7 +9,7 @@ function Audio(sounds) {
   }
 
   this.sounds = sounds || {
-    relativeDir: '',
+    relativeDir: "",
     sources: []
   };
 
@@ -23,7 +23,7 @@ function Audio(sounds) {
 }
 
 Audio.prototype = {
-  preload: function (callback) {
+  preload: function(callback) {
     if (!this.audioSupport) {
       callback.call();
       return;
@@ -32,31 +32,36 @@ Audio.prototype = {
     this.callback = callback;
     this.toLoad = this.sounds.sources.length;
 
-    this.sounds.sources.forEach(function (source) {
-      this.loadAudio(source[0], this.sounds.relativeDir + source[1]);
-    }.bind(this));
+    this.sounds.sources.forEach(
+      function(source) {
+        this.loadAudio(source[0], this.sounds.relativeDir + source[1]);
+      }.bind(this)
+    );
   },
 
-  preloaded: function () {
-    if (this.callback && typeof this.callback === 'function') {
+  preloaded: function() {
+    if (this.callback && typeof this.callback === "function") {
       this.callback.call();
     }
   },
 
-  setMasterVolume: function (volume) {
+  setMasterVolume: function(volume) {
     var adjustedVolume = (Math.pow(10, volume) - 1) / (10 - 1); // Log Base 10
     this.masterGainNode.gain.value = adjustedVolume;
   },
 
-  loadAudio: function (key, url) {
+  loadAudio: function(key, url) {
     var request = new XMLHttpRequest();
-    request.open('GET', url, true);
-    request.responseType = 'arraybuffer';
+    request.open("GET", url, true);
+    request.responseType = "arraybuffer";
 
-    request.onload = function () {
-      this.audioContext.decodeAudioData(request.response, function (buffer) {
-        this.sounds[key] = buffer;
-      }.bind(this));
+    request.onload = function() {
+      this.audioContext.decodeAudioData(
+        request.response,
+        function(buffer) {
+          this.sounds[key] = buffer;
+        }.bind(this)
+      );
 
       if (++this.loaded >= this.toLoad) this.preloaded();
     }.bind(this);
@@ -64,12 +69,12 @@ Audio.prototype = {
     request.send();
   },
 
-  play: function (name, volume, opts) {
+  play: function(name, volume, opts) {
     if (!this.audioSupport) {
       return;
     }
 
-    if (typeof name === 'object' && name.length > 0) {
+    if (typeof name === "object" && name.length > 0) {
       name = name[Math.floor(Math.random() * name.length)];
     }
 
@@ -86,7 +91,7 @@ Audio.prototype = {
       source.buffer = this.sounds[name];
     }
 
-    if (typeof source.buffer === 'undefined' || source.buffer === null) {
+    if (typeof source.buffer === "undefined" || source.buffer === null) {
       return;
     }
 
@@ -105,9 +110,13 @@ Audio.prototype = {
     source.start(sourceStart);
   },
 
-  loop: function (name, volume, loopstart, loopend) {
+  loop: function(name, volume, loopstart, loopend) {
     loopstart = loopstart || 0.0;
     loopend = loopend || 1.0;
-    this.play(name, volume, { loop: true, loopstart: loopstart, loopend: loopend });
+    this.play(name, volume, {
+      loop: true,
+      loopstart: loopstart,
+      loopend: loopend
+    });
   }
 };

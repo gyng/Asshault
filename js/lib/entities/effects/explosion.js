@@ -12,14 +12,14 @@ function Explosion(resources, overrides) {
   this.shadow = {
     on: true,
     offset: { x: 0, y: -30 },
-    color: 'rgba(255, 244, 91,' + Math.random() * this.shadowOpacity + ')',
+    color: "rgba(255, 244, 91," + Math.random() * this.shadowOpacity + ")",
     size: { x: 120 + _.random(40), y: 120 },
-    shape: 'circle',
+    shape: "circle",
     todScale: 0
   };
 
   this.sounds = {
-    spawn: ['explosion', 'explosion2', 'explosion3', 'explosion4', 'explosion5']
+    spawn: ["explosion", "explosion2", "explosion3", "explosion4", "explosion5"]
   };
 
   this.applyOverrides();
@@ -29,10 +29,10 @@ Explosion.prototype = new Entity();
 
 Explosion.prototype.constructor = Explosion;
 
-Explosion.prototype.tick = function () {
+Explosion.prototype.tick = function() {
   if (this.age < 0) {
     // For delay, set age to a negative value
-    this.shadow.color = 'rgba(0, 0, 0, 0)';
+    this.shadow.color = "rgba(0, 0, 0, 0)";
   } else if (this.age === 0) {
     this.shadowOpacity = 1;
     this.game.audio.play(this.sounds.spawn, 0.8);

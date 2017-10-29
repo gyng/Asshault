@@ -3,16 +3,18 @@ function Level(game, script) {
   this.age = 0;
   this.length = 0;
   this.over = false;
-  this.script = script || { /* 0: { f: function () { this.started = true; }, a: [arg1, arg2] */ };
+  this.script =
+    script ||
+    {
+      /* 0: { f: function () { this.started = true; }, a: [arg1, arg2] */
+    };
   this.that = this;
 }
 
 Level.prototype = {
-  tick: function () {
+  tick: function() {},
 
-  },
-
-  tock: function () {
+  tock: function() {
     // Level event definition: {
     //   f: function () { this == game },
     //   a: [arg1, arg2] || arg1,
@@ -42,12 +44,12 @@ Level.prototype = {
     this.age++;
   },
 
-  draw: function () {
+  draw: function() {
     // noop, to be replaced
   },
 
-  addEvent: function (time, scriptEvent, args) {
-    args = args || [];
+  addEvent: function(time, scriptEvent, _args) {
+    _args = _args || [];
     this.script[time] = scriptEvent;
   }
 };
