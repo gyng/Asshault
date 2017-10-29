@@ -12,13 +12,20 @@ Sprites.prototype = {
     this.callback = callback;
     this.toLoad = this.sprites.sources.length;
 
-    this.sprites.sources.forEach(function (source) {
-      if (source.length === 2) {
-        this.loadSprite(source[0], this.sprites.relativeDir + source[1]);
-      } else if (source.length === 4) {
-        this.loadSpriteAnimation(source[0], this.sprites.relativeDir + '/' + source[1], source[2], source[3]);
-      }
-    }.bind(this));
+    this.sprites.sources.forEach(
+      function(source) {
+        if (source.length === 2) {
+          this.loadSprite(source[0], this.sprites.relativeDir + source[1]);
+        } else if (source.length === 4) {
+          this.loadSpriteAnimation(
+            source[0],
+            this.sprites.relativeDir + "/" + source[1],
+            source[2],
+            source[3]
+          );
+        }
+      }.bind(this)
+    );
   },
 
   preloaded: function() {
@@ -37,10 +44,10 @@ Sprites.prototype = {
     this.sprites[key].src = url;
   },
 
-  loadSpriteAnimation: function (key, url, length, format) {
+  loadSpriteAnimation: function(key, url, length, format) {
     this.sprites[key] = [];
     var loadedFrames = 0;
-    var frameOnLoad = function () {
+    var frameOnLoad = function() {
       if (++loadedFrames === length) {
         this.preloaded();
       }
@@ -50,11 +57,11 @@ Sprites.prototype = {
       var sprite = new Image();
       this.sprites[key].push(sprite);
       sprite.onload = frameOnLoad.bind(this);
-      this.sprites[key][i].src = url + '/' + i + '.' + format;
+      this.sprites[key][i].src = url + "/" + i + "." + format;
     }
   },
 
-  getSprites: function () {
+  getSprites: function() {
     return this.sprites;
   }
 };

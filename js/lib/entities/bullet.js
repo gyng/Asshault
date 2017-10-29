@@ -91,21 +91,26 @@ Bullet.prototype.tick = function() {
   }
 };
 
-Bullet.prototype.getImage = function () {
+Bullet.prototype.getImage = function() {
   if (this.sprite.length) {
     var frameDuration = Math.floor(
       (this.animationLength + Util.randomError(this.animationLengthVariance)) /
-      this.sprite.length);
-    var frame = Math.floor((this.age / frameDuration) % this.sprite.length);
+        this.sprite.length
+    );
+    var frame = Math.floor(this.age / frameDuration % this.sprite.length);
     return this.sprite[frame] || this.sprites.transparent;
   }
 
   return this.sprite;
 };
 
-Bullet.prototype.checkOutOfBounds = function () {
-  if (this.x < -100 || this.x > this.game.canvas.width + 100 ||
-      this.y < -100 || this.y > this.game.canvas.height + 100) {
+Bullet.prototype.checkOutOfBounds = function() {
+  if (
+    this.x < -100 ||
+    this.x > this.game.canvas.width + 100 ||
+    this.y < -100 ||
+    this.y > this.game.canvas.height + 100
+  ) {
     this.markedForDeletion = true;
   }
 };

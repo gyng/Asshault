@@ -40,8 +40,9 @@ Explosion.prototype.tick = function() {
 
   if (this.age >= 0) {
     this.shadow.size.x *= 1.03;
-    this.shadowOpacity *= 0.40;
-    this.shadow.color = 'rgba(255, 244, 91,' + Math.random() * this.shadowOpacity + ')';
+    this.shadowOpacity *= 0.4;
+    this.shadow.color =
+      "rgba(255, 244, 91," + Math.random() * this.shadowOpacity + ")";
 
     this.width /= 1 + Math.random() * 0.02;
     this.height /= 1 + Math.random() * 0.02;
@@ -52,7 +53,7 @@ Explosion.prototype.tick = function() {
   }
 };
 
-Explosion.prototype.getImage = function () {
+Explosion.prototype.getImage = function() {
   var frames = 8;
   var length = 30;
   var frameDuration = length / frames;

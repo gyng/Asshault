@@ -30,7 +30,7 @@ BulletPing.prototype.tick = function() {
   }
 };
 
-BulletPing.prototype.getImage = function () {
+BulletPing.prototype.getImage = function() {
   var frameDuration = this.lifespan / this.sprites.aSparks.length;
   var frame = Math.floor(this.age / frameDuration);
   var sprite = this.sprites.aSparks[frame];
