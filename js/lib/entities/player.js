@@ -16,6 +16,7 @@ function Player(resources, overrides) {
   this.nearestEnemy = null;
 
   this.weapon = new MachineGun(this);
+  this.weapon.bulletSprite = this.sprites.bullet;
   this.additionalWeaponPierce = 0;
 
   this.shadow.on = true;

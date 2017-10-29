@@ -22,6 +22,9 @@ function Bullet(resources, overrides) {
 
   this.additionalPierceChance = this.additionalPierceChance || 0; // Piercing modifier from upgrades
   this.lifespan = this.lifespan || Number.MAX_VALUE;
+
+  this.animationLength = this.animationLength || 10;
+  this.animationLengthVariance = this.animationLengthVariance || 0;
 }
 
 Bullet.prototype = new Entity();
@@ -79,6 +82,18 @@ Bullet.prototype.tick = function () {
   if (this.age > this.lifespan) {
     this.die();
   }
+};
+
+Bullet.prototype.getImage = function () {
+  if (this.sprite.length) {
+    var frameDuration = Math.floor(
+      (this.animationLength + Util.randomError(this.animationLengthVariance)) /
+      this.sprite.length);
+    var frame = Math.floor((this.age / frameDuration) % this.sprite.length);
+    return this.sprite[frame] || this.sprites.transparent;
+  }
+
+  return this.sprite;
 };
 
 Bullet.prototype.checkOutOfBounds = function () {

@@ -19,6 +19,7 @@ function Gunner(resources, overrides) {
     hasMagazine: true,
     bullets: 60,
     bulletMagazineSize: 60,
+    bulletSprite: this.sprites.aBullet0,
     reloadTime: 100
   });
 

@@ -42,6 +42,8 @@ MachineGun.prototype.bullet = function (radians, offset) {
     additionalPierceChance: this.pierce + (this.parent.additionalWeaponPierce || 0),
     lifespan: this.bulletLifespan + _.random(this.bulletLifespanVariance),
     sprite: this.bulletSprite,
+    animationLength: this.bulletAnimationLength || 10,
+    animationLengthVariance: this.bulletAnimationLengthVariance || 0,
     width: this.bulletWidth,
     height: this.bulletHeight,
     drawFade: this.bulletFade
