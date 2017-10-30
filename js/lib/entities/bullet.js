@@ -2,6 +2,8 @@ function Bullet(resources, overrides) {
   Entity.call(this, resources, overrides);
   this.width = this.width || 32;
   this.height = this.height || 16;
+  this.originalWidth = this.width;
+  this.originalHeight = this.height;
   this.sprite = this.sprite || this.sprites.bullet;
   this.damage = this.damage || 1;
   this.speed = this.speed || 30;
@@ -34,6 +36,12 @@ Bullet.prototype.constructor = Bullet;
 Bullet.prototype.tick = function() {
   this.x += this.deltaX;
   this.y += this.deltaY;
+
+  if (this.sizeWobbleVariance) {
+    this.width = this.originalWidth + Util.randomError(this.sizeWobbleVariance);
+    this.height =
+      this.originalHeight + Util.randomError(this.sizeWobbleVariance);
+  }
 
   var list = this.game.spatialHash.query(this.x, this.y);
 

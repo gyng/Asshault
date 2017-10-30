@@ -997,9 +997,10 @@ function Upgrades(game) {
           bulletSpeed: 5,
           bulletSpeedVariance: 2,
           bulletLifespanVariance: 10,
-          bulletSprite: this.sprites.flame,
-          bulletWidth: 20,
-          bulletHeight: 20,
+          bulletSprite: this.sprites.aBullet1,
+          bulletWidth: 30,
+          bulletHeight: 30,
+          bulletSizeWobbleVariance: 10,
           bulletShadow: true,
           bulletFade: true,
           bulletPingSprite: this.sprites.aFlame
