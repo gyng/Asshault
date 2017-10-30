@@ -1,6 +1,7 @@
 function MachineGun(parent, overrides) {
   Weapon.call(this, parent, overrides);
   this.streams = [{ spread: 5, offset: 0 }];
+  this.bulletPingSprite = this.bulletPingSprite || this.game.sprites.aSparks;
 }
 
 MachineGun.prototype = new Weapon();

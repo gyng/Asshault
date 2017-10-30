@@ -922,11 +922,11 @@ function Upgrades(game) {
           fireRate: 0,
           recoilOffset: 0.3,
           recoilCameraShake: 0.5,
-          bulletSprite: this.sprites.beam,
           bulletSprite: this.sprites.aBeam0,
           bulletAnimationLength: 20,
           bulletAnimationLengthVariance: 3,
-          bulletFade: true
+          bulletFade: true,
+          bulletPingSprite: this.sprites.aSparksPink
         });
 
         this.player.weapon.sounds.beam = "zap";

@@ -21,6 +21,7 @@ function Weapon(parent, overrides) {
   this.bulletMagazineSize = Number.MAX_VALUE;
   this.bulletSizeWobbleVariance = 0;
   this.bulletSizeVariance = 0;
+  this.bulletPingSprite = null;
   this.reloadTime = 0;
   this.sounds = {
     fire: ["shoot2", "shoot5", "shoot7"],
