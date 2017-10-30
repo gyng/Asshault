@@ -1001,7 +1001,8 @@ function Upgrades(game) {
           bulletWidth: 20,
           bulletHeight: 20,
           bulletShadow: true,
-          bulletFade: true
+          bulletFade: true,
+          bulletPingSprite: this.sprites.aFlame
         });
 
         this.player.weapon.streams.push({ offset: _.random(24), spread: 28 });

@@ -2,6 +2,7 @@
     "relativeDir": "res/sprites/",
     "sources": [
         ["aExplosion",  "explosion", 8, "png"],
+        ["aFlame",      "flame", 8, "png"],
         ["aSparks",     "sparks", 4, "png"],
         ["aBullet0",    "bullet0", 2, "png"],
         ["aBeam0",      "beam0", 8, "png"],
