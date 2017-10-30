@@ -73,7 +73,8 @@ Bullet.prototype.tick = function() {
           new BulletPing(this.resources, {
             x: ent.x,
             y: ent.y,
-            rotation: ent.rotation
+            rotation: ent.rotation,
+            sprite: this.sprites.aSparks
           })
         );
       } else if (ent.alignment === "enemy") {

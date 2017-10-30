@@ -3,9 +3,11 @@ function BulletPing(resources, overrides) {
 
   this.width = 32 + _.random(64) + _.random(64);
   this.height = 32 + _.random(64) + _.random(64);
-  this.lifespan = 10 + _.random(24);
+  this.lifespan = 4 + _.random(32);
   this.todScale = 0;
   this.rotation += Util.deg2rad(Util.randomNegation(_.random(50)));
+
+  this.sprite = this.sprite || this.sprites.aSparks;
 
   this.sounds = {
     spawn: [
@@ -31,9 +33,11 @@ BulletPing.prototype.tick = function() {
 };
 
 BulletPing.prototype.getImage = function() {
-  var frameDuration = this.lifespan / this.sprites.aSparks.length;
-  var frame = Math.floor(this.age / frameDuration);
-  var sprite = this.sprites.aSparks[frame];
+  if (this.sprite.length > 0) {
+    var frameDuration = this.lifespan / this.sprite.length;
+    var frame = Math.floor(this.age / frameDuration);
+    return this.sprite[frame] || this.sprites.transparent;
+  }
 
-  return sprite || this.sprites.transparent;
+  return this.sprites.bulletPing;
 };
