@@ -16,6 +16,7 @@ function Entity(resources, overrides) {
   this.gold = 0;
   this.taxRate = 0.25;
   this.collisionRadius = 20;
+  this.opacity = 1;
 
   this.alignment = "none";
   this.friendlyPierceChance = 0;
@@ -90,13 +91,17 @@ Entity.prototype = {
   },
 
   drawImage: function(context) {
-    context.drawImage(
-      this.getImage(),
-      -this.width / 2,
-      -this.height / 2,
-      this.width,
-      this.height
-    );
+    var image = this.getImage();
+
+    if (image) {
+      context.drawImage(
+        image,
+        -this.width / 2,
+        -this.height / 2,
+        this.width,
+        this.height
+      );
+    }
   },
 
   drawFadingImage: function(context) {
