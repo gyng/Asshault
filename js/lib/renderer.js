@@ -72,10 +72,16 @@ Renderer.prototype = {
         this.setContextTransform(this.fadeContext, ent);
         ent.drawFadingImage(this.fadeContext);
         this.fadeContext.restore();
+      } else if (ent.opacity && ent.opacity !== 1) {
+        this.context.globalAlpha = ent.opacity;
+        ent.drawImage(this.context);
+        ent.draw(this.context);
+        this.context.globalAlpha = 1;
       } else {
         ent.drawImage(this.context);
         ent.draw(this.context);
       }
+
       this.context.restore();
     }
   },
