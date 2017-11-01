@@ -82,7 +82,8 @@ Bullet.prototype.tick = function() {
             x: ent.x,
             y: ent.y,
             rotation: ent.rotation,
-            sprite: this.bulletPingSprite || this.sprites.aSparks
+            sprite: this.bulletPingSprite || this.sprites.aSparks,
+            sounds: this.bulletPingSounds
           })
         );
       } else if (ent.alignment === "enemy") {

@@ -21,6 +21,8 @@
         ["flash1",      "flash1.png"],
         ["flash2",      "flash2.png"],
         ["gun",         "gun.png"],
+        ["gun2",        "gun2.png"],
+        ["gun3",        "gun3.png"],
         ["bullet",      "bullet.png"],
         ["bullettear",  "bullettear.png"],
         ["bullettear2", "bullettear2.png"],
@@ -36,7 +38,8 @@
         ["herocleaner",  "herocleaner.png"],
         ["bloodstain",  "bloodstain.png"],
         ["bloodspray",  "bloodspray.png"],
-        ["gold",  "gold.png"],
-        ["ball",  "ball.png"]
+        ["gold",        "gold.png"],
+        ["ball",        "ball.png"],
+        ["magicwand",   "magicwand.png"]
     ]
 }

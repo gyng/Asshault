@@ -449,11 +449,15 @@ function Upgrades(game) {
           tooltip: "Quick and nimble."
         });
       },
-      constraints: [[new UpgradeConstraint("haveGold"), 400]],
+      constraints: [
+        [new UpgradeConstraint("haveGold"), 400],
+        [new UpgradeConstraint("upgradeCountWithinRange"), "playerDash", 0, 1]
+      ],
       text: {
         name: "🚶 Dash",
         cost: "400G, Player Level 1",
-        effect: "Press E for a dash of speed in the direction you’re looking at every 7 seconds.",
+        effect:
+          "Press E for a dash of speed in the direction you’re looking at every 7 seconds.",
         flavour: "Can’t touch this!"
       }
     }),
@@ -938,6 +942,7 @@ function Upgrades(game) {
           bulletSpeed: 30,
           bulletSpeedVariance: 20,
           streamsPerLevel: 4,
+          sprite: this.sprites.gun2,
           bulletSprite: this.sprites.bullettear2
         });
 
@@ -1002,6 +1007,7 @@ function Upgrades(game) {
           bulletAnimationLength: 20,
           bulletAnimationLengthVariance: 3,
           bulletFade: true,
+          sprite: this.sprites.magicwand,
           bulletPingSprite: this.sprites.aSparksPink,
           flashSprite: this.sprites.aFlash1,
           flashOpacity: 0.1
@@ -1108,7 +1114,12 @@ function Upgrades(game) {
           bulletSizeWobbleVariance: 10,
           bulletShadow: true,
           bulletFade: true,
-          bulletPingSprite: this.sprites.aFlame
+          bulletPingSprite: this.sprites.aFlame,
+          bulletPingSounds: { spawn: ["hit_hurt3", "hit_hurt5"] },
+          sprite: this.sprites.gun3,
+          flashFade: true,
+          flashSprite: this.sprites.aFlame,
+          flashVariance: 100
         });
 
         this.player.weapon.streams.push({ offset: _.random(24), spread: 28 });

@@ -4,6 +4,8 @@ function MachineGun(parent, overrides) {
   this.bulletScale = this.bulletScale || 1;
   this.bulletPingSprite = this.bulletPingSprite || this.game.sprites.aSparks;
   this.flashSprite = this.flashSprite || this.game.sprites.aFlash0;
+  this.flashVariance =
+    typeof this.flashVariance === "undefined" ? 0 : this.flashVariance;
   this.flashFade =
     typeof this.flashFade === "undefined" ? false : this.flashFade;
   this.flashOpacity =
@@ -57,6 +59,7 @@ MachineGun.prototype.fire = function(radians) {
             height: this.flashHeight,
             width: this.flashWidth,
             drawFade: this.flashFade,
+            lifespanVariance: this.flashVariance,
             scale: this.flashScale || 1,
             sprite: this.flashSprite,
             opacity: this.flashOpacity
@@ -94,6 +97,7 @@ MachineGun.prototype.bullet = function(radians, offset) {
     scale: this.bulletScale,
     drawFade: this.bulletFade,
     bulletPingSprite: this.bulletPingSprite,
+    bulletPingSounds: this.bulletPingSounds,
     flashSprite: this.flashSprite,
     sizeWobbleVariance: this.bulletSizeWobbleVariance
   });
@@ -130,7 +134,7 @@ MachineGun.prototype.draw = function(context) {
   if (this.sprite) {
     context.drawImage(
       this.sprite,
-      this.parent.width / 2 - 2 * this.sprite.width,
+      this.parent.width / 2 - 1.5 * this.sprite.width,
       -this.parent.height / 2 -
         0.5 * this.sprite.height +
         Util.clamp(

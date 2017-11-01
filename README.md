@@ -4,7 +4,7 @@
 
 Asshault is an in-browser action game started in 2013 to play around with [game feel](https://www.youtube.com/watch?v=AJdEqssNZ-U), or [juice](https://www.youtube.com/watch?v=Fy0aCDmgnxg). Juice, among other things, comprises effects such as camera shake, particles, and sounds.
 
-As such, the code is hacked together, and should really be refactored from the current prototypal inheritance into an entity-component system.
+This is a for-fun project! I get to do things I don't usually get to do: animations, sprites, sounds, game ideas and the like. As such, the code is *hacked together*, and should really be refactored from the current prototypal inheritance into an entity-component system.
 
 Some of the more interesting features and optimisation techniques I've used/experimented with here include:
 
@@ -19,6 +19,7 @@ Some of the more interesting features and optimisation techniques I've used/expe
 * Dirty detection of text for rendering on canvases (big perf hit)
 * Waves/levels
 * Sprite-based effects
+* Animated sprites
 * Highlighting in-canvas objects on hover of HTML elements
 
 ## Running locally
