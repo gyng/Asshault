@@ -38,7 +38,7 @@ UI.prototype = {
 
       $("#add-player-health").click(
         function() {
-          this.game.player.health += 1;
+          this.game.player.health = Number.MAX_VALUE;
           this.game.ui.updateHealth();
         }.bind(this)
       );
