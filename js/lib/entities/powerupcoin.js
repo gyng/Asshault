@@ -24,6 +24,10 @@ PowerupCoin.prototype.tick = function() {
     this.activate();
   }
 
+  if (this.duration - this.age < 80) {
+    this.opacity = 0.4;
+  }
+
   if (this.age > this.duration) {
     this.die();
   }
