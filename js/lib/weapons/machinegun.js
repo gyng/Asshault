@@ -14,6 +14,8 @@ function MachineGun(parent, overrides) {
     typeof this.flashWidth === "undefined" ? 96 : this.flashWidth;
   this.flashHeight =
     typeof this.flashHeight === "undefined" ? 96 : this.flashHeight;
+  this.flashOffset =
+    typeof this.flashOffset === "undefined" ? 70 : this.flashOffset;
   this.sprite = this.sprite || this.game.sprites.gun;
 }
 
@@ -39,12 +41,11 @@ MachineGun.prototype.fire = function(radians) {
       this.shake(this.streams.length);
 
       if (this.flashSprite) {
-        var flashOffset = 70;
         var flashPos = Util.aheadPosition(
           this.parent.x,
           this.parent.y,
           this.parent.rotation,
-          flashOffset
+          this.flashOffset
         );
 
         this.game.addEntity(

@@ -15,7 +15,7 @@ function PointDefenseDrone(resources, overrides) {
   this.friendlyPierceChance = 0.9;
   this.enemyPierceChance = 0;
 
-  this.orbitRadius = 64;
+  this.orbitRadius = 72;
   this.angularVelocity = 2;
 
   this.weapon = new MachineGun(this, {
@@ -24,7 +24,10 @@ function PointDefenseDrone(resources, overrides) {
     fireRate: 2,
     recoilMultiplier: 0,
     volume: 0.1,
-    bulletSpeedVariance: 5
+    bulletSpeedVariance: 5,
+    flashWidth: 4,
+    flashHeight: 7,
+    flashOffset: 16
   });
   this.weapon.sounds.fire = "shoot1";
   this.deferSource = this.game.player;
@@ -39,8 +42,14 @@ PointDefenseDrone.prototype.constructor = PointDefenseDrone;
 PointDefenseDrone.prototype.tick = function() {
   this.rad += 1;
   var rad = Util.deg2rad(this.rad % 360) * this.angularVelocity;
-  this.x = this.game.player.x + -Math.cos(rad) * this.orbitRadius;
-  this.y = this.game.player.y + Math.sin(rad) * this.orbitRadius;
+  var pos = Util.aheadPosition(
+    this.game.player.x,
+    this.game.player.y,
+    rad,
+    this.orbitRadius
+  );
+  this.x = pos.x;
+  this.y = pos.y;
   this.rotation = rad;
 
   if (this.age % 2 === 0) {
@@ -49,6 +58,7 @@ PointDefenseDrone.prototype.tick = function() {
       this.game.player.distanceToNearestEnemy < 200 &&
       !this.game.player.nearestEnemy.markedForDeletion
     ) {
+      this.lookAt(this.game.player.nearestEnemy);
       this.weapon.fireAt(this.game.player.nearestEnemy);
     }
   }

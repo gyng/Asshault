@@ -876,8 +876,14 @@ function Upgrades(game) {
 
         var bulletHellTick = function() {
           var rad = Util.deg2rad(this.age % 360) * this.angularVelocity;
-          this.x = this.game.player.x - Math.cos(rad) * this.orbitRadius;
-          this.y = this.game.player.y + Math.sin(rad) * this.orbitRadius;
+          var pos = Util.aheadPosition(
+            this.game.player.x,
+            this.game.player.y,
+            rad,
+            this.orbitRadius
+          );
+          this.x = pos.x;
+          this.y = pos.y;
           this.rotation = rad;
           this.weapon.bulletLifespan = 360;
           this.weapon.bulletSpeed = 10;
@@ -885,6 +891,7 @@ function Upgrades(game) {
           this.weapon.damage = 3;
           this.weapon.spread = Util.deg2rad(15);
           this.weapon.bulletSprite = sprites.energyball;
+          this.weapon.flashSprite = sprites.aFlame;
 
           if (this.age % (10 + _.random(3)) === 0) {
             this.weapon.fire(
