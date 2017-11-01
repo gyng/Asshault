@@ -55,6 +55,10 @@
     ["yell2", "Yell2.ogg"],
     ["yell3", "Yell3.ogg"],
     ["yell4", "Yell4.ogg"],
-    ["zap", "Zap.ogg"]
+    ["zap", "Zap.ogg"],
+    ["zap2", "Zap2.ogg"],
+    ["zap3", "Zap3.ogg"],
+    ["zap4", "Zap4.ogg"],
+    ["zap5", "Zap5.ogg"]
   ]
 }

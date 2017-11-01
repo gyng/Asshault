@@ -926,16 +926,45 @@ function Upgrades(game) {
           bulletAnimationLength: 20,
           bulletAnimationLengthVariance: 3,
           bulletFade: true,
-          bulletPingSprite: this.sprites.aSparksPink
+          bulletPingSprite: this.sprites.aSparksPink,
+          flashSprite: this.sprites.aFlash1,
+          flashOpacity: 0.1
         });
 
-        this.player.weapon.sounds.beam = "zap";
+        this.player.weapon.sounds.beam = ["zap"];
+
+        this.player.weapon.beforeFire = function() {
+          var multiplier = 1 + Util.clamp(this.parent.stillFor / 10, 0, 5);
+          this.multiplier = multiplier;
+          this.damage = 0.1 * multiplier;
+          this.offsetMultiplier = 0.15 * multiplier;
+          this.bulletAnimationLength = 80 / multiplier;
+          this.bulletScale = 1 + multiplier / 2;
+          this.flashScale = multiplier / 3;
+          this.recoilCameraShake = 0.5 * multiplier / 3;
+
+          if (multiplier >= 5) {
+            this.sounds.beam = ["zap", "zap2", "zap3", "zap4", "zap5"];
+          } else if (multiplier >= 4) {
+            this.sounds.beam = ["zap", "zap2", "zap3", "zap4"];
+          } else if (multiplier >= 3) {
+            this.sounds.beam = ["zap", "zap2", "zap3"];
+          } else if (multiplier >= 2) {
+            this.sounds.beam = ["zap", "zap2"];
+          } else {
+            this.sounds.beam = "zap";
+          }
+        }.bind(this.player.weapon);
 
         this.player.weapon.fireSound = function() {
           if (Math.random() > 0.025) {
             this.game.audio.play(
               this.sounds.beam,
-              Util.clamp(0.1 * this.streams.length, 0.1, 1)
+              Util.clamp(
+                0.05 * this.streams.length * (this.multiplier || 1),
+                0.2,
+                1.5
+              )
             );
           }
         };
@@ -976,7 +1005,7 @@ function Upgrades(game) {
         name: "🔫 Moonlight Breaker",
         cost: "100G",
         effect:
-          "Develop a loving for radiation. Beam weapon. Disables other weapon paths.",
+          "Develop a loving for radiation. Beam weapon that deals up to 5× damage if you stay still. Disables other weapon paths.",
         flavour: "Second degree sunlight."
       }
     }),

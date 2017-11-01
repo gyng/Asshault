@@ -22,6 +22,7 @@ function Weapon(parent, overrides) {
   this.bulletSizeWobbleVariance = 0;
   this.bulletSizeVariance = 0;
   this.bulletPingSprite = null;
+  this.flashSprite = null;
   this.reloadTime = 0;
   this.sounds = {
     fire: ["shoot2", "shoot5", "shoot7"],
@@ -40,7 +41,12 @@ function Weapon(parent, overrides) {
 }
 
 Weapon.prototype = {
-  fire: function() {},
+  beforeFire: function() {},
+  afterFire: function() {},
+  fire: function() {
+    this.beforeFire();
+    this.afterFire();
+  },
   fireAt: function(target) {
     this.fire(Math.atan2(this.parent.y - target.y, this.parent.x - target.x));
   },

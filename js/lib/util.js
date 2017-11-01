@@ -102,6 +102,25 @@ window.Util = {
     };
   },
 
+  aheadPosition: function(x, y, rotation, distance) {
+    var newX = x + Math.sin(rotation) * distance;
+    var newY = y + Math.cos(rotation + Math.PI) * distance;
+    return { x: newX, y: newY };
+  },
+
+  offsetPosition: function(rotation, distance) {
+    return {
+      x: Math.sin(rotation) * distance,
+      y: Math.cos(rotation + Math.PI) * distance
+    };
+  },
+
+  within: function(against, value, range) {
+    var min = against - range;
+    var max = against + range;
+    return value > min && value < max;
+  },
+
   romanize: function(num) {
     if (!+num) return false;
 

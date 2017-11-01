@@ -24,6 +24,10 @@ function Player(resources, overrides) {
   this.info.draw = true;
   this.info.addToHeroList = true;
 
+  this.stillFor = 0;
+  this.lastX = this.x;
+  this.lastY = this.y;
+
   this.sounds = {
     levelup: "powerup",
     hurt: "scream3"
@@ -57,6 +61,17 @@ Player.prototype.tick = function() {
     );
     this.weapon.fire(fireDirection);
   }
+
+  if (
+    Util.within(this.lastX, this.x, 1) &&
+    Util.within(this.lastY, this.y, 1)
+  ) {
+    this.stillFor += 1;
+  } else {
+    this.stillFor = 0;
+  }
+  this.lastX = this.x;
+  this.lastY = this.y;
 
   this.lookAt({ x: this.game.ui.mouse.x, y: this.game.ui.mouse.y });
   this.returnToMap();
@@ -130,7 +145,7 @@ Player.prototype.draw = function(context) {
   this.drawOffset.x = Util.clamp(this.drawOffset.x * 0.9, 0, 72);
   this.drawOffset.y = Util.clamp(this.drawOffset.y * 0.9, 0, 72);
 
-  if (this.firing) {
+  if (this.weapon.sprite) {
     this.weapon.draw(context);
   }
 };

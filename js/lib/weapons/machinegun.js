@@ -1,7 +1,18 @@
 function MachineGun(parent, overrides) {
   Weapon.call(this, parent, overrides);
   this.streams = [{ spread: 5, offset: 0 }];
+  this.bulletScale = this.bulletScale || 1;
   this.bulletPingSprite = this.bulletPingSprite || this.game.sprites.aSparks;
+  this.flashSprite = this.flashSprite || this.game.sprites.aFlash0;
+  this.flashFade =
+    typeof this.flashFade === "undefined" ? false : this.flashFade;
+  this.flashOpacity =
+    typeof this.flashOpacity === "undefined" ? 1 : this.flashOpacity;
+  this.flashWidth =
+    typeof this.flashWidth === "undefined" ? 96 : this.flashWidth;
+  this.flashHeight =
+    typeof this.flashHeight === "undefined" ? 96 : this.flashHeight;
+  this.sprite = this.sprite || this.game.sprites.gun;
 }
 
 MachineGun.prototype = new Weapon();
@@ -9,6 +20,8 @@ MachineGun.prototype = new Weapon();
 MachineGun.prototype.constructor = MachineGun;
 
 MachineGun.prototype.fire = function(radians) {
+  this.beforeFire();
+
   if (this.cooldown <= 0) {
     if (!this.hasMagazine || (this.hasMagazine && this.bullets > 0)) {
       for (var i = 0; i < this.streams.length; i++) {
@@ -23,12 +36,42 @@ MachineGun.prototype.fire = function(radians) {
       this.fireSound();
       this.shake(this.streams.length);
 
+      if (this.flashSprite) {
+        var flashOffset = 70;
+        var flashPos = Util.aheadPosition(
+          this.parent.x,
+          this.parent.y,
+          this.parent.rotation,
+          flashOffset
+        );
+
+        this.game.addEntity(
+          new BulletPing(this.parent.resources, {
+            x: flashPos.x,
+            y: flashPos.y,
+            sounds: {},
+            rotation: this.parent.rotation,
+            rotationVariance: 0,
+            heightVariance: 64,
+            widthVariance: 48,
+            height: this.flashHeight,
+            width: this.flashWidth,
+            drawFade: this.flashFade,
+            scale: this.flashScale || 1,
+            sprite: this.flashSprite,
+            opacity: this.flashOpacity
+          })
+        );
+      }
+
       if (this.hasMagazine) {
         this.bullets--;
       }
       this.cooldown = this.fireRate;
     }
   }
+
+  this.afterFire();
 };
 
 MachineGun.prototype.bullet = function(radians, offset) {
@@ -48,8 +91,10 @@ MachineGun.prototype.bullet = function(radians, offset) {
     animationLengthVariance: this.bulletAnimationLengthVariance || 0,
     width: this.bulletWidth,
     height: this.bulletHeight,
+    scale: this.bulletScale,
     drawFade: this.bulletFade,
     bulletPingSprite: this.bulletPingSprite,
+    flashSprite: this.flashSprite,
     sizeWobbleVariance: this.bulletSizeWobbleVariance
   });
 };
@@ -82,13 +127,17 @@ MachineGun.prototype.fireSound = function() {
 };
 
 MachineGun.prototype.draw = function(context) {
-  var flashPos = { x: -this.parent.width / 2, y: -this.parent.height * 1.5 };
-
-  if (this.cooldown <= this.fireRate / 2) {
-    context.drawImage(this.game.sprites.flash1, flashPos.x, flashPos.y);
-  }
-
-  if (this.cooldown * 2 <= this.fireRate / 8 * 3) {
-    context.drawImage(this.game.sprites.flash2, flashPos.x, flashPos.y);
+  if (this.sprite) {
+    context.drawImage(
+      this.sprite,
+      this.parent.width / 2 - 2 * this.sprite.width,
+      -this.parent.height / 2 -
+        0.5 * this.sprite.height +
+        Util.clamp(
+          (this.parent.drawOffset.y || 0) * 10,
+          0,
+          this.sprite.height * 2
+        )
+    );
   }
 };

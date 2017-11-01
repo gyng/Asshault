@@ -1,15 +1,34 @@
 function BulletPing(resources, overrides) {
   Entity.call(this, resources, overrides);
 
-  this.width = 32 + _.random(64) + _.random(64);
-  this.height = 32 + _.random(64) + _.random(64);
-  this.lifespan = 4 + _.random(32);
+  this.widthVariance =
+    typeof this.widthVariance === "number" ? this.widthVariance : 64;
+  this.heightVariance =
+    typeof this.heightVariance === "number" ? this.heightVariance : 64;
+  this.width =
+    (this.width || 32) +
+    _.random(this.widthVariance) +
+    _.random(this.widthVariance);
+  this.height =
+    (this.height || 32) +
+    _.random(this.heightVariance) +
+    _.random(this.heightVariance);
+  this.lifespanVariance =
+    typeof this.lifespanVariance === "number" ? this.lifespanVariance : 32;
+  this.lifespan =
+    typeof this.lifespan === "number"
+      ? this.lifespan + _.random(this.lifespanVariance)
+      : 4 + _.random(this.lifespanVariance);
   this.todScale = 0;
-  this.rotation += Util.deg2rad(Util.randomNegation(_.random(50)));
+  this.rotationVariance =
+    typeof this.rotationVariance === "number" ? this.rotationVariance : 50;
+  this.rotation += Util.deg2rad(
+    Util.randomNegation(_.random(this.rotationVariance))
+  );
 
   this.sprite = this.sprite || this.sprites.aSparks;
 
-  this.sounds = {
+  this.sounds = this.sounds || {
     spawn: [
       "hit_hurt",
       "hit_hurt2",
