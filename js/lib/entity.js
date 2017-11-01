@@ -22,6 +22,7 @@ function Entity(resources, overrides) {
   this.friendlyPierceChance = 0;
   this.enemyPierceChance = 0;
   this.weapons = [];
+  this.hats = [];
 
   if (typeof resources !== "undefined") {
     this.sprites = resources.sprites;
@@ -74,6 +75,14 @@ Entity.prototype = {
   },
 
   draw: function(_context) {},
+
+  drawHats: function(context) {
+    for (var i = 0; i < this.hats.length; i++) {
+      if (typeof this.hats[i].draw === "function") {
+        this.hats[i].draw(context);
+      }
+    }
+  },
 
   drawHighlight: function(context) {
     if (this.highlighted) {

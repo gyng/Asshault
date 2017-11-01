@@ -3,6 +3,7 @@ function Upgrade(data) {
   /* eslint-enable no-unused-vars */
   this.name = data.name;
   this.lame = !!data.lame;
+  this.classNames = data.classNames;
   this.important = !!data.important;
   this.effect = data.effect;
   this.constraints = data.constraints || [];
@@ -379,6 +380,81 @@ function Upgrades(game) {
         effect:
           "Are you a legit flyboy? Move with the WASD keys. (Harder to control, but faster than walking)",
         flavour: "Avoid sun."
+      }
+    }),
+
+    playerDash: new Upgrade({
+      name: "playerDash",
+      important: true,
+      classNames: ["upgrade-highlight"],
+      effect: function() {
+        this.subtractGold(400);
+        var blinkCooldown = 480;
+        var blinkDistance = 180;
+        var blinkSteps = 4;
+        this.player.blinkCooldown = 0;
+        this.player.blinkStep = blinkSteps;
+        this.player.game.audio.play("yell2");
+
+        window.addEventListener(
+          "keydown",
+          function(event) {
+            switch (event.keyCode) {
+              case 69: // E
+                if (this.blinkCooldown <= 0) {
+                  this.blinkOffsetPos = Util.offsetPosition(
+                    this.rotation,
+                    blinkDistance
+                  );
+                  this.blinkCooldown = blinkCooldown;
+                  this.blinkStep = blinkSteps;
+                }
+                break;
+              default:
+                break;
+            }
+          }.bind(this.player),
+          false
+        );
+
+        var drawHat = function(context) {
+          context.drawImage(this.sprites.flame, -50, -30);
+          context.drawImage(this.sprites.flame, 35, -30);
+        }.bind(this);
+        var drawNothing = function() {};
+
+        var hat = {
+          draw: drawHat
+        };
+
+        this.player.hats.push(hat);
+
+        this.player.addUpgrade({
+          effect: function() {
+            this.blinkCooldown -= 1;
+
+            if (this.blinkOffsetPos && this.blinkStep > 0) {
+              this.x += this.blinkOffsetPos.x / blinkSteps;
+              this.y += this.blinkOffsetPos.y / blinkSteps;
+              this.blinkStep -= 1;
+            }
+
+            if (this.blinkCooldown === 0) {
+              this.game.audio.play("yell2");
+            }
+
+            hat.draw = this.blinkCooldown <= 0 ? drawHat : drawNothing;
+          }.bind(this.player),
+          icon: this.sprites.debug2,
+          tooltip: "Quick and nimble."
+        });
+      },
+      constraints: [[new UpgradeConstraint("haveGold"), 400]],
+      text: {
+        name: "🚶 Dash",
+        cost: "400G, Player Level 1",
+        effect: "Press E for a dash of speed in the direction you’re looking at every 7 seconds.",
+        flavour: "Can’t touch this!"
       }
     }),
 

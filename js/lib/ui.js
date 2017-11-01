@@ -102,6 +102,15 @@ UI.prototype = {
         var upgrade = this.game.upgrades.list[upgradeName];
         var upgradeEl = $("[data-upgrade=" + upgrade.name + "]");
 
+        if (
+          typeof upgrade.classNames === "object" &&
+          upgrade.classNames.length
+        ) {
+          upgrade.classNames.forEach(function(className) {
+            upgradeEl.toggleClass(className, true);
+          });
+        }
+
         if (upgrade.isConstraintsMet(this.game)) {
           upgradeEl
             .toggleClass("active-upgrade", true)

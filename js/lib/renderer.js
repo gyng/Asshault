@@ -82,6 +82,9 @@ Renderer.prototype = {
         ent.draw(this.context);
       }
 
+      // TODO: handle fading hats
+      ent.drawHats(this.context);
+
       this.context.restore();
     }
   },
