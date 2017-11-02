@@ -28,6 +28,10 @@ function BulletPing(resources, overrides) {
 
   this.sprite = this.sprite || this.sprites.aSparks;
 
+  this.lightRadius = Math.max(this.width, this.height) / 2;
+  this.lightOffsetY = -this.height / 4;
+  this.lightColor = "rgba(243, 229, 98, 0.4)";
+
   this.sounds = this.sounds || {
     spawn: [
       "hit_hurt",

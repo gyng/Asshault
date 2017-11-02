@@ -23,6 +23,7 @@ function BulletRicochet(resources, overrides) {
   this.additionalPierceChance = this.additionalPierceChance || 0; // Piercing modifier from upgrades
   this.lifespan = this.lifespan || Number.MAX_VALUE;
   this.numRicochets = 3;
+  this.lightRadius = this.width;
 }
 
 BulletRicochet.prototype = new Entity();

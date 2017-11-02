@@ -1,6 +1,6 @@
 function BreakLevel(game, script) {
   script = script || {};
-  Level.call(this, script);
+  Level.call(this, game, script);
 
   var that = this;
   $(".container").addClass("vignette");

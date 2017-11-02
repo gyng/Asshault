@@ -3,6 +3,9 @@ function Tavern(resources, overrides) {
   this.width = 72;
   this.height = 72;
   this.sprite = this.sprites.tavern;
+  this.lightRadius = 80;
+  this.lightOffsetY = -30;
+  this.lightColor = "rgba(243, 229, 28, 0.2)";
 
   this.shadow.on = true;
   this.shadow.size = { x: 72, y: 72 };
@@ -41,6 +44,8 @@ Tavern.prototype.tick = function() {
     this.info.dirty = true;
     this.checkHeroInfo();
   }
+
+  this.lightRadius = 80 + Util.randomError(0.5);
 
   if (this.age % 2400 === 1600) {
     this.info.text = [];

@@ -34,11 +34,13 @@ Game.prototype = {
     this.canvas = $("#canvas")[0];
     this.decalCanvas = $("#persistent-canvas")[0];
     this.fadeCanvas = $("#fade-canvas")[0];
+    this.lightingCanvas = $("#lighting-canvas")[0];
     this.renderer = new Renderer(
       this,
       this.canvas,
       this.decalCanvas,
-      this.fadeCanvas
+      this.fadeCanvas,
+      this.lightingCanvas
     );
 
     this.running = true;

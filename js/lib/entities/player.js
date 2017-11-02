@@ -28,6 +28,11 @@ function Player(resources, overrides) {
   this.lastX = this.x;
   this.lastY = this.y;
 
+  this.lightRadius = 100;
+  this.lightOffsetX = 32;
+  this.lightOffsetY = -32;
+  // this.lightColor
+
   this.sounds = {
     levelup: "powerup",
     hurt: "scream3"

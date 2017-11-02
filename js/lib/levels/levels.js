@@ -1,11 +1,25 @@
 /* eslint-disable no-unused-vars */
+var ambientOpacity = 0;
+
 function Levels(game) {
   /* eslint-enable no-unused-vars */
   this.levels = {
-    1: new BreakLevel(game),
+    1: new BreakLevel(game, {
+      0: {
+        f: function() {
+          game.player.say("I must prepare.");
+        }
+      },
+      700: {
+        f: function() {
+          game.player.say("They lurk…");
+        }
+      }
+    }),
     2: new Level(game, {
       0: {
         f: function() {
+          game.player.say("Stale air…", 1500);
           game.setBackground(
             "res/bg/bggrass.png",
             "res/bg/bggrassvig.png",
@@ -17,6 +31,13 @@ function Levels(game) {
         f: function(wave) {
           game.ui.setLevelInformation("Wave " + wave);
           game.audio.play("bell", 1.0);
+
+          if (wave === 5) {
+            game.player.say("Night falls…", 1500);
+          }
+
+          game.renderer.ambientLightColor =
+            "rgba(35, 44, 75, " + (wave - 5) * 0.05 + ")";
 
           // Salary and taxes
           game.friendlies.forEach(function(e) {

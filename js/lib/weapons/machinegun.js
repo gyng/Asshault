@@ -63,7 +63,8 @@ MachineGun.prototype.fire = function(radians) {
             lifespanVariance: this.flashVariance,
             scale: this.flashScale || 1,
             sprite: this.flashSprite,
-            opacity: this.flashOpacity
+            opacity: this.flashOpacity,
+            lightRadiusScale: this.flashLightRadiusScale
           })
         );
       }
@@ -99,6 +100,7 @@ MachineGun.prototype.bullet = function(radians, offset) {
     drawFade: this.bulletFade,
     bulletPingSprite: this.bulletPingSprite,
     bulletPingSounds: this.bulletPingSounds,
+    lightRadius: this.bulletLightRadius,
     flashSprite: this.flashSprite,
     sizeWobbleVariance: this.bulletSizeWobbleVariance
   });

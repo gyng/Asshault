@@ -1,6 +1,6 @@
 /* eslint-disable indent */
 
-function Renderer(game, canvas, decalCanvas, fadeCanvas) {
+function Renderer(game, canvas, decalCanvas, fadeCanvas, lightingCanvas) {
   this.game = game;
   this.canvas = canvas;
   this.context = canvas.getContext("2d");
@@ -8,6 +8,9 @@ function Renderer(game, canvas, decalCanvas, fadeCanvas) {
   this.decalContext = decalCanvas.getContext("2d");
   this.fadeCanvas = fadeCanvas;
   this.fadeContext = fadeCanvas.getContext("2d");
+  this.lightingCanvas = lightingCanvas;
+  this.lightingContext = lightingCanvas.getContext("2d");
+  this.ambientLightColor = "rgba(35, 44, 75, 0)";
   this.fadeContext.fillStyle = "rgba(0, 0, 0, 0.35)";
   this.shake = { x: 0, y: 0, reduction: 0.95 };
   this.clearContext = true;
@@ -32,14 +35,30 @@ Renderer.prototype = {
       this.fadeCanvas.height
     );
 
+    this.lightingContext.clearRect(
+      0,
+      0,
+      this.lightingCanvas.width,
+      this.lightingCanvas.height
+    );
+    this.lightingContext.fillStyle = this.ambientLightColor;
+    this.lightingContext.fillRect(
+      0,
+      0,
+      this.lightingCanvas.width,
+      this.lightingCanvas.height
+    );
+
     this.updateCameraShake();
     this.shadowPass();
     this.spritePass();
+    this.lightingPass();
     this.levelPass();
     this.infoPass();
     this.shakeElement(this.canvas);
     this.shakeElement(this.decalCanvas);
     this.shakeElement(this.fadeCanvas);
+    this.shakeElement(this.lightingCanvas);
     this.rotate3d(
       document.getElementById("ui"),
       this.shake.y,
@@ -89,6 +108,17 @@ Renderer.prototype = {
     }
   },
 
+  lightingPass: function() {
+    var ent;
+    for (var i = 0; i < this.game.entities.length; i++) {
+      ent = this.game.entities[i];
+      this.lightingContext.save();
+      this.setContextTransformLighting(this.lightingContext, ent);
+      ent.drawLighting(this.lightingContext);
+      this.lightingContext.restore();
+    }
+  },
+
   setContextTransform: function(context, ent) {
     context.setTransform(
       Math.cos(ent.rotation) * ent.scale * ent.drawOffset.scaleX,
@@ -97,6 +127,17 @@ Renderer.prototype = {
       Math.cos(ent.rotation) * ent.scale * ent.drawOffset.scaleY,
       ent.x + ent.drawOffset.x,
       ent.y + ent.drawOffset.y
+    );
+  },
+
+  setContextTransformLighting: function(context, ent) {
+    context.setTransform(
+      Math.cos(ent.rotation) * ent.scale * ent.drawOffset.scaleX,
+      Math.sin(ent.rotation) * ent.scale * ent.drawOffset.scaleY,
+      -Math.sin(ent.rotation) * ent.scale * ent.drawOffset.scaleX,
+      Math.cos(ent.rotation) * ent.scale * ent.drawOffset.scaleY,
+      ent.x + ent.lightOffsetX,
+      ent.y + ent.lightOffsetY
     );
   },
 

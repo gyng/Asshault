@@ -17,6 +17,11 @@ function Entity(resources, overrides) {
   this.taxRate = 0.25;
   this.collisionRadius = 20;
   this.opacity = 1;
+  this.lightRadius = 0;
+  this.lightRadiusScale = 1;
+  this.lightColor = "rgba(255, 255, 255, 0.5";
+  this.lightOffsetX = 0;
+  this.lightOffsetY = 0;
 
   this.alignment = "none";
   this.friendlyPierceChance = 0;
@@ -115,6 +120,22 @@ Entity.prototype = {
 
   drawFadingImage: function(context) {
     this.drawImage(context);
+  },
+
+  drawLighting: function(lightingContext) {
+    if (this.lightRadius > 0) {
+      lightingContext.beginPath();
+      lightingContext.arc(
+        0,
+        0,
+        this.lightRadius * this.lightRadiusScale,
+        0,
+        2 * Math.PI,
+        false
+      );
+      lightingContext.fillStyle = this.lightColor;
+      lightingContext.fill();
+    }
   },
 
   drawInformation: function(context) {

@@ -1118,6 +1118,7 @@ function Upgrades(game) {
           bulletSprite: this.sprites.aBullet1,
           bulletWidth: 30,
           bulletHeight: 30,
+          bulletLightRadiusScale: 2,
           bulletSizeWobbleVariance: 10,
           bulletShadow: true,
           bulletFade: true,
@@ -1126,6 +1127,7 @@ function Upgrades(game) {
           sprite: this.sprites.gun3,
           flashFade: true,
           flashSprite: this.sprites.aFlame,
+          flashLightRadiusScale: 0.5,
           flashVariance: 100
         });
 

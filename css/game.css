@@ -57,6 +57,10 @@ canvas {
     cursor: crosshair;
 }
 
+#canvas {
+    z-index: 0;
+}
+
 #persistent-canvas {
     position: absolute;
     top: 0;
@@ -68,10 +72,19 @@ canvas {
 #fade-canvas {
     position: absolute;
     top: 0;
-    z-index: -1;
+    z-index: 1;
     border: dotted 1px rgba(0, 0, 0, 0.1);
     pointer-events: none;
     mix-blend-mode: screen;
+}
+
+#lighting-canvas {
+    position: absolute;
+    top: 0;
+    z-index: 2;
+    border: dotted 1px rgba(127, 127, 0, 0.1);
+    pointer-events: none;
+    mix-blend-mode: darken;
 }
 
 .container {

@@ -18,6 +18,8 @@ function Explosion(resources, overrides) {
     todScale: 0
   };
 
+  this.lightRadius = this.width;
+
   this.sounds = {
     spawn: ["explosion", "explosion2", "explosion3", "explosion4", "explosion5"]
   };
@@ -46,6 +48,7 @@ Explosion.prototype.tick = function() {
 
     this.width /= 1 + Math.random() * 0.02;
     this.height /= 1 + Math.random() * 0.02;
+    this.lightRadius = this.width;
   }
 
   if (this.age > 30) {

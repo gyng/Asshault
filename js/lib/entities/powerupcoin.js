@@ -8,6 +8,9 @@ function PowerupCoin(resources, overrides) {
   this.duration = 250 + _.random(100);
   this.width = (38 + this.baseAmount) * (this.extraAmountMultiplier / 10);
   this.height = (38 + this.baseAmount) * (this.extraAmountMultiplier / 10);
+  this.lightRadius = this.width;
+  this.lightOffsetX = -this.width / 3;
+  this.lightOffsetY = -this.height / 2
 }
 
 PowerupCoin.prototype = new Entity();
