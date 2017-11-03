@@ -21,6 +21,7 @@ Some of the more interesting features and optimisation techniques I've used/expe
 * Sprite-based effects
 * Animated sprites
 * Highlighting in-canvas objects on hover of HTML elements
+* Dynamically throttling effects to get a target 60fps
 
 ## Running locally
 1. Clone

@@ -17,6 +17,11 @@ function Renderer(game, canvas, decalCanvas, fadeCanvas, lightingCanvas) {
   this.shake = { x: 0, y: 0, reduction: 0.95 };
   this.clearContext = true;
 
+  this.effectsUpdateRate = 1;
+  this.effectsUpdateRateAdjustmentFrequency = 10;
+  this.effectsUpdateRateAdjustmentCooldown = this.effectsUpdateRateAdjustmentFrequency;
+  this.targetFps = 60;
+
   // Nearest-neighbour scaling
   [this.context, this.decalContext, this.fadeContext].forEach(function(ctx) {
     ctx.imageSmoothingEnabled = false;
@@ -25,6 +30,19 @@ function Renderer(game, canvas, decalCanvas, fadeCanvas, lightingCanvas) {
 
 Renderer.prototype = {
   draw: function() {
+    // Tone down effects if game starts lagging
+    if (this.effectsUpdateRateAdjustmentCooldown < 0) {
+      if (this.game.fps < this.targetFps) {
+        this.effectsUpdateRate = Math.min(60, this.effectsUpdateRate + 1);
+        this.effectsUpdateRateAdjustmentCooldown = this.effectsUpdateRateAdjustmentFrequency;
+      } else if (this.game.fps >= this.targetFps) {
+        this.effectsUpdateRate = Math.max(1, this.effectsUpdateRate - 1);
+        this.effectsUpdateRateAdjustmentCooldown = this.effectsUpdateRateAdjustmentFrequency;
+      }
+    } else {
+      this.effectsUpdateRateAdjustmentCooldown -= 1;
+    }
+
     if (this.clearContext) {
       this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
     }
@@ -37,28 +55,38 @@ Renderer.prototype = {
       this.fadeCanvas.height
     );
 
-    this.lightingContext.clearRect(
-      0,
-      0,
-      this.lightingCanvas.width,
-      this.lightingCanvas.height
-    );
-    this.lightingContext.fillStyle = this.environmentLightColor;
-    this.lightingContext.fillRect(
-      0,
-      0,
-      this.lightingCanvas.width,
-      this.lightingCanvas.height
-    );
+    // Throttle slow effects, don't clear them off their canvas if they are throttled
+    var updateEffects = this.game.age % this.effectsUpdateRate === 0;
+    if (updateEffects) {
+      this.lightingContext.clearRect(
+        0,
+        0,
+        this.lightingCanvas.width,
+        this.lightingCanvas.height
+      );
+      this.lightingContext.fillStyle = this.environmentLightColor;
+      this.lightingContext.fillRect(
+        0,
+        0,
+        this.lightingCanvas.width,
+        this.lightingCanvas.height
+      );
+    }
 
     this.updateCameraShake();
-    if (this.game.dayRatio != null && this.game.dayRatio > 0.4) {
-      this.shadowPass();
+
+    // Throttle slow effects
+    if (updateEffects) {
+      if (this.game.dayRatio != null && this.game.dayRatio > 0.4) {
+        this.shadowPass();
+      }
+      this.lightingPass();
+      this.levelPass();
+      this.infoPass();
     }
+
     this.spritePass();
-    this.lightingPass();
-    this.levelPass();
-    this.infoPass();
+
     this.shakeElement(this.canvas);
     this.shakeElement(this.decalCanvas);
     this.shakeElement(this.fadeCanvas);

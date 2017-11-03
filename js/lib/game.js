@@ -48,6 +48,7 @@ Game.prototype = {
     this.tickRate = 60;
     this.age = 0;
     this.fpsCounter = 0;
+    this.fps = 60;
     this.center = { x: this.canvas.width / 2, y: this.canvas.height / 2 };
 
     this.resources = {
@@ -268,10 +269,15 @@ Game.prototype = {
         " player health</p>" +
         "<p>" +
         (reductionLevel ? reductionLevel.toFixed(2) : "?") +
-        " compressor reduction</p>"
+        " compressor reduction</p>" +
+        "<p>" +
+        this.renderer.effectsUpdateRate +
+        " special effects update frequency</p>" +
+        "<p>"
     );
 
     this.lastAge = this.age;
+    this.fps = this.fpsCounter;
     this.fpsCounter = 0;
   }
 };
