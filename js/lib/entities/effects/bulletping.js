@@ -28,9 +28,9 @@ function BulletPing(resources, overrides) {
 
   this.sprite = this.sprite || this.sprites.aSparks;
 
-  this.lightRadius = Math.max(this.width, this.height) / 2;
-  this.lightOffsetY = -this.height / 4;
-  this.lightColor = "rgba(243, 229, 98, 0.4)";
+  this.lightRadius = Math.max(Math.abs(this.width), Math.abs(this.height)) / 2;
+  this.lightColor = "rgba(243, 229, 98, 1.0)";
+  this.lightRadiusWobble = Util.clamp(this.width, 0, 10);
 
   this.sounds = this.sounds || {
     spawn: [

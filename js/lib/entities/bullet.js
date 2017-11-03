@@ -9,8 +9,7 @@ function Bullet(resources, overrides) {
   this.speed = this.speed || 30;
   this.alignment = this.source ? this.source.alignment : "none";
   this.lightRadius = 30;
-  this.lightOffsetY = -35;
-  this.lightOffsetX = 0;
+  this.lightRadiusWobble = 10;
 
   // Calculate on creation and not per tick
   this.deltaX = -Math.cos(this.direction) * this.speed;

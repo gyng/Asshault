@@ -84,7 +84,8 @@ canvas {
     z-index: 2;
     border: dotted 1px rgba(127, 127, 0, 0.1);
     pointer-events: none;
-    mix-blend-mode: darken;
+    mix-blend-mode: overlay;
+    opacity: 0.33;
 }
 
 .container {

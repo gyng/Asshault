@@ -1,5 +1,38 @@
 /* eslint-disable no-unused-vars */
-var ambientOpacity = 0;
+var colours = [
+  ["rgba(255, 255, 255, 0)", 0.33],
+  ["rgba(255, 255, 255, 0)", 0.1],
+  ["rgba(255, 255, 255, 0)", 0.1],
+  ["rgba(255, 255, 255, 0)", 0.1],
+  ["rgba(255, 255, 255, 0)", 0.1],
+  ["rgba(255, 255, 255, 0)", 0.1],
+  ["rgba(255, 255, 255, 0)", 0.1],
+  ["rgba(255, 255, 255, 0)", 0.1],
+  ["rgba(255, 255, 255, 0)", 0.33],
+  ["rgba(255, 255, 255, 0)", 0.66],
+  ["rgba(255, 234, 106, 0)", 1],
+  ["rgba(255, 213, 55, 0)", 1],
+  ["rgba(34, 118, 192, 0)", 1],
+  ["rgba(0, 144, 251, 0)", 1],
+  ["rgba(0, 97, 184, 0)", 1],
+  ["rgba(0, 72, 123, 0)", 1],
+  ["rgba(0, 55, 100, 0)", 1],
+  ["rgba(0, 72, 123, 0)", 1],
+  ["rgba(0, 97, 184, 0)", 1],
+  ["rgba(0, 144, 251, 0)", 1],
+  ["rgba(34, 118, 192, 0)", 1],
+  ["rgba(255, 213, 55, 0)", 1],
+  ["rgba(255, 234, 106, 0)", 1],
+  ["rgba(255, 255, 255, 0)", 0.66]
+];
+
+function setDayColour(game, wave) {
+  game.renderer.ambientLightColor = colours[wave % colours.length][0];
+  game.renderer.environmentLightColor = colours[
+    wave % colours.length
+  ][0].replace("0)", "1)");
+  game.ui.lightingCanvas.style.opacity = "" + colours[wave % colours.length][1];
+}
 
 function Levels(game) {
   /* eslint-enable no-unused-vars */
@@ -19,6 +52,8 @@ function Levels(game) {
     2: new Level(game, {
       0: {
         f: function() {
+          game.timeOfDay = -1800;
+          game.dayLength = 600 * 24;
           game.player.say("Stale air…", 1500);
           game.setBackground(
             "res/bg/bggrass.png",
@@ -32,12 +67,11 @@ function Levels(game) {
           game.ui.setLevelInformation("Wave " + wave);
           game.audio.play("bell", 1.0);
 
-          if (wave === 5) {
+          if (wave % 24 === 12) {
             game.player.say("Night falls…", 1500);
           }
 
-          game.renderer.ambientLightColor =
-            "rgba(35, 44, 75, " + (wave - 5) * 0.05 + ")";
+          setDayColour(game, wave);
 
           // Salary and taxes
           game.friendlies.forEach(function(e) {

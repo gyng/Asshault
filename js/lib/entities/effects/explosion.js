@@ -19,6 +19,7 @@ function Explosion(resources, overrides) {
   };
 
   this.lightRadius = this.width;
+  this.lightRadiusWobble = Util.clamp(this.width, 0, 40) / 2;
 
   this.sounds = {
     spawn: ["explosion", "explosion2", "explosion3", "explosion4", "explosion5"]

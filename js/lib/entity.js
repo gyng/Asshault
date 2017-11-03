@@ -19,9 +19,12 @@ function Entity(resources, overrides) {
   this.opacity = 1;
   this.lightRadius = 0;
   this.lightRadiusScale = 1;
-  this.lightColor = "rgba(255, 255, 255, 0.5";
+  this.lightColor = "rgba(255, 255, 255, 1)";
+  this.innerLightRadius = 0;
+  this.lightDirection = null;
   this.lightOffsetX = 0;
   this.lightOffsetY = 0;
+  this.lightRadiusWobble = 0;
 
   this.alignment = "none";
   this.friendlyPierceChance = 0;
@@ -124,17 +127,40 @@ Entity.prototype = {
 
   drawLighting: function(lightingContext) {
     if (this.lightRadius > 0) {
-      lightingContext.beginPath();
-      lightingContext.arc(
+      var endCircle =
+        this.lightDirection == null
+          ? { x: 0, y: 0 }
+          : Util.offsetPosition(this.rotation, this.lightRadius);
+
+      var wobbleOuter = Util.randomError(this.lightRadiusWobble);
+      var wobbleInner = Util.randomError(this.lightRadiusWobble);
+
+      var outerRadius =
+        Math.max(0.1, (this.lightRadius || 0) + wobbleOuter) *
+        (this.lightRadiusScale || 1);
+      var innerRadius =
+        Util.clamp(this.innerLightRadius + wobbleInner, 0, outerRadius) *
+        (this.lightRadiusScale || 1);
+
+      var gradient = lightingContext.createRadialGradient(
         0,
         0,
-        this.lightRadius * this.lightRadiusScale,
-        0,
-        2 * Math.PI,
-        false
+        outerRadius,
+        endCircle.x,
+        endCircle.y,
+        innerRadius
       );
-      lightingContext.fillStyle = this.lightColor;
-      lightingContext.fill();
+      gradient.addColorStop(0, this.game.renderer.ambientLightColor);
+      gradient.addColorStop(1, this.lightColor);
+
+      lightingContext.fillStyle = gradient;
+
+      lightingContext.fillRect(
+        -outerRadius,
+        -outerRadius,
+        outerRadius * 2,
+        outerRadius * 2
+      );
     }
   },
 

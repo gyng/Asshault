@@ -10,7 +10,9 @@ function Renderer(game, canvas, decalCanvas, fadeCanvas, lightingCanvas) {
   this.fadeContext = fadeCanvas.getContext("2d");
   this.lightingCanvas = lightingCanvas;
   this.lightingContext = lightingCanvas.getContext("2d");
-  this.ambientLightColor = "rgba(35, 44, 75, 0)";
+  this.ambientLightColor = "rgba(255, 255, 255, 1)";
+  this.environmentLightColor = "rgba(255, 255, 255, 1)";
+  this.lightingOpacity = 1;
   this.fadeContext.fillStyle = "rgba(0, 0, 0, 0.35)";
   this.shake = { x: 0, y: 0, reduction: 0.95 };
   this.clearContext = true;
@@ -41,7 +43,7 @@ Renderer.prototype = {
       this.lightingCanvas.width,
       this.lightingCanvas.height
     );
-    this.lightingContext.fillStyle = this.ambientLightColor;
+    this.lightingContext.fillStyle = this.environmentLightColor;
     this.lightingContext.fillRect(
       0,
       0,
@@ -50,7 +52,9 @@ Renderer.prototype = {
     );
 
     this.updateCameraShake();
-    this.shadowPass();
+    if (this.game.dayRatio != null && this.game.dayRatio > 0.4) {
+      this.shadowPass();
+    }
     this.spritePass();
     this.lightingPass();
     this.levelPass();
@@ -175,7 +179,7 @@ Renderer.prototype = {
     //   --- time --->
 
     var offsetLength = 30;
-    var radians = this.game.dayRatio * Math.PI;
+    var radians = (this.game.dayRatio - 0.333) * 1.5 * Math.PI;
     var todXOffset = Math.cos(radians);
     var todYOffset = Math.sin(radians);
 

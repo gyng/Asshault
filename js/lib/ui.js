@@ -42,6 +42,10 @@ UI.prototype = {
           this.game.ui.updateHealth();
         }.bind(this)
       );
+
+      $("#add-time").click(function() {
+        setDayColour(game, Math.round((game.timeOfDay + 600 * 12) / 600)); // eslint-disable-line
+      });
     }
 
     // Keybindings
@@ -182,8 +186,9 @@ UI.prototype = {
 
     var persistentCanvas = $("#persistent-canvas")[0];
     var fadeCanvas = $("#fade-canvas")[0];
+    this.lightingCanvas = $("#lighting-canvas")[0];
 
-    [persistentCanvas, fadeCanvas].forEach(function(c) {
+    [persistentCanvas, fadeCanvas, this.lightingCanvas].forEach(function(c) {
       c.style.height = canvas.style.height;
       c.style.width = canvas.style.width;
       c.style.left = canvas.offsetLeft + "px";

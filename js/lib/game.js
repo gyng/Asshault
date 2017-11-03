@@ -73,7 +73,7 @@ Game.prototype = {
 
     this.gold = 60;
 
-    this.dayLength = 1440;
+    this.dayLength = 100;
     this.timeOfDay = 0;
     this.dayRatio = 0;
 

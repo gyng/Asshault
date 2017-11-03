@@ -1127,7 +1127,7 @@ function Upgrades(game) {
           sprite: this.sprites.gun3,
           flashFade: true,
           flashSprite: this.sprites.aFlame,
-          flashLightRadiusScale: 0.5,
+          flashLightRadiusScale: 2,
           flashVariance: 100
         });
 
